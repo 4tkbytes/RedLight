@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "aFiM/7tb5hM=",
+  "dgSpecHash": "4VQA2w7Ix18=",
   "success": true,
-  "projectFilePath": "/Users/thribhukrishnan/RiderProjects/RedLight/Game/Game.csproj",
+  "projectFilePath": "/Users/thribhukrishnan/RiderProjects/RedLight/RedLight/RedLight.csproj",
   "expectedPackageFiles": [
     "/Users/thribhukrishnan/.nuget/packages/microsoft.csharp/4.7.0/microsoft.csharp.4.7.0.nupkg.sha512",
     "/Users/thribhukrishnan/.nuget/packages/microsoft.dotnet.platformabstractions/3.1.6/microsoft.dotnet.platformabstractions.3.1.6.nupkg.sha512",

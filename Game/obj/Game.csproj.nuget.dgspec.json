@@ -27,8 +27,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "/Users/thribhukrishnan/RiderProjects/RedLight/RedLight.Engine/RedLight.Engine.csproj": {
-                "projectPath": "/Users/thribhukrishnan/RiderProjects/RedLight/RedLight.Engine/RedLight.Engine.csproj"
+              "/Users/thribhukrishnan/RiderProjects/RedLight/RedLight/RedLight.csproj": {
+                "projectPath": "/Users/thribhukrishnan/RiderProjects/RedLight/RedLight/RedLight.csproj"
               }
             }
           }
@@ -68,14 +68,14 @@
         }
       }
     },
-    "/Users/thribhukrishnan/RiderProjects/RedLight/RedLight.Engine/RedLight.Engine.csproj": {
+    "/Users/thribhukrishnan/RiderProjects/RedLight/RedLight/RedLight.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/thribhukrishnan/RiderProjects/RedLight/RedLight.Engine/RedLight.Engine.csproj",
-        "projectName": "RedLight.Engine",
-        "projectPath": "/Users/thribhukrishnan/RiderProjects/RedLight/RedLight.Engine/RedLight.Engine.csproj",
+        "projectUniqueName": "/Users/thribhukrishnan/RiderProjects/RedLight/RedLight/RedLight.csproj",
+        "projectName": "RedLight",
+        "projectPath": "/Users/thribhukrishnan/RiderProjects/RedLight/RedLight/RedLight.csproj",
         "packagesPath": "/Users/thribhukrishnan/.nuget/packages/",
-        "outputPath": "/Users/thribhukrishnan/RiderProjects/RedLight/RedLight.Engine/obj/",
+        "outputPath": "/Users/thribhukrishnan/RiderProjects/RedLight/RedLight/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/thribhukrishnan/.nuget/NuGet/NuGet.Config"
@@ -108,6 +108,20 @@
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
+          "dependencies": {
+            "Silk.NET.Input": {
+              "target": "Package",
+              "version": "[2.22.0, )"
+            },
+            "Silk.NET.OpenGL": {
+              "target": "Package",
+              "version": "[2.22.0, )"
+            },
+            "Silk.NET.Windowing": {
+              "target": "Package",
+              "version": "[2.22.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

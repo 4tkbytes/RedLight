@@ -8,7 +8,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\RedLight.Engine\RedLight.Engine.csproj" />
+      <ProjectReference Include="..\RedLight\RedLight.csproj" />
+      <ProjectReference Include="..\RedLight\RedLight.csproj" />
     </ItemGroup>
 
 </Project>

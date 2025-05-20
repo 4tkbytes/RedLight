@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedLight.Engine", "RedLight.Engine\RedLight.Engine.csproj", "{77548D3F-2D3F-4F20-9EEF-11B15B0844F1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedLight", "RedLight\RedLight.csproj", "{77548D3F-2D3F-4F20-9EEF-11B15B0844F1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game", "Game\Game.csproj", "{A8EB45F8-1866-4806-B03E-53BF2B6476CB}"
 EndProject
