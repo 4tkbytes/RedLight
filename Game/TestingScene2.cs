@@ -55,6 +55,9 @@ public class TestingScene2 : RLScene
 
     public void OnRender(double delta)
     {
+        gl.ClearColor(0.1f, 0.1f, 0.1f, 1.0f); // Set background color
+        gl.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+        
         mesh.Render();
     }
 

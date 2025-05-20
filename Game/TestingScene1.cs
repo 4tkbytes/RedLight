@@ -43,11 +43,17 @@ public class TestingScene1 : RLScene
 
         // Dummy triangle data
         float[] vertices = {
-            0.0f,  0.5f, 0.0f,
+            //X    Y      Z
+            0.5f,  0.5f, 0.0f,
+            0.5f, -0.5f, 0.0f,
             -0.5f, -0.5f, 0.0f,
-            0.5f, -0.5f, 0.0f
+            -0.5f,  0.5f, 0.5f
         };
-        uint[] indices = { 0, 1, 2 };
+        uint[] indices =
+        {
+            0, 1, 3,
+            1, 2, 3
+        };
 
         mesh = new Mesh(gl, vertices, indices, shader);
     }
@@ -56,6 +62,9 @@ public class TestingScene1 : RLScene
 
     public void OnRender(double delta)
     {
+        gl.ClearColor(0.1f, 0.1f, 0.1f, 1.0f); // Set background color
+        gl.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+        
         mesh.Render();
     }
 
