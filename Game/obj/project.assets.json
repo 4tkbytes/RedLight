@@ -1,0 +1,96 @@
+{
+  "version": 3,
+  "targets": {
+    "net9.0": {
+      "RedLight.Engine/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "compile": {
+          "bin/placeholder/RedLight.Engine.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/RedLight.Engine.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "RedLight.Engine/1.0.0": {
+      "type": "project",
+      "path": "../RedLight.Engine/RedLight.Engine.csproj",
+      "msbuildProject": "../RedLight.Engine/RedLight.Engine.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net9.0": [
+      "RedLight.Engine >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "/Users/thribhukrishnan/.nuget/packages/": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "/Users/thribhukrishnan/RiderProjects/RedLight/Game/Game.csproj",
+      "projectName": "Game",
+      "projectPath": "/Users/thribhukrishnan/RiderProjects/RedLight/Game/Game.csproj",
+      "packagesPath": "/Users/thribhukrishnan/.nuget/packages/",
+      "outputPath": "/Users/thribhukrishnan/RiderProjects/RedLight/Game/obj/",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "/Users/thribhukrishnan/.nuget/NuGet/NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "net9.0"
+      ],
+      "sources": {
+        "/usr/local/Cellar/dotnet/9.0.4/libexec/library-packs": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "projectReferences": {
+            "/Users/thribhukrishnan/RiderProjects/RedLight/RedLight.Engine/RedLight.Engine.csproj": {
+              "projectPath": "/Users/thribhukrishnan/RiderProjects/RedLight/RedLight.Engine/RedLight.Engine.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      },
+      "SdkAnalysisLevel": "9.0.100"
+    },
+    "frameworks": {
+      "net9.0": {
+        "targetAlias": "net9.0",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "/usr/local/Cellar/dotnet/9.0.4/libexec/sdk/9.0.105/PortableRuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}
