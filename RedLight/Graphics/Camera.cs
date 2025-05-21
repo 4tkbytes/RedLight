@@ -33,7 +33,7 @@ namespace RedLight.Graphics
         public Matrix4x4 GetProjectionMatrix()
         {
             return Matrix4x4.CreatePerspectiveFieldOfView(
-                MathHelper.DegreesToRadians(_fov),
+                RLMath.DegreesToRadians(_fov),
                 _aspectRatio,
                 _nearPlane,
                 _farPlane

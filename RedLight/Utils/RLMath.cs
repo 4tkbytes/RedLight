@@ -1,6 +1,6 @@
 ﻿namespace RedLight.Utils
 {
-    public static class MathHelper
+    public static class RLMath
     {
         public static float DegreesToRadians(float degrees)
         {

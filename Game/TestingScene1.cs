@@ -17,6 +17,7 @@ public class TestingScene1 : RLScene
     private GL gl;
     private ShaderManager shaderManager;
     private TextureManager textureManager;
+    private ModelManager modelManager;
     private Camera camera;
     private float rotationSpeed = 1.0f;
     private Cube cube;
@@ -26,33 +27,48 @@ public class TestingScene1 : RLScene
         Console.WriteLine("Scene 1 loaded");
 
         gl = GL.GetApi(Window.window);
-        gl.Enable(EnableCap.DepthTest); // Enable depth testing for 3D
-    
+        gl.Enable(EnableCap.DepthTest);
+
         shaderManager = new ShaderManager(gl);
         textureManager = new TextureManager(gl);
-        
-        string fragmentShaderSource = RLConstants.RL_BASIC_SHADER_FRAG;
+        modelManager = new ModelManager(gl);
+
+        // Create shaders
         shaderManager.Add("3d", RLConstants.RL_BASIC_SHADER_VERT, RLConstants.RL_BASIC_SHADER_FRAG);
         var shader = shaderManager.Get("3d");
 
+        // Load texture from the model's directory
         textureManager.AddTexture(
-            new Texture2D(gl, RLConstants.RL_NO_TEXTURE),
-            "no-texture"
+            new Texture2D(gl, "Game.Resources.Models.LowPolyFerrisRust.rustacean-3d.png"),
+            "ferris-texture"
         );
 
         // Create a camera
         camera = new Camera();
-        camera.Position = new Vector3(0, 0, 3);
+        camera.Position = new Vector3(0, 0, 5);
         camera.SetAspectRatio(Window.window.Size.X, Window.window.Size.Y);
 
-        // Create a cube with the 3D shader
-        cube = new Cube(gl, shader, textureManager.GetTexture("no-texture"));
+        // Load the Ferris model
+        var ferrisModel = modelManager.LoadObjModel(
+            "Game.Resources.Models.LowPolyFerrisRust.rustacean-3d.obj",
+            shader,
+            textureManager.GetTexture("ferris-texture")
+        );
+
+        // Create a Ferris entity
+        var ferrisEntity = ferrisModel.CreateEntity();
+        ferrisEntity.Transform.Scale = new Vector3(0.5f, 0.5f, 0.5f); // Scale it down if needed
+        ferrisEntity.Transform.Rotation = new Vector3(0, MathF.PI, 0); // Orient it properly if needed
     }
 
     public void OnUpdate(double delta)
     {
-        // Rotate the cube
-        cube.Transform.Rotation += new Vector3(0, MathHelper.DegreesToRadians(rotationSpeed), 0) * (float)delta;
+        // Rotate the Ferris model
+        if (modelManager.GetModel(0) != null && modelManager.GetModel(0).LinkedEntities.Count > 0)
+        {
+            var entity = modelManager.GetModel(0).LinkedEntities[0];
+            entity.Transform.Rotation += new Vector3(0, (float)delta * rotationSpeed, 0);
+        }
     }
 
     public void OnRender(double delta)
@@ -60,18 +76,9 @@ public class TestingScene1 : RLScene
         gl.ClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         gl.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-        // Set view and projection uniforms
+        // Render all models and their entities
         var shader = shaderManager.Get("3d");
-        shader.Use();
-
-        Matrix4x4 view = camera.GetViewMatrix();
-        Matrix4x4 projection = camera.GetProjectionMatrix();
-
-        // Use Uniforms property instead of unsafe code
-        shader.Uniforms.SetMatrix4("uView", view);
-        shader.Uniforms.SetMatrix4("uProjection", projection);
-
-        cube.Render();
+        modelManager.RenderAll(shader, camera);
     }
 
     public void KeyDown(IKeyboard keyboard, Key key, int arg3)

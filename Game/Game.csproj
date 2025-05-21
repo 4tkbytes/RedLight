@@ -12,4 +12,8 @@
       <ProjectReference Include="..\RedLight\RedLight.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <EmbeddedResource Include="Resources\Models\**\*" />
+    </ItemGroup>
+
 </Project>

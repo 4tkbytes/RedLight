@@ -7,7 +7,7 @@ namespace RedLight.Core;
 public class RLWindow
 {
     public IWindow window;
-    private Scene.RLScene _rlScene;
+    private RLScene _rlScene;
     
     public RLWindow(WindowOptions options, Scene.RLScene rlScene)
     {

@@ -10,7 +10,7 @@ public interface RLScene
     public SceneManager SceneManager { get; set; }
     
     void OnLoad();
-    void OnUpdate(double delta);
     void OnRender(double delta);
+    void OnUpdate(double delta);
     void KeyDown(IKeyboard keyboard, Key key, int arg3);
 }

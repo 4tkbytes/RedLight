@@ -1,12 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "SstvgHL8N+Y=",
+  "dgSpecHash": "kuMjUfF1Vlo=",
   "success": true,
   "projectFilePath": "C:\\Users\\thrib\\RedLight\\RedLight\\RedLight.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\thrib\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\thrib\\.nuget\\packages\\microsoft.dotnet.platformabstractions\\3.1.6\\microsoft.dotnet.platformabstractions.3.1.6.nupkg.sha512",
     "C:\\Users\\thrib\\.nuget\\packages\\microsoft.extensions.dependencymodel\\8.0.0\\microsoft.extensions.dependencymodel.8.0.0.nupkg.sha512",
+    "C:\\Users\\thrib\\.nuget\\packages\\silk.net.assimp\\2.22.0\\silk.net.assimp.2.22.0.nupkg.sha512",
     "C:\\Users\\thrib\\.nuget\\packages\\silk.net.core\\2.22.0\\silk.net.core.2.22.0.nupkg.sha512",
     "C:\\Users\\thrib\\.nuget\\packages\\silk.net.glfw\\2.22.0\\silk.net.glfw.2.22.0.nupkg.sha512",
     "C:\\Users\\thrib\\.nuget\\packages\\silk.net.input\\2.22.0\\silk.net.input.2.22.0.nupkg.sha512",
@@ -23,6 +24,7 @@
     "C:\\Users\\thrib\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
     "C:\\Users\\thrib\\.nuget\\packages\\system.text.encodings.web\\8.0.0\\system.text.encodings.web.8.0.0.nupkg.sha512",
     "C:\\Users\\thrib\\.nuget\\packages\\system.text.json\\8.0.0\\system.text.json.8.0.0.nupkg.sha512",
+    "C:\\Users\\thrib\\.nuget\\packages\\ultz.native.assimp\\5.4.1\\ultz.native.assimp.5.4.1.nupkg.sha512",
     "C:\\Users\\thrib\\.nuget\\packages\\ultz.native.glfw\\3.4.0\\ultz.native.glfw.3.4.0.nupkg.sha512"
   ],
   "logs": []

@@ -44,6 +44,24 @@
           "buildTransitive/net6.0/_._": {}
         }
       },
+      "Silk.NET.Assimp/2.22.0": {
+        "type": "package",
+        "dependencies": {
+          "Silk.NET.Core": "2.22.0",
+          "Silk.NET.Maths": "2.22.0",
+          "Ultz.Native.Assimp": "5.4.1"
+        },
+        "compile": {
+          "lib/net5.0/Silk.NET.Assimp.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net5.0/Silk.NET.Assimp.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Silk.NET.Core/2.22.0": {
         "type": "package",
         "dependencies": {
@@ -277,6 +295,49 @@
           "buildTransitive/net6.0/System.Text.Json.targets": {}
         }
       },
+      "Ultz.Native.Assimp/5.4.1": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/_._": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/_._": {}
+        },
+        "runtimeTargets": {
+          "runtimes/linux-arm/native/libassimp.so.5": {
+            "assetType": "native",
+            "rid": "linux-arm"
+          },
+          "runtimes/linux-arm64/native/libassimp.so.5": {
+            "assetType": "native",
+            "rid": "linux-arm64"
+          },
+          "runtimes/linux-x64/native/libassimp.so.5": {
+            "assetType": "native",
+            "rid": "linux-x64"
+          },
+          "runtimes/osx-arm64/native/libassimp.5.dylib": {
+            "assetType": "native",
+            "rid": "osx-arm64"
+          },
+          "runtimes/osx-x64/native/libassimp.5.dylib": {
+            "assetType": "native",
+            "rid": "osx-x64"
+          },
+          "runtimes/win-arm64/native/Assimp64.dll": {
+            "assetType": "native",
+            "rid": "win-arm64"
+          },
+          "runtimes/win-x64/native/Assimp64.dll": {
+            "assetType": "native",
+            "rid": "win-x64"
+          },
+          "runtimes/win-x86/native/Assimp32.dll": {
+            "assetType": "native",
+            "rid": "win-x86"
+          }
+        }
+      },
       "Ultz.Native.GLFW/3.4.0": {
         "type": "package",
         "compile": {
@@ -324,6 +385,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v9.0",
         "dependencies": {
+          "Silk.NET.Assimp": "2.22.0",
           "Silk.NET.Input": "2.22.0",
           "Silk.NET.OpenGL": "2.22.0",
           "Silk.NET.Windowing": "2.22.0",
@@ -456,6 +518,27 @@
         "microsoft.extensions.dependencymodel.8.0.0.nupkg.sha512",
         "microsoft.extensions.dependencymodel.nuspec",
         "useSharedDesignerContext.txt"
+      ]
+    },
+    "Silk.NET.Assimp/2.22.0": {
+      "sha512": "PGQFSeYLIagQ6blqxh73tmLQ7XK568+l2ZatDFRliQlHFyuQuJdiuq+hYQBfMxd7Ost9MvmJkXc1tvfeqbASeA==",
+      "type": "package",
+      "path": "silk.net.assimp/2.22.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "lib/net5.0/Silk.NET.Assimp.dll",
+        "lib/net5.0/Silk.NET.Assimp.xml",
+        "lib/netcoreapp3.1/Silk.NET.Assimp.dll",
+        "lib/netcoreapp3.1/Silk.NET.Assimp.xml",
+        "lib/netstandard2.0/Silk.NET.Assimp.dll",
+        "lib/netstandard2.0/Silk.NET.Assimp.xml",
+        "lib/netstandard2.1/Silk.NET.Assimp.dll",
+        "lib/netstandard2.1/Silk.NET.Assimp.xml",
+        "silk.net.assimp.2.22.0.nupkg.sha512",
+        "silk.net.assimp.nuspec",
+        "silkdotnet_v3.png"
       ]
     },
     "Silk.NET.Core/2.22.0": {
@@ -868,6 +951,31 @@
         "system.text.json.8.0.0.nupkg.sha512",
         "system.text.json.nuspec",
         "useSharedDesignerContext.txt"
+      ]
+    },
+    "Ultz.Native.Assimp/5.4.1": {
+      "sha512": "5ZikMDhLi/6ENWRRgkPt4yFbCq+esmO80UAVv5epHASeK1L6IKLpMw5qjosFWeeQ2JhBpTY7UhX16ej6MEsCTA==",
+      "type": "package",
+      "path": "ultz.native.assimp/5.4.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "build/net461/Ultz.Native.Assimp.targets",
+        "buildTransitive/net461/Ultz.Native.Assimp.targets",
+        "lib/net461/_._",
+        "lib/netstandard2.0/_._",
+        "runtimes/linux-arm/native/libassimp.so.5",
+        "runtimes/linux-arm64/native/libassimp.so.5",
+        "runtimes/linux-x64/native/libassimp.so.5",
+        "runtimes/osx-arm64/native/libassimp.5.dylib",
+        "runtimes/osx-x64/native/libassimp.5.dylib",
+        "runtimes/win-arm64/native/Assimp64.dll",
+        "runtimes/win-x64/native/Assimp64.dll",
+        "runtimes/win-x86/native/Assimp32.dll",
+        "silkdotnet_v3.png",
+        "ultz.native.assimp.5.4.1.nupkg.sha512",
+        "ultz.native.assimp.nuspec"
       ]
     },
     "Ultz.Native.GLFW/3.4.0": {
