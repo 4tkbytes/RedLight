@@ -1,45 +1,44 @@
 ﻿using System.Collections.Generic;
 using Silk.NET.OpenGL;
+using RedLight.Graphics;
 
 namespace RedLight.Graphics
 {
     public class ModelManager
     {
-        private Dictionary<int, Model> _models = new Dictionary<int, Model>();
-        private GL _gl;
+        private readonly GL _gl;
+        private readonly List<Model> _models = new();
+        private readonly AssimpModelLoader _assimpLoader;
         
-        public ModelManager(GL gl)
+        public ModelManager(GL gl, TextureManager textureManager)
         {
             _gl = gl;
+            _assimpLoader = new AssimpModelLoader(gl, textureManager);
         }
         
-        public Model LoadObjModel(string filePath, Shader shader, Texture2D texture = null)
+        public Model LoadModel(string resourcePath, Shader shader, Texture2D defaultTexture = null)
         {
-            var mesh = RLObjLoader.LoadObj(_gl, filePath, shader, texture);
-            var modelName = Path.GetFileNameWithoutExtension(filePath);
-            var model = new Model(modelName, mesh);
-    
-            // If texture is provided or inferred from material, use it
-            if (texture != null)
+            var model = _assimpLoader.LoadModel(resourcePath, shader, defaultTexture);
+            
+            if (model != null)
             {
-                model.Materials[0].DiffuseTexture = texture;
+                _models.Add(model);
             }
-    
-            _models.Add(model.Id, model);
+            
             return model;
         }
         
-        public Model GetModel(int id)
+        public Model GetModel(int index)
         {
-            if (_models.TryGetValue(id, out var model))
-                return model;
+            if (index >= 0 && index < _models.Count)
+                return _models[index];
             
             return null;
         }
         
         public void RenderAll(Shader shader, Camera camera)
         {
-            foreach (var model in _models.Values)
+            foreach (var model in _models)
             {
                 model.Render(_gl, shader, camera);
             }

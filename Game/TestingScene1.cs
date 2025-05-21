@@ -31,7 +31,7 @@ public class TestingScene1 : RLScene
 
         shaderManager = new ShaderManager(gl);
         textureManager = new TextureManager(gl);
-        modelManager = new ModelManager(gl);
+        modelManager = new ModelManager(gl, textureManager);
 
         // Create shaders
         shaderManager.Add("3d", RLConstants.RL_BASIC_SHADER_VERT, RLConstants.RL_BASIC_SHADER_FRAG);
@@ -49,11 +49,9 @@ public class TestingScene1 : RLScene
         camera.SetAspectRatio(Window.window.Size.X, Window.window.Size.Y);
 
         // Load the Ferris model
-        var ferrisModel = modelManager.LoadObjModel(
-            "Game.Resources.Models.LowPolyFerrisRust.rustacean-3d.obj",
+        var ferrisModel = modelManager.LoadModel("Game.Resources.Models.LowPolyFerrisRust.rustacean-3d.obj", 
             shader,
-            textureManager.GetTexture("ferris-texture")
-        );
+            textureManager.GetTexture("ferris-texture"));
 
         // Create a Ferris entity
         var ferrisEntity = ferrisModel.CreateEntity();

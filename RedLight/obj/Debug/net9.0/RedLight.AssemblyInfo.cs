@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RedLight")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1afdbc736cd9a497bc10889863e76bf6f03a0345")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8c274c384480e63efef00b351f7488a38b3aa0cb")]
 [assembly: System.Reflection.AssemblyProductAttribute("RedLight")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RedLight")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
