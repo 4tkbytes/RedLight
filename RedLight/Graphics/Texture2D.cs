@@ -8,6 +8,8 @@ namespace RedLight.Graphics
     public class Texture2D : IDisposable
     {
         public uint Handle { get; private set; }
+        public bool IsTransparent { get; private set; }
+
         private GL _gl;
 
         public Texture2D(GL gl, string path)
@@ -35,8 +37,8 @@ namespace RedLight.Graphics
 
             _gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)GLEnum.Repeat);
             _gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)GLEnum.Repeat);
-            _gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)GLEnum.Linear);
-            _gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)GLEnum.Linear);
+            _gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)GLEnum.NearestMipmapNearest);
+            _gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)GLEnum.Nearest);
 
             _gl.GenerateMipmap(TextureTarget.Texture2D);
         }
@@ -45,6 +47,11 @@ namespace RedLight.Graphics
         {
             _gl.ActiveTexture(unit);
             _gl.BindTexture(TextureTarget.Texture2D, Handle);
+        }
+
+        public void MakeTransparent(bool transparent = false)
+        {
+            IsTransparent = transparent;
         }
 
         public void Dispose()

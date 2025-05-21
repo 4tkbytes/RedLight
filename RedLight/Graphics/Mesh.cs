@@ -1,3 +1,4 @@
+using System.Numerics;
 using Silk.NET.OpenGL;
 using RedLight.Graphics;
 
@@ -12,6 +13,8 @@ namespace RedLight.Graphics
         private float[] TexCoords;
         private Shader Shader;
         private Texture2D Texture;
+        
+        public Transform Transform { get; set; } = new Transform();
 
         public Mesh(GL gl, float[] vertices, uint[] indices, float[] texCoords, Shader shader, Texture2D texture)
         {
@@ -81,14 +84,15 @@ namespace RedLight.Graphics
         public void Render()
         {
             Shader.Use();
+    
+            // Use Uniforms property instead of unsafe code
+            Shader.Uniforms.SetMatrix4("uModel", Transform.ViewMatrix);
 
-            // Bind texture (if available)
+            // binding da texture
             if (Texture != null)
             {
                 Texture.Bind(TextureUnit.Texture0);
-        
-                int location = Gl.GetUniformLocation(Shader.Handle, "texture0");
-                Gl.Uniform1(location, 0);
+                Shader.Uniforms.SetInt("texture0", 0);
             }
 
             Gl.BindVertexArray(Vao);

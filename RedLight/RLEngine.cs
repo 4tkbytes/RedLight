@@ -42,6 +42,8 @@ public class RLEngine
         
         // get opengl api
         gl = GL.GetApi(window.window);
+        
+        gl.Enable(EnableCap.DepthTest);
     }
 
     private void OnFramebufferResize(Vector2D<int> newSize)
