@@ -7,15 +7,29 @@ class Program
 {
     static void Main(string[] args)
     {
-        TestingScene1 scene = new TestingScene1();
-        RLEngine rlEngine = new(800, 600, "Sample Game || RedLight Engine", scene);
+        // Create engine first, then get the window
+        RLEngine rlEngine = new(800, 600, "Sample Game || RedLight Engine", null);
         RLWindow window = rlEngine.GetWindow();
         
+        // Create managers
         SceneManager sceneManager = new SceneManager();
+        GameInputHandler inputHandler = new();
         
-        scene.SceneManager = sceneManager;
-        sceneManager.AddScene("TestScene1", scene, window);
+        // Create scene with required properties
+        TestingScene1 scene = new TestingScene1() 
+        { 
+            Window = window,
+            SceneManager = sceneManager,
+            inputHandler = inputHandler
+        };
         
+        // Set the scene in the engine
+        rlEngine.SetScene(scene);
+        
+        // Add the scene to the manager
+        sceneManager.AddScene("TestScene1", scene, window, inputHandler);
+        
+        // Start the engine
         rlEngine.Run();
     }
 }

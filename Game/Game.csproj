@@ -7,13 +7,15 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\RedLight\RedLight.csproj" />
-      <ProjectReference Include="..\RedLight\RedLight.csproj" />
-    </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\RedLight\RedLight.csproj" />
+		<ProjectReference Include="..\RedLight\RedLight.csproj" />
+	</ItemGroup>
 
-    <ItemGroup>
-        <EmbeddedResource Include="Resources\Models\**\*" />
-    </ItemGroup>
+	<ItemGroup>
+		<Content Include="Resources\**\*.*">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
 
 </Project>
