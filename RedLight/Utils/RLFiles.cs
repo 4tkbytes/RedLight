@@ -10,6 +10,7 @@ public static class RLFiles
     /// </summary>
     /// <param name="resourceName">The name of the embedded resource.</param>
     /// <returns>The contents of the resource file as a string.</returns>
+    
     // Fuck you very much GetEmbeddedResourceString for being such a pain in the ass to deal with 👊
     public static string GetEmbeddedResourceString(string resourceName)
     {
