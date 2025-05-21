@@ -1,0 +1,241 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\thrib\\RedLight\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{77548D3F-2D3F-4F20-9EEF-11B15B0844F1}|RedLight\\RedLight.csproj|c:\\users\\thrib\\redlight\\redlight\\scene\\scenemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{77548D3F-2D3F-4F20-9EEF-11B15B0844F1}|RedLight\\RedLight.csproj|solutionrelative:redlight\\scene\\scenemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A8EB45F8-1866-4806-B03E-53BF2B6476CB}|Game\\Game.csproj|c:\\users\\thrib\\redlight\\game\\testingscene1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A8EB45F8-1866-4806-B03E-53BF2B6476CB}|Game\\Game.csproj|solutionrelative:game\\testingscene1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{77548D3F-2D3F-4F20-9EEF-11B15B0844F1}|RedLight\\RedLight.csproj|c:\\users\\thrib\\redlight\\redlight\\core\\rlinputhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{77548D3F-2D3F-4F20-9EEF-11B15B0844F1}|RedLight\\RedLight.csproj|solutionrelative:redlight\\core\\rlinputhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A8EB45F8-1866-4806-B03E-53BF2B6476CB}|Game\\Game.csproj|c:\\users\\thrib\\redlight\\game\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A8EB45F8-1866-4806-B03E-53BF2B6476CB}|Game\\Game.csproj|solutionrelative:game\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A8EB45F8-1866-4806-B03E-53BF2B6476CB}|Game\\Game.csproj|c:\\users\\thrib\\redlight\\game\\resources\\models\\lowpolyferrisrust\\rustacean-3d.mtl||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A8EB45F8-1866-4806-B03E-53BF2B6476CB}|Game\\Game.csproj|solutionrelative:game\\resources\\models\\lowpolyferrisrust\\rustacean-3d.mtl||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{77548D3F-2D3F-4F20-9EEF-11B15B0844F1}|RedLight\\RedLight.csproj|c:\\users\\thrib\\redlight\\redlight\\rlengine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{77548D3F-2D3F-4F20-9EEF-11B15B0844F1}|RedLight\\RedLight.csproj|solutionrelative:redlight\\rlengine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{77548D3F-2D3F-4F20-9EEF-11B15B0844F1}|RedLight\\RedLight.csproj|c:\\users\\thrib\\redlight\\redlight\\scene\\rlscene.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{77548D3F-2D3F-4F20-9EEF-11B15B0844F1}|RedLight\\RedLight.csproj|solutionrelative:redlight\\scene\\rlscene.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{77548D3F-2D3F-4F20-9EEF-11B15B0844F1}|RedLight\\RedLight.csproj|c:\\users\\thrib\\redlight\\redlight\\core\\rlwindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{77548D3F-2D3F-4F20-9EEF-11B15B0844F1}|RedLight\\RedLight.csproj|solutionrelative:redlight\\core\\rlwindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A8EB45F8-1866-4806-B03E-53BF2B6476CB}|Game\\Game.csproj|c:\\users\\thrib\\redlight\\game\\gameinputhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A8EB45F8-1866-4806-B03E-53BF2B6476CB}|Game\\Game.csproj|solutionrelative:game\\gameinputhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{77548D3F-2D3F-4F20-9EEF-11B15B0844F1}|RedLight\\RedLight.csproj|c:\\users\\thrib\\redlight\\redlight\\graphics\\texturemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{77548D3F-2D3F-4F20-9EEF-11B15B0844F1}|RedLight\\RedLight.csproj|solutionrelative:redlight\\graphics\\texturemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{77548D3F-2D3F-4F20-9EEF-11B15B0844F1}|RedLight\\RedLight.csproj|c:\\users\\thrib\\redlight\\redlight\\graphics\\texture2d.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{77548D3F-2D3F-4F20-9EEF-11B15B0844F1}|RedLight\\RedLight.csproj|solutionrelative:redlight\\graphics\\texture2d.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{77548D3F-2D3F-4F20-9EEF-11B15B0844F1}|RedLight\\RedLight.csproj|c:\\users\\thrib\\redlight\\redlight\\utils\\rlfiles.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{77548D3F-2D3F-4F20-9EEF-11B15B0844F1}|RedLight\\RedLight.csproj|solutionrelative:redlight\\utils\\rlfiles.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{77548D3F-2D3F-4F20-9EEF-11B15B0844F1}|RedLight\\RedLight.csproj|c:\\users\\thrib\\redlight\\redlight\\graphics\\assimpmodelloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{77548D3F-2D3F-4F20-9EEF-11B15B0844F1}|RedLight\\RedLight.csproj|solutionrelative:redlight\\graphics\\assimpmodelloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SceneManager.cs",
+              "DocumentMoniker": "C:\\Users\\thrib\\RedLight\\RedLight\\Scene\\SceneManager.cs",
+              "RelativeDocumentMoniker": "RedLight\\Scene\\SceneManager.cs",
+              "ToolTip": "C:\\Users\\thrib\\RedLight\\RedLight\\Scene\\SceneManager.cs",
+              "RelativeToolTip": "RedLight\\Scene\\SceneManager.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAuwAoAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-21T10:00:45.716Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\thrib\\RedLight\\Game\\Program.cs",
+              "RelativeDocumentMoniker": "Game\\Program.cs",
+              "ToolTip": "C:\\Users\\thrib\\RedLight\\Game\\Program.cs",
+              "RelativeToolTip": "Game\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-21T09:59:59.188Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "RLInputHandler.cs",
+              "DocumentMoniker": "C:\\Users\\thrib\\RedLight\\RedLight\\Core\\RLInputHandler.cs",
+              "RelativeDocumentMoniker": "RedLight\\Core\\RLInputHandler.cs",
+              "ToolTip": "C:\\Users\\thrib\\RedLight\\RedLight\\Core\\RLInputHandler.cs",
+              "RelativeToolTip": "RedLight\\Core\\RLInputHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-21T10:09:34.304Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "TestingScene1.cs",
+              "DocumentMoniker": "C:\\Users\\thrib\\RedLight\\Game\\TestingScene1.cs",
+              "RelativeDocumentMoniker": "Game\\TestingScene1.cs",
+              "ToolTip": "C:\\Users\\thrib\\RedLight\\Game\\TestingScene1.cs",
+              "RelativeToolTip": "Game\\TestingScene1.cs",
+              "ViewState": "AgIAAG4AAAAAAAAAAAAkwEIAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-21T05:18:38.384Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "rustacean-3d.mtl",
+              "DocumentMoniker": "C:\\Users\\thrib\\RedLight\\Game\\Resources\\Models\\LowPolyFerrisRust\\rustacean-3d.mtl",
+              "RelativeDocumentMoniker": "Game\\Resources\\Models\\LowPolyFerrisRust\\rustacean-3d.mtl",
+              "ToolTip": "C:\\Users\\thrib\\RedLight\\Game\\Resources\\Models\\LowPolyFerrisRust\\rustacean-3d.mtl",
+              "RelativeToolTip": "Game\\Resources\\Models\\LowPolyFerrisRust\\rustacean-3d.mtl",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAKoSURBVFhH7Ze/SxtRHMA/CSnS5KRFyJRBQaVidPPdjTkcexwFoZmz3yjZu4l/wLnaPUvgMKOcTk2OrHFNhJuOQot9FiGYLk3qvZx6iUqH9gO3fH/c\u002B3DvfR8c/E1Go1FGjXme9xZoAhU1NwMD4JNt25/VhEqSgL\u002B0tPRta2vrQy6XU9OPMhwOGQwG3y8vL1\u002BNRqOGbds1teYuWTUAVNbW1uZaHCCXy7G6uvpGCJHPZrNVz/Me/ApJAmiapoZmRtM0dnZ2Xj8mkSjwXKSReFEB7khkMpmPnudNnYe5BPr9Pq7rUqvVqNVquK5Lv99XyyZomsb6\u002BvpXYEogaQpGu7u7ahgpJUEQcHJywmAwYHNzE9M0AfB9n16vx/LyMpZlIYSgUCjE\u002BofDIefn59i2HVszlcDh4SHdbpdisYgQAsuyKBaLsZooivB9H9/3kVKyvb3N/v5\u002BrOb09HRKINUWdLtdNZSIlBIpJYVCgXa7raYTmWnYoyii1WrRarViWzDelkqlQr1ep1wuU61W1fZEUn2BJHq9HkdHRzQaDUzT5Pj4GMdxKJfLaumDzC0wxnVdLMuaOnRpebLAU3kRgSiK1NC9pBJQRy4JKSW\u002B71Ov13EcJ1UPaadgfNON5/z6\u002BnqSC4KATqfD2dkZ\u002BXwe0zRxHIeVlZXYO\u002B4j1UWkMl40CAIAhBDouo4QQi2NkXQRzSUwL0kCqc7ASzKTgGEYNJtNXNdlb28PwzAmTxiGGIahtjxKaoEwDAG4uLig0\u002BkQhuHkvm\u002B325RKJaUjHTMJLC4uEgTBROY5SC0AUCqVCMMQXdfV1NzMJACg6zobGxtqeIJhGBwcHKjhe/k/hkkCZ1EU/blrn4mrq6sfv3/ZYiRtwduFhYUvNzc379TcU8hmsz9vb2/f27btq7l/m19lQhPEgDNR9gAAAABJRU5ErkJggg==",
+              "WhenOpened": "2025-05-21T10:13:50.184Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "RLWindow.cs",
+              "DocumentMoniker": "C:\\Users\\thrib\\RedLight\\RedLight\\Core\\RLWindow.cs",
+              "RelativeDocumentMoniker": "RedLight\\Core\\RLWindow.cs",
+              "ToolTip": "C:\\Users\\thrib\\RedLight\\RedLight\\Core\\RLWindow.cs",
+              "RelativeToolTip": "RedLight\\Core\\RLWindow.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwB0AAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-21T10:02:30.674Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "RLEngine.cs",
+              "DocumentMoniker": "C:\\Users\\thrib\\RedLight\\RedLight\\RLEngine.cs",
+              "RelativeDocumentMoniker": "RedLight\\RLEngine.cs",
+              "ToolTip": "C:\\Users\\thrib\\RedLight\\RedLight\\RLEngine.cs",
+              "RelativeToolTip": "RedLight\\RLEngine.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAAwDMAAABGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-21T10:04:59.081Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "RLScene.cs",
+              "DocumentMoniker": "C:\\Users\\thrib\\RedLight\\RedLight\\Scene\\RLScene.cs",
+              "RelativeDocumentMoniker": "RedLight\\Scene\\RLScene.cs",
+              "ToolTip": "C:\\Users\\thrib\\RedLight\\RedLight\\Scene\\RLScene.cs",
+              "RelativeToolTip": "RedLight\\Scene\\RLScene.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAYAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-21T10:01:15.304Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "GameInputHandler.cs",
+              "DocumentMoniker": "C:\\Users\\thrib\\RedLight\\Game\\GameInputHandler.cs",
+              "RelativeDocumentMoniker": "Game\\GameInputHandler.cs",
+              "ToolTip": "C:\\Users\\thrib\\RedLight\\Game\\GameInputHandler.cs",
+              "RelativeToolTip": "Game\\GameInputHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-21T09:59:17.469Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "TextureManager.cs",
+              "DocumentMoniker": "C:\\Users\\thrib\\RedLight\\RedLight\\Graphics\\TextureManager.cs",
+              "RelativeDocumentMoniker": "RedLight\\Graphics\\TextureManager.cs",
+              "ToolTip": "C:\\Users\\thrib\\RedLight\\RedLight\\Graphics\\TextureManager.cs",
+              "RelativeToolTip": "RedLight\\Graphics\\TextureManager.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAAwCoAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-21T09:55:07.063Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Texture2D.cs",
+              "DocumentMoniker": "C:\\Users\\thrib\\RedLight\\RedLight\\Graphics\\Texture2D.cs",
+              "RelativeDocumentMoniker": "RedLight\\Graphics\\Texture2D.cs",
+              "ToolTip": "C:\\Users\\thrib\\RedLight\\RedLight\\Graphics\\Texture2D.cs",
+              "RelativeToolTip": "RedLight\\Graphics\\Texture2D.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAIEAAABwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-21T09:40:46.728Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "RLFiles.cs",
+              "DocumentMoniker": "C:\\Users\\thrib\\RedLight\\RedLight\\Utils\\RLFiles.cs",
+              "RelativeDocumentMoniker": "RedLight\\Utils\\RLFiles.cs",
+              "ToolTip": "C:\\Users\\thrib\\RedLight\\RedLight\\Utils\\RLFiles.cs",
+              "RelativeToolTip": "RedLight\\Utils\\RLFiles.cs",
+              "ViewState": "AgIAAFcAAAAAAAAAAAAYwHEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-21T09:33:37.296Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "AssimpModelLoader.cs",
+              "DocumentMoniker": "C:\\Users\\thrib\\RedLight\\RedLight\\Graphics\\AssimpModelLoader.cs",
+              "RelativeDocumentMoniker": "RedLight\\Graphics\\AssimpModelLoader.cs",
+              "ToolTip": "C:\\Users\\thrib\\RedLight\\RedLight\\Graphics\\AssimpModelLoader.cs",
+              "RelativeToolTip": "RedLight\\Graphics\\AssimpModelLoader.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAIwCEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-21T09:29:37.768Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

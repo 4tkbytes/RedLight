@@ -98,4 +98,18 @@ public static class RLFiles
     
         return tempFilePath;
     }
+
+    public static string GetAbsolutePath(string relativePath)
+    {
+        // Normalize slashes for cross-platform compatibility
+        string normalizedPath = relativePath.Replace('/', Path.DirectorySeparatorChar)
+                                            .Replace('\\', Path.DirectorySeparatorChar);
+
+        // Get the base directory of the application
+        string baseDir = AppContext.BaseDirectory;
+
+        // Combine and return the absolute path
+        return Path.GetFullPath(Path.Combine(baseDir, normalizedPath));
+    }
+
 }

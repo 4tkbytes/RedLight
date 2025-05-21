@@ -16,19 +16,18 @@ namespace RedLight.Graphics
             _assimpLoader = new AssimpModelLoader(gl, textureManager);
         }
         
-        public Model LoadModel(string resourcePath, Shader shader, Texture2D defaultTexture = null)
+    public Model? LoadModel(string resourcePath, Shader shader, Texture2D? defaultTexture = null)
+    {
+        var model = _assimpLoader.LoadModel(resourcePath, shader, defaultTexture);
+        
+        if (model != null)
         {
-            var model = _assimpLoader.LoadModel(resourcePath, shader, defaultTexture);
-            
-            if (model != null)
-            {
-                _models.Add(model);
-            }
-            
-            return model;
+            _models.Add(model);
         }
         
-        public Model GetModel(int index)
+        return model;
+    }
+          public Model? GetModel(int index)
         {
             if (index >= 0 && index < _models.Count)
                 return _models[index];

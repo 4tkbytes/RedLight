@@ -8,7 +8,7 @@ public class
     public Dictionary<string, RLScene> scenes = new();
     public RLScene ActiveRlScene { get; private set; }
     
-    public void AddScene(string name, RLScene rlScene, RLWindow window)
+    public void AddScene(string name, RLScene rlScene, RLWindow window, RLInputHandler inputHandler)
     {
         if (scenes.ContainsKey(name))
         {
@@ -16,6 +16,7 @@ public class
         }
 
         rlScene.Window = window;
+        rlScene.inputHandler = inputHandler;
         scenes.Add(name, rlScene);
     }
 

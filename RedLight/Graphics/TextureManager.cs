@@ -21,12 +21,26 @@ namespace RedLight.Graphics
             return _textures[path];
         }
 
+    public Texture2D? GetTextureByName(string name)
+    {
+        foreach (var kvp in _textures)
+        {
+            if (kvp.Key.EndsWith(name, StringComparison.OrdinalIgnoreCase))
+            {
+                return kvp.Value;
+            }
+        }
+        return null;
+    }
+
         public void AddTexture(Texture2D texture, string name)
         {
             if (_textures.ContainsKey(name))
             {
                 throw new Exception($"Texture [{name}] exists in texture manager");
             }
+            if (texture == null)
+                throw new Exception("Texture is null, does not exist");
             _textures.Add(name, texture);
         }
 

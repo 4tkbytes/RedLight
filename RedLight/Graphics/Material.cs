@@ -7,7 +7,7 @@ namespace RedLight.Graphics
         public int Id { get; }
         public string Name { get; set; }
         public Vector4 DiffuseColor { get; set; } = new Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-        public Texture2D DiffuseTexture { get; set; }
+        public Texture2D? DiffuseTexture { get; set; }
 
         private static int _nextId = 0;
 

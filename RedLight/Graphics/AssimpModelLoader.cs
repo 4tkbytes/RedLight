@@ -1,222 +1,346 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Numerics;
-using System.Reflection;
+﻿using RedLight.Graphics;
 using Silk.NET.Assimp;
 using Silk.NET.OpenGL;
-using RedLight.Graphics;
-using RedLight.Utils;
+using System.Numerics;
+using System.Reflection;
+using System.IO;
+using Mesh = RedLight.Graphics.Mesh;
+using Shader = RedLight.Graphics.Shader;
 
-namespace RedLight.Graphics
+public unsafe class AssimpModelLoader
 {
-    public unsafe class AssimpModelLoader
+    private readonly GL _gl;
+    private readonly Silk.NET.Assimp.Assimp _assimp;
+    private readonly TextureManager _textureManager;
+
+    public AssimpModelLoader(GL gl, TextureManager textureManager)
     {
-        private readonly GL _gl;
-        private readonly Assimp _assimp;
-        private readonly TextureManager _textureManager;
-        
-        public AssimpModelLoader(GL gl, TextureManager textureManager)
+        _gl = gl;
+        _assimp = Silk.NET.Assimp.Assimp.GetApi();
+        _textureManager = textureManager;
+    }
+
+    public Model? LoadModel(string resourcePath, Shader shader, Texture2D? defaultTexture = null)
+    {
+#if DEBUG
+        Console.WriteLine($"[DEBUG] Attempting to load model: {resourcePath}");
+#endif
+        byte[]? modelData = null;
+
+        // Try to load from file system if the path exists
+        if (System.IO.File.Exists(resourcePath))
         {
-            _gl = gl;
-            _assimp = Assimp.GetApi();
-            _textureManager = textureManager;
+            modelData = System.IO.File.ReadAllBytes(resourcePath);
+        }
+        else
+        {
+            // Fallback to embedded resource
+            modelData = LoadEmbeddedResource(resourcePath);
         }
 
-        public Model LoadModel(string resourcePath, Shader shader, Texture2D defaultTexture = null)
+        if (modelData == null)
         {
-            // Load embedded resource
-            byte[] modelData = LoadEmbeddedResource(resourcePath);
-            if (modelData == null)
+#if DEBUG
+            Console.WriteLine($"[DEBUG] Failed to load model data for resource: {resourcePath}");
+#endif
+            return null;
+        }
+#if DEBUG
+        Console.WriteLine($"[DEBUG] Model data loaded. Size: {modelData.Length} bytes");
+#endif
+
+        string directory = Path.GetDirectoryName(resourcePath.Replace('.', '/')) ?? string.Empty;
+#if DEBUG
+        Console.WriteLine($"[DEBUG] Model directory resolved to: {directory}");
+#endif
+
+        Silk.NET.Assimp.Scene* scene = null;
+        try
+        {
+            fixed (byte* dataPtr = modelData)
             {
-                Console.WriteLine($"Failed to load model: {resourcePath}");
-                return null;
+                scene = _assimp.ImportFileFromMemory(
+                    dataPtr,
+                    (uint)modelData.Length,
+                    (uint)(PostProcessSteps.Triangulate |
+                           PostProcessSteps.GenerateSmoothNormals |
+                           PostProcessSteps.FlipUVs |
+                           PostProcessSteps.CalculateTangentSpace),
+                    "obj");
             }
 
-            // Get directory path for loading textures
-            string directory = Path.GetDirectoryName(resourcePath.Replace('.', '/'));
+            if (scene == null)
+            {
+#if DEBUG
+                Console.WriteLine($"[DEBUG] Assimp returned null scene. Error: {_assimp.GetErrorStringS()}");
+#endif
+                return null;
+            }
+            if ((scene->MFlags & (uint)SceneFlags.Incomplete) != 0)
+            {
+#if DEBUG
+                Console.WriteLine($"[DEBUG] Assimp scene is incomplete. Flags: {scene->MFlags}. Error: {_assimp.GetErrorStringS()}");
+#endif
+                return null;
+            }
+            if (scene->MRootNode == null)
+            {
+#if DEBUG
+                Console.WriteLine($"[DEBUG] Assimp scene root node is null. Error: {_assimp.GetErrorStringS()}");
+#endif
+                return null;
+            }
+#if DEBUG
+            Console.WriteLine($"[DEBUG] Assimp scene loaded. Root node has {scene->MRootNode->MNumMeshes} meshes and {scene->MRootNode->MNumChildren} children.");
+#endif
+
+            string modelName = Path.GetFileNameWithoutExtension(resourcePath);
+            var model = ProcessNode(scene->MRootNode, scene, modelName, shader, defaultTexture, directory);
+
+#if DEBUG
+            if (model == null)
+            {
+                Console.WriteLine($"[DEBUG] ProcessNode returned null for model: {modelName}");
+            }
+            else
+            {
+                Console.WriteLine($"[DEBUG] Model '{modelName}' loaded successfully.");
+            }
+#endif
+
+            return model;
+        }
+        finally
+        {
+            if (scene != null)
+                _assimp.ReleaseImport(scene);
+        }
+    }
+
+    private Model? ProcessNode(Node* node, Silk.NET.Assimp.Scene* scene, string modelName, Shader shader, Texture2D? defaultTexture, string directory)
+    {
+#if DEBUG
+        Console.WriteLine($"[DEBUG] Processing node. Meshes: {node->MNumMeshes}, Children: {node->MNumChildren}");
+#endif
+        Model? model = null;
+
+        for (int i = 0; i < node->MNumMeshes; i++)
+        {
+            var mesh = scene->MMeshes[node->MMeshes[i]];
+#if DEBUG
+            Console.WriteLine($"[DEBUG] Processing mesh {i} with {mesh->MNumVertices} vertices and {mesh->MNumFaces} faces.");
+#endif
+            var processedMesh = ProcessMesh(mesh, scene, shader, defaultTexture, directory);
+
+            if (model == null)
+            {
+                model = new Model(modelName, processedMesh);
+#if DEBUG
+                Console.WriteLine($"[DEBUG] Created Model instance for '{modelName}'.");
+#endif
+            }
+
+            if (mesh->MMaterialIndex >= 0)
+            {
+                var material = model.Materials[0];
+
+                if (defaultTexture != null)
+                    material.DiffuseTexture = defaultTexture;
+
+                ProcessMaterial(scene->MMaterials[mesh->MMaterialIndex], material, directory);
+            }
+        }
+
+        for (int i = 0; i < node->MNumChildren; i++)
+        {
+            if (model == null)
+            {
+#if DEBUG
+                Console.WriteLine($"[DEBUG] Recursively processing child node {i}.");
+#endif
+                model = ProcessNode(node->MChildren[i], scene, modelName, shader, defaultTexture, directory);
+            }
+        }
+
+        return model;
+    }
+
+    private Mesh ProcessMesh(Silk.NET.Assimp.Mesh* mesh, Silk.NET.Assimp.Scene* scene, Shader shader, Texture2D? defaultTexture, string directory)
+    {
+#if DEBUG
+        Console.WriteLine($"[DEBUG] Building mesh: Vertices={mesh->MNumVertices}, Faces={mesh->MNumFaces}");
+#endif
+        List<float> vertices = new List<float>();
+        List<uint> indices = new List<uint>();
+        List<float> texCoords = new List<float>();
+
+        // Process vertex data with position, normal, and texcoords interleaved
+        for (int i = 0; i < mesh->MNumVertices; i++)
+        {
+            // Vertex positions
+            vertices.Add(mesh->MVertices[i].X);
+            vertices.Add(mesh->MVertices[i].Y);
+            vertices.Add(mesh->MVertices[i].Z);
+
+            // Normals
+            if (mesh->MNormals != null)
+            {
+                vertices.Add(mesh->MNormals[i].X);
+                vertices.Add(mesh->MNormals[i].Y);
+                vertices.Add(mesh->MNormals[i].Z);
+            }
+            else
+            {
+                vertices.Add(0.0f);
+                vertices.Add(1.0f);
+                vertices.Add(0.0f);
+            }
+
+            // Texture coordinates
+            if (mesh->MTextureCoords[0] != null)
+            {
+                vertices.Add(mesh->MTextureCoords[0][i].X);
+                vertices.Add(mesh->MTextureCoords[0][i].Y);
+                
+                // Store separately for texture operations
+                texCoords.Add(mesh->MTextureCoords[0][i].X);
+                texCoords.Add(mesh->MTextureCoords[0][i].Y);
+            }
+            else
+            {
+                vertices.Add(0.0f);
+                vertices.Add(0.0f);
+                texCoords.Add(0.0f);
+                texCoords.Add(0.0f);
+            }
+        }
+
+        // Process indices
+        for (int i = 0; i < mesh->MNumFaces; i++)
+        {
+            var face = mesh->MFaces[i];
+            for (int j = 0; j < face.MNumIndices; j++)
+            {
+                indices.Add(face.MIndices[j]);
+            }
+        }
+#if DEBUG
+        Console.WriteLine($"[DEBUG] Mesh built: {vertices.Count / 8} vertices, {indices.Count} indices, {texCoords.Count / 2} texCoords.");
+#endif
+
+        // Use the provided default texture or create a placeholder
+        Texture2D texture = defaultTexture ?? new Texture2D(_gl, string.Empty);
+        return new RedLight.Graphics.Mesh(_gl, vertices.ToArray(), indices.ToArray(), texCoords.ToArray(), shader, texture);
+    }
+
+    private void ProcessMaterial(Silk.NET.Assimp.Material* material, RedLight.Graphics.Material redLightMaterial, string directory)
+    {
+#if DEBUG
+        Console.WriteLine($"[DEBUG] Processing material in directory: {directory}");
+#endif
+        // Get diffuse color
+        var colorKey = Silk.NET.Assimp.Assimp.MatkeyColorDiffuse;
+        byte[] colorKeyBytes = System.Text.Encoding.ASCII.GetBytes(colorKey + "\0");
+        fixed (byte* colorKeyPtr = colorKeyBytes)
+        {
+            Vector4 colorStruct;
+            var result = _assimp.GetMaterialColor(material, colorKeyPtr, 0, 0, &colorStruct);
+            if (result == Silk.NET.Assimp.Return.Success)
+            {
+                // The order depends on how Assimp stores the color
+                redLightMaterial.DiffuseColor = new Vector4(colorStruct.X, colorStruct.Y, colorStruct.Z, colorStruct.W);
+#if DEBUG
+                Console.WriteLine($"[DEBUG] Material color loaded: {redLightMaterial.DiffuseColor}");
+#endif
+            }
+            else
+            {
+                redLightMaterial.DiffuseColor = new Vector4(1f, 1f, 1f, 1f);
+#if DEBUG
+                Console.WriteLine($"[DEBUG] Material color defaulted to white.");
+#endif
+            }
+        }
+
+        // Get diffuse texture
+        AssimpString path = default;
+        var texResult = _assimp.GetMaterialTexture(material, TextureType.Diffuse, 0, &path, null, null, null, null, null, null);
+        if (texResult == Silk.NET.Assimp.Return.Success)
+        {
+            string texPath = path.AsString;
             
-            // Import scene using Assimp
-            var scene = _assimp.ImportFileFromMemory(
-                modelData, 
-                (uint)(PostProcessSteps.Triangulate | 
-                       PostProcessSteps.GenerateSmoothNormals | 
-                       PostProcessSteps.FlipUVs | 
-                       PostProcessSteps.CalculateTangentSpace),
-                "obj");
-
-            if (scene == null || scene.MFlags == Silk.NET.Assimp.Assimp.SceneFlagsIncomplete || scene.MRootNode == null)
-            {
-                Console.WriteLine($"Assimp error: {_assimp.GetErrorString()}");
-                return null;
-            }
+            // Create proper path to the texture file
+            string fullPath = Path.Combine(directory, texPath).Replace('\\', '/');
+            
+#if DEBUG
+            Console.WriteLine($"[DEBUG] Attempting to load material texture: {fullPath}");
+#endif
 
             try
             {
-                // Process the model
-                string modelName = Path.GetFileNameWithoutExtension(resourcePath);
-                return ProcessNode(scene.MRootNode, scene, modelName, shader, defaultTexture, directory);
-            }
-            finally
-            {
-                // Free the imported scene
-                _assimp.ReleaseImport(scene);
-            }
-        }
-
-        private Model ProcessNode(Node node, Scene scene, string modelName, Shader shader, Texture2D defaultTexture, string directory)
-        {
-            Model model = null;
-            
-            // Process all meshes in the node
-            for (int i = 0; i < node.MNumMeshes; i++)
-            {
-                var mesh = scene.MMeshes[node.MMeshes[i]];
-                var processedMesh = ProcessMesh(mesh, scene, directory);
+                // First try to get if texture already exists
+                var existingTexture = _textureManager.GetTextureByName(Path.GetFileName(fullPath));
                 
-                if (model == null)
+                if (existingTexture != null)
                 {
-                    model = new Model(modelName, processedMesh);
+#if DEBUG
+                    Console.WriteLine($"[DEBUG] Using existing texture: {Path.GetFileName(fullPath)}");
+#endif
+                    redLightMaterial.DiffuseTexture = existingTexture;
                 }
-                
-                // If we have a material, set it up
-                if (mesh.MMaterialIndex >= 0)
+                else if (System.IO.File.Exists(fullPath))
                 {
-                    var material = model.Materials[0]; // Use default material
-                    
-                    // Set texture if available or use default
-                    if (defaultTexture != null)
-                    {
-                        material.DiffuseTexture = defaultTexture;
-                    }
-                    
-                    // Process material properties if needed
-                    ProcessMaterial(scene.MMaterials[mesh.MMaterialIndex], material, directory);
-                }
-            }
-            
-            // Process children nodes recursively
-            for (int i = 0; i < node.MNumChildren; i++)
-            {
-                // For simplicity, we're only supporting a single model with a single mesh
-                // In a more complex system, you'd want to handle multiple meshes and child nodes
-                if (model == null)
-                {
-                    model = ProcessNode(node.MChildren[i], scene, modelName, shader, defaultTexture, directory);
-                }
-            }
-            
-            return model;
-        }
-
-        private Mesh ProcessMesh(Silk.NET.Assimp.Mesh mesh, Scene scene, string directory)
-        {
-            List<float> vertices = new List<float>();
-            List<uint> indices = new List<uint>();
-
-            // Process vertices
-            for (int i = 0; i < mesh.MNumVertices; i++)
-            {
-                // Position
-                vertices.Add(mesh.MVertices[i].X);
-                vertices.Add(mesh.MVertices[i].Y);
-                vertices.Add(mesh.MVertices[i].Z);
-                
-                // Normals (if available)
-                if (mesh.MNormals != null)
-                {
-                    vertices.Add(mesh.MNormals[i].X);
-                    vertices.Add(mesh.MNormals[i].Y);
-                    vertices.Add(mesh.MNormals[i].Z);
+#if DEBUG
+                    Console.WriteLine($"[DEBUG] Loading texture from file: {fullPath}");
+#endif
+                    var texture = new Texture2D(_gl, fullPath);
+                    var textureName = Path.GetFileName(fullPath);
+                    _textureManager.AddTexture(texture, textureName);
+                    redLightMaterial.DiffuseTexture = texture;
                 }
                 else
                 {
-                    vertices.Add(0.0f);
-                    vertices.Add(1.0f);
-                    vertices.Add(0.0f);
-                }
-                
-                // Texture coordinates (if available)
-                if (mesh.MTextureCoords[0] != null)
-                {
-                    vertices.Add(mesh.MTextureCoords[0][i].X);
-                    vertices.Add(mesh.MTextureCoords[0][i].Y);
-                }
-                else
-                {
-                    vertices.Add(0.0f);
-                    vertices.Add(0.0f);
+#if DEBUG
+                    Console.WriteLine($"[DEBUG] Texture file not found: {fullPath}");
+#endif
                 }
             }
-
-            // Process indices
-            for (int i = 0; i < mesh.MNumFaces; i++)
+            catch (Exception ex)
             {
-                var face = mesh.MFaces[i];
-                for (int j = 0; j < face.MNumIndices; j++)
-                {
-                    indices.Add(face.MIndices[j]);
-                }
+#if DEBUG
+                Console.WriteLine($"[DEBUG] Failed to load texture: {texPath}. Error: {ex.Message}");
+#endif
             }
-
-            // Create and return the mesh
-            return new Mesh(_gl, vertices.ToArray(), indices.ToArray());
         }
-
-        private void ProcessMaterial(Material material, RedLight.Graphics.Material redLightMaterial, string directory)
+        else
         {
-            // Process diffuse color
-            if (_assimp.GetMaterialColor(material, Assimp.MatKeyDiffuse, 0, 0, out Silk.NET.Assimp.Color4D diffuse))
-            {
-                redLightMaterial.DiffuseColor = new Vector4(diffuse.R, diffuse.G, diffuse.B, diffuse.A);
-            }
-            
-            // Process diffuse texture
-            if (_assimp.GetMaterialTexture(material, TextureType.Diffuse, 0, out string texPath, out _, out _, out _, out _, out _, out _) == ReturnCode.Success)
-            {
-                string fullPath = Path.Combine(directory, texPath).Replace('\\', '/');
-                
-                // Try to load the texture from embedded resources
-                try
-                {
-                    // Convert path format to resource format
-                    string texResourcePath = fullPath.Replace('/', '.');
-                    
-                    // Check if texture is already loaded
-                    if (!_textureManager.HasTexture(texResourcePath))
-                    {
-                        var textureData = LoadEmbeddedResource(texResourcePath);
-                        if (textureData != null)
-                        {
-                            var texture = new Texture2D(_gl, texResourcePath);
-                            _textureManager.AddTexture(texture, texResourcePath);
-                        }
-                    }
-                    
-                    // Set texture
-                    redLightMaterial.DiffuseTexture = _textureManager.GetTexture(texResourcePath);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Failed to load texture: {fullPath}. Error: {ex.Message}");
-                }
-            }
+#if DEBUG
+            Console.WriteLine($"[DEBUG] No diffuse texture found in material.");
+#endif
+        }
+    }
+
+    private byte[]? LoadEmbeddedResource(string resourcePath)
+    {
+        var assembly = Assembly.GetExecutingAssembly();
+#if DEBUG
+        Console.WriteLine($"[DEBUG] Attempting to load embedded resource: {resourcePath}");
+#endif
+        using Stream? stream = assembly.GetManifestResourceStream(resourcePath);
+
+        if (stream == null)
+        {
+#if DEBUG
+            Console.WriteLine($"[DEBUG] Resource not found: {resourcePath}");
+#endif
+            return null;
         }
 
-        private byte[] LoadEmbeddedResource(string resourcePath)
-        {
-            var assembly = Assembly.GetExecutingAssembly();
-            using var stream = assembly.GetManifestResourceStream(resourcePath);
-            
-            if (stream == null)
-            {
-                Console.WriteLine($"Resource not found: {resourcePath}");
-                return null;
-            }
-            
-            using var memoryStream = new MemoryStream();
-            stream.CopyTo(memoryStream);
-            return memoryStream.ToArray();
-        }
+        using var memoryStream = new MemoryStream();
+        stream.CopyTo(memoryStream);
+#if DEBUG
+        Console.WriteLine($"[DEBUG] Resource loaded: {resourcePath}, size: {memoryStream.Length} bytes");
+#endif
+        return memoryStream.ToArray();
     }
 }

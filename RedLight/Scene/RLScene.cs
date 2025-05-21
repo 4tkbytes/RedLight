@@ -6,8 +6,9 @@ namespace RedLight.Scene;
 
 public interface RLScene
 {
-    public RLWindow Window { get; set; }
-    public SceneManager SceneManager { get; set; }
+    public RLWindow? Window { get; set; }
+    public RLInputHandler? inputHandler { get; set; }
+    public SceneManager? SceneManager { get; set; }
     
     void OnLoad();
     void OnRender(double delta);

@@ -39,8 +39,7 @@ namespace RedLight.Graphics
             
             return Materials[0]; // Return default material
         }
-        
-        public void Render(GL gl, Shader shader, Camera camera)
+          public void Render(GL gl, Shader shader, Camera camera)
         {
             shader.Use();
             

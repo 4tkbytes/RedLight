@@ -34,7 +34,7 @@ namespace RedLight.Graphics
             Vao = Gl.GenVertexArray();
             Gl.BindVertexArray(Vao);
 
-            // Vertex positions buffer
+            // Vertex positions buffer (containing positions, normals, texcoords)
             Vbo = Gl.GenBuffer();
             Gl.BindBuffer(BufferTargetARB.ArrayBuffer, Vbo);
             unsafe
@@ -42,17 +42,6 @@ namespace RedLight.Graphics
                 fixed (float* v = &Vertices[0])
                 {
                     Gl.BufferData(BufferTargetARB.ArrayBuffer, (nuint)(Vertices.Length * sizeof(float)), v, BufferUsageARB.StaticDraw);
-                }
-            }
-
-            // Texture coordinates buffer
-            TcboHandle = Gl.GenBuffer();
-            Gl.BindBuffer(BufferTargetARB.ArrayBuffer, TcboHandle);
-            unsafe
-            {
-                fixed (float* t = &TexCoords[0])
-                {
-                    Gl.BufferData(BufferTargetARB.ArrayBuffer, (nuint)(TexCoords.Length * sizeof(float)), t, BufferUsageARB.StaticDraw);
                 }
             }
 
@@ -70,25 +59,33 @@ namespace RedLight.Graphics
 
         private void SetupVertexAttributes()
         {
+            // Vertex data is in format: position (xyz) + normal (xyz) + texcoord (uv)
+            // Total stride: 8 floats (3 + 3 + 2)
+            uint stride = 8 * sizeof(float);
+            
             // Set up vertex positions (attribute 0)
             Gl.BindBuffer(BufferTargetARB.ArrayBuffer, Vbo);
-            Gl.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
-            Gl.EnableVertexAttribArray(0);
-
-            // Set up texture coordinates (attribute 1)
-            Gl.BindBuffer(BufferTargetARB.ArrayBuffer, TcboHandle);
-            Gl.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 2 * sizeof(float), 0);
-            Gl.EnableVertexAttribArray(1);
-        }
-
-        public void Render()
+            unsafe
+            {
+                Gl.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, stride, (void*)0);
+                Gl.EnableVertexAttribArray(0);
+                
+                // Set up normals (attribute 1)
+                Gl.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, stride, (void*)(3 * sizeof(float)));
+                Gl.EnableVertexAttribArray(1);
+        
+                // Set up texture coordinates (attribute 2)
+                Gl.VertexAttribPointer(2, 2, VertexAttribPointerType.Float, false, stride, (void*)(6 * sizeof(float)));
+                Gl.EnableVertexAttribArray(2);
+            }
+        }        public void Render()
         {
             Shader.Use();
     
             // Use Uniforms property instead of unsafe code
             Shader.Uniforms.SetMatrix4("uModel", Transform.ViewMatrix);
 
-            // binding da texture
+            // binding texture
             if (Texture != null)
             {
                 Texture.Bind(TextureUnit.Texture0);
