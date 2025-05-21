@@ -3,23 +3,98 @@ using System.Text;
 
 namespace RedLight.Utils;
 
-public static class Files
+public static class RLFiles
 {
-    public static string EmbeddedResourceAsString(string resourceName)
+    /// <summary>
+    /// Reads an embedded resource file and returns its contents as a string.
+    /// </summary>
+    /// <param name="resourceName">The name of the embedded resource.</param>
+    /// <returns>The contents of the resource file as a string.</returns>
+    // Fuck you very much GetEmbeddedResourceString for being such a pain in the ass to deal with 👊
+    public static string GetEmbeddedResourceString(string resourceName)
     {
-        var assembly = Assembly.GetCallingAssembly(); // Or Assembly.GetExecutingAssembly() depending on your needs
+        // Get the executing assembly
+        var assembly = Assembly.GetExecutingAssembly();
 
-        using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+        // Ensure resourceName is properly formatted with the assembly namespace
+        // if not already fully qualified
+        if (!resourceName.Contains('.'))
         {
-            if (stream == null)
-            {
-                throw new FileNotFoundException($"Embedded resource '{resourceName}' not found.");
-            }
-
-            using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
-            {
-                return reader.ReadToEnd();
-            }
+            string assemblyNamespace = assembly.GetName().Name;
+            resourceName = $"{assemblyNamespace}.{resourceName}";
         }
+
+        // Try to get the manifest resource stream
+        using Stream? stream = assembly.GetManifestResourceStream(resourceName);
+
+        // Handle the case when the resource isn't found
+        if (stream == null)
+        {
+            // Get available resources to help with debugging
+            string[] availableResources = assembly.GetManifestResourceNames();
+
+            // Create helpful error message with available resources
+            string errorMessage = $"Resource '{resourceName}' not found. Available resources:\n";
+            errorMessage += string.Join("\n", availableResources);
+
+            throw new FileNotFoundException(errorMessage);
+        }
+
+        // Read and return the resource content
+        using StreamReader reader = new(stream);
+        return reader.ReadToEnd();
+    }
+    
+    /// <summary>
+    /// Extracts an embedded resource to a temporary file and returns the path for use with Texture2D.
+    /// </summary>
+    /// <param name="resourceName">The name of the embedded resource texture.</param>
+    /// <returns>The temporary file path where the texture was extracted.</returns>
+    public static string GetEmbeddedResourcePath(string resourceName)
+    {
+        // Get the executing assembly
+        var assembly = Assembly.GetExecutingAssembly();
+    
+        // Ensure resourceName is properly formatted with the assembly namespace
+        // if not already fully qualified
+        if (!resourceName.Contains('.'))
+        {
+            string assemblyNamespace = assembly.GetName().Name;
+            resourceName = $"{assemblyNamespace}.{resourceName}";
+        }
+    
+        // Try to get the manifest resource stream
+        using Stream? stream = assembly.GetManifestResourceStream(resourceName);
+    
+        // Handle the case when the resource isn't found
+        if (stream == null)
+        {
+            // Get available resources to help with debugging
+            string[] availableResources = assembly.GetManifestResourceNames();
+    
+            // Create helpful error message with available resources
+            string errorMessage = $"Resource '{resourceName}' not found. Available resources:\n";
+            errorMessage += string.Join("\n", availableResources);
+    
+            throw new FileNotFoundException(errorMessage);
+        }
+    
+        // Create a unique temporary file name
+        string fileExtension = Path.GetExtension(resourceName);
+        if (string.IsNullOrEmpty(fileExtension))
+        {
+            fileExtension = ".png"; // Default to png if no extension is found
+        }
+        
+        string tempFileName = $"{Path.GetFileNameWithoutExtension(resourceName)}_{Guid.NewGuid()}{fileExtension}";
+        string tempFilePath = Path.Combine(Path.GetTempPath(), tempFileName);
+    
+        // Extract the resource to the temporary file
+        using (FileStream fileStream = File.Create(tempFilePath))
+        {
+            stream.CopyTo(fileStream);
+        }
+    
+        return tempFilePath;
     }
 }

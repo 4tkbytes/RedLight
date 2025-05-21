@@ -2,7 +2,8 @@ using RedLight.Core;
 
 namespace RedLight.Scene;
 
-public class SceneManager
+public class 
+    SceneManager
 {
     public Dictionary<string, RLScene> scenes = new();
     public RLScene ActiveRlScene { get; private set; }

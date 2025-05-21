@@ -4,7 +4,8 @@
         <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>RedLight.Engine</RootNamespace>
+        <RootNamespace>RedLight</RootNamespace>
+        <Title>RedLight Game Engine</Title>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -19,6 +20,12 @@
       <PackageReference Include="Silk.NET.Input" Version="2.22.0" />
       <PackageReference Include="Silk.NET.OpenGL" Version="2.22.0" />
       <PackageReference Include="Silk.NET.Windowing" Version="2.22.0" />
+      <PackageReference Include="StbImageSharp" Version="2.30.15" />
     </ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="Resources\Shaders\**\*" />
+        <EmbeddedResource Include="Resources\Textures\**\*" />
+	</ItemGroup>
 
 </Project>

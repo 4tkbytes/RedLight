@@ -193,6 +193,15 @@
           }
         }
       },
+      "StbImageSharp/2.30.15": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/StbImageSharp.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/StbImageSharp.dll": {}
+        }
+      },
       "System.Memory/4.5.5": {
         "type": "package",
         "compile": {
@@ -317,7 +326,8 @@
         "dependencies": {
           "Silk.NET.Input": "2.22.0",
           "Silk.NET.OpenGL": "2.22.0",
-          "Silk.NET.Windowing": "2.22.0"
+          "Silk.NET.Windowing": "2.22.0",
+          "StbImageSharp": "2.30.15"
         },
         "compile": {
           "bin/placeholder/RedLight.dll": {}
@@ -644,6 +654,19 @@
         "silkdotnet_v3.png"
       ]
     },
+    "StbImageSharp/2.30.15": {
+      "sha512": "7QqbupVhz2kcFUPTgMw4iHR9rYDHGundzzee19Mwmd1typ2Lnv8EVJcLJxlkeBM2+4ex0NwsMtdbGSJctp1XCQ==",
+      "type": "package",
+      "path": "stbimagesharp/2.30.15",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net471/StbImageSharp.dll",
+        "lib/netstandard2.0/StbImageSharp.dll",
+        "stbimagesharp.2.30.15.nupkg.sha512",
+        "stbimagesharp.nuspec"
+      ]
+    },
     "System.Memory/4.5.5": {
       "sha512": "XIWiDvKPXaTveaB7HVganDlOCRoj03l+jrwNvcge/t8vhGYKvqV+dMv6G4SAX2NoNmN0wZfVPTAlFwZcZvVOUw==",
       "type": "package",
@@ -883,33 +906,40 @@
     ]
   },
   "packageFolders": {
-    "/Users/thribhukrishnan/.nuget/packages/": {}
+    "C:\\Users\\thrib\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/thribhukrishnan/RiderProjects/RedLight/Game/Game.csproj",
+      "projectUniqueName": "C:\\Users\\thrib\\RedLight\\Game\\Game.csproj",
       "projectName": "Game",
-      "projectPath": "/Users/thribhukrishnan/RiderProjects/RedLight/Game/Game.csproj",
-      "packagesPath": "/Users/thribhukrishnan/.nuget/packages/",
-      "outputPath": "/Users/thribhukrishnan/RiderProjects/RedLight/Game/obj/",
+      "projectPath": "C:\\Users\\thrib\\RedLight\\Game\\Game.csproj",
+      "packagesPath": "C:\\Users\\thrib\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\thrib\\RedLight\\Game\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "/Users/thribhukrishnan/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\thrib\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
       ],
       "sources": {
-        "/usr/local/Cellar/dotnet/9.0.4/libexec/library-packs": {},
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "/Users/thribhukrishnan/RiderProjects/RedLight/RedLight/RedLight.csproj": {
-              "projectPath": "/Users/thribhukrishnan/RiderProjects/RedLight/RedLight/RedLight.csproj"
+            "C:\\Users\\thrib\\RedLight\\RedLight\\RedLight.csproj": {
+              "projectPath": "C:\\Users\\thrib\\RedLight\\RedLight\\RedLight.csproj"
             }
           }
         }
@@ -924,7 +954,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.100"
+      "SdkAnalysisLevel": "9.0.300"
     },
     "frameworks": {
       "net9.0": {
@@ -945,7 +975,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/Cellar/dotnet/9.0.4/libexec/sdk/9.0.105/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

@@ -14,10 +14,7 @@ class Program
         SceneManager sceneManager = new SceneManager();
         
         scene.SceneManager = sceneManager;
-        var scene2 = new TestingScene2();
-        scene2.SceneManager = sceneManager;
         sceneManager.AddScene("TestScene1", scene, window);
-        sceneManager.AddScene("TestScene2", scene2, window);
         
         rlEngine.Run();
     }

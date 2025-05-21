@@ -30,9 +30,4 @@ public class RLWindow
         window.Update += _rlScene.OnUpdate;
         window.Render += _rlScene.OnRender;
     }
-
-    private void OnFramebufferResize(Vector2D<int> size)
-    {
-        
-    }
 }

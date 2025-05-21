@@ -5,8 +5,10 @@ namespace RedLight.Graphics;
 public class Shader
 {
     private readonly GL _gl;
+    
     public uint Handle { get; }
-
+    public Uniforms Uniforms { get; private set; }
+    
     public Shader(GL gl, string vertexSource, string fragmentSource)
     {
         _gl = gl;
@@ -28,6 +30,8 @@ public class Shader
         _gl.DetachShader(Handle, fragment);
         _gl.DeleteShader(vertex);
         _gl.DeleteShader(fragment);
+        
+        Uniforms = new Uniforms(_gl, Handle);
     }
 
     private uint CompileShader(ShaderType type, string source)

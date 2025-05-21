@@ -1,4 +1,5 @@
 ﻿using RedLight.Core;
+using RedLight.Graphics;
 using Silk.NET.Input;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;
@@ -20,10 +21,11 @@ public class RLEngine
         options.Size = new Vector2D<int>(width, height);
         options.Title = title;
         
-        this._rlScene = rlScene;
+        _rlScene = rlScene;
 
         window = new(options, rlScene);
         window.window.Load += OnLoad;
+        window.window.FramebufferResize += OnFramebufferResize;
         window.SetScene(rlScene);
         
         Console.WriteLine("Initialised Redlight Engine");
@@ -40,6 +42,11 @@ public class RLEngine
         
         // get opengl api
         gl = GL.GetApi(window.window);
+    }
+
+    private void OnFramebufferResize(Vector2D<int> newSize)
+    {
+        gl.Viewport(newSize);
     }
 
     public void Run()
