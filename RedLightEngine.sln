@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedLight", "RedLight\RedLight.csproj", "{695E2C47-9845-42BE-8C22-98281AD33C24}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleGame", "ExampleGame\ExampleGame.csproj", "{0003FC0E-C52D-476D-B0C2-939CCC23AA7B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{695E2C47-9845-42BE-8C22-98281AD33C24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{695E2C47-9845-42BE-8C22-98281AD33C24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{695E2C47-9845-42BE-8C22-98281AD33C24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{695E2C47-9845-42BE-8C22-98281AD33C24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0003FC0E-C52D-476D-B0C2-939CCC23AA7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0003FC0E-C52D-476D-B0C2-939CCC23AA7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0003FC0E-C52D-476D-B0C2-939CCC23AA7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0003FC0E-C52D-476D-B0C2-939CCC23AA7B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
