@@ -1,9 +1,13 @@
+using RedLight.Graphics;
+
 namespace RedLight.Scene;
 
 public interface RLScene
 {
-    SceneManager sceneManager { get; set; }
-    RLEngine engine { get; set; }
+    RLEngine Engine { get; set; }
+    RLGraphics Graphics { get; set; }
+    SceneManager SceneManager { get; set; }
+    ShaderManager ShaderManager { get; set; }
     
     void OnLoad();
 
