@@ -1,9 +1,11 @@
-﻿namespace RedLight;
+﻿using System;
+
+namespace RedLight;
 
 public class Class1
 {
-    public void PrintTest()
+    public void PrintMessage()
     {
-        Console.WriteLine("Hello World!");
+        Console.WriteLine("Hello from RedLight!");
     }
 }
