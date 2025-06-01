@@ -1,3 +1,4 @@
+using System.Numerics;
 using Silk.NET.OpenGL;
 
 namespace RedLight.Graphics;
@@ -32,11 +33,28 @@ public class RLGraphics
         OpenGL.ClearColor(colour.r, colour.g, colour.b, colour.a);
     }
 
+    public void UpdateTransform(Transformable<Mesh> Tmesh)
+    {
+        var mat = Tmesh.Transform;
+        unsafe
+        {
+            float* ptr = (float*)&mat;
+            OpenGL.UniformMatrix4(OpenGL.GetUniformLocation(Tmesh.Target.program, "transform"), 1, false, ptr);
+        }
+    }
+
     public void BindMesh(Mesh mesh)
     {
         OpenGL.BindVertexArray(mesh.vao);
         
         OpenGL.UseProgram(mesh.program);
+    }
+
+    public void BindTransformableMesh(Transformable<Mesh> mesh)
+    {
+        OpenGL.BindVertexArray(mesh.Target.vao);
+        
+        OpenGL.UseProgram(mesh.Target.program);
     }
 
     public void ActivateTexture()

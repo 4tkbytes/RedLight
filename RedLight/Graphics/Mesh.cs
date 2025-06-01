@@ -1,3 +1,4 @@
+using System.Numerics;
 using Silk.NET.OpenGL;
 
 namespace RedLight.Graphics;
@@ -8,6 +9,8 @@ public class Mesh
     private uint vbo;
     private uint ebo;
     public uint program;
+    
+    public Matrix4x4 Transform { get; set; } = Matrix4x4.Identity;
     
     internal Mesh(GL gl, float[] vertices, uint[] indices, RLShader vertexShader, RLShader fragmentShader)
     {
@@ -65,8 +68,21 @@ public class Mesh
             gl.EnableVertexAttribArray(texCoordLoc);
             gl.VertexAttribPointer(texCoordLoc, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), (void*)(3*sizeof(float)));
         }
+        
+        unsafe
+        {
+            gl.UseProgram(program);
 
-        int location = gl.GetUniformLocation(program, "uTexture");
-        gl.Uniform1(location, 0);
+            int texLoc = gl.GetUniformLocation(program, "uTexture");
+            gl.Uniform1(texLoc, 0);
+
+            int transformLoc = gl.GetUniformLocation(program, "transform");
+            var local = Transform;
+            float* ptr = (float*)&local;
+            gl.UniformMatrix4(transformLoc, 1, false, ptr);
+        }
     }
+
+    public Transformable<Mesh> MakeTransformable() => new Transformable<Mesh>(this);
+    
 }

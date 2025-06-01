@@ -1,3 +1,4 @@
+using System.Numerics;
 using RedLight;
 using RedLight.Graphics;
 using RedLight.Input;
@@ -5,6 +6,7 @@ using RedLight.Scene;
 using RedLight.Utils;
 using Serilog;
 using Silk.NET.Input;
+using Silk.NET.Maths;
 
 namespace Game;
 
@@ -16,7 +18,7 @@ public class TestingScene1 : RLScene, RLKeyboard
     public TextureManager TextureManager { get; set; }
     public RLEngine Engine { get; set; }
 
-    private Mesh mesh;
+    private Transformable<Mesh> mesh;
     
     // The quad vertices data. Now with Texture coordinates!
     float[] vertices =
@@ -48,13 +50,24 @@ public class TestingScene1 : RLScene, RLKeyboard
             "no-texture",
             new RLTexture(Graphics, RLConstants.RL_NO_TEXTURE)
         );
+
+        Matrix4x4 transform = RLMath.Mat4(1.0f);
+        transform = RLMath.Rotate(transform, RLMath.DegreesToRadians(90.0f), new Vector3(0.0f, 0.0f, 1.0f));
+        transform = RLMath.Scale(transform, new Vector3(0.5f, 0.5f, 0.5f));
         
-        mesh = Graphics.CreateMesh(vertices, indices, ShaderManager.Get("basic").vertexShader, ShaderManager.Get("basic").fragmentShader);
+        mesh = Graphics.CreateMesh(
+            vertices, indices, 
+            ShaderManager.Get("basic").vertexShader, 
+            ShaderManager.Get("basic").fragmentShader)
+            .MakeTransformable();
     }
 
     public void OnUpdate(double deltaTime)
     {
-        
+        mesh = mesh
+            .Rotate(RLMath.DegreesToRadians(1.0f), Vector3.UnitX)
+            .Rotate(RLMath.DegreesToRadians(1.0f), Vector3.UnitY)
+            .Rotate(RLMath.DegreesToRadians(1.0f), Vector3.UnitZ);
     }
 
     public void OnRender(double deltaTime)
@@ -63,8 +76,9 @@ public class TestingScene1 : RLScene, RLKeyboard
         Graphics.ClearColour(new RLGraphics.Colour { r = (float)100/256, g = (float)146/256, b = (float)237/256, a = 1.0f });
         
         Graphics.ActivateTexture();
+        Graphics.UpdateTransform(mesh);
         
-        Graphics.BindMesh(mesh);
+        Graphics.BindTransformableMesh(mesh);
         Graphics.BindTexture(TextureManager.Get("no-texture"));
         
         Graphics.Draw(indices.Length);
