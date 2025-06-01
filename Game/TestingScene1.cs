@@ -32,7 +32,9 @@ public class TestingScene1 : RLScene, RLKeyboard
 
     public void OnLoad()
     {
-        ShaderManager.Add(
+        Console.WriteLine("Scene 1 Loaded");
+        
+        ShaderManager.TryAdd(
             "basic",
             new RLShader(Graphics, ShaderType.Vertex, RLConstants.RL_BASIC_SHADER_VERT),
             new RLShader(Graphics, ShaderType.Fragment, RLConstants.RL_BASIC_SHADER_FRAG)
@@ -61,6 +63,11 @@ public class TestingScene1 : RLScene, RLKeyboard
         if (key == Key.Escape)
         {
             Engine.Window.Window.Close();
+        }
+        
+        if (key == Key.Right)
+        {
+            SceneManager.SwitchScene("testing_scene_2");
         }
     }
 }

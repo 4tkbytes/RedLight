@@ -7,16 +7,18 @@ namespace RedLight.Scene;
 public class SceneManager
 {
     private Dictionary<string, RLScene> scenes;
+    private Dictionary<string, RLKeyboard> keyboards;
     private RLEngine engine;
     private ShaderManager shaderManager;
-    private RLKeyboard keyboard;
     
     private string currentSceneId;
     private RLScene currentScene;
+    private RLKeyboard currentKeyboard;
 
     public SceneManager(RLEngine engine, ShaderManager shaderManager)
     {
         scenes = new Dictionary<string, RLScene>();
+        keyboards = new Dictionary<string, RLKeyboard>();
         this.engine = engine;
         this.shaderManager = shaderManager;
     }
@@ -30,12 +32,13 @@ public class SceneManager
         scenes.Add(id, scene);
         
         this.shaderManager = shaderManager;
-        this.keyboard = keyboard;
+        keyboards.Add(id, keyboard);
         
         if (currentScene == null)
         {
             currentSceneId = id;
             currentScene = scene;
+            currentKeyboard = keyboard;
         }
     }
 
@@ -49,10 +52,12 @@ public class SceneManager
         if (currentScene != null)
         {
             engine.Window.UnsubscribeFromEvents(currentScene);
+            engine.UnsubscribeFromKeyboard(currentKeyboard);
         }
 
         currentSceneId = id;
         currentScene = scenes[id];
+        currentKeyboard = keyboards[id];
         engine.Window.SubscribeToEvents(currentScene);
 
         currentScene.Engine = engine;
@@ -60,7 +65,7 @@ public class SceneManager
         currentScene.SceneManager = this;
         currentScene.ShaderManager = shaderManager;
     
-        engine.Keyboard = keyboard;
+        engine.SubscribeToKeyboard(currentKeyboard);
 
         currentScene.OnLoad();
     }

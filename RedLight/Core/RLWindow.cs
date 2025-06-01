@@ -1,4 +1,5 @@
 using RedLight.Scene;
+using Serilog;
 using Silk.NET.Windowing;
 
 namespace RedLight.Core;
@@ -17,6 +18,7 @@ public class RLWindow
         Window.Load += scene.OnLoad;
         Window.Render += scene.OnRender;
         Window.Update += scene.OnUpdate;
+        Log.Debug("Subscribed to window events");
     }
     
     internal void UnsubscribeFromEvents(RLScene scene)
@@ -24,5 +26,6 @@ public class RLWindow
         Window.Load -= scene.OnLoad;
         Window.Render -= scene.OnRender;
         Window.Update -= scene.OnUpdate;
+        Log.Debug("Unsubscribed from window events");
     }
 }
