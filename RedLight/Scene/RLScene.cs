@@ -8,6 +8,7 @@ public interface RLScene
     RLGraphics Graphics { get; set; }
     SceneManager SceneManager { get; set; }
     ShaderManager ShaderManager { get; set; }
+    TextureManager TextureManager { get; set; }
     
     void OnLoad();
 

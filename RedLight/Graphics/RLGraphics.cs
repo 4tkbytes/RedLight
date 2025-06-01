@@ -32,11 +32,21 @@ public class RLGraphics
         OpenGL.ClearColor(colour.r, colour.g, colour.b, colour.a);
     }
 
-    public void Bind(Mesh mesh)
+    public void BindMesh(Mesh mesh)
     {
         OpenGL.BindVertexArray(mesh.vao);
         
         OpenGL.UseProgram(mesh.program);
+    }
+
+    public void ActivateTexture()
+    {
+        OpenGL.ActiveTexture(TextureUnit.Texture0);
+    }
+
+    public void BindTexture(RLTexture rlTexture)
+    {
+        OpenGL.BindTexture(TextureTarget.Texture2D, rlTexture.Handle);
     }
 
     public void Draw(int lengthOfIndices)

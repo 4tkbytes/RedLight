@@ -97,6 +97,28 @@ public static class RLFiles
     
         return tempFilePath;
     }
+    
+    public static byte[] GetEmbeddedResourceBytes(string resourceName)
+    {
+        var assembly = Assembly.GetExecutingAssembly();
+
+        if (!resourceName.Contains('.'))
+        {
+            var assemblyNamespace = assembly.GetName().Name;
+            resourceName = $"{assemblyNamespace}.{resourceName}";
+        }
+
+        using Stream? stream = assembly.GetManifestResourceStream(resourceName);
+        if (stream == null)
+        {
+            var available = string.Join("\n", assembly.GetManifestResourceNames());
+            throw new FileNotFoundException($"Resource `{resourceName}` not found. Available resources:\n{available}");
+        }
+
+        using var ms = new MemoryStream();
+        stream.CopyTo(ms);
+        return ms.ToArray();
+    }
 
     public static string GetAbsolutePath(string relativePath)
     {

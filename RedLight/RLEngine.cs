@@ -16,7 +16,9 @@ public class RLEngine
     public RLWindow Window { get; private set; }
     public RLGraphics Graphics { get; private set; }
     public RLKeyboard Keyboard { get; set; }
+    public SceneManager SceneManager { private get; set; }
     private IInputContext input;
+    private bool coconutBool = false;
     
     public RLEngine(int width, int height, string title, RLScene startingScene)
     {
@@ -34,15 +36,14 @@ public class RLEngine
             Graphics.OpenGL = Window.Window.CreateOpenGL();
             Log.Information("OpenGL is chosen as the backend");
             
+            input = Window.Window.CreateInput();
+            Log.Debug("Input context created");
+            
             if (startingScene != null)
             {
-                startingScene.Graphics = Graphics;
-                startingScene.Engine = this;
-                Window.SubscribeToEvents(startingScene);
-                startingScene.OnLoad();
+                SceneManager.SwitchScene(startingScene);
+                SubscribeToKeyboard(startingScene as RLKeyboard);
             }
-            
-            SubscribeToKeyboard(startingScene as RLKeyboard);
         };
         Window.Window.FramebufferResize += OnFramebufferResize;
     }
@@ -54,14 +55,14 @@ public class RLEngine
 
     internal void SubscribeToKeyboard(RLKeyboard keyboardManager)
     {
-        if (input == null)
-             input = Window.Window.CreateInput();
-        
-        for (int i = 0; i < input.Keyboards.Count; i++)
-            input.Keyboards[i].KeyDown += keyboardManager.OnKeyDown;
-        
-        this.Keyboard = keyboardManager;
-        Log.Debug("Subscribed to new keyboard");
+        if (Keyboard == keyboardManager || input == null)
+            return;
+
+        foreach (var kb in input.Keyboards)
+            kb.KeyDown += keyboardManager.OnKeyDown;
+
+        Keyboard = keyboardManager;
+        Log.Debug("Subscribed to keyboard");
     }
 
     public static void InitialiseLogger()
@@ -80,9 +81,14 @@ public class RLEngine
 
     internal void UnsubscribeFromKeyboard(RLKeyboard keyboardManager)
     {
-        for (int i = 0; i < input.Keyboards.Count; i++)
-            input.Keyboards[i].KeyDown -= keyboardManager.OnKeyDown;
-        Log.Debug("Unsubscribed to new keyboard");
+        if (Keyboard != keyboardManager || input == null)
+            return;
+
+        foreach (var kb in input.Keyboards)
+            kb.KeyDown -= keyboardManager.OnKeyDown;
+
+        Keyboard = null;
+        Log.Debug("Unsubscribed from keyboard");
     }
 
     public void Run()

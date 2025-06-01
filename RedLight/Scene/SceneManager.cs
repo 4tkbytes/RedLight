@@ -10,20 +10,24 @@ public class SceneManager
     private Dictionary<string, RLKeyboard> keyboards;
     private RLEngine engine;
     private ShaderManager shaderManager;
+    private TextureManager textureManager;
     
     private string currentSceneId;
     private RLScene currentScene;
     private RLKeyboard currentKeyboard;
 
-    public SceneManager(RLEngine engine, ShaderManager shaderManager)
+    internal bool coconutToggle = false;
+
+    public SceneManager(RLEngine engine, ShaderManager shaderManager, TextureManager textureManager)
     {
         scenes = new Dictionary<string, RLScene>();
         keyboards = new Dictionary<string, RLKeyboard>();
         this.engine = engine;
         this.shaderManager = shaderManager;
+        this.textureManager = textureManager;
     }
 
-    public void Add(string id, RLScene scene, ShaderManager shaderManager, RLKeyboard keyboard)
+    public void Add(string id, RLScene scene, RLKeyboard keyboard)
     {
         if (scenes.ContainsKey(id))
         {
@@ -31,7 +35,6 @@ public class SceneManager
         }
         scenes.Add(id, scene);
         
-        this.shaderManager = shaderManager;
         keyboards.Add(id, keyboard);
         
         if (currentScene == null)
@@ -39,6 +42,19 @@ public class SceneManager
             currentSceneId = id;
             currentScene = scene;
             currentKeyboard = keyboard;
+        }
+    }
+
+    public void SwitchScene(RLScene scene)
+    {
+        var thing = scenes.FirstOrDefault(x => x.Value == scene).Key;
+        if (thing != null)
+        {
+            SwitchScene(thing);
+        }
+        else
+        {
+            throw new Exception($"Scene [{scene}] is not registered");
         }
     }
 
@@ -64,6 +80,7 @@ public class SceneManager
         currentScene.Graphics = engine.Graphics;
         currentScene.SceneManager = this;
         currentScene.ShaderManager = shaderManager;
+        currentScene.TextureManager = textureManager;
     
         engine.SubscribeToKeyboard(currentKeyboard);
 

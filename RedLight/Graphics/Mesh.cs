@@ -36,8 +36,8 @@ public class Mesh
         fragmentShader.Compile();
         
         program = gl.CreateProgram();
-        gl.AttachShader(program, vertexShader.Shader);
-        gl.AttachShader(program, fragmentShader.Shader);
+        gl.AttachShader(program, vertexShader.Handle);
+        gl.AttachShader(program, fragmentShader.Handle);
         
         gl.LinkProgram(program);
         
@@ -47,15 +47,26 @@ public class Mesh
             Console.WriteLine($"Error linking shader {gl.GetProgramInfoLog(program)}");
         }
         
-        gl.DetachShader(program, vertexShader.Shader);
-        gl.DetachShader(program, fragmentShader.Shader);
+        gl.DetachShader(program, vertexShader.Handle);
+        gl.DetachShader(program, fragmentShader.Handle);
         vertexShader.Delete();
         fragmentShader.Delete();
 
         unsafe
         {
-            gl.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), null);
-            gl.EnableVertexAttribArray(0);
+            uint vertCoordLoc = 0;
+            gl.VertexAttribPointer(vertCoordLoc, 3, VertexAttribPointerType.Float, false, 5 * sizeof(float), null);
+            gl.EnableVertexAttribArray(vertCoordLoc);
         }
+
+        unsafe
+        {
+            uint texCoordLoc = 1;
+            gl.EnableVertexAttribArray(texCoordLoc);
+            gl.VertexAttribPointer(texCoordLoc, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), (void*)(3*sizeof(float)));
+        }
+
+        int location = gl.GetUniformLocation(program, "uTexture");
+        gl.Uniform1(location, 0);
     }
 }

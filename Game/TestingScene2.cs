@@ -2,6 +2,7 @@ using RedLight;
 using RedLight.Graphics;
 using RedLight.Input;
 using RedLight.Scene;
+using Serilog;
 using Silk.NET.Input;
 
 namespace Game;
@@ -12,9 +13,11 @@ public class TestingScene2 : RLScene, RLKeyboard
     public RLGraphics Graphics { get; set; }
     public SceneManager SceneManager { get; set; }
     public ShaderManager ShaderManager { get; set; }
+    public TextureManager TextureManager { get; set; }
+
     public void OnLoad()
     {
-        Console.WriteLine("Scene 2 Loaded");
+        Log.Information("Scene 2 has been loaded");
     }
 
     public void OnUpdate(double deltaTime)

@@ -26,7 +26,7 @@ public class ShaderManager
     {
         if (shaders.ContainsKey(id))
         {
-            Log.Debug("Shader {A} exists, not re-adding shader again", id);
+            Log.Warning("Shader {A} exists, not re-adding shader again", id);
             return;
         }
         
