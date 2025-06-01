@@ -1,3 +1,4 @@
+using Serilog;
 using Silk.NET.OpenGL;
 
 namespace RedLight.Graphics;
@@ -26,15 +27,19 @@ public class RLShader
             _ => throw new ArgumentOutOfRangeException(nameof(shaderType), shaderType, null)
         });
         graphics.OpenGL.ShaderSource(Handle, shaderSource);
+
+        Compile();
     }
 
     public void Compile()
     {
         graphics.OpenGL.CompileShader(Handle);
-        
-        graphics.OpenGL.GetShader(Handle, ShaderParameterName.CompileStatus, out int vStatus);
-        if (vStatus != (int) GLEnum.True)
-            throw new Exception($"Shader of type {shaderType} failed to compile: " + graphics.OpenGL.GetShaderInfoLog(Handle));
+        graphics.OpenGL.GetShader(Handle, ShaderParameterName.CompileStatus, out var status);
+        if (status != (int)GLEnum.True)
+        {
+            var info = graphics.OpenGL.GetShaderInfoLog(Handle);
+            Log.Error("Failed to compile {ShaderType} shader:\n{Info}", shaderType, info);
+        }
     }
     
     public void Delete()
@@ -47,7 +52,7 @@ public enum ShaderType
 {
     Vertex,
     Fragment,
-    Geometry,               // anything beyond (and incl) this are mental illnesses
+    Geometry,               // anything beyond (and incl) this are considered mental illnesses
     TessellationControl,
     TessellationEvaluation,
     Compute

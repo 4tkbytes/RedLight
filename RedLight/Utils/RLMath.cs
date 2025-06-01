@@ -58,8 +58,34 @@ public static class RLMath
     
     public static Matrix4x4 Mat4(float scalar)
     {
-        // Identity has 1s on the diagonal, so multiplying by scalar
-        // yields a diagonal matrix with 'scalar' on each diagonal element.
         return Matrix4x4.Identity * scalar;
+    }
+    
+    public static Matrix4x4 Ortho(
+        float left,   float right,
+        float bottom, float top,
+        float near,   float far)
+    {
+        float invRL = 1f / (right - left);
+        float invTB = 1f / (top - bottom);
+        float invFN = 1f / (far  - near);
+
+        return new Matrix4x4(
+            2f * invRL,    0f,            0f,           -(right + left)   * invRL,
+            0f,            2f * invTB,    0f,           -(top   + bottom) * invTB,
+            0f,            0f,           -2f * invFN,   -(far   + near)   * invFN,
+            0f,            0f,            0f,            1f
+        );
+    }
+    
+    public static Matrix4x4 Perspective(Matrix4x4 projection, float fov, float aspect, float near, float far)
+    {
+        float f = 1f / (float)Math.Tan(fov * 0.5f);
+        return new Matrix4x4(
+            f / aspect,  0f,                           0f,                              0f,
+            0f,          f,                            0f,                              0f,
+            0f,          0f,    (far + near) / (near - far), (2f * far * near) / (near - far),
+            0f,          0f,                          -1f,                              0f
+        ) * projection;
     }
 }

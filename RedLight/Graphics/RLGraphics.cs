@@ -23,6 +23,11 @@ public class RLGraphics
         return new Mesh(OpenGL, vertices, indices, vertexShader, fragmentShader);
     }
 
+    public void EnableDepth()
+    {
+        OpenGL.Enable(EnableCap.DepthTest);
+    }
+
     public void Clear()
     {
         OpenGL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
@@ -33,14 +38,40 @@ public class RLGraphics
         OpenGL.ClearColor(colour.r, colour.g, colour.b, colour.a);
     }
 
-    public void UpdateTransform(Transformable<Mesh> Tmesh)
+    public void UpdateProjection(Transformable<Mesh> Tmesh)
     {
-        var mat = Tmesh.Transform;
         unsafe
         {
-            float* ptr = (float*)&mat;
-            OpenGL.UniformMatrix4(OpenGL.GetUniformLocation(Tmesh.Target.program, "transform"), 1, false, ptr);
+            float[] local = {Tmesh.Projection.M11};
+            fixed (float* ptr = &local[0])
+            {
+                int loc = OpenGL.GetUniformLocation(Tmesh.Target.program, "projection");
+                OpenGL.UniformMatrix4(loc, 1, false, ptr);
+            }
         }
+    }
+
+    public void UpdateView(Transformable<Mesh> Tmesh)
+    {
+        unsafe
+        {
+            float[] val = {Tmesh.View.M11};
+            fixed (float* ptr = &val[0])
+            {
+                int loc = OpenGL.GetUniformLocation(Tmesh.Target.program, "model");
+                OpenGL.UniformMatrix4(loc, 1, false, ptr);
+            }
+        }  
+    }
+
+    public void UpdateModel(Transformable<Mesh> Tmesh)
+    {
+        unsafe
+        {
+            float* ptr = (float*)&Tmesh;
+            int loc = OpenGL.GetUniformLocation(Tmesh.Target.program, "model");
+            OpenGL.UniformMatrix4(loc, 1, false, ptr);
+        }   
     }
 
     public void BindMesh(Mesh mesh)
@@ -50,11 +81,14 @@ public class RLGraphics
         OpenGL.UseProgram(mesh.program);
     }
 
-    public void BindTransformableMesh(Transformable<Mesh> mesh)
+    public void Use(Transformable<Mesh> mesh)
+    {
+        OpenGL.UseProgram(mesh.Target.program);
+    }
+
+    public void Bind(Transformable<Mesh> mesh)
     {
         OpenGL.BindVertexArray(mesh.Target.vao);
-        
-        OpenGL.UseProgram(mesh.Target.program);
     }
 
     public void ActivateTexture()

@@ -1,4 +1,5 @@
 using System.Numerics;
+using Serilog;
 using Silk.NET.OpenGL;
 
 namespace RedLight.Graphics;
@@ -18,21 +19,40 @@ public class Mesh
         gl.BindVertexArray(vao);
         
         vbo = gl.GenBuffer();
-        gl.BindBuffer(BufferTargetARB.ArrayBuffer, vbo);
+        ebo = gl.GenBuffer();
 
+        // bind vert
         unsafe
         {
+            gl.BindBuffer(BufferTargetARB.ArrayBuffer, vbo);
+
             fixed (float* buf = vertices)
                 gl.BufferData(BufferTargetARB.ArrayBuffer, (nuint) (vertices.Length * sizeof(float)), buf, BufferUsageARB.StaticDraw);
         }
-
-        ebo = gl.GenBuffer();
-        gl.BindBuffer(BufferTargetARB.ElementArrayBuffer, ebo);
         
+        // bind index
         unsafe
         {
+            gl.BindBuffer(BufferTargetARB.ElementArrayBuffer, ebo);
+
             fixed (uint* buf = indices)
                 gl.BufferData(BufferTargetARB.ElementArrayBuffer, (nuint) (indices.Length * sizeof(uint)), buf, BufferUsageARB.StaticDraw);
+        }
+        
+        // position attrib
+        unsafe
+        {
+            uint vertCoordLoc = 0;
+            gl.VertexAttribPointer(vertCoordLoc, 3, VertexAttribPointerType.Float, false, 5 * sizeof(float), null);
+            gl.EnableVertexAttribArray(vertCoordLoc);
+        }
+
+        // tex coord attrib
+        unsafe
+        {
+            uint texCoordLoc = 1;
+            gl.EnableVertexAttribArray(texCoordLoc);
+            gl.VertexAttribPointer(texCoordLoc, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), (void*)(3*sizeof(float)));
         }
         
         vertexShader.Compile();
@@ -44,30 +64,17 @@ public class Mesh
         
         gl.LinkProgram(program);
         
-        gl.GetProgram(program, GLEnum.LinkStatus, out var status);
-        if (status == 0)
+        gl.GetProgram(program, GLEnum.LinkStatus, out var linkStatus);
+        if (linkStatus != (int)GLEnum.True)
         {
-            Console.WriteLine($"Error linking shader {gl.GetProgramInfoLog(program)}");
+            var info = gl.GetProgramInfoLog(program);
+            Log.Error("Failed to link shader program:\n{Info}", info);
         }
         
         gl.DetachShader(program, vertexShader.Handle);
         gl.DetachShader(program, fragmentShader.Handle);
         vertexShader.Delete();
         fragmentShader.Delete();
-
-        unsafe
-        {
-            uint vertCoordLoc = 0;
-            gl.VertexAttribPointer(vertCoordLoc, 3, VertexAttribPointerType.Float, false, 5 * sizeof(float), null);
-            gl.EnableVertexAttribArray(vertCoordLoc);
-        }
-
-        unsafe
-        {
-            uint texCoordLoc = 1;
-            gl.EnableVertexAttribArray(texCoordLoc);
-            gl.VertexAttribPointer(texCoordLoc, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), (void*)(3*sizeof(float)));
-        }
         
         unsafe
         {
@@ -76,10 +83,10 @@ public class Mesh
             int texLoc = gl.GetUniformLocation(program, "uTexture");
             gl.Uniform1(texLoc, 0);
 
-            int transformLoc = gl.GetUniformLocation(program, "transform");
+            int modelLoc = gl.GetUniformLocation(program, "model");
             var local = Transform;
             float* ptr = (float*)&local;
-            gl.UniformMatrix4(transformLoc, 1, false, ptr);
+            gl.UniformMatrix4(modelLoc, 1, false, ptr);
         }
     }
 
