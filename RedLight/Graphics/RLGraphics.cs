@@ -13,7 +13,7 @@ public class RLGraphics
     /*
      * other apis will be added later
      */
-    
+
     public struct Colour
     {
         public float r;
@@ -21,11 +21,10 @@ public class RLGraphics
         public float b;
         public float a;
     }
-    
+
     public Mesh CreateMesh(float[] vertices, uint[] indices, RLShader vertexShader, RLShader fragmentShader)
     {
-        return new Mesh(OpenGL, vertices, indices, vertexShader, fragmentShader);
-        Log.Debug("Mesh created successfully");
+        return new Mesh(this, vertices, indices, vertexShader, fragmentShader);
     }
 
     public void IsCaptured(IMouse mouse, bool isCaptured)
@@ -89,7 +88,7 @@ public class RLGraphics
             float* ptr = (float*)&local;
             int loc = OpenGL.GetUniformLocation(Tmesh.Target.program, "model");
             OpenGL.UniformMatrix4(loc, 1, false, ptr);
-        } 
+        }
     }
 
     // public Vector3D<float> MeshToVector(Transformable<Mesh> Tmesh)
@@ -118,13 +117,25 @@ public class RLGraphics
     public void BindMesh(Mesh mesh)
     {
         OpenGL.BindVertexArray(mesh.vao);
-        
+
         OpenGL.UseProgram(mesh.program);
     }
 
     public void Use(Transformable<Mesh> mesh)
     {
         OpenGL.UseProgram(mesh.Target.program);
+    }
+
+    public bool IsRendering { get; private set; }
+
+    public void Begin()
+    {
+        IsRendering = true;
+    }
+
+    public void End()
+    {
+        IsRendering = false;
     }
 
     public void Bind(Transformable<Mesh> mesh)

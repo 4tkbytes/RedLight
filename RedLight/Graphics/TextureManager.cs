@@ -5,7 +5,7 @@ namespace RedLight.Graphics;
 public class TextureManager
 {
     public Dictionary<string, RLTexture> textures = new();
-    
+
     public void Add(string id, RLTexture rlTexture)
     {
         if (textures.ContainsKey(id))
@@ -31,7 +31,7 @@ public class TextureManager
         {
             throw new Exception($"ID [{id}] does not exist");
         }
-        
+
         return textures[id];
     }
 
@@ -41,7 +41,7 @@ public class TextureManager
         {
             throw new Exception($"ID [{id}] does not exist");
         }
-        
+
         textures.Remove(id);
     }
 }

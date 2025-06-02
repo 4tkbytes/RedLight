@@ -30,8 +30,8 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     private bool isCaptured = true;
     private readonly List<Transformable<Mesh>> spawnedObjects = new();
     private double spawnTimer = 0.0;
-    
-   // 8 unique vertices (position + uv)
+
+    // 8 unique vertices (position + uv)
     float[] vertices = {
         // positions        // uvs
         -0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // 0
@@ -61,28 +61,30 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     public void OnLoad()
     {
         Log.Information("Scene 1 Loaded");
-        
+
         ShaderManager.TryAdd(
             "basic",
             new RLShader(Graphics, ShaderType.Vertex, RLConstants.RL_BASIC_SHADER_VERT),
             new RLShader(Graphics, ShaderType.Fragment, RLConstants.RL_BASIC_SHADER_FRAG)
         );
-        
+
         TextureManager.TryAdd(
             "fuckass-angus",
             new RLTexture(Graphics, RLFiles.GetEmbeddedResourceBytes("RedLight.Resources.Textures.thing.png")));
-        
+
         Graphics.EnableDepth();
-        
-        camera = new Camera(new Vector3D<float>(0,0,3),
-            new Vector3D<float>(0,0,-1),
-            new Vector3D<float>(0,1,0),
-            float.DegreesToRadians(99.0f), (float)800/600, 0.1f, 100.0f).SetSpeed(0.05f);
+
+        camera = new Camera(new Vector3D<float>(0, 0, 3),
+            new Vector3D<float>(0, 0, -1),
+            new Vector3D<float>(0, 1, 0),
+            float.DegreesToRadians(99.0f), (float)800 / 600, 0.1f, 100.0f).SetSpeed(0.05f);
     }
-    
+
 
     public void OnUpdate(double deltaTime)
     {
+        Engine.Window.FramesPerSecond = 1.0 / deltaTime;
+
         if (camera == null)
         {
             Log.Error("Camera is null in OnUpdate!");
@@ -103,16 +105,16 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         if (PressedKeys.Contains(Key.Space))
             camera = camera.MoveUp();
         camera = camera.SetPosition(camera.Position).UpdateCamera();
-        
+
         spawnTimer += deltaTime;
-        if (spawnTimer >= 1.0)
+        if (spawnTimer >= 0.1)
         {
             spawnTimer = 0.0;
             var random = new Random();
             var position = new Vector3D<float>(
-                (float)(random.NextDouble() * random.Next(-12, 12)),
-                (float)(random.NextDouble() * random.Next(-12, 12)),
-                (float)(random.NextDouble() * random.Next(-12, 12))
+                (float)(random.NextDouble() * random.Next(-12, 24)),
+                (float)(random.NextDouble() * random.Next(-12, 24)),
+                (float)(random.NextDouble() * random.Next(-12, 24))
             );
             var newObject = Graphics.CreateMesh(vertices, indices,
                     ShaderManager.Get("basic").vertexShader,
@@ -120,27 +122,31 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
                 .MakeTransformable()
                 .SetModel(Matrix4X4.CreateTranslation(position));
             spawnedObjects.Add(newObject);
-            Log.Debug("Spawned object count: {0}", spawnedObjects.Count);
+            Log.Debug("Spawned object count: {A} | FPS: {B:F2}", spawnedObjects.Count, Engine.Window.FramesPerSecond);
         }
     }
 
     public void OnRender(double deltaTime)
     {
-        Graphics.Clear();
-        Graphics.ClearColour(new RLGraphics.Colour { r = 100f/256, g = 146f/256, b = 237f/256, a = 1f });
-        
-        foreach (var obj in spawnedObjects)
+        Graphics.Begin();
         {
-            Graphics.Use(obj);
-            Graphics.BindTexture(TextureManager.Get("no-texture"));
-            Graphics.UpdateView(camera, obj);
-            Graphics.UpdateProjection(camera, obj);
-            Graphics.UpdateModel(obj);
-            Graphics.Draw(indices.Length);
-            Graphics.CheckGLErrors();
+            Graphics.Clear();
+            Graphics.ClearColour(new RLGraphics.Colour { r = 100f / 256, g = 146f / 256, b = 237f / 256, a = 1f });
+
+            foreach (var obj in spawnedObjects)
+            {
+                Graphics.Use(obj);
+                Graphics.BindTexture(TextureManager.Get("no-texture"));
+                Graphics.UpdateView(camera, obj);
+                Graphics.UpdateProjection(camera, obj);
+                Graphics.UpdateModel(obj);
+                Graphics.Draw(indices.Length);
+                Graphics.CheckGLErrors();
+            }
         }
+        Graphics.End();
     }
-    
+
     public void OnKeyDown(IKeyboard keyboard, Key key, int keyCode)
     {
         PressedKeys.Add(key);
@@ -167,7 +173,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     public void OnMouseMove(IMouse mouse, Vector2 mousePosition)
     {
         this.mouse = mouse;
-        
+
         Graphics.IsCaptured(mouse, isCaptured);
         camera.FreeMove(mousePosition);
     }

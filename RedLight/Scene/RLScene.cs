@@ -9,12 +9,12 @@ public interface RLScene
     SceneManager SceneManager { get; set; }
     ShaderManager ShaderManager { get; set; }
     TextureManager TextureManager { get; set; }
-    
+
     void OnLoad();
 
     void OnUpdate(double deltaTime);
 
     void OnRender(double deltaTime);
-    
-    
+
+
 }

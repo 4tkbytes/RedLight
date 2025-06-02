@@ -23,7 +23,7 @@ public class RLEngine
 
     private int logStrength = 0;
     private bool fullscreen = false;
-    
+
     public RLEngine(int width, int height, string title, RLScene startingScene, string[] args)
     {
         ParseArguments(args);
@@ -33,26 +33,26 @@ public class RLEngine
         options.Title = title;
         if (fullscreen)
             options.WindowState = WindowState.Fullscreen;
-        
+
         Window = new RLWindow(options, startingScene);
         Log.Debug("Window has been created");
         Graphics = new RLGraphics();
         Log.Debug("Graphics has been initialised");
-        
+
         Window.Window.Load += () =>
         {
             Graphics.OpenGL = Window.Window.CreateOpenGL();
             Log.Information("OpenGL is chosen as the backend");
-            
+
             input = Window.Window.CreateInput();
             Log.Debug("Input context created");
-            
+
             if (startingScene != null)
             {
                 SceneManager.SwitchScene(startingScene);
                 SubscribeToInputs(startingScene as RLKeyboard, startingScene as RLMouse);
             }
-            
+
             startingScene.TextureManager.TryAdd(
                 "no-texture",
                 new RLTexture(Graphics, RLConstants.RL_NO_TEXTURE)
@@ -79,7 +79,7 @@ public class RLEngine
             }
         }
     }
-    
+
     private void OnFramebufferResize(Vector2D<int> newSize)
     {
         Graphics.OpenGL.Viewport(newSize);
@@ -112,7 +112,7 @@ public class RLEngine
         Mouse = mouseManager;
         Log.Debug("Subscribed to keyboard");
     }
-    
+
     public void InitialiseLogger()
     {
         var shitfuck = new LoggerConfiguration()
@@ -124,7 +124,7 @@ public class RLEngine
             shitfuck.MinimumLevel.Debug();
         if (logStrength == 2)
             shitfuck.MinimumLevel.Verbose();
-        
+
         Log.Logger = shitfuck.CreateLogger();
         Log.Information("Logger has been created");
         Log.Information("Logger is logging at strength [{A}]", logStrength);

@@ -8,17 +8,17 @@ public class RLTexture
 {
     private RLGraphics graphics;
     private ImageResult imageResult;
-    
+
     public uint Handle { get; set; }
 
     public RLTexture(RLGraphics graphics, byte[] image)
     {
         var gl = graphics.OpenGL;
-        
+
         Handle = gl.GenTexture();
         gl.ActiveTexture(TextureUnit.Texture0);
         gl.BindTexture(TextureTarget.Texture2D, Handle);
-        
+
         imageResult = ImageResult.FromMemory(image, ColorComponents.RedGreenBlueAlpha);
         unsafe
         {
@@ -33,14 +33,14 @@ public class RLTexture
                     PixelType.UnsignedByte,
                     ptr);
         }
-        
+
         gl.TexParameter(GLEnum.Texture2D, GLEnum.TextureWrapS, (int)TextureWrapMode.Repeat);
         gl.TexParameter(GLEnum.Texture2D, GLEnum.TextureWrapT, (int)TextureWrapMode.Repeat);
         gl.TexParameter(GLEnum.Texture2D, GLEnum.TextureMinFilter, (int)TextureMinFilter.NearestMipmapNearest); // <- change here!
         gl.TexParameter(GLEnum.Texture2D, GLEnum.TextureMagFilter, (int)TextureMagFilter.Nearest);
         // create mipmap
         gl.GenerateMipmap(TextureTarget.Texture2D);
-        
+
         // unbind the texture
         gl.BindTexture(TextureTarget.Texture2D, 0);
     }

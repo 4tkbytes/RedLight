@@ -3,25 +3,17 @@ using Silk.NET.OpenGL;
 
 namespace RedLight.Graphics;
 
+public struct RLShaderBundle
+{
+    public RLShader vertexShader;
+    public RLShader fragmentShader;
+    public RLShaderProgram program;
+}
+
 public class ShaderManager
 {
-    public struct RLShaderPair
-    {
-        public RLShader vertexShader;
-        public RLShader fragmentShader;
-    }
-    private Dictionary<string, RLShaderPair> shaders = new();
+    private Dictionary<string, RLShaderBundle> shaders = new();
 
-    public void Add(string id, RLShader vertexShader, RLShader fragmentShader)
-    {
-        if (shaders.ContainsKey(id))
-        {
-            throw new Exception($"ID [{id}] is already registered");
-        }
-        
-        shaders.Add(id, new RLShaderPair() { vertexShader = vertexShader, fragmentShader = fragmentShader });
-    }
-    
     public void TryAdd(string id, RLShader vertexShader, RLShader fragmentShader)
     {
         if (shaders.ContainsKey(id))
@@ -29,27 +21,20 @@ public class ShaderManager
             Log.Warning("Shader {A} exists, not re-adding shader again", id);
             return;
         }
-        
-        shaders.Add(id, new RLShaderPair() { vertexShader = vertexShader, fragmentShader = fragmentShader });
+
+        var program = new RLShaderProgram(vertexShader.graphics, vertexShader, fragmentShader);
+        shaders.Add(id, new RLShaderBundle
+        {
+            vertexShader = vertexShader,
+            fragmentShader = fragmentShader,
+            program = program
+        });
     }
 
-    public RLShaderPair Get(string id)
+    public RLShaderBundle Get(string id)
     {
         if (!shaders.ContainsKey(id))
-        {
             throw new Exception($"ID [{id}] does not exist");
-        }
-        
         return shaders[id];
-    }
-
-    public void Remove(string id)
-    {
-        if (!shaders.ContainsKey(id))
-        {
-            throw new Exception($"ID [{id}] does not exist");
-        }
-        
-        shaders.Remove(id);
     }
 }

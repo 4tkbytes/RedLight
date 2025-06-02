@@ -12,7 +12,7 @@ public class SceneManager
     private RLEngine engine;
     private ShaderManager shaderManager;
     private TextureManager textureManager;
-    
+
     private string currentSceneId;
     private RLScene currentScene;
     private RLKeyboard currentKeyboard;
@@ -37,10 +37,10 @@ public class SceneManager
             throw new Exception($"ID [{id}] is already registered");
         }
         scenes.Add(id, scene);
-        
+
         keyboards.Add(id, keyboard);
         mouses.Add(id, mouse);
-        
+
         if (currentScene == null)
         {
             currentSceneId = id;
@@ -85,12 +85,12 @@ public class SceneManager
         currentScene.SceneManager = this;
         currentScene.ShaderManager = shaderManager;
         currentScene.TextureManager = textureManager;
-    
+
         engine.SubscribeToInputs(currentKeyboard, currentMouse);
 
         currentScene.OnLoad();
     }
-    
+
     public void Remove(string id)
     {
         if (currentSceneId == id)
@@ -99,7 +99,7 @@ public class SceneManager
         }
         scenes.Remove(id);
     }
-    
+
     public RLScene GetCurrentScene()
     {
         return currentScene;

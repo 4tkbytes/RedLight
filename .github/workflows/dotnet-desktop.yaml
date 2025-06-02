@@ -1,0 +1,47 @@
+name: Build, Format, and Publish
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Format code
+        run: dotnet format --verify-no-changes
+
+      - name: Build solution
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Publish Engine Library
+        run: dotnet publish RedLight/RedLight.csproj --configuration Release --output ./publish/engine
+
+      - name: Publish Game Executable
+        run: dotnet publish Game/Game.csproj --configuration Release --output ./publish/game
+
+      - name: Upload Engine Library Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: engine-library
+          path: ./publish/engine
+
+      - name: Upload Game Executable Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: game-executable
+          path: ./publish/game

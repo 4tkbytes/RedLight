@@ -8,16 +8,16 @@ public class Transformable<T>
 {
     private readonly T target;
     private bool defaultSet = false;
-    
+
     private Matrix4X4<float> modelDefault = Matrix4X4<float>.Identity;
-    
+
     public Matrix4X4<float> Model { get; private set; } = Matrix4X4<float>.Identity;
 
     public Transformable(T target)
     {
         this.target = target;
     }
-    
+
     public Transformable<T> Translate(Camera camera, Vector3D<float> translation)
     {
         camera.View = Matrix4X4.CreateTranslation(-translation);
@@ -41,7 +41,7 @@ public class Transformable<T>
         Log.Verbose("Scaled mesh");
         return this;
     }
-    
+
     public Transformable<T> AbsoluteReset()
     {
         Model = Matrix4X4<float>.Identity;
@@ -57,7 +57,7 @@ public class Transformable<T>
         Log.Verbose("Absolute reset mesh model");
         return this;
     }
-    
+
     /// <summary>
     /// Resets back to the original state where you set a save. Requires a save state
     /// otherwise the function will throw an exception.

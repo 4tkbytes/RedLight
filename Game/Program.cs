@@ -7,7 +7,7 @@ using Silk.NET.OpenGL;
 namespace Game;
 
 class Program
-{ 
+{
     static void Main(string[] args)
     {
         var scene1 = new TestingScene1();
@@ -21,7 +21,7 @@ class Program
 
         sceneManager.Add("testing_scene_1", scene1, scene1, scene1);
         sceneManager.Add("testing_scene_2", scene2, scene2, scene2);
-        
+
         engine.Run();
     }
 }

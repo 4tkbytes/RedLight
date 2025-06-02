@@ -33,7 +33,7 @@ public class Camera
         Front = Vector3D.Normalize(cameraFront);
         Up = Vector3D.Normalize(cameraUp);
         Projection = Matrix4X4.Add(Projection, Matrix4X4.CreatePerspectiveFieldOfView(fov, aspect, near, far));
-        
+
         cameraTarget = Position + Front;
         View = Matrix4X4.CreateLookAt(
             Position,
@@ -47,7 +47,7 @@ public class Camera
     {
         cameraTarget = Position + Vector3D.Normalize(Front);
         LookAt(Position, cameraTarget, Up);
-        
+
         Log.Verbose("Updated camera target");
         return this;
     }
@@ -59,7 +59,7 @@ public class Camera
             cameraTarget,
             cameraUpVector
         );
-        
+
         Log.Verbose("Looking at new view");
         return this;
     }
@@ -67,7 +67,7 @@ public class Camera
     public void FreeMove(Vector2 mousePosition)
     {
         var camera = this;
-        
+
         float xpos = mousePosition.X;
         float ypos = mousePosition.Y;
 
@@ -87,10 +87,10 @@ public class Camera
         yoffset *= camera.Sensitivity;
         camera.Yaw += xoffset;    // yaw
         camera.Pitch += yoffset;  // pitch
-        
-        if(camera.Pitch > 89.0f)
-            camera.Pitch =  89.0f;
-        if(camera.Pitch < -89.0f)
+
+        if (camera.Pitch > 89.0f)
+            camera.Pitch = 89.0f;
+        if (camera.Pitch < -89.0f)
             camera.Pitch = -89.0f;
 
         Vector3D<float> direction = new();
@@ -117,7 +117,7 @@ public class Camera
         Position += Speed * Front;
         return this;
     }
-    
+
     public Camera MoveBack()
     {
         Position -= Speed * Front;
@@ -141,7 +141,7 @@ public class Camera
         Position -= Vector3D.Normalize(Vector3D.Cross(Front, Up)) * Speed;
         return this;
     }
-    
+
     public Camera MoveRight()
     {
         Position += Vector3D.Normalize(Vector3D.Cross(Front, Up)) * Speed;
@@ -153,13 +153,13 @@ public class Camera
         Position += speed * Front;
         return this;
     }
-    
+
     public Camera MoveBack(float speed)
     {
         Position -= speed * Front;
         return this;
     }
-    
+
     public Camera MoveUp(float speed)
     {
         Position += Up * speed;
@@ -178,7 +178,7 @@ public class Camera
         Position -= right * speed;
         return this;
     }
-    
+
     public Camera MoveRight(float speed)
     {
         var right = Vector3D.Normalize(Vector3D.Cross(Front, Up));

@@ -23,7 +23,7 @@ public class TestingScene2 : RLScene, RLKeyboard, RLMouse
 
     public void OnUpdate(double deltaTime)
     {
-        
+
     }
 
     public void OnRender(double deltaTime)
@@ -44,6 +44,6 @@ public class TestingScene2 : RLScene, RLKeyboard, RLMouse
 
     public void OnMouseMove(IMouse mouse, Vector2 mousePosition)
     {
-        
+
     }
 }
