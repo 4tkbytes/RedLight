@@ -1,4 +1,5 @@
-using System.Numerics;
+using Serilog;
+using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 
 namespace RedLight.Graphics;
@@ -42,12 +43,10 @@ public class RLGraphics
     {
         unsafe
         {
-            float[] local = {Tmesh.Projection.M11};
-            fixed (float* ptr = &local[0])
-            {
-                int loc = OpenGL.GetUniformLocation(Tmesh.Target.program, "projection");
-                OpenGL.UniformMatrix4(loc, 1, false, ptr);
-            }
+            var local = Tmesh.Projection.M11;
+            float* ptr = &local;
+            int loc = OpenGL.GetUniformLocation(Tmesh.Target.program, "projection");
+            OpenGL.UniformMatrix4(loc, 1, false, ptr);
         }
     }
 
@@ -55,23 +54,32 @@ public class RLGraphics
     {
         unsafe
         {
-            float[] val = {Tmesh.View.M11};
-            fixed (float* ptr = &val[0])
-            {
-                int loc = OpenGL.GetUniformLocation(Tmesh.Target.program, "model");
-                OpenGL.UniformMatrix4(loc, 1, false, ptr);
-            }
-        }  
+            var local = Tmesh.Projection.M11;
+            float* ptr = &local;
+            int loc = OpenGL.GetUniformLocation(Tmesh.Target.program, "view");
+            OpenGL.UniformMatrix4(loc, 1, false, ptr);
+        }
     }
 
     public void UpdateModel(Transformable<Mesh> Tmesh)
     {
         unsafe
         {
-            float* ptr = (float*)&Tmesh;
+            var local = Tmesh.Projection.M11;
+            float* ptr = &local;
             int loc = OpenGL.GetUniformLocation(Tmesh.Target.program, "model");
             OpenGL.UniformMatrix4(loc, 1, false, ptr);
-        }   
+        } 
+    }
+
+    public void LogMatrix4(string type, Matrix4X4<float> matrix)
+    {
+        Log.Verbose("{A}: \n {B} {C} {D} {E}\n {F} {G} {H} {I} \n {J} {K} {L} {M} \n {N} {O} {P} {Q}\n",
+            type,
+            matrix.M11, matrix.M12, matrix.M13, matrix.M14,
+            matrix.M21, matrix.M22, matrix.M23, matrix.M24,
+            matrix.M31, matrix.M32, matrix.M33, matrix.M34,
+            matrix.M41, matrix.M42, matrix.M43, matrix.M44);
     }
 
     public void BindMesh(Mesh mesh)

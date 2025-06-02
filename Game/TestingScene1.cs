@@ -1,12 +1,9 @@
-using System.Net.Mime;
-using System.Numerics;
 using RedLight;
 using RedLight.Graphics;
 using RedLight.Input;
 using RedLight.Scene;
 using RedLight.Utils;
 using Serilog;
-using Silk.NET.Core.Native;
 using Silk.NET.Input;
 using Silk.NET.Maths;
 
@@ -62,20 +59,15 @@ public class TestingScene1 : RLScene, RLKeyboard
             .MakeTransformable();
         mesh
             .Reset()
-            .Rotate(RLMath.DegreesToRadians(-55.0f), Vector3.UnitX)
-            .Translate(new Vector3(1.0f, 0, 0))
-            .Project(RLMath.DegreesToRadians(45.0f), (float)Engine.Window.Window.Size.X / Engine.Window.Window.Size.Y,
+            .Rotate(float.DegreesToRadians(-55.0f), new Vector3D<float>(1, 0, 0))
+            .Translate(new Vector3D<float>(1, 0, 0))
+            .Project(float.DegreesToRadians(45.0f), (float)Engine.Window.Window.Size.X / Engine.Window.Window.Size.Y,
                 0.1f, 100.0f);
     }
+    
 
     public void OnUpdate(double deltaTime)
     {
-        mesh = mesh
-            .Rotate(RLMath.DegreesToRadians(1.0f), Vector3.UnitX)
-            .Rotate(RLMath.DegreesToRadians(1.0f), Vector3.UnitY)
-            .Rotate(RLMath.DegreesToRadians(1.0f), Vector3.UnitZ)
-            .Translate(new Vector3(1.0f, 0, 0))
-            .Scale(new Vector3(1.0f, 1.0f, 1.0f));
     }
 
     public void OnRender(double deltaTime)
@@ -93,9 +85,14 @@ public class TestingScene1 : RLScene, RLKeyboard
         Graphics.UpdateProjection(mesh);
 
         var view = mesh.View;
-        Matrix4x4.Invert(view, out var inverseView);
-        Matrix4x4.Decompose(inverseView, out _, out _, out var cameraPos);
+        Matrix4X4.Invert(view, out var inverseView);
+        Matrix4X4.Decompose(inverseView, out _, out _, out var cameraPos);
         Log.Verbose("Camera position: {X}, {Y}, {Z}", cameraPos.X, cameraPos.Y, cameraPos.Z);
+        
+        Graphics.LogMatrix4("View", mesh.View);
+        Graphics.LogMatrix4("Model", mesh.Model);
+        Graphics.LogMatrix4("Projection", mesh.Projection);
+        Log.Verbose("");
         
         Graphics.Draw(indices.Length);
         var err = Graphics.OpenGL.GetError();
