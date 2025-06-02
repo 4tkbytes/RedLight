@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using RedLight;
 using RedLight.Graphics;
 using RedLight.Input;
@@ -87,6 +88,8 @@ public class TestingScene1 : RLScene, RLKeyboard
         1u, 2u, 3u
     };
 
+    private HashSet<Key> pressedKeys = new HashSet<Key>();
+
     public void OnLoad()
     {
         Log.Information("Scene 1 Loaded");
@@ -102,7 +105,10 @@ public class TestingScene1 : RLScene, RLKeyboard
             new RLTexture(Graphics, RLFiles.GetEmbeddedResourceBytes("RedLight.Resources.Textures.thing.png")));
         
         Graphics.EnableDepth();
-        camera = new Camera(float.DegreesToRadians(99.0f), (float)800/600, 0.1f, 100.0f);
+        camera = new Camera(new Vector3D<float>(0,0,3),
+            new Vector3D<float>(0,0,-1),
+            new Vector3D<float>(0,1,0),
+            float.DegreesToRadians(99.0f), (float)800/600, 0.1f, 100.0f).SetSpeed(0.05f);
         
         mesh1 = Graphics.CreateMesh(
             vertices, indices, 
@@ -111,20 +117,24 @@ public class TestingScene1 : RLScene, RLKeyboard
             .MakeTransformable();
         
         mesh1.Translate(camera, new Vector3D<float>(0, 0, 3)).SetDefault();
+        mesh1.Reset();
+        
+        Graphics.UpdateProjection(camera, mesh1);
     }
     
 
     public void OnUpdate(double deltaTime)
     {
-        // Make the camera spin in a circle around the origin
-        float radius = 10.0f;
-        float camX = (float)(Math.Sin(Environment.TickCount / 1000.0) * radius);
-        float camZ = (float)(Math.Cos(Environment.TickCount / 1000.0) * radius);
-        camera.LookAt(
-            new Vector3D<float>(camX, 0, camZ),
-            new Vector3D<float>(0, 0, 0),
-            new Vector3D<float>(0, 1, 0)
-        );
+        float speed = 0.1f * (float)deltaTime;
+        if (pressedKeys.Contains(Key.W))
+            camera = camera.MoveForward(speed);
+        if (pressedKeys.Contains(Key.S))
+            camera = camera.MoveBack(speed);
+        if (pressedKeys.Contains(Key.A))
+            camera = camera.MoveLeft(speed);
+        if (pressedKeys.Contains(Key.D))
+            camera = camera.MoveRight(speed);
+        camera = camera.SetPosition(camera.Position).UpdateCamera();
     }
 
     public void OnRender(double deltaTime)
@@ -133,7 +143,6 @@ public class TestingScene1 : RLScene, RLKeyboard
         Graphics.ClearColour(new RLGraphics.Colour { r = 100f/256, g = 146f/256, b = 237f/256, a = 1f });
 
         Graphics.UpdateView(camera, mesh1);
-        Graphics.UpdateProjection(camera, mesh1);
 
         Graphics.ActivateTexture();
         Graphics.BindTexture(TextureManager.Get("no-texture"));
@@ -159,14 +168,19 @@ public class TestingScene1 : RLScene, RLKeyboard
 
     public void OnKeyDown(IKeyboard keyboard, Key key, int keyCode)
     {
+        pressedKeys.Add(key);
         if (key == Key.Escape)
         {
             Engine.Window.Window.Close();
         }
-        
         if (key == Key.Right)
         {
             SceneManager.SwitchScene("testing_scene_2");
         }
+    }
+
+    public void OnKeyUp(IKeyboard keyboard, Key key, int keyCode)
+    {
+        pressedKeys.Remove(key);
     }
 }
