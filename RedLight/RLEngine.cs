@@ -69,7 +69,7 @@ public class RLEngine
     {
         Log.Logger = new LoggerConfiguration()
 #if DEBUG
-            .MinimumLevel.Verbose()
+            .MinimumLevel.Debug()
 #endif
             .WriteTo.Console()
             .WriteTo.File("logs/log.txt",

@@ -43,8 +43,8 @@ public class RLGraphics
     {
         unsafe
         {
-            var local = Tmesh.Projection.M11;
-            float* ptr = &local;
+            var local = Tmesh.Projection;
+            float* ptr = (float*)&local;
             int loc = OpenGL.GetUniformLocation(Tmesh.Target.program, "projection");
             OpenGL.UniformMatrix4(loc, 1, false, ptr);
         }
@@ -54,8 +54,8 @@ public class RLGraphics
     {
         unsafe
         {
-            var local = Tmesh.Projection.M11;
-            float* ptr = &local;
+            var local = Tmesh.View;
+            float* ptr = (float*)&local;
             int loc = OpenGL.GetUniformLocation(Tmesh.Target.program, "view");
             OpenGL.UniformMatrix4(loc, 1, false, ptr);
         }
@@ -65,11 +65,24 @@ public class RLGraphics
     {
         unsafe
         {
-            var local = Tmesh.Projection.M11;
-            float* ptr = &local;
+            var local = Tmesh.Model;
+            float* ptr = (float*)&local;
             int loc = OpenGL.GetUniformLocation(Tmesh.Target.program, "model");
             OpenGL.UniformMatrix4(loc, 1, false, ptr);
         } 
+    }
+
+    public Vector3D<float> MeshToVector(Transformable<Mesh> Tmesh)
+    {
+        var view = Tmesh.View;
+        Matrix4X4.Invert(view, out var inverseView);
+        Matrix4X4.Decompose(inverseView, out _, out _, out var cameraPos);
+        return cameraPos;
+    }
+
+    public void LogVector(string type, Vector3D<float> vector)
+    {
+        Log.Verbose("{A}: {X}, {Y}, {Z}", type, vector.X, vector.Y, vector.Z);
     }
 
     public void LogMatrix4(string type, Matrix4X4<float> matrix)

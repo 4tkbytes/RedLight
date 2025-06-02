@@ -18,7 +18,7 @@ public class Transformable<T>
 
     public Transformable<T> Translate(Vector3D<float> translation)
     {
-        View = Matrix4X4.Add(View, Matrix4X4.CreateTranslation(translation));
+        View = Matrix4X4.CreateTranslation(-translation);
         return this;
     }
 
@@ -30,14 +30,11 @@ public class Transformable<T>
 
     public Transformable<T> Rotate(float radians, Vector3D<float> axis)
     {
-        var fuckass = Matrix4X4.Multiply(Matrix4X4.CreateRotationX(radians), axis.X);
-        var fuckass2 = Matrix4X4.Multiply(Matrix4X4.CreateRotationY(radians), axis.Y);
-        var fuckass3 = Matrix4X4.Multiply(Matrix4X4.CreateRotationZ(radians), axis.Z);
-
-        Model = Matrix4X4.Add(Model, fuckass);
-        Model = Matrix4X4.Add(Model, fuckass2);
-        Model = Matrix4X4.Add(Model, fuckass3);
-
+        radians = -radians;
+        // Normalize axis to avoid scaling issues
+        var normAxis = Vector3D.Normalize(axis);
+        var rotation = Matrix4X4.CreateFromAxisAngle(normAxis, radians);
+        Model = Matrix4X4.Multiply(rotation, Model);
         return this;
     }
 
@@ -51,6 +48,14 @@ public class Transformable<T>
     {
         Model = Matrix4X4<float>.Identity;
         View = Matrix4X4<float>.Identity;
+        Projection = Matrix4X4<float>.Identity;
+        return this;
+    }
+
+    public Transformable<T> Reset(float scalar)
+    {
+        Model = Matrix4X4<float>.Identity * scalar;
+        View = Matrix4X4<float>.Identity * scalar;
         Projection = Matrix4X4<float>.Identity;
         return this;
     }

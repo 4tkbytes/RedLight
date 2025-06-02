@@ -1,3 +1,4 @@
+using System.Numerics;
 using RedLight;
 using RedLight.Graphics;
 using RedLight.Input;
@@ -38,32 +39,34 @@ public class TestingScene1 : RLScene, RLKeyboard
     public void OnLoad()
     {
         Log.Information("Scene 1 Loaded");
-        
+
         ShaderManager.TryAdd(
             "basic",
             new RLShader(Graphics, ShaderType.Vertex, RLConstants.RL_BASIC_SHADER_VERT),
             new RLShader(Graphics, ShaderType.Fragment, RLConstants.RL_BASIC_SHADER_FRAG)
         );
-        
+
         TextureManager.TryAdd(
             "no-texture",
             new RLTexture(Graphics, RLConstants.RL_NO_TEXTURE)
         );
-        
+
         Graphics.EnableDepth();
-        
+
         mesh = Graphics.CreateMesh(
-            vertices, indices, 
-            ShaderManager.Get("basic").vertexShader, 
+            vertices, indices,
+            ShaderManager.Get("basic").vertexShader,
             ShaderManager.Get("basic").fragmentShader)
             .MakeTransformable();
-        
-        mesh.Reset().Project(float.DegreesToRadians(45.0f), (float)800/600, 0.1f, 100.0f);
+
+        mesh.Reset(1.0f).Project(float.DegreesToRadians(45.0f), (float)Engine.Window.Window.Size.X / Engine.Window.Window.Size.X, 0.1f, 100.0f)
+        .Translate(new Vector3D<float>(0, 0, 3));
     }
-    
+
 
     public void OnUpdate(double deltaTime)
     {
+        mesh.Rotate(float.DegreesToRadians(1.0f), new Vector3D<float>(1, 1, 1));
     }
 
     public void OnRender(double deltaTime)
@@ -80,11 +83,7 @@ public class TestingScene1 : RLScene, RLKeyboard
         Graphics.UpdateView(mesh);
         Graphics.UpdateProjection(mesh);
 
-        var view = mesh.View;
-        Matrix4X4.Invert(view, out var inverseView);
-        Matrix4X4.Decompose(inverseView, out _, out _, out var cameraPos);
-        Log.Verbose("Camera position: {X}, {Y}, {Z}", cameraPos.X, cameraPos.Y, cameraPos.Z);
-        
+        Graphics.LogVector("Camera", Graphics.MeshToVector(mesh));
         Graphics.LogMatrix4("View", mesh.View);
         Graphics.LogMatrix4("Model", mesh.Model);
         Graphics.LogMatrix4("Projection", mesh.Projection);
