@@ -39,22 +39,22 @@ public class RLGraphics
         OpenGL.ClearColor(colour.r, colour.g, colour.b, colour.a);
     }
 
-    public void UpdateProjection(Transformable<Mesh> Tmesh)
+    public void UpdateProjection(Camera camera, Transformable<Mesh> Tmesh)
     {
         unsafe
         {
-            var local = Tmesh.Projection;
+            var local = camera.Projection;
             float* ptr = (float*)&local;
             int loc = OpenGL.GetUniformLocation(Tmesh.Target.program, "projection");
             OpenGL.UniformMatrix4(loc, 1, false, ptr);
         }
     }
 
-    public void UpdateView(Transformable<Mesh> Tmesh)
+    public void UpdateView(Camera camera, Transformable<Mesh> Tmesh)
     {
         unsafe
         {
-            var local = Tmesh.View;
+            var local = camera.View;
             float* ptr = (float*)&local;
             int loc = OpenGL.GetUniformLocation(Tmesh.Target.program, "view");
             OpenGL.UniformMatrix4(loc, 1, false, ptr);
@@ -72,13 +72,13 @@ public class RLGraphics
         } 
     }
 
-    public Vector3D<float> MeshToVector(Transformable<Mesh> Tmesh)
-    {
-        var view = Tmesh.View;
-        Matrix4X4.Invert(view, out var inverseView);
-        Matrix4X4.Decompose(inverseView, out _, out _, out var cameraPos);
-        return cameraPos;
-    }
+    // public Vector3D<float> MeshToVector(Transformable<Mesh> Tmesh)
+    // {
+    //     var view = Tmesh.View;
+    //     Matrix4X4.Invert(view, out var inverseView);
+    //     Matrix4X4.Decompose(inverseView, out _, out _, out var cameraPos);
+    //     return cameraPos;
+    // }
 
     public void LogVector(string type, Vector3D<float> vector)
     {
@@ -122,11 +122,11 @@ public class RLGraphics
         OpenGL.BindTexture(TextureTarget.Texture2D, rlTexture.Handle);
     }
 
-    public void Draw(int lengthOfIndices)
+    public void Draw(/*int lengthOfIndices*/)
     {
         unsafe
         {
-            OpenGL.DrawElements(PrimitiveType.Triangles, (uint) lengthOfIndices, DrawElementsType.UnsignedInt, null);
+            OpenGL.DrawArrays(GLEnum.Triangles, 0, 36);
         }
     }
 }

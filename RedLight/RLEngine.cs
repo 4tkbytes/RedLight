@@ -3,6 +3,7 @@ using RedLight.Core;
 using RedLight.Graphics;
 using RedLight.Input;
 using RedLight.Scene;
+using RedLight.Utils;
 using Serilog;
 using Silk.NET.Input;
 using Silk.NET.Maths;
@@ -44,6 +45,11 @@ public class RLEngine
                 SceneManager.SwitchScene(startingScene);
                 SubscribeToKeyboard(startingScene as RLKeyboard);
             }
+            
+            startingScene.TextureManager.TryAdd(
+                "no-texture",
+                new RLTexture(Graphics, RLConstants.RL_NO_TEXTURE)
+            );
         };
         Window.Window.FramebufferResize += OnFramebufferResize;
     }
@@ -64,6 +70,8 @@ public class RLEngine
         Keyboard = keyboardManager;
         Log.Debug("Subscribed to keyboard");
     }
+    
+    
 
     public static void InitialiseLogger()
     {

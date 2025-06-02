@@ -1,12 +1,14 @@
-using System.Numerics;
 using RedLight;
 using RedLight.Graphics;
 using RedLight.Input;
 using RedLight.Scene;
 using RedLight.Utils;
 using Serilog;
+using Silk.NET.Core.Native;
 using Silk.NET.Input;
 using Silk.NET.Maths;
+using Silk.NET.OpenGL;
+using ShaderType = RedLight.Graphics.ShaderType;
 
 namespace Game;
 
@@ -18,16 +20,65 @@ public class TestingScene1 : RLScene, RLKeyboard
     public TextureManager TextureManager { get; set; }
     public RLEngine Engine { get; set; }
 
-    private Transformable<Mesh> mesh;
-    
-    // The quad vertices data. Now with Texture coordinates!
-    float[] vertices =
+    private Transformable<Mesh> mesh1;
+    private Camera camera;
+
+    private Vector3D<float>[] cubePositions =
     {
-    //       aPosition     | aTexCoords
-        0.5f,  0.5f, 0.0f,  1.0f, 1.0f,
-        0.5f, -0.5f, 0.0f,  1.0f, 0.0f,
-        -0.5f, -0.5f, 0.0f,  0.0f, 0.0f,
-        -0.5f,  0.5f, 0.0f,  0.0f, 1.0f
+        new Vector3D<float>( 3.0f,  0.0f,  3.0f), 
+        new Vector3D<float>( 5.0f,  5.0f, 15.0f), 
+        new Vector3D<float>(2.5f, -2.2f, 3.5f),  
+        new Vector3D<float>(4.8f, -2.0f, 12.3f),  
+        new Vector3D<float>( 6.4f, -0.4f, 3.5f),  
+        new Vector3D<float>(4.7f,  3.0f, 7.5f),  
+        new Vector3D<float>( 5.3f, -2.0f, 3.5f),  
+        new Vector3D<float>( 5.5f,  2.0f, 3.5f), 
+        new Vector3D<float>( 5.5f,  0.2f, 3.5f), 
+        new Vector3D<float>(3.3f,  1.0f, 3.5f) 
+    };
+    
+    float[] vertices = {
+        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+         0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+    
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+    
+        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+        -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+    
+        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
     };
         
     uint[] indices =
@@ -39,34 +90,41 @@ public class TestingScene1 : RLScene, RLKeyboard
     public void OnLoad()
     {
         Log.Information("Scene 1 Loaded");
-
+        
         ShaderManager.TryAdd(
             "basic",
             new RLShader(Graphics, ShaderType.Vertex, RLConstants.RL_BASIC_SHADER_VERT),
             new RLShader(Graphics, ShaderType.Fragment, RLConstants.RL_BASIC_SHADER_FRAG)
         );
-
+        
         TextureManager.TryAdd(
-            "no-texture",
-            new RLTexture(Graphics, RLConstants.RL_NO_TEXTURE)
-        );
-
+            "fuckass-angus",
+            new RLTexture(Graphics, RLFiles.GetEmbeddedResourceBytes("RedLight.Resources.Textures.thing.png")));
+        
         Graphics.EnableDepth();
-
-        mesh = Graphics.CreateMesh(
-            vertices, indices,
-            ShaderManager.Get("basic").vertexShader,
+        camera = new Camera(float.DegreesToRadians(99.0f), (float)800/600, 0.1f, 100.0f);
+        
+        mesh1 = Graphics.CreateMesh(
+            vertices, indices, 
+            ShaderManager.Get("basic").vertexShader, 
             ShaderManager.Get("basic").fragmentShader)
             .MakeTransformable();
-
-        mesh.Reset(1.0f).Project(float.DegreesToRadians(45.0f), (float)Engine.Window.Window.Size.X / Engine.Window.Window.Size.X, 0.1f, 100.0f)
-        .Translate(new Vector3D<float>(0, 0, 3));
+        
+        mesh1.Translate(camera, new Vector3D<float>(0, 0, 3)).SetDefault();
     }
-
+    
 
     public void OnUpdate(double deltaTime)
     {
-        mesh.Rotate(float.DegreesToRadians(1.0f), new Vector3D<float>(1, 1, 1));
+        // Make the camera spin in a circle around the origin
+        float radius = 10.0f;
+        float camX = (float)(Math.Sin(Environment.TickCount / 1000.0) * radius);
+        float camZ = (float)(Math.Cos(Environment.TickCount / 1000.0) * radius);
+        camera.LookAt(
+            new Vector3D<float>(camX, 0, camZ),
+            new Vector3D<float>(0, 0, 0),
+            new Vector3D<float>(0, 1, 0)
+        );
     }
 
     public void OnRender(double deltaTime)
@@ -74,22 +132,26 @@ public class TestingScene1 : RLScene, RLKeyboard
         Graphics.Clear();
         Graphics.ClearColour(new RLGraphics.Colour { r = 100f/256, g = 146f/256, b = 237f/256, a = 1f });
 
+        Graphics.UpdateView(camera, mesh1);
+        Graphics.UpdateProjection(camera, mesh1);
+
         Graphics.ActivateTexture();
         Graphics.BindTexture(TextureManager.Get("no-texture"));
-        
-        Graphics.Use(mesh);
-        
-        Graphics.UpdateModel(mesh);
-        Graphics.UpdateView(mesh);
-        Graphics.UpdateProjection(mesh);
+        Graphics.Use(mesh1);
 
-        Graphics.LogVector("Camera", Graphics.MeshToVector(mesh));
-        Graphics.LogMatrix4("View", mesh.View);
-        Graphics.LogMatrix4("Model", mesh.Model);
-        Graphics.LogMatrix4("Projection", mesh.Projection);
-        Log.Verbose("");
-        
-        Graphics.Draw(indices.Length);
+        foreach (var position in cubePositions)
+        {
+            mesh1.AbsoluteReset();
+            mesh1.SetModel(Matrix4X4.CreateTranslation(position));
+            Graphics.UpdateModel(mesh1);
+            Graphics.Draw();
+        }
+
+        mesh1.AbsoluteReset();
+        Graphics.BindTexture(TextureManager.Get("fuckass-angus"));
+        Graphics.UpdateModel(mesh1);
+        Graphics.Draw();
+
         var err = Graphics.OpenGL.GetError();
         if (err != 0)
             Log.Error("GL Error: {Error}", err);
