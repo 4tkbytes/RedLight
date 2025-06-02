@@ -17,6 +17,7 @@ public class RLEngine
     public RLWindow Window { get; private set; }
     public RLGraphics Graphics { get; private set; }
     public RLKeyboard Keyboard { get; set; }
+    public RLMouse Mouse { get; set; }
     public SceneManager SceneManager { private get; set; }
     private IInputContext input;
 
@@ -49,7 +50,7 @@ public class RLEngine
             if (startingScene != null)
             {
                 SceneManager.SwitchScene(startingScene);
-                SubscribeToKeyboard(startingScene as RLKeyboard);
+                SubscribeToInputs(startingScene as RLKeyboard, startingScene as RLMouse);
             }
             
             startingScene.TextureManager.TryAdd(
@@ -84,18 +85,30 @@ public class RLEngine
         Graphics.OpenGL.Viewport(newSize);
     }
 
-    internal void SubscribeToKeyboard(RLKeyboard keyboardManager)
+    internal void SubscribeToInputs(RLKeyboard keyboardManager, RLMouse mouseManager)
     {
-        if (Keyboard == keyboardManager || input == null)
+        if (input == null)
             return;
 
-        foreach (var kb in input.Keyboards)
+        if (keyboardManager != null)
         {
-            kb.KeyDown += keyboardManager.OnKeyDown;
-            kb.KeyUp += keyboardManager.OnKeyUp;
+            foreach (var kb in input.Keyboards)
+            {
+                kb.KeyDown += keyboardManager.OnKeyDown;
+                kb.KeyUp += keyboardManager.OnKeyUp;
+            }
+        }
+
+        if (mouseManager != null)
+        {
+            foreach (var mouse in input.Mice)
+            {
+                mouse.MouseMove += mouseManager.OnMouseMove;
+            }
         }
 
         Keyboard = keyboardManager;
+        Mouse = mouseManager;
         Log.Debug("Subscribed to keyboard");
     }
     
@@ -116,18 +129,30 @@ public class RLEngine
         Log.Information("Logger is logging at strength [{A}]", logStrength);
     }
 
-    internal void UnsubscribeFromKeyboard(RLKeyboard keyboardManager)
+    internal void UnsubscribeFromInputs(RLKeyboard keyboardManager, RLMouse mouseManager)
     {
-        if (Keyboard != keyboardManager || input == null)
+        if (input == null)
             return;
 
-        foreach (var kb in input.Keyboards)
+        if (keyboardManager != null)
         {
-            kb.KeyDown -= keyboardManager.OnKeyDown;
-            kb.KeyUp -= keyboardManager.OnKeyUp;
+            foreach (var kb in input.Keyboards)
+            {
+                kb.KeyDown += keyboardManager.OnKeyDown;
+                kb.KeyUp += keyboardManager.OnKeyUp;
+            }
+        }
+
+        if (mouseManager != null)
+        {
+            foreach (var mouse in input.Mice)
+            {
+                mouse.MouseMove += mouseManager.OnMouseMove;
+            }
         }
 
         Keyboard = null;
+        Mouse = null;
         Log.Debug("Unsubscribed from keyboard");
     }
 

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Numerics;
 using RedLight;
 using RedLight.Graphics;
 using RedLight.Input;
@@ -13,7 +14,7 @@ using ShaderType = RedLight.Graphics.ShaderType;
 
 namespace Game;
 
-public class TestingScene1 : RLScene, RLKeyboard
+public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 {
     public RLGraphics Graphics { get; set; }
     public SceneManager SceneManager { get; set; }
@@ -24,7 +25,7 @@ public class TestingScene1 : RLScene, RLKeyboard
 
     private Transformable<Mesh> mesh1;
     private Camera camera;
-
+    
     private Vector3D<float>[] cubePositions =
     {
         new Vector3D<float>( 3.0f,  0.0f,  3.0f), 
@@ -188,5 +189,30 @@ public class TestingScene1 : RLScene, RLKeyboard
     {
         PressedKeys.Remove(key);
     }
-    
+
+    public void OnMouseMove(IMouse mouse, Vector2 mousePosition)
+    {
+        var lastPosition = Engine.Window.Window.Size;
+        float lastX = lastPosition.X, lastY = lastPosition.Y;
+        float xoffset = mousePosition.X - lastX;
+        float yoffset = mousePosition.Y - lastY;
+        lastX = mousePosition.X;
+        lastY = mousePosition.Y;
+
+        xoffset *= camera.Sensitivity;
+        yoffset *= camera.Sensitivity;
+        camera.Yaw += xoffset;    // yaw
+        camera.Pitch += yoffset;    // pitch
+        
+        if(camera.Pitch > 89.0f)
+            camera.Pitch =  89.0f;
+        if(camera.Pitch < -89.0f)
+            camera.Pitch = -89.0f;
+
+        Vector3D<float> direction = new();
+        direction.X = float.Cos(float.DegreesToRadians(camera.Yaw)) * float.Cos(float.DegreesToRadians(camera.Pitch));
+        direction.Y = float.Sin(float.DegreesToRadians(camera.Pitch));
+        direction.Z = float.Sin(float.DegreesToRadians(camera.Yaw)) * float.Cos(float.DegreesToRadians(camera.Pitch));
+        camera = camera.SetFront(direction);
+    }
 }

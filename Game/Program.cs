@@ -19,8 +19,8 @@ class Program
         var sceneManager = new SceneManager(engine, shaderManager, textureManager);
         engine.SceneManager = sceneManager;
 
-        sceneManager.Add("testing_scene_1", scene1, scene1);
-        sceneManager.Add("testing_scene_2", scene2, scene2);
+        sceneManager.Add("testing_scene_1", scene1, scene1, scene1);
+        sceneManager.Add("testing_scene_2", scene2, scene2, scene2);
         
         engine.Run();
     }

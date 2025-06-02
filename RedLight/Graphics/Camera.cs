@@ -11,8 +11,13 @@ public class Camera
     public Vector3D<float> Position { get; private set; }
     public Vector3D<float> Front { get; private set; }
     public Vector3D<float> Up { get; private set; }
+    public float Yaw { get; set; }
+    public float Pitch { get; set; }
+
 
     public float Speed { get; private set; } = 0.05f;
+    public float Sensitivity { get; private set; } = 0.1f;
+
 
     private Vector3D<float> cameraTarget;
 
@@ -57,6 +62,12 @@ public class Camera
     public Camera SetSpeed(float speed)
     {
         Speed = speed;
+        return this;
+    }
+
+    public Camera SetFront(Vector3D<float> direction)
+    {
+        Front = Vector3D.Normalize<float>(direction);
         return this;
     }
 

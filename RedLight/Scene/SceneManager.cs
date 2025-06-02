@@ -8,6 +8,7 @@ public class SceneManager
 {
     private Dictionary<string, RLScene> scenes;
     private Dictionary<string, RLKeyboard> keyboards;
+    private Dictionary<string, RLMouse> mouses;
     private RLEngine engine;
     private ShaderManager shaderManager;
     private TextureManager textureManager;
@@ -15,6 +16,7 @@ public class SceneManager
     private string currentSceneId;
     private RLScene currentScene;
     private RLKeyboard currentKeyboard;
+    private RLMouse currentMouse;
 
     internal bool coconutToggle = false;
 
@@ -22,12 +24,13 @@ public class SceneManager
     {
         scenes = new Dictionary<string, RLScene>();
         keyboards = new Dictionary<string, RLKeyboard>();
+        mouses = new Dictionary<string, RLMouse>();
         this.engine = engine;
         this.shaderManager = shaderManager;
         this.textureManager = textureManager;
     }
 
-    public void Add(string id, RLScene scene, RLKeyboard keyboard)
+    public void Add(string id, RLScene scene, RLKeyboard keyboard, RLMouse mouse)
     {
         if (scenes.ContainsKey(id))
         {
@@ -36,6 +39,7 @@ public class SceneManager
         scenes.Add(id, scene);
         
         keyboards.Add(id, keyboard);
+        mouses.Add(id, mouse);
         
         if (currentScene == null)
         {
@@ -68,7 +72,7 @@ public class SceneManager
         if (currentScene != null)
         {
             engine.Window.UnsubscribeFromEvents(currentScene);
-            engine.UnsubscribeFromKeyboard(currentKeyboard);
+            engine.UnsubscribeFromInputs(currentKeyboard, currentMouse);
         }
 
         currentSceneId = id;
@@ -82,7 +86,7 @@ public class SceneManager
         currentScene.ShaderManager = shaderManager;
         currentScene.TextureManager = textureManager;
     
-        engine.SubscribeToKeyboard(currentKeyboard);
+        engine.SubscribeToInputs(currentKeyboard, currentMouse);
 
         currentScene.OnLoad();
     }

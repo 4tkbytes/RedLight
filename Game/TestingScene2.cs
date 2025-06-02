@@ -1,3 +1,4 @@
+using System.Numerics;
 using RedLight;
 using RedLight.Graphics;
 using RedLight.Input;
@@ -7,7 +8,7 @@ using Silk.NET.Input;
 
 namespace Game;
 
-public class TestingScene2 : RLScene, RLKeyboard
+public class TestingScene2 : RLScene, RLKeyboard, RLMouse
 {
     public RLEngine Engine { get; set; }
     public RLGraphics Graphics { get; set; }
@@ -39,5 +40,10 @@ public class TestingScene2 : RLScene, RLKeyboard
         {
             SceneManager.SwitchScene("testing_scene_1");
         }
+    }
+
+    public void OnMouseMove(IMouse mouse, Vector2 mousePosition)
+    {
+        
     }
 }
