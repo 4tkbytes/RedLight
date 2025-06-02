@@ -4,5 +4,15 @@ namespace RedLight.Input;
 
 public interface RLKeyboard
 {
-    void OnKeyDown(IKeyboard keyboard, Key key, int keyCode);
+    public HashSet<Key> PressedKeys { get; }
+
+    void OnKeyDown(IKeyboard keyboard, Key key, int keyCode)
+    {
+        PressedKeys.Add(key);
+    }
+
+    void OnKeyUp(IKeyboard keyboard, Key key, int keyCode)
+    {
+        PressedKeys.Remove(key);
+    }
 }

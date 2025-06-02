@@ -31,6 +31,8 @@ public class TestingScene2 : RLScene, RLKeyboard
         Graphics.ClearColour(new RLGraphics.Colour { r = 0f, g = 0f, b = 0f, a = 0f });
     }
 
+    public HashSet<Key> PressedKeys { get; } = new();
+
     public void OnKeyDown(IKeyboard keyboard, Key key, int keyCode)
     {
         if (key == Key.Right)

@@ -90,6 +90,10 @@ public class Mesh
         }
     }
 
-    public Transformable<Mesh> MakeTransformable() => new Transformable<Mesh>(this);
+    public Transformable<Mesh> MakeTransformable()
+    {
+        Log.Verbose("Made mesh transformable");
+        return new Transformable<Mesh>(this);
+    }
     
 }

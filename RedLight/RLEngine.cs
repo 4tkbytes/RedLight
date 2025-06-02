@@ -19,13 +19,19 @@ public class RLEngine
     public RLKeyboard Keyboard { get; set; }
     public SceneManager SceneManager { private get; set; }
     private IInputContext input;
-    private bool coconutBool = false;
+
+    private int logStrength = 0;
+    private bool fullscreen = false;
     
-    public RLEngine(int width, int height, string title, RLScene startingScene)
+    public RLEngine(int width, int height, string title, RLScene startingScene, string[] args)
     {
+        ParseArguments(args);
+        InitialiseLogger();
         WindowOptions options = WindowOptions.Default;
         options.Size = new Vector2D<int>(width, height);
         options.Title = title;
+        if (fullscreen)
+            options.WindowState = WindowState.Fullscreen;
         
         Window = new RLWindow(options, startingScene);
         Log.Debug("Window has been created");
@@ -53,6 +59,25 @@ public class RLEngine
         };
         Window.Window.FramebufferResize += OnFramebufferResize;
     }
+
+    private void ParseArguments(string[] args)
+    {
+        foreach (var arg in args)
+        {
+            if (arg.StartsWith("--Log="))
+            {
+                var parts = arg.Split('=', 2);
+                if (parts.Length == 2 && int.TryParse(parts[1], out var level))
+                {
+                    logStrength = level;
+                }
+            }
+            else if (arg.Equals("--Fullscreen", StringComparison.OrdinalIgnoreCase))
+            {
+                fullscreen = true;
+            }
+        }
+    }
     
     private void OnFramebufferResize(Vector2D<int> newSize)
     {
@@ -65,26 +90,30 @@ public class RLEngine
             return;
 
         foreach (var kb in input.Keyboards)
+        {
             kb.KeyDown += keyboardManager.OnKeyDown;
+            kb.KeyUp += keyboardManager.OnKeyUp;
+        }
 
         Keyboard = keyboardManager;
         Log.Debug("Subscribed to keyboard");
     }
     
-    
-
-    public static void InitialiseLogger()
+    public void InitialiseLogger()
     {
-        Log.Logger = new LoggerConfiguration()
-#if DEBUG
-            .MinimumLevel.Debug()
-#endif
+        var shitfuck = new LoggerConfiguration()
             .WriteTo.Console()
             .WriteTo.File("logs/log.txt",
                 rollingInterval: RollingInterval.Day,
-                rollOnFileSizeLimit: true)
-            .CreateLogger();
+                rollOnFileSizeLimit: true);
+        if (logStrength == 1)
+            shitfuck.MinimumLevel.Debug();
+        if (logStrength == 2)
+            shitfuck.MinimumLevel.Verbose();
+        
+        Log.Logger = shitfuck.CreateLogger();
         Log.Information("Logger has been created");
+        Log.Information("Logger is logging at strength [{A}]", logStrength);
     }
 
     internal void UnsubscribeFromKeyboard(RLKeyboard keyboardManager)
@@ -93,7 +122,10 @@ public class RLEngine
             return;
 
         foreach (var kb in input.Keyboards)
+        {
             kb.KeyDown -= keyboardManager.OnKeyDown;
+            kb.KeyUp -= keyboardManager.OnKeyUp;
+        }
 
         Keyboard = null;
         Log.Debug("Unsubscribed from keyboard");
@@ -102,5 +134,6 @@ public class RLEngine
     public void Run()
     {
         Window.Window.Run();
+        Log.Information("Exiting RedLight Engine now");
     }
 }

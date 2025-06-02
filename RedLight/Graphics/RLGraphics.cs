@@ -22,6 +22,7 @@ public class RLGraphics
     public Mesh CreateMesh(float[] vertices, uint[] indices, RLShader vertexShader, RLShader fragmentShader)
     {
         return new Mesh(OpenGL, vertices, indices, vertexShader, fragmentShader);
+        Log.Debug("Mesh created successfully");
     }
 
     public void EnableDepth()

@@ -20,6 +20,7 @@ public class TestingScene1 : RLScene, RLKeyboard
     public ShaderManager ShaderManager { get; set; }
     public TextureManager TextureManager { get; set; }
     public RLEngine Engine { get; set; }
+    public HashSet<Key> PressedKeys { get; } = new();
 
     private Transformable<Mesh> mesh1;
     private Camera camera;
@@ -87,9 +88,7 @@ public class TestingScene1 : RLScene, RLKeyboard
         0u, 1u, 3u,
         1u, 2u, 3u
     };
-
-    private HashSet<Key> pressedKeys = new HashSet<Key>();
-
+    
     public void OnLoad()
     {
         Log.Information("Scene 1 Loaded");
@@ -105,6 +104,7 @@ public class TestingScene1 : RLScene, RLKeyboard
             new RLTexture(Graphics, RLFiles.GetEmbeddedResourceBytes("RedLight.Resources.Textures.thing.png")));
         
         Graphics.EnableDepth();
+        
         camera = new Camera(new Vector3D<float>(0,0,3),
             new Vector3D<float>(0,0,-1),
             new Vector3D<float>(0,1,0),
@@ -115,25 +115,28 @@ public class TestingScene1 : RLScene, RLKeyboard
             ShaderManager.Get("basic").vertexShader, 
             ShaderManager.Get("basic").fragmentShader)
             .MakeTransformable();
-        
-        mesh1.Translate(camera, new Vector3D<float>(0, 0, 3)).SetDefault();
-        mesh1.Reset();
-        
-        Graphics.UpdateProjection(camera, mesh1);
     }
     
 
     public void OnUpdate(double deltaTime)
     {
-        float speed = 0.1f * (float)deltaTime;
-        if (pressedKeys.Contains(Key.W))
-            camera = camera.MoveForward(speed);
-        if (pressedKeys.Contains(Key.S))
-            camera = camera.MoveBack(speed);
-        if (pressedKeys.Contains(Key.A))
-            camera = camera.MoveLeft(speed);
-        if (pressedKeys.Contains(Key.D))
-            camera = camera.MoveRight(speed);
+        if (camera == null)
+        {
+            Log.Error("Camera is null in OnUpdate!");
+            return;
+        }
+        if (PressedKeys.Contains(Key.W))
+            camera = camera.MoveForward();
+        if (PressedKeys.Contains(Key.S))
+            camera = camera.MoveBack();
+        if (PressedKeys.Contains(Key.A))
+            camera = camera.MoveLeft();
+        if (PressedKeys.Contains(Key.D))
+            camera = camera.MoveRight();
+        if (PressedKeys.Contains(Key.ShiftLeft))
+            camera = camera.MoveDown();
+        if (PressedKeys.Contains(Key.Space))
+            camera = camera.MoveUp();
         camera = camera.SetPosition(camera.Position).UpdateCamera();
     }
 
@@ -141,9 +144,7 @@ public class TestingScene1 : RLScene, RLKeyboard
     {
         Graphics.Clear();
         Graphics.ClearColour(new RLGraphics.Colour { r = 100f/256, g = 146f/256, b = 237f/256, a = 1f });
-
-        Graphics.UpdateView(camera, mesh1);
-
+        
         Graphics.ActivateTexture();
         Graphics.BindTexture(TextureManager.Get("no-texture"));
         Graphics.Use(mesh1);
@@ -159,16 +160,18 @@ public class TestingScene1 : RLScene, RLKeyboard
         mesh1.AbsoluteReset();
         Graphics.BindTexture(TextureManager.Get("fuckass-angus"));
         Graphics.UpdateModel(mesh1);
+        Graphics.UpdateView(camera, mesh1);
+        Graphics.UpdateProjection(camera, mesh1);
         Graphics.Draw();
 
         var err = Graphics.OpenGL.GetError();
         if (err != 0)
             Log.Error("GL Error: {Error}", err);
     }
-
+    
     public void OnKeyDown(IKeyboard keyboard, Key key, int keyCode)
     {
-        pressedKeys.Add(key);
+        PressedKeys.Add(key);
         if (key == Key.Escape)
         {
             Engine.Window.Window.Close();
@@ -181,6 +184,7 @@ public class TestingScene1 : RLScene, RLKeyboard
 
     public void OnKeyUp(IKeyboard keyboard, Key key, int keyCode)
     {
-        pressedKeys.Remove(key);
+        PressedKeys.Remove(key);
     }
+    
 }

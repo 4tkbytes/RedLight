@@ -1,4 +1,6 @@
-﻿using Silk.NET.Maths;
+﻿using Serilog;
+using Serilog.Core;
+using Silk.NET.Maths;
 
 namespace RedLight.Graphics;
 
@@ -18,24 +20,25 @@ public class Camera
         float fov, float aspect, float near, float far)
     {
         Position = cameraPosition;
-        Front = cameraFront; // <-- Fix: assign cameraFront to Front
+        Front = Vector3D.Normalize(cameraFront);
+        Up = Vector3D.Normalize(cameraUp);
         Projection = Matrix4X4.Add(Projection, Matrix4X4.CreatePerspectiveFieldOfView(fov, aspect, near, far));
         
-        cameraTarget = Position + cameraFront;
-        Up = cameraUp;
-        
+        cameraTarget = Position + Front;
         View = Matrix4X4.CreateLookAt(
             Position,
             cameraTarget,
             Up
         );
+        Log.Verbose("Created new Camera class");
     }
 
     public Camera UpdateCamera()
     {
-        cameraTarget = Position + Vector3D.Normalize(Front); // Always look in the direction of Front
+        cameraTarget = Position + Vector3D.Normalize(Front);
         LookAt(Position, cameraTarget, Up);
         
+        Log.Verbose("Updated camera target");
         return this;
     }
 
@@ -47,6 +50,7 @@ public class Camera
             cameraUpVector
         );
         
+        Log.Verbose("Looking at new view");
         return this;
     }
 
@@ -68,6 +72,18 @@ public class Camera
         return this;
     }
 
+    public Camera MoveUp()
+    {
+        Position += Up * Speed;
+        return this;
+    }
+
+    public Camera MoveDown()
+    {
+        Position -= Up * Speed;
+        return this;
+    }
+
     public Camera MoveLeft()
     {
         Position -= Vector3D.Normalize(Vector3D.Cross(Front, Up)) * Speed;
@@ -80,21 +96,27 @@ public class Camera
         return this;
     }
 
-    public Camera SetFront(Vector3D<float> front)
-    {
-        Front = Vector3D.Normalize(front);
-        return this;
-    }
-
     public Camera MoveForward(float speed)
     {
-        Position += speed * Vector3D.Normalize(Front);
+        Position += speed * Front;
         return this;
     }
     
     public Camera MoveBack(float speed)
     {
-        Position -= speed * Vector3D.Normalize(Front);
+        Position -= speed * Front;
+        return this;
+    }
+    
+    public Camera MoveUp(float speed)
+    {
+        Position += Up * speed;
+        return this;
+    }
+
+    public Camera MoveDown(float speed)
+    {
+        Position -= Up * speed;
         return this;
     }
 
@@ -114,6 +136,7 @@ public class Camera
 
     public Camera SetPosition(Vector3D<float> pos)
     {
+        Log.Verbose("Position set [{A}] -> [{B}]", Position, pos);
         Position = pos;
         return this;
     }

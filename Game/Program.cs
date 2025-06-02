@@ -10,10 +10,9 @@ class Program
 { 
     static void Main(string[] args)
     {
-        RLEngine.InitialiseLogger();
         var scene1 = new TestingScene1();
         var scene2 = new TestingScene2();
-        var engine = new RLEngine(800, 600, "Example Game", scene1);
+        var engine = new RLEngine(800, 600, "Example Game", scene1, args);
 
         var shaderManager = new ShaderManager();
         var textureManager = new TextureManager();
