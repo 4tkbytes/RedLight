@@ -25,6 +25,9 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 
     private Transformable<Mesh> mesh1;
     private Camera camera;
+    private IMouse mouse;
+
+    private bool isCaptured = true;
     
     private Vector3D<float>[] cubePositions =
     {
@@ -183,6 +186,11 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         {
             SceneManager.SwitchScene("testing_scene_2");
         }
+        if (key == Key.Left)
+        {
+            isCaptured = !isCaptured;
+            Log.Debug("Changing mouse capture mode [{A}]", isCaptured);
+        }
     }
 
     public void OnKeyUp(IKeyboard keyboard, Key key, int keyCode)
@@ -192,27 +200,9 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 
     public void OnMouseMove(IMouse mouse, Vector2 mousePosition)
     {
-        var lastPosition = Engine.Window.Window.Size;
-        float lastX = lastPosition.X, lastY = lastPosition.Y;
-        float xoffset = mousePosition.X - lastX;
-        float yoffset = mousePosition.Y - lastY;
-        lastX = mousePosition.X;
-        lastY = mousePosition.Y;
-
-        xoffset *= camera.Sensitivity;
-        yoffset *= camera.Sensitivity;
-        camera.Yaw += xoffset;    // yaw
-        camera.Pitch += yoffset;    // pitch
+        this.mouse = mouse;
         
-        if(camera.Pitch > 89.0f)
-            camera.Pitch =  89.0f;
-        if(camera.Pitch < -89.0f)
-            camera.Pitch = -89.0f;
-
-        Vector3D<float> direction = new();
-        direction.X = float.Cos(float.DegreesToRadians(camera.Yaw)) * float.Cos(float.DegreesToRadians(camera.Pitch));
-        direction.Y = float.Sin(float.DegreesToRadians(camera.Pitch));
-        direction.Z = float.Sin(float.DegreesToRadians(camera.Yaw)) * float.Cos(float.DegreesToRadians(camera.Pitch));
-        camera = camera.SetFront(direction);
+        Graphics.IsCaptured(mouse, isCaptured);
+        camera.FreeMove(mousePosition);
     }
 }

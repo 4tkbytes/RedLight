@@ -1,6 +1,9 @@
+using RedLight.Core;
 using Serilog;
+using Silk.NET.Input;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;
+using Silk.NET.Windowing;
 
 namespace RedLight.Graphics;
 
@@ -23,6 +26,15 @@ public class RLGraphics
     {
         return new Mesh(OpenGL, vertices, indices, vertexShader, fragmentShader);
         Log.Debug("Mesh created successfully");
+    }
+
+    public void IsCaptured(IMouse mouse, bool isCaptured)
+    {
+        if (!isCaptured)
+            mouse.Cursor.CursorMode = CursorMode.Normal;
+
+        if (isCaptured)
+            mouse.Cursor.CursorMode = CursorMode.Disabled;
     }
 
     public void EnableDepth()

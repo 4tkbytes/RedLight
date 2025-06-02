@@ -103,6 +103,7 @@ public class RLEngine
         {
             foreach (var mouse in input.Mice)
             {
+                mouse.Cursor.CursorMode = CursorMode.Disabled;    // soon change using scene state enum
                 mouse.MouseMove += mouseManager.OnMouseMove;
             }
         }

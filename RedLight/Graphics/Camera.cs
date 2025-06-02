@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using System.Numerics;
+using Serilog;
 using Serilog.Core;
 using Silk.NET.Maths;
 
@@ -6,6 +7,7 @@ namespace RedLight.Graphics;
 
 public class Camera
 {
+    // changable variables
     public Matrix4X4<float> View { get; set; } = Matrix4X4<float>.Identity;
     public Matrix4X4<float> Projection { get; private set; } = Matrix4X4<float>.Identity;
     public Vector3D<float> Position { get; private set; }
@@ -14,12 +16,15 @@ public class Camera
     public float Yaw { get; set; }
     public float Pitch { get; set; }
 
-
+    // constants
     public float Speed { get; private set; } = 0.05f;
     public float Sensitivity { get; private set; } = 0.1f;
 
-
+    // internal variables
     private Vector3D<float> cameraTarget;
+    private float lastX = 0;
+    private float lastY = 0;
+    private bool firstMouse = true;
 
     public Camera(Vector3D<float> cameraPosition, Vector3D<float> cameraFront, Vector3D<float> cameraUp,
         float fov, float aspect, float near, float far)
@@ -57,6 +62,42 @@ public class Camera
         
         Log.Verbose("Looking at new view");
         return this;
+    }
+
+    public void FreeMove(Vector2 mousePosition)
+    {
+        var camera = this;
+        
+        float xpos = mousePosition.X;
+        float ypos = mousePosition.Y;
+
+        if (firstMouse)
+        {
+            lastX = xpos;
+            lastY = ypos;
+            firstMouse = false;
+        }
+
+        float xoffset = xpos - lastX;
+        float yoffset = lastY - ypos;
+        lastX = xpos;
+        lastY = ypos;
+
+        xoffset *= camera.Sensitivity;
+        yoffset *= camera.Sensitivity;
+        camera.Yaw += xoffset;    // yaw
+        camera.Pitch += yoffset;  // pitch
+        
+        if(camera.Pitch > 89.0f)
+            camera.Pitch =  89.0f;
+        if(camera.Pitch < -89.0f)
+            camera.Pitch = -89.0f;
+
+        Vector3D<float> direction = new();
+        direction.X = float.Cos(float.DegreesToRadians(camera.Yaw)) * float.Cos(float.DegreesToRadians(camera.Pitch));
+        direction.Y = float.Sin(float.DegreesToRadians(camera.Pitch));
+        direction.Z = float.Sin(float.DegreesToRadians(camera.Yaw)) * float.Cos(float.DegreesToRadians(camera.Pitch));
+        camera = camera.SetFront(direction);
     }
 
     public Camera SetSpeed(float speed)
