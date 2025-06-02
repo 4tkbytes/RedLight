@@ -87,9 +87,10 @@ public class Transformable<T>
         return this;
     }
 
-    public void SetModel(Matrix4X4<float> model)
+    public Transformable<T> SetModel(Matrix4X4<float> model)
     {
         Model = model;
+        return this;
     }
 
     public T Target => target;

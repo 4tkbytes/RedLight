@@ -28,71 +28,36 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     private IMouse mouse;
 
     private bool isCaptured = true;
+    private readonly List<Transformable<Mesh>> spawnedObjects = new();
+    private double spawnTimer = 0.0;
     
-    private Vector3D<float>[] cubePositions =
-    {
-        new Vector3D<float>( 3.0f,  0.0f,  3.0f), 
-        new Vector3D<float>( 5.0f,  5.0f, 15.0f), 
-        new Vector3D<float>(2.5f, -2.2f, 3.5f),  
-        new Vector3D<float>(4.8f, -2.0f, 12.3f),  
-        new Vector3D<float>( 6.4f, -0.4f, 3.5f),  
-        new Vector3D<float>(4.7f,  3.0f, 7.5f),  
-        new Vector3D<float>( 5.3f, -2.0f, 3.5f),  
-        new Vector3D<float>( 5.5f,  2.0f, 3.5f), 
-        new Vector3D<float>( 5.5f,  0.2f, 3.5f), 
-        new Vector3D<float>(3.3f,  1.0f, 3.5f) 
-    };
-    
+   // 8 unique vertices (position + uv)
     float[] vertices = {
-        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-         0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-    
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-    
-        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-    
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-    
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-    
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+        // positions        // uvs
+        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // 0
+        0.5f, -0.5f, -0.5f,  1.0f, 0.0f, // 1
+        0.5f,  0.5f, -0.5f,  1.0f, 1.0f, // 2
+        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, // 3
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, // 4
+        0.5f, -0.5f,  0.5f,  1.0f, 0.0f, // 5
+        0.5f,  0.5f,  0.5f,  1.0f, 1.0f, // 6
+        -0.5f,  0.5f,  0.5f,  0.0f, 1.0f  // 7
     };
-        
-    uint[] indices =
-    {
-        0u, 1u, 3u,
-        1u, 2u, 3u
+
+    uint[] indices = {
+        // back face
+        0, 1, 2, 2, 3, 0,
+        // front face
+        4, 5, 6, 6, 7, 4,
+        // left face
+        4, 0, 3, 3, 7, 4,
+        // right face
+        1, 5, 6, 6, 2, 1,
+        // bottom face
+        4, 5, 1, 1, 0, 4,
+        // top face
+        3, 2, 6, 6, 7, 3
     };
-    
     public void OnLoad()
     {
         Log.Information("Scene 1 Loaded");
@@ -113,12 +78,6 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
             new Vector3D<float>(0,0,-1),
             new Vector3D<float>(0,1,0),
             float.DegreesToRadians(99.0f), (float)800/600, 0.1f, 100.0f).SetSpeed(0.05f);
-        
-        mesh1 = Graphics.CreateMesh(
-            vertices, indices, 
-            ShaderManager.Get("basic").vertexShader, 
-            ShaderManager.Get("basic").fragmentShader)
-            .MakeTransformable();
     }
     
 
@@ -144,6 +103,25 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         if (PressedKeys.Contains(Key.Space))
             camera = camera.MoveUp();
         camera = camera.SetPosition(camera.Position).UpdateCamera();
+        
+        spawnTimer += deltaTime;
+        if (spawnTimer >= 1.0)
+        {
+            spawnTimer = 0.0;
+            var random = new Random();
+            var position = new Vector3D<float>(
+                (float)(random.NextDouble() * random.Next(-12, 12)),
+                (float)(random.NextDouble() * random.Next(-12, 12)),
+                (float)(random.NextDouble() * random.Next(-12, 12))
+            );
+            var newObject = Graphics.CreateMesh(vertices, indices,
+                    ShaderManager.Get("basic").vertexShader,
+                    ShaderManager.Get("basic").fragmentShader)
+                .MakeTransformable()
+                .SetModel(Matrix4X4.CreateTranslation(position));
+            spawnedObjects.Add(newObject);
+            Log.Debug("Spawned object count: {0}", spawnedObjects.Count);
+        }
     }
 
     public void OnRender(double deltaTime)
@@ -151,28 +129,16 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         Graphics.Clear();
         Graphics.ClearColour(new RLGraphics.Colour { r = 100f/256, g = 146f/256, b = 237f/256, a = 1f });
         
-        Graphics.ActivateTexture();
-        Graphics.BindTexture(TextureManager.Get("no-texture"));
-        Graphics.Use(mesh1);
-
-        foreach (var position in cubePositions)
+        foreach (var obj in spawnedObjects)
         {
-            mesh1.AbsoluteReset();
-            mesh1.SetModel(Matrix4X4.CreateTranslation(position));
-            Graphics.UpdateModel(mesh1);
-            Graphics.Draw();
+            Graphics.Use(obj);
+            Graphics.BindTexture(TextureManager.Get("no-texture"));
+            Graphics.UpdateView(camera, obj);
+            Graphics.UpdateProjection(camera, obj);
+            Graphics.UpdateModel(obj);
+            Graphics.Draw(indices.Length);
+            Graphics.CheckGLErrors();
         }
-
-        mesh1.AbsoluteReset();
-        Graphics.BindTexture(TextureManager.Get("fuckass-angus"));
-        Graphics.UpdateModel(mesh1);
-        Graphics.UpdateView(camera, mesh1);
-        Graphics.UpdateProjection(camera, mesh1);
-        Graphics.Draw();
-
-        var err = Graphics.OpenGL.GetError();
-        if (err != 0)
-            Log.Error("GL Error: {Error}", err);
     }
     
     public void OnKeyDown(IKeyboard keyboard, Key key, int keyCode)

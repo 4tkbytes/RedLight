@@ -74,6 +74,13 @@ public class RLGraphics
         }
     }
 
+    public void CheckGLErrors()
+    {
+        var err = OpenGL.GetError();
+        if (err != 0)
+            Log.Error("GL Error: {Error}", err.ToString());
+    }
+
     public void UpdateModel(Transformable<Mesh> Tmesh)
     {
         unsafe
@@ -135,11 +142,11 @@ public class RLGraphics
         OpenGL.BindTexture(TextureTarget.Texture2D, rlTexture.Handle);
     }
 
-    public void Draw(/*int lengthOfIndices*/)
+    public void Draw(int lengthOfIndices)
     {
         unsafe
         {
-            OpenGL.DrawArrays(GLEnum.Triangles, 0, 36);
+            OpenGL.DrawElements(GLEnum.Triangles, (uint)lengthOfIndices, GLEnum.UnsignedInt, null);
         }
     }
 }
