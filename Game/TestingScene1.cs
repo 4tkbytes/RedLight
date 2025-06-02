@@ -57,12 +57,8 @@ public class TestingScene1 : RLScene, RLKeyboard
             ShaderManager.Get("basic").vertexShader, 
             ShaderManager.Get("basic").fragmentShader)
             .MakeTransformable();
-        mesh
-            .Reset()
-            .Rotate(float.DegreesToRadians(-55.0f), new Vector3D<float>(1, 0, 0))
-            .Translate(new Vector3D<float>(1, 0, 0))
-            .Project(float.DegreesToRadians(45.0f), (float)Engine.Window.Window.Size.X / Engine.Window.Window.Size.Y,
-                0.1f, 100.0f);
+        
+        mesh.Reset().Project(float.DegreesToRadians(45.0f), (float)800/600, 0.1f, 100.0f);
     }
     
 
