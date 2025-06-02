@@ -125,6 +125,8 @@ public class TestingScene1 : RLScene, RLKeyboard
             Log.Error("Camera is null in OnUpdate!");
             return;
         }
+
+        camera = camera.SetSpeed(2.5f * (float)deltaTime);
         if (PressedKeys.Contains(Key.W))
             camera = camera.MoveForward();
         if (PressedKeys.Contains(Key.S))
