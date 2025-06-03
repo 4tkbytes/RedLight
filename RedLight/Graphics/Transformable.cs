@@ -16,6 +16,8 @@ public class Transformable<T>
     public Transformable(T target)
     {
         this.target = target;
+        // make it right way up
+        Rotate(float.DegreesToRadians(180.0f), Vector3D<float>.UnitZ);
     }
 
     public Transformable<T> Translate(Vector3D<float> translation)

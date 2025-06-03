@@ -31,9 +31,9 @@ public class Mesh
     private List<RLTexture> textures;
     private RLGraphics graphics;
     private uint[] indices;
-    
+
     public Matrix4x4 Transform { get; set; } = Matrix4x4.Identity;
-    
+
     public Mesh(RLGraphics graphics, List<Vertex> vertices, uint[] indices)
     {
         this.graphics = graphics;
@@ -172,13 +172,13 @@ public class Mesh
             gl.DrawElements(PrimitiveType.Triangles, (uint)IndicesCount, DrawElementsType.UnsignedInt, null);
             gl.BindVertexArray(0);
         }
-        
+
 
         gl.ActiveTexture(TextureUnit.Texture0);
     }
 
     public int IndicesCount => indices != null ? indices.Length : 0;
-    
+
     // internal Mesh(RLGraphics graphics, List<Vertex> vertices, uint[] indices, RLShader vertexShader, RLShader fragmentShader)
     // {
     //     this.graphics = graphics;

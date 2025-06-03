@@ -14,7 +14,7 @@ namespace RedLight.Graphics;
 public class RLGraphics
 {
     public GL OpenGL { get; set; }
-    
+
     // other graphics apis will be added later
     public bool IsRendering { get; private set; }
 
@@ -71,7 +71,7 @@ public class RLGraphics
             }
         }
     }
-    
+
     public void UpdateView(Camera camera, Transformable<RLModel> Tmodel)
     {
         unsafe
@@ -85,7 +85,7 @@ public class RLGraphics
             }
         }
     }
-    
+
     public void UpdateModel(Transformable<RLModel> Tmodel)
     {
         unsafe
@@ -106,7 +106,7 @@ public class RLGraphics
         UpdateView(camera, Tmodel);
         UpdateProjection(camera, Tmodel);
     }
-    
+
     public void CheckGLErrors()
     {
         var err = OpenGL.GetError();
@@ -151,7 +151,7 @@ public class RLGraphics
         Log.Verbose("[RLGraphics] Using program: {Program}", prog);
         OpenGL.UseProgram(prog);
     }
-    
+
     public void Begin()
     {
         Log.Verbose("[RLGraphics] Begin frame");
@@ -163,10 +163,27 @@ public class RLGraphics
         Log.Verbose("[RLGraphics] End frame");
         IsRendering = false;
     }
-    
+
     public void Draw(Transformable<RLModel> model)
     {
         model.Target.Draw();
+        CheckGLErrors();
+    }
+
+    public void MakePlayer(Camera camera, Transformable<RLModel> model)
+    {
+        MakePlayer(camera, model, 5.0f);
+    }
+
+    public void MakePlayer(Camera camera, Transformable<RLModel> model, float distance)
+    {
+        // Camera position and forward direction
+        var camPos = camera.Position;
+        var camForward = camera.Front; // Assuming your Camera class has a .Front property (normalized direction)
+        var targetPos = camPos + camForward * distance;
+        // Reset and set the new position
+        model.AbsoluteReset();
+        model.Translate(targetPos);
     }
 
     public ImGuiController ImGuiLoad(RLWindow window, InputManager inputManager)
@@ -176,13 +193,13 @@ public class RLGraphics
             window.Window,
             inputManager.input
         );
-        
+
         return controller;
     }
 
     public void ImGuiRender(ImGuiController controller, double deltaTime, List<Transformable<RLModel>> objectModels)
     {
-        controller.Update((float) deltaTime);
+        controller.Update((float)deltaTime);
 
         // After this comment, imgui contents will render
         // ---------------------------------------------

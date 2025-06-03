@@ -1,0 +1,18 @@
+using RedLight.Utils;
+
+namespace RedLight.Graphics.Primitive;
+
+public class Plane
+{
+    public Transformable<RLModel> Model { get; set; }
+    
+    public Plane(RLGraphics graphics, TextureManager textureManager, ShaderManager shaderManager)
+    {
+        Model = new RLModel(
+                graphics,
+                RLFiles.GetEmbeddedResourcePath("RedLight.Resources.Models.Basic.plane.model"),
+                textureManager)
+            .AttachShader(shaderManager.Get("basic"))
+            .MakeTransformable();
+    }
+}

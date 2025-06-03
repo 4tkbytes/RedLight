@@ -26,6 +26,8 @@ public class SceneManager
         this.engine = engine;
         this.shaderManager = shaderManager;
         this.textureManager = textureManager;
+
+        FPSCounter();
     }
 
     public void Add(string id, RLScene scene, RLKeyboard keyboard, RLMouse mouse)
@@ -34,17 +36,18 @@ public class SceneManager
         {
             throw new Exception($"ID [{id}] is already registered");
         }
-        
+
         scenes.Add(id, scene);
-        
+
         input.Keyboards.Add(id, keyboard);
         input.Mice.Add(id, mouse);
-        
+
         if (currentScene == null)
         {
             currentSceneId = id;
             currentScene = scene;
             currentKeyboard = keyboard;
+            currentMouse = mouse;
         }
     }
 
@@ -71,11 +74,18 @@ public class SceneManager
         if (currentScene != null)
         {
             engine.Window.UnsubscribeFromEvents(currentScene);
-            input.UnsubscribeFromInputs(currentKeyboard, currentMouse);
+            if (currentKeyboard != null && currentMouse != null)
+            {
+                input.UnsubscribeFromInputs(currentKeyboard, currentMouse);
+            }
         }
 
         currentSceneId = id;
         currentScene = scenes[id];
+    
+        currentKeyboard = input.Keyboards[id];
+        currentMouse = input.Mice[id];
+    
         engine.Window.SubscribeToEvents(currentScene);
 
         currentScene.Engine = engine;
@@ -86,8 +96,16 @@ public class SceneManager
         currentScene.InputManager = input;
 
         input.SubscribeToInputs(currentKeyboard, currentMouse);
-        
+
         currentScene.OnLoad();
+    }
+
+    private void FPSCounter()
+    {
+        engine.Window.Window.Update += (double deltaTime) => 
+        {
+            engine.Window.FramesPerSecond = 1.0 / deltaTime;
+        };
     }
 
     public void Remove(string id)

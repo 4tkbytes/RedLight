@@ -1,6 +1,7 @@
 ﻿using System.Numerics;
 using Serilog;
 using Serilog.Core;
+using Silk.NET.Input;
 using Silk.NET.Maths;
 
 namespace RedLight.Graphics;
@@ -41,6 +42,17 @@ public class Camera
             Up
         );
         Log.Verbose("Created new Camera class");
+    }
+
+    public Camera(Vector2D<int> screenSize)
+        : this(new Vector3D<float>(0, 0, 3),
+            new Vector3D<float>(0, 0, -1),
+            new Vector3D<float>(0, 1, 0),
+            float.DegreesToRadians(60.0f), 
+            (float)screenSize.X / screenSize.Y, 
+            0.1f, 
+            100.0f)
+    {
     }
 
     public Camera UpdateCamera()
@@ -98,6 +110,26 @@ public class Camera
         direction.Y = float.Sin(float.DegreesToRadians(camera.Pitch));
         direction.Z = float.Sin(float.DegreesToRadians(camera.Yaw)) * float.Cos(float.DegreesToRadians(camera.Pitch));
         camera = camera.SetFront(direction);
+    }
+
+    public Camera KeyMap(HashSet<Key> PressedKeys)
+    {
+       
+        if (PressedKeys.Contains(Key.W))
+            MoveForward();
+        if (PressedKeys.Contains(Key.S))
+            MoveBack();
+        if (PressedKeys.Contains(Key.A))
+            MoveLeft();
+        if (PressedKeys.Contains(Key.D))
+            MoveRight();
+        if (PressedKeys.Contains(Key.ShiftLeft))
+            MoveDown();
+        if (PressedKeys.Contains(Key.Space))
+            MoveUp();
+        UpdateCamera();
+
+        return this;
     }
 
     public Camera SetSpeed(float speed)

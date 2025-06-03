@@ -14,7 +14,7 @@ public class InputManager
     public Dictionary<string, RLMouse> Mice { get; set; } = new();
     public RLKeyboard Keyboard { get; set; }
     public RLMouse Mouse { get; set; }
-    
+
     public InputManager(RLWindow window)
     {
         this.window = window;
@@ -25,7 +25,7 @@ public class InputManager
         input = window.Window.CreateInput();
         return this;
     }
-    
+
     public void SubscribeToInputs(RLKeyboard keyboardManager, RLMouse mouseManager)
     {
         if (input == null)
@@ -52,7 +52,7 @@ public class InputManager
         Mouse = mouseManager;
         Log.Debug("Subscribed to keyboard");
     }
-    
+
     public void UnsubscribeFromInputs(RLKeyboard keyboardManager, RLMouse mouseManager)
     {
         if (input == null)

@@ -16,7 +16,7 @@ public class RLEngine
 {
     public RLWindow Window { get; private set; }
     public RLGraphics Graphics { get; private set; }
-    
+
     public SceneManager SceneManager { private get; set; }
 
     private int logStrength = 0;

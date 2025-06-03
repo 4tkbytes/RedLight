@@ -45,7 +45,7 @@ public class TextureManager
 
         return textures[id];
     }
-    
+
     public RLTexture TryGet(string id, bool silent)
     {
         if (!textures.ContainsKey(id))

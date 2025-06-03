@@ -11,7 +11,7 @@ class Program
     static void Main(string[] args)
     {
         var scene1 = new TestingScene1();
-        var scene2 = new TestingScene2();
+        var stressTest = new StressTestScene();
         var engine = new RLEngine(1280, 720, "Example Game", scene1, args);
 
         var shaderManager = new ShaderManager();
@@ -20,7 +20,7 @@ class Program
         engine.SceneManager = sceneManager;
 
         sceneManager.Add("testing_scene_1", scene1, scene1, scene1);
-        sceneManager.Add("testing_scene_2", scene2, scene2, scene2);
+        sceneManager.Add("stress_test", stressTest, stressTest, stressTest);
 
         engine.Run();
     }

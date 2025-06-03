@@ -1,6 +1,7 @@
 using RedLight.Utils;
 using Silk.NET.OpenGL;
 using StbImageSharp;
+using Serilog;
 
 namespace RedLight.Graphics;
 
@@ -12,7 +13,7 @@ public class RLTexture
     public uint Handle { get; set; }
     public string Path { get; set; }
     public RLTextureType Type { get; set; }
-    
+
     public RLTexture(RLGraphics graphics, string directory, RLTextureType type)
     {
         this.graphics = graphics;
@@ -24,8 +25,26 @@ public class RLTexture
         gl.ActiveTexture(TextureUnit.Texture0);
         gl.BindTexture(TextureTarget.Texture2D, Handle);
 
-        using var fileStream = File.OpenRead(directory);
-        imageResult = ImageResult.FromStream(fileStream, ColorComponents.RedGreenBlueAlpha);
+        try
+        {
+            using var fileStream = File.OpenRead(directory);
+            imageResult = ImageResult.FromStream(fileStream, ColorComponents.RedGreenBlueAlpha);
+        }
+        catch (Exception ex)
+        {
+            Log.Error("Failed to load texture {Path}: {Error}", directory, ex.Message);
+            // Load fallback texture (e.g., no-texture.png)
+            try
+            {
+                using var fallbackStream = File.OpenRead(RLFiles.GetEmbeddedResourcePath("RedLight.Resources.Textures.no-texture.png"));
+                imageResult = ImageResult.FromStream(fallbackStream, ColorComponents.RedGreenBlueAlpha);
+            }
+            catch (Exception fallbackEx)
+            {
+                Log.Error("Failed to load fallback texture: {Error}", fallbackEx.Message);
+                throw;
+            }
+        }
 
         unsafe
         {

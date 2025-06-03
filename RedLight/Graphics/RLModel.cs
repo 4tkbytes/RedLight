@@ -62,7 +62,7 @@ public class RLModel
             mesh.Draw();
         }
     }
-    
+
     private unsafe void ProcessNode(Node* node, Silk.NET.Assimp.Scene* scene)
     {
         Log.Debug($"ProcessNode: node has {node->MNumMeshes} meshes, {node->MNumChildren} children");
@@ -102,7 +102,7 @@ public class RLModel
 
                 texture = textureManager.Get("no-texture");
             }
-            
+
             if (texture == null)
             {
                 Log.Error("RLModel.AttachTexture: 'no-texture' fallback texture is missing! Model will render without texture.");
@@ -115,12 +115,12 @@ public class RLModel
         }
         return this;
     }
-    
+
     private RLModel AttachTextureFirstTime(RLTexture texture)
     {
         return AttachTexture(texture, true);
     }
-    
+
     public RLModel AttachTexture(RLTexture texture)
     {
         return AttachTexture(texture, false);
@@ -219,7 +219,7 @@ public class RLModel
         var meshObj = new Mesh(graphics, vertices, BuildIndices(indices)).AttachTexture(textures);
         return meshObj;
     }
-    
+
     private unsafe List<RLTexture> LoadMaterialTextures(Material* mat, TextureType type, string typeName)
     {
         var textureCount = _assimp.GetMaterialTextureCount(mat, type);
@@ -266,7 +266,7 @@ public class RLModel
         }
         return textures;
     }
-    
+
     private float[] BuildVertices(List<Vertex> vertexCollection)
     {
         var vertices = new List<float>();
@@ -287,7 +287,7 @@ public class RLModel
     {
         return indices.ToArray();
     }
-    
+
     // public void Dispose()
     // {
     //     foreach (var mesh in Meshes)
