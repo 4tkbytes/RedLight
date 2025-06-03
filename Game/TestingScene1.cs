@@ -28,6 +28,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     private Camera camera;
     private bool isCaptured = true;
     private ImGuiController controller;
+    private List<Transformable<RLModel>> objectModels = new();
 
     private Transformable<RLModel> maxwell;
     
@@ -64,7 +65,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
                 TextureManager)
             .AttachShader(ShaderManager.Get("basic"))
             .MakeTransformable();
-        maxwell = maxwell.Scale(new Vector3D<float>(0.2f, 0.2f, 0.2f));
+        objectModels.Add(maxwell);
     }
     
     public void OnUpdate(double deltaTime)
@@ -91,21 +92,21 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     {
         Graphics.Begin();
         {
-            
+
             Graphics.Clear();
             Graphics.ClearColour(RLConstants.RL_COLOUR_CORNFLOWER_BLUE);
-            
+
             Graphics.Use(maxwell);
-            
+
             Graphics.Update(camera, maxwell);
-            
+
             Graphics.Draw(maxwell);
             Graphics.CheckGLErrors();
         }
         Graphics.End();
         
-        if (!isCaptured)
-            Graphics.ImGuiRender(controller, deltaTime);
+        Graphics.ImGuiRender(controller, deltaTime, objectModels);
+        
     }
 
     public void OnKeyDown(IKeyboard keyboard, Key key, int keyCode)
@@ -134,6 +135,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     public void OnMouseMove(IMouse mouse, Vector2 mousePosition)
     {
         Graphics.IsCaptured(mouse, isCaptured);
-        camera.FreeMove(mousePosition);
+        if (isCaptured)
+            camera.FreeMove(mousePosition);
     }
 }

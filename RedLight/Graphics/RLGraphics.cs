@@ -14,9 +14,9 @@ namespace RedLight.Graphics;
 public class RLGraphics
 {
     public GL OpenGL { get; set; }
-    /*
-     * other apis will be added later
-     */
+    
+    // other graphics apis will be added later
+    public bool IsRendering { get; private set; }
 
     public struct Colour
     {
@@ -58,17 +58,6 @@ public class RLGraphics
         OpenGL.ClearColor(colour.r, colour.g, colour.b, colour.a);
     }
 
-    public void UpdateProjection(Camera camera, Transformable<Mesh> Tmesh)
-    {
-        unsafe
-        {
-            var local = camera.Projection;
-            float* ptr = (float*)&local;
-            int loc = OpenGL.GetUniformLocation(Tmesh.Target.program, "projection");
-            OpenGL.UniformMatrix4(loc, 1, false, ptr);
-        }
-    }
-    
     public void UpdateProjection(Camera camera, Transformable<RLModel> Tmodel)
     {
         unsafe
@@ -80,17 +69,6 @@ public class RLGraphics
                 int loc = OpenGL.GetUniformLocation(mesh.program, "projection");
                 OpenGL.UniformMatrix4(loc, 1, false, ptr);
             }
-        }
-    }
-
-    public void UpdateView(Camera camera, Transformable<Mesh> Tmesh)
-    {
-        unsafe
-        {
-            var local = camera.View;
-            float* ptr = (float*)&local;
-            int loc = OpenGL.GetUniformLocation(Tmesh.Target.program, "view");
-            OpenGL.UniformMatrix4(loc, 1, false, ptr);
         }
     }
     
@@ -105,17 +83,6 @@ public class RLGraphics
                 int loc = OpenGL.GetUniformLocation(mesh.program, "view");
                 OpenGL.UniformMatrix4(loc, 1, false, ptr);
             }
-        }
-    }
-
-    public void UpdateModel(Transformable<Mesh> Tmesh)
-    {
-        unsafe
-        {
-            var local = Tmesh.Model;
-            float* ptr = (float*)&local;
-            int loc = OpenGL.GetUniformLocation(Tmesh.Target.program, "model");
-            OpenGL.UniformMatrix4(loc, 1, false, ptr);
         }
     }
     
@@ -147,14 +114,6 @@ public class RLGraphics
             Log.Error("GL Error: {Error}", err);
     }
 
-    // public Vector3D<float> MeshToVector(Transformable<Mesh> Tmesh)
-    // {
-    //     var view = Tmesh.View;
-    //     Matrix4X4.Invert(view, out var inverseView);
-    //     Matrix4X4.Decompose(inverseView, out _, out _, out var cameraPos);
-    //     return cameraPos;
-    // }
-
     public void LogVector(string type, Vector3D<float> vector)
     {
         Log.Verbose("{A}: {X}, {Y}, {Z}", type, vector.X, vector.Y, vector.Z);
@@ -168,14 +127,6 @@ public class RLGraphics
             matrix.M21, matrix.M22, matrix.M23, matrix.M24,
             matrix.M31, matrix.M32, matrix.M33, matrix.M34,
             matrix.M41, matrix.M42, matrix.M43, matrix.M44);
-    }
-
-    public void BindMesh(Mesh mesh)
-    {
-        Log.Verbose("[RLGraphics] Binding VAO: {VAO}", mesh.vao);
-        OpenGL.BindVertexArray(mesh.vao);
-        Log.Verbose("[RLGraphics] Using program: {Program}", mesh.program);
-        OpenGL.UseProgram(mesh.program);
     }
 
     public void Use(Transformable<Mesh> mesh)
@@ -200,9 +151,7 @@ public class RLGraphics
         Log.Verbose("[RLGraphics] Using program: {Program}", prog);
         OpenGL.UseProgram(prog);
     }
-
-    public bool IsRendering { get; private set; }
-
+    
     public void Begin()
     {
         Log.Verbose("[RLGraphics] Begin frame");
@@ -213,33 +162,6 @@ public class RLGraphics
     {
         Log.Verbose("[RLGraphics] End frame");
         IsRendering = false;
-    }
-
-    public void Bind(Transformable<Mesh> mesh)
-    {
-        Log.Verbose("[RLGraphics] Binding VAO: {VAO}", mesh.Target.vao);
-        OpenGL.BindVertexArray(mesh.Target.vao);
-    }
-
-    public void ActivateTexture()
-    {
-        Log.Verbose("[RLGraphics] Activating TextureUnit0");
-        OpenGL.ActiveTexture(TextureUnit.Texture0);
-    }
-
-    public void BindTexture(RLTexture rlTexture)
-    {
-        Log.Verbose("[RLGraphics] Binding Texture: {Handle}", rlTexture.Handle);
-        OpenGL.BindTexture(TextureTarget.Texture2D, rlTexture.Handle);
-    }
-
-    public void Draw(int lengthOfIndices)
-    {
-        Log.Verbose("[RLGraphics] Drawing {Count} indices", lengthOfIndices);
-        unsafe
-        {
-            OpenGL.DrawElements(GLEnum.Triangles, (uint)lengthOfIndices, GLEnum.UnsignedInt, null);
-        }
     }
     
     public void Draw(Transformable<RLModel> model)
@@ -252,19 +174,58 @@ public class RLGraphics
         ImGuiController controller = new ImGuiController(
             OpenGL,
             window.Window,
-            inputManager.input);
+            inputManager.input
+        );
+        
         return controller;
     }
 
-    public void ImGuiRender(ImGuiController controller, double deltaTime)
+    public void ImGuiRender(ImGuiController controller, double deltaTime, List<Transformable<RLModel>> objectModels)
     {
         controller.Update((float) deltaTime);
-        
-        OpenGL.ClearColor(Color.FromArgb(255, (int) (.45f * 255), (int) (.55f * 255), (int) (.60f * 255)));
-        OpenGL.Clear((uint) ClearBufferMask.ColorBufferBit);
-        
-        ImGui.ShowDemoWindow();
 
+        // After this comment, imgui contents will render
+        // ---------------------------------------------
+
+        ImGui.Begin("Testing Scene 1", ImGuiWindowFlags.AlwaysAutoResize);
+        foreach (Transformable<RLModel> model in objectModels)
+        {
+            // Position sliders
+            var pos = new System.Numerics.Vector3(
+                model.Model.M41, model.Model.M42, model.Model.M43
+            );
+            if (ImGui.SliderFloat3("Position", ref pos, -10f, 10f))
+            {
+                // Update translation (reset then apply new translation)
+                //model.AbsoluteReset();
+                model.Translate(new Vector3D<float>(pos.X, pos.Y, pos.Z));
+            }
+
+            // Scale sliders
+            var scale = new System.Numerics.Vector3(
+                model.Model.M11, model.Model.M22, model.Model.M33
+            );
+            if (ImGui.SliderFloat3("Scale", ref scale, 0.01f, 2f))
+            {
+                //model.AbsoluteReset();
+                model.Scale(new Vector3D<float>(scale.X, scale.Y, scale.Z));
+                model.Translate(new Vector3D<float>(pos.X, pos.Y, pos.Z)); // re-apply translation
+            }
+
+            // Rotation slider (for simplicity, just Yaw)
+            float yaw = 0;
+            ImGui.SliderAngle("Yaw", ref yaw, -180, 180);
+            if (ImGui.IsItemDeactivatedAfterEdit())
+            {
+                //model.AbsoluteReset();
+                model.Rotate(yaw, Vector3D<float>.UnitY);
+                model.Translate(new Vector3D<float>(pos.X, pos.Y, pos.Z));
+                model.Scale(new Vector3D<float>(scale.X, scale.Y, scale.Z));
+            }
+        }
+        ImGui.End();
+
+        // ---------------------------------------------
         controller.Render();
     }
 }

@@ -18,16 +18,15 @@ public class Transformable<T>
         this.target = target;
     }
 
-    public Transformable<T> Translate(Camera camera, Vector3D<float> translation)
+    public Transformable<T> Translate(Vector3D<float> translation)
     {
-        camera.View = Matrix4X4.CreateTranslation(-translation);
+        Model = Matrix4X4.Multiply(Matrix4X4.CreateTranslation(translation), Model);
         Log.Verbose("Translated mesh");
         return this;
     }
 
     public Transformable<T> Rotate(float radians, Vector3D<float> axis)
     {
-        radians = -radians;
         var normAxis = Vector3D.Normalize(axis);
         var rotation = Matrix4X4.CreateFromAxisAngle(normAxis, radians);
         Model = Matrix4X4.Multiply(rotation, Model);
@@ -37,7 +36,7 @@ public class Transformable<T>
 
     public Transformable<T> Scale(Vector3D<float> scale)
     {
-        Matrix4X4.Add(Model, Matrix4X4.CreateScale(scale));
+        Model = Matrix4X4.Multiply(Matrix4X4.CreateScale(scale), Model);
         Log.Verbose("Scaled mesh");
         return this;
     }
@@ -58,12 +57,6 @@ public class Transformable<T>
         return this;
     }
 
-    /// <summary>
-    /// Resets back to the original state where you set a save. Requires a save state
-    /// otherwise the function will throw an exception.
-    /// </summary>
-    /// <returns>Self</returns>
-    /// <exception cref="Exception"></exception>
     public Transformable<T> Reset()
     {
         if (!defaultSet)
@@ -73,12 +66,6 @@ public class Transformable<T>
         return this;
     }
 
-    /// <summary>
-    /// Creates a lock state where you can make edits to the original mesh
-    /// and allow you to draw without having to reset and redraw to the original
-    /// state.  
-    /// </summary>
-    /// <returns>Self</returns>
     public Transformable<T> SetDefault()
     {
         modelDefault = Model;
