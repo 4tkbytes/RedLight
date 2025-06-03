@@ -97,7 +97,7 @@ public static class RLFiles
             stream.CopyTo(fileStream);
         }
 
-
+        Log.Debug("Successfully fetches file path [{A}]", resourceName);
         return tempFilePath;
     }
 

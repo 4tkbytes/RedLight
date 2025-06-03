@@ -33,6 +33,9 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     {
         Log.Information("Scene 1 Loaded");
         Graphics.EnableDepth();
+        Graphics.OpenGL.Enable(Silk.NET.OpenGL.EnableCap.CullFace);
+        Graphics.OpenGL.CullFace(Silk.NET.OpenGL.GLEnum.Back);
+        Graphics.OpenGL.FrontFace(Silk.NET.OpenGL.GLEnum.Ccw);
 
         ShaderManager.TryAdd(
             "basic",
@@ -40,20 +43,25 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
             new RLShader(Graphics, ShaderType.Fragment, RLConstants.RL_BASIC_SHADER_FRAG)
         );
 
-        TextureManager.TryAdd(
-            "no-texture",
-            new RLTexture(Graphics, RLFiles.GetEmbeddedResourcePath("RedLight.Resources.Textures.thing.png"), RLTextureType.Diffuse)
-        );
-
         camera = new Camera(new Vector3D<float>(0, 0, 3),
             new Vector3D<float>(0, 0, -1),
             new Vector3D<float>(0, 1, 0),
-            float.DegreesToRadians(99.0f), (float)800 / 600, 0.1f, 100.0f).SetSpeed(0.05f);
+            float.DegreesToRadians(60.0f), (float)800 / 600, 0.1f, 100.0f).SetSpeed(0.05f);
 
-        _rlModel = new RLModel(Graphics, RLFiles.GetEmbeddedResourcePath("RedLight.Resources.Models.cube.model")).MakeTransformable();
+        _rlModel = new RLModel(Graphics, RLFiles.GetEmbeddedResourcePath("RedLight.Resources.Models.cube.model"))
+            .AttachShader(ShaderManager.Get("basic")).MakeTransformable();
+
+        if (_rlModel.Target.Meshes.Count == 0)
+        {
+            Log.Error("No meshes loaded from model! Check the model file and loader.");
+            throw new Exception("No meshes loaded from model!");
+        }
+        else
+        {
+            Log.Information($"Loaded {_rlModel.Target.Meshes.Count} mesh(es) from model.");
+        }
     }
-
-
+    
     public void OnUpdate(double deltaTime)
     {
         Engine.Window.FramesPerSecond = 1.0 / deltaTime;
@@ -71,8 +79,8 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
             camera = camera.MoveDown();
         if (PressedKeys.Contains(Key.Space))
             camera = camera.MoveUp();
-        camera = camera.SetPosition(camera.Position).UpdateCamera();
-
+        camera = camera.UpdateCamera(); // Removed redundant SetPosition
+        // If you want to render a quad, make sure to load a quad model instead of a cube.
     }
 
     public void OnRender(double deltaTime)

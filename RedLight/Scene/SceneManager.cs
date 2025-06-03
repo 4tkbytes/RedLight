@@ -7,8 +7,7 @@ namespace RedLight.Scene;
 public class SceneManager
 {
     private Dictionary<string, RLScene> scenes;
-    private Dictionary<string, RLKeyboard> keyboards;
-    private Dictionary<string, RLMouse> mouses;
+    internal InputManager input;
     private RLEngine engine;
     private ShaderManager shaderManager;
     private TextureManager textureManager;
@@ -23,8 +22,7 @@ public class SceneManager
     public SceneManager(RLEngine engine, ShaderManager shaderManager, TextureManager textureManager)
     {
         scenes = new Dictionary<string, RLScene>();
-        keyboards = new Dictionary<string, RLKeyboard>();
-        mouses = new Dictionary<string, RLMouse>();
+        input = new InputManager(engine.Window);
         this.engine = engine;
         this.shaderManager = shaderManager;
         this.textureManager = textureManager;
@@ -36,11 +34,12 @@ public class SceneManager
         {
             throw new Exception($"ID [{id}] is already registered");
         }
+        
         scenes.Add(id, scene);
-
-        keyboards.Add(id, keyboard);
-        mouses.Add(id, mouse);
-
+        
+        input.Keyboards.Add(id, keyboard);
+        input.Mice.Add(id, mouse);
+        
         if (currentScene == null)
         {
             currentSceneId = id;
@@ -72,12 +71,11 @@ public class SceneManager
         if (currentScene != null)
         {
             engine.Window.UnsubscribeFromEvents(currentScene);
-            engine.UnsubscribeFromInputs(currentKeyboard, currentMouse);
+            input.UnsubscribeFromInputs(currentKeyboard, currentMouse);
         }
 
         currentSceneId = id;
         currentScene = scenes[id];
-        currentKeyboard = keyboards[id];
         engine.Window.SubscribeToEvents(currentScene);
 
         currentScene.Engine = engine;
@@ -86,8 +84,8 @@ public class SceneManager
         currentScene.ShaderManager = shaderManager;
         currentScene.TextureManager = textureManager;
 
-        engine.SubscribeToInputs(currentKeyboard, currentMouse);
-
+        input.SubscribeToInputs(currentKeyboard, currentMouse);
+        
         currentScene.OnLoad();
     }
 

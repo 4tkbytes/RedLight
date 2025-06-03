@@ -16,10 +16,8 @@ public class RLEngine
 {
     public RLWindow Window { get; private set; }
     public RLGraphics Graphics { get; private set; }
-    public RLKeyboard Keyboard { get; set; }
-    public RLMouse Mouse { get; set; }
+    
     public SceneManager SceneManager { private get; set; }
-    private IInputContext input;
 
     private int logStrength = 0;
     private bool fullscreen = false;
@@ -42,15 +40,15 @@ public class RLEngine
         Window.Window.Load += () =>
         {
             Graphics.OpenGL = Window.Window.CreateOpenGL();
-            Log.Information("OpenGL is chosen as the backend");
+            Log.Information("Backend: OpenGL");
 
-            input = Window.Window.CreateInput();
+            var input = SceneManager.input.CreateInput();
             Log.Debug("Input context created");
 
             if (startingScene != null)
             {
                 SceneManager.SwitchScene(startingScene);
-                SubscribeToInputs(startingScene as RLKeyboard, startingScene as RLMouse);
+                input.SubscribeToInputs(startingScene as RLKeyboard, startingScene as RLMouse);
             }
 
             startingScene.TextureManager.TryAdd(
@@ -85,41 +83,13 @@ public class RLEngine
         Graphics.OpenGL.Viewport(newSize);
     }
 
-    internal void SubscribeToInputs(RLKeyboard keyboardManager, RLMouse mouseManager)
-    {
-        if (input == null)
-            return;
-
-        if (keyboardManager != null)
-        {
-            foreach (var kb in input.Keyboards)
-            {
-                kb.KeyDown += keyboardManager.OnKeyDown;
-                kb.KeyUp += keyboardManager.OnKeyUp;
-            }
-        }
-
-        if (mouseManager != null)
-        {
-            foreach (var mouse in input.Mice)
-            {
-                mouse.Cursor.CursorMode = CursorMode.Disabled;    // soon change using scene state enum
-                mouse.MouseMove += mouseManager.OnMouseMove;
-            }
-        }
-
-        Keyboard = keyboardManager;
-        Mouse = mouseManager;
-        Log.Debug("Subscribed to keyboard");
-    }
-
     public void InitialiseLogger()
     {
         var shitfuck = new LoggerConfiguration()
             .WriteTo.Console()
             .WriteTo.File("logs/log.txt",
                 rollingInterval: RollingInterval.Day,
-                rollOnFileSizeLimit: true);
+                rollOnFileSizeLimit: false);
         if (logStrength == 1)
             shitfuck.MinimumLevel.Debug();
         if (logStrength == 2)
@@ -128,33 +98,6 @@ public class RLEngine
         Log.Logger = shitfuck.CreateLogger();
         Log.Information("Logger has been created");
         Log.Information("Logger is logging at strength [{A}]", logStrength);
-    }
-
-    internal void UnsubscribeFromInputs(RLKeyboard keyboardManager, RLMouse mouseManager)
-    {
-        if (input == null)
-            return;
-
-        if (keyboardManager != null)
-        {
-            foreach (var kb in input.Keyboards)
-            {
-                kb.KeyDown += keyboardManager.OnKeyDown;
-                kb.KeyUp += keyboardManager.OnKeyUp;
-            }
-        }
-
-        if (mouseManager != null)
-        {
-            foreach (var mouse in input.Mice)
-            {
-                mouse.MouseMove += mouseManager.OnMouseMove;
-            }
-        }
-
-        Keyboard = null;
-        Mouse = null;
-        Log.Debug("Unsubscribed from keyboard");
     }
 
     public void Run()

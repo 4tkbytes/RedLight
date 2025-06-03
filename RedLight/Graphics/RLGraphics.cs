@@ -230,18 +230,19 @@ public class RLGraphics
     
     public void Draw(Transformable<RLModel> model)
     {
-        unsafe
-        {
-            foreach (var mesh in model.Target.Meshes)
-            {
-                if (mesh.IndicesCount > 0)
-                {
-                    Log.Verbose("[RLGraphics] Drawing mesh VAO: {VAO} with {Count} indices", mesh.vao, mesh.IndicesCount);
-                    OpenGL.BindVertexArray(mesh.vao);
-                    OpenGL.DrawElements(GLEnum.Triangles, (uint)mesh.IndicesCount, GLEnum.UnsignedInt, null);
-                }
-            }
-            OpenGL.BindVertexArray(0);
-        }
+        // unsafe
+        // {
+        //     foreach (var mesh in model.Target.Meshes)
+        //     {
+        //         if (mesh.IndicesCount > 0)
+        //         {
+        //             Log.Verbose("[RLGraphics] Drawing mesh VAO: {VAO} with {Count} indices", mesh.vao, mesh.IndicesCount);
+        //             OpenGL.BindVertexArray(mesh.vao);
+        //             OpenGL.DrawElements(GLEnum.Triangles, (uint)mesh.IndicesCount, GLEnum.UnsignedInt, null);
+        //         }
+        //     }
+        //     OpenGL.BindVertexArray(0);
+        // }
+        model.Target.Draw();
     }
 }

@@ -3,6 +3,7 @@ using RedLight.Utils;
 using Silk.NET.Assimp;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;
+using Serilog;
 
 namespace RedLight.Graphics;
 
@@ -44,14 +45,23 @@ public class RLModel
 
         ProcessNode(scene->MRootNode, scene);
     }
+
+    public void Draw()
+    {
+        foreach (var mesh in Meshes)
+        {
+            mesh.Draw();
+        }
+    }
     
     private unsafe void ProcessNode(Node* node, Silk.NET.Assimp.Scene* scene)
     {
+        Log.Debug($"ProcessNode: node has {node->MNumMeshes} meshes, {node->MNumChildren} children");
         for (var i = 0; i < node->MNumMeshes; i++)
         {
             var mesh = scene->MMeshes[node->MMeshes[i]];
+            Log.Debug($"  Mesh {i}: {mesh->MNumVertices} vertices, {mesh->MNumFaces} faces");
             Meshes.Add(ProcessMesh(mesh, scene));
-
         }
 
         for (var i = 0; i < node->MNumChildren; i++)
@@ -60,8 +70,19 @@ public class RLModel
         }
     }
 
+    public RLModel AttachShader(RLShaderBundle shaderBundle)
+    {
+        foreach (var mesh in Meshes)
+        {
+            mesh.AttachShader(shaderBundle.vertexShader, shaderBundle.fragmentShader);
+        }
+
+        return this;
+    }
+
     private unsafe Mesh ProcessMesh(Silk.NET.Assimp.Mesh* mesh, Silk.NET.Assimp.Scene* scene)
     {
+        Log.Debug($"ProcessMesh: {mesh->MNumVertices} vertices, {mesh->MNumFaces} faces");
         List<Vertex> vertices = new List<Vertex>();
         List<uint> indices = new List<uint>();
         List<RLTexture> textures = new List<RLTexture>();
@@ -149,9 +170,8 @@ public class RLModel
             if (heightMaps.Any())
                 textures.AddRange(heightMaps);
 
-            // return a mesh object created from the extracted mesh data
-            var result = new Mesh(graphics, vertices, BuildIndices(indices)).AttachTexture(textures);
-            return result;
+            var meshObj = new Mesh(graphics, vertices, BuildIndices(indices)).AttachTexture(textures);
+            return meshObj;
     }
     
     private unsafe List<RLTexture> LoadMaterialTextures(Material* mat, TextureType type, string typeName)
