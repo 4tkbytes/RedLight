@@ -14,16 +14,25 @@ public class RLModel
     private RLGraphics graphics;
     private GL _gl;
     private List<RLTexture> _texturesLoaded = new();
+    private TextureManager textureManager;
     public string Directory { get; protected set; } = string.Empty;
     public List<Mesh> Meshes { get; protected set; } = new List<Mesh>();
 
-    public RLModel(RLGraphics graphics, string path)
+    public RLModel(RLGraphics graphics, string path, TextureManager textureManager)
     {
         var assimp = Assimp.GetApi();
         _assimp = assimp;
         this.graphics = graphics;
         _gl = graphics.OpenGL;
+        this.textureManager = textureManager;
         LoadModel(path);
+        if (Meshes.Count == 0)
+        {
+            Log.Error("No meshes loaded from model! Check the model file and loader.");
+            throw new Exception("No meshes loaded from model!");
+        }
+        Log.Debug($"Loaded {Meshes.Count} mesh(es) from model.");
+        AttachTextureFirstTime(null);
     }
 
     public Transformable<RLModel> MakeTransformable()
@@ -80,6 +89,43 @@ public class RLModel
         return this;
     }
 
+    public RLModel AttachTexture(RLTexture texture, bool silent)
+    {
+        if (texture == null)
+        {
+            if (silent)
+                Log.Warning("RLModel.AttachTexture: Provided texture is null. Using fallback 'no-texture'.");
+            if (textureManager != null)
+            {
+                if (textureManager.TryGet("no-texture", true) == null)
+                    textureManager.Add("no-texture", new RLTexture(graphics, RLFiles.GetEmbeddedResourcePath(RLConstants.RL_NO_TEXTURE_PATH), RLTextureType.Normal));
+
+                texture = textureManager.Get("no-texture");
+            }
+            
+            if (texture == null)
+            {
+                Log.Error("RLModel.AttachTexture: 'no-texture' fallback texture is missing! Model will render without texture.");
+                return this;
+            }
+        }
+        foreach (var mesh in Meshes)
+        {
+            mesh.AttachTexture(texture);
+        }
+        return this;
+    }
+    
+    private RLModel AttachTextureFirstTime(RLTexture texture)
+    {
+        return AttachTexture(texture, true);
+    }
+    
+    public RLModel AttachTexture(RLTexture texture)
+    {
+        return AttachTexture(texture, false);
+    }
+
     private unsafe Mesh ProcessMesh(Silk.NET.Assimp.Mesh* mesh, Silk.NET.Assimp.Scene* scene)
     {
         Log.Debug($"ProcessMesh: {mesh->MNumVertices} vertices, {mesh->MNumFaces} faces");
@@ -99,79 +145,79 @@ public class RLModel
             vertex.Position = vector;
             // normals
             if (mesh->MNormals != null)
-                {
-                    vector.X = mesh->MNormals[i].X;
-                    vector.Y = mesh->MNormals[i].Y;
-                    vector.Z = mesh->MNormals[i].Z;
-                    vertex.Normal = vector;
-                }
-                // texture coordinates
-                if (mesh->MTextureCoords[0] != null) // does the mesh contain texture coordinates?
-                {
-                    Vector2D<float> vec = new();
-                    // a vertex can contain up to 8 different texture coordinates. We thus make the assumption that we won't 
-                    // use models where a vertex can have multiple texture coordinates so we always take the first set (0).
-                    vec.X = mesh->MTextureCoords[0][i].X;
-                    vec.Y = mesh->MTextureCoords[0][i].Y;
-                    vertex.TexCoords = vec;
-                    // tangent
-                    if (mesh->MTangents != null)
-                    {
-                        vector.X = mesh->MTangents[i].X;
-                        vector.Y = mesh->MTangents[i].Y;
-                        vector.Z = mesh->MTangents[i].Z;
-                        vertex.Tangent = vector;
-                    }
-                    // bitangent
-                    if (mesh->MBitangents != null)
-                    {
-                        vector.X = mesh->MBitangents[i].X;
-                        vector.Y = mesh->MBitangents[i].Y;
-                        vector.Z = mesh->MBitangents[i].Z;
-                        vertex.BitTangent = vector;
-                    }
-                }
-                else
-                    vertex.TexCoords = new Vector2D<float>(0.0f, 0.0f);
-
-                vertices.Add(vertex);
-            }
-            // now wak through each of the mesh's faces (a face is a mesh its triangle) and retrieve the corresponding vertex indices.
-            for (uint i = 0; i < mesh->MNumFaces; i++)
             {
-                Face face = mesh->MFaces[i];
-                // retrieve all indices of the face and store them in the indices vector
-                for (uint j = 0; j < face.MNumIndices; j++)
-                    indices.Add(face.MIndices[j]);
+                vector.X = mesh->MNormals[i].X;
+                vector.Y = mesh->MNormals[i].Y;
+                vector.Z = mesh->MNormals[i].Z;
+                vertex.Normal = vector;
             }
-            // process materials
-            Material* material = scene->MMaterials[mesh->MMaterialIndex];
-            // we assume a convention for sampler names in the shaders. Each diffuse texture should be named
-            // as 'texture_diffuseN' where N is a sequential number ranging from 1 to MAX_SAMPLER_NUMBER. 
-            // Same applies to other texture as the following list summarizes:
-            // diffuse: texture_diffuseN
-            // specular: texture_specularN
-            // normal: texture_normalN
+            // texture coordinates
+            if (mesh->MTextureCoords[0] != null) // does the mesh contain texture coordinates?
+            {
+                Vector2D<float> vec = new();
+                // a vertex can contain up to 8 different texture coordinates. We thus make the assumption that we won't 
+                // use models where a vertex can have multiple texture coordinates so we always take the first set (0).
+                vec.X = mesh->MTextureCoords[0][i].X;
+                vec.Y = mesh->MTextureCoords[0][i].Y;
+                vertex.TexCoords = vec;
+                // tangent
+                if (mesh->MTangents != null)
+                {
+                    vector.X = mesh->MTangents[i].X;
+                    vector.Y = mesh->MTangents[i].Y;
+                    vector.Z = mesh->MTangents[i].Z;
+                    vertex.Tangent = vector;
+                }
+                // bitangent
+                if (mesh->MBitangents != null)
+                {
+                    vector.X = mesh->MBitangents[i].X;
+                    vector.Y = mesh->MBitangents[i].Y;
+                    vector.Z = mesh->MBitangents[i].Z;
+                    vertex.BitTangent = vector;
+                }
+            }
+            else
+                vertex.TexCoords = new Vector2D<float>(0.0f, 0.0f);
 
-            // 1. diffuse maps
-            var diffuseMaps = LoadMaterialTextures(material, TextureType.Diffuse, "texture_diffuse");
-            if (diffuseMaps.Any())
-                textures.AddRange(diffuseMaps);
-            // 2. specular maps
-            var specularMaps = LoadMaterialTextures(material, TextureType.Specular, "texture_specular");
-            if (specularMaps.Any())
-                textures.AddRange(specularMaps);
-            // 3. normal maps
-            var normalMaps = LoadMaterialTextures(material, TextureType.Height, "texture_normal");
-            if (normalMaps.Any())
-                textures.AddRange(normalMaps);
-            // 4. height maps
-            var heightMaps = LoadMaterialTextures(material, TextureType.Ambient, "texture_height");
-            if (heightMaps.Any())
-                textures.AddRange(heightMaps);
+            vertices.Add(vertex);
+        }
+        // now wak through each of the mesh's faces (a face is a mesh its triangle) and retrieve the corresponding vertex indices.
+        for (uint i = 0; i < mesh->MNumFaces; i++)
+        {
+            Face face = mesh->MFaces[i];
+            // retrieve all indices of the face and store them in the indices vector
+            for (uint j = 0; j < face.MNumIndices; j++)
+                indices.Add(face.MIndices[j]);
+        }
+        // process materials
+        Material* material = scene->MMaterials[mesh->MMaterialIndex];
+        // we assume a convention for sampler names in the shaders. Each diffuse texture should be named
+        // as 'texture_diffuseN' where N is a sequential number ranging from 1 to MAX_SAMPLER_NUMBER. 
+        // Same applies to other texture as the following list summarizes:
+        // diffuse: texture_diffuseN
+        // specular: texture_specularN
+        // normal: texture_normalN
 
-            var meshObj = new Mesh(graphics, vertices, BuildIndices(indices)).AttachTexture(textures);
-            return meshObj;
+        // 1. diffuse maps
+        var diffuseMaps = LoadMaterialTextures(material, TextureType.Diffuse, "texture_diffuse");
+        if (diffuseMaps.Any())
+            textures.AddRange(diffuseMaps);
+        // 2. specular maps
+        var specularMaps = LoadMaterialTextures(material, TextureType.Specular, "texture_specular");
+        if (specularMaps.Any())
+            textures.AddRange(specularMaps);
+        // 3. normal maps
+        var normalMaps = LoadMaterialTextures(material, TextureType.Height, "texture_normal");
+        if (normalMaps.Any())
+            textures.AddRange(normalMaps);
+        // 4. height maps
+        var heightMaps = LoadMaterialTextures(material, TextureType.Ambient, "texture_height");
+        if (heightMaps.Any())
+            textures.AddRange(heightMaps);
+
+        var meshObj = new Mesh(graphics, vertices, BuildIndices(indices)).AttachTexture(textures);
+        return meshObj;
     }
     
     private unsafe List<RLTexture> LoadMaterialTextures(Material* mat, TextureType type, string typeName)

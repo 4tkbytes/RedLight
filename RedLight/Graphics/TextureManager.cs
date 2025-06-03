@@ -35,6 +35,29 @@ public class TextureManager
         return textures[id];
     }
 
+    public RLTexture TryGet(string id)
+    {
+        if (!textures.ContainsKey(id))
+        {
+            Log.Warning($"ID [{id}] does not exist, returning null");
+            return null;
+        }
+
+        return textures[id];
+    }
+    
+    public RLTexture TryGet(string id, bool silent)
+    {
+        if (!textures.ContainsKey(id))
+        {
+            if (!silent)
+                Log.Warning($"ID [{id}] does not exist, returning null");
+            return null;
+        }
+
+        return textures[id];
+    }
+
     public void Remove(string id)
     {
         if (!textures.ContainsKey(id))
