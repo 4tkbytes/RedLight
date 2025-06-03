@@ -23,44 +23,16 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     public RLEngine Engine { get; set; }
     public HashSet<Key> PressedKeys { get; } = new();
 
-    private Transformable<Mesh> mesh1;
     private Camera camera;
     private IMouse mouse;
-
     private bool isCaptured = true;
-    private readonly List<Transformable<Mesh>> spawnedObjects = new();
-    private double spawnTimer = 0.0;
 
-    // 8 unique vertices (position + uv)
-    float[] vertices = {
-        // positions        // uvs
-        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // 0
-        0.5f, -0.5f, -0.5f,  1.0f, 0.0f, // 1
-        0.5f,  0.5f, -0.5f,  1.0f, 1.0f, // 2
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, // 3
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, // 4
-        0.5f, -0.5f,  0.5f,  1.0f, 0.0f, // 5
-        0.5f,  0.5f,  0.5f,  1.0f, 1.0f, // 6
-        -0.5f,  0.5f,  0.5f,  0.0f, 1.0f  // 7
-    };
-
-    uint[] indices = {
-        // back face
-        0, 1, 2, 2, 3, 0,
-        // front face
-        4, 5, 6, 6, 7, 4,
-        // left face
-        4, 0, 3, 3, 7, 4,
-        // right face
-        1, 5, 6, 6, 2, 1,
-        // bottom face
-        4, 5, 1, 1, 0, 4,
-        // top face
-        3, 2, 6, 6, 7, 3
-    };
+    private Transformable<RLModel> _rlModel;
+    
     public void OnLoad()
     {
         Log.Information("Scene 1 Loaded");
+        Graphics.EnableDepth();
 
         ShaderManager.TryAdd(
             "basic",
@@ -69,27 +41,22 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         );
 
         TextureManager.TryAdd(
-            "fuckass-angus",
-            new RLTexture(Graphics, RLFiles.GetEmbeddedResourceBytes("RedLight.Resources.Textures.thing.png")));
-
-        Graphics.EnableDepth();
+            "no-texture",
+            new RLTexture(Graphics, RLFiles.GetEmbeddedResourcePath("RedLight.Resources.Textures.thing.png"), RLTextureType.Diffuse)
+        );
 
         camera = new Camera(new Vector3D<float>(0, 0, 3),
             new Vector3D<float>(0, 0, -1),
             new Vector3D<float>(0, 1, 0),
             float.DegreesToRadians(99.0f), (float)800 / 600, 0.1f, 100.0f).SetSpeed(0.05f);
+
+        _rlModel = new RLModel(Graphics, RLFiles.GetEmbeddedResourcePath("RedLight.Resources.Models.cube.model")).MakeTransformable();
     }
 
 
     public void OnUpdate(double deltaTime)
     {
         Engine.Window.FramesPerSecond = 1.0 / deltaTime;
-
-        if (camera == null)
-        {
-            Log.Error("Camera is null in OnUpdate!");
-            return;
-        }
 
         camera = camera.SetSpeed(2.5f * (float)deltaTime);
         if (PressedKeys.Contains(Key.W))
@@ -106,24 +73,6 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
             camera = camera.MoveUp();
         camera = camera.SetPosition(camera.Position).UpdateCamera();
 
-        spawnTimer += deltaTime;
-        if (spawnTimer >= 0.1)
-        {
-            spawnTimer = 0.0;
-            var random = new Random();
-            var position = new Vector3D<float>(
-                (float)(random.NextDouble() * random.Next(-12, 24)),
-                (float)(random.NextDouble() * random.Next(-12, 24)),
-                (float)(random.NextDouble() * random.Next(-12, 24))
-            );
-            var newObject = Graphics.CreateMesh(vertices, indices,
-                    ShaderManager.Get("basic").vertexShader,
-                    ShaderManager.Get("basic").fragmentShader)
-                .MakeTransformable()
-                .SetModel(Matrix4X4.CreateTranslation(position));
-            spawnedObjects.Add(newObject);
-            Log.Debug("Spawned object count: {A} | FPS: {B:F2}", spawnedObjects.Count, Engine.Window.FramesPerSecond);
-        }
     }
 
     public void OnRender(double deltaTime)
@@ -131,18 +80,15 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         Graphics.Begin();
         {
             Graphics.Clear();
-            Graphics.ClearColour(new RLGraphics.Colour { r = 100f / 256, g = 146f / 256, b = 237f / 256, a = 1f });
+            Graphics.ClearColour(RLConstants.RL_COLOUR_CORNFLOWER_BLUE);
 
-            foreach (var obj in spawnedObjects)
-            {
-                Graphics.Use(obj);
-                Graphics.BindTexture(TextureManager.Get("no-texture"));
-                Graphics.UpdateView(camera, obj);
-                Graphics.UpdateProjection(camera, obj);
-                Graphics.UpdateModel(obj);
-                Graphics.Draw(indices.Length);
-                Graphics.CheckGLErrors();
-            }
+            Graphics.Use(_rlModel);
+            Graphics.BindTexture(TextureManager.Get("no-texture"));
+            Graphics.UpdateView(camera, _rlModel);
+            Graphics.UpdateProjection(camera, _rlModel);
+            Graphics.UpdateModel(_rlModel);
+            Graphics.Draw(_rlModel);
+            Graphics.CheckGLErrors();
         }
         Graphics.End();
     }

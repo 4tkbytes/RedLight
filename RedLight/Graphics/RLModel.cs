@@ -6,7 +6,7 @@ using Silk.NET.OpenGL;
 
 namespace RedLight.Graphics;
 
-public class Model
+public class RLModel
 {
     List<Mesh> meshes = new List<Mesh>();
     private Assimp _assimp;
@@ -16,13 +16,18 @@ public class Model
     public string Directory { get; protected set; } = string.Empty;
     public List<Mesh> Meshes { get; protected set; } = new List<Mesh>();
 
-    public Model(RLGraphics graphics, string path)
+    public RLModel(RLGraphics graphics, string path)
     {
         var assimp = Assimp.GetApi();
         _assimp = assimp;
         this.graphics = graphics;
         _gl = graphics.OpenGL;
         LoadModel(path);
+    }
+
+    public Transformable<RLModel> MakeTransformable()
+    {
+        return new Transformable<RLModel>(this);
     }
 
     private unsafe void LoadModel(string path)
@@ -145,7 +150,7 @@ public class Model
                 textures.AddRange(heightMaps);
 
             // return a mesh object created from the extracted mesh data
-            var result = new Mesh(graphics, BuildVertices(vertices), BuildIndices(indices)).AttachTexture(textures);
+            var result = new Mesh(graphics, vertices, BuildIndices(indices)).AttachTexture(textures);
             return result;
     }
     
@@ -169,7 +174,25 @@ public class Model
             }
             if (!skip)
             {
-                var texture = new RLTexture(graphics, Directory, type);
+                // Map Assimp TextureType to RLTextureType
+                RLTextureType rlType = RLTextureType.Diffuse; // default
+                switch (type)
+                {
+                    case TextureType.Diffuse:
+                        rlType = RLTextureType.Diffuse;
+                        break;
+                    case TextureType.Specular:
+                        rlType = RLTextureType.Specular;
+                        break;
+                    case TextureType.Normals:
+                    case TextureType.Height:
+                        rlType = RLTextureType.Normal;
+                        break;
+                    case TextureType.Ambient:
+                        rlType = RLTextureType.Height;
+                        break;
+                }
+                var texture = new RLTexture(graphics, Directory, rlType);
                 texture.Path = path;
                 textures.Add(texture);
                 _texturesLoaded.Add(texture);

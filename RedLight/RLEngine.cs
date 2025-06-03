@@ -55,7 +55,7 @@ public class RLEngine
 
             startingScene.TextureManager.TryAdd(
                 "no-texture",
-                new RLTexture(Graphics, RLConstants.RL_NO_TEXTURE)
+                new RLTexture(Graphics, RLFiles.GetEmbeddedResourcePath(RLConstants.RL_NO_TEXTURE_PATH), RLTextureType.Diffuse)
             );
         };
         Window.Window.FramebufferResize += OnFramebufferResize;
