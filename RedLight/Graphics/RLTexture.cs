@@ -10,16 +10,23 @@ public class RLTexture
     private ImageResult imageResult;
 
     public uint Handle { get; set; }
-
-    public RLTexture(RLGraphics graphics, byte[] image)
+    public string Path { get; set; }
+    public RLTextureType Type { get; set; }
+    
+    public RLTexture(RLGraphics graphics, string directory, RLTextureType type)
     {
+        this.graphics = graphics;
         var gl = graphics.OpenGL;
+        Type = type;
+        Path = directory;
 
         Handle = gl.GenTexture();
         gl.ActiveTexture(TextureUnit.Texture0);
         gl.BindTexture(TextureTarget.Texture2D, Handle);
 
-        imageResult = ImageResult.FromMemory(image, ColorComponents.RedGreenBlueAlpha);
+        using var fileStream = File.OpenRead(directory);
+        imageResult = ImageResult.FromStream(fileStream, ColorComponents.RedGreenBlueAlpha);
+
         unsafe
         {
             fixed (byte* ptr = imageResult.Data)
@@ -27,21 +34,29 @@ public class RLTexture
                     GLEnum.Texture2D,
                     0,
                     InternalFormat.Rgba,
-                    (uint)imageResult.Width, (uint)imageResult.Height,
+                    (uint)imageResult.Width,
+                    (uint)imageResult.Height,
                     0,
                     PixelFormat.Rgba,
                     PixelType.UnsignedByte,
-                    ptr);
+                    ptr
+                );
         }
 
         gl.TexParameter(GLEnum.Texture2D, GLEnum.TextureWrapS, (int)TextureWrapMode.Repeat);
         gl.TexParameter(GLEnum.Texture2D, GLEnum.TextureWrapT, (int)TextureWrapMode.Repeat);
-        gl.TexParameter(GLEnum.Texture2D, GLEnum.TextureMinFilter, (int)TextureMinFilter.NearestMipmapNearest); // <- change here!
+        gl.TexParameter(GLEnum.Texture2D, GLEnum.TextureMinFilter, (int)TextureMinFilter.NearestMipmapNearest);
         gl.TexParameter(GLEnum.Texture2D, GLEnum.TextureMagFilter, (int)TextureMagFilter.Nearest);
-        // create mipmap
         gl.GenerateMipmap(TextureTarget.Texture2D);
-
-        // unbind the texture
         gl.BindTexture(TextureTarget.Texture2D, 0);
     }
+
+}
+
+public enum RLTextureType
+{
+    Diffuse,
+    Specular,
+    Normal,
+    Height
 }

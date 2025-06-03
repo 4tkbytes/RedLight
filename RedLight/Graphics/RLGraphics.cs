@@ -22,10 +22,10 @@ public class RLGraphics
         public float a;
     }
 
-    public Mesh CreateMesh(float[] vertices, uint[] indices, RLShader vertexShader, RLShader fragmentShader)
-    {
-        return new Mesh(this, vertices, indices, vertexShader, fragmentShader);
-    }
+    // public Mesh CreateMesh(float[] vertices, uint[] indices, RLShader vertexShader, RLShader fragmentShader)
+    // {
+    //     return new Mesh(this, vertices, indices, vertexShader, fragmentShader);
+    // }
 
     public void IsCaptured(IMouse mouse, bool isCaptured)
     {

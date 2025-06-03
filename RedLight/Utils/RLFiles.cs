@@ -1,4 +1,5 @@
 using System.Reflection;
+using Serilog;
 
 namespace RedLight.Utils;
 
@@ -42,6 +43,7 @@ public static class RLFiles
 
         // Read and return the resource content
         using StreamReader reader = new(stream);
+        Log.Debug("Successfully fetched file information as a string [{A}]", resourceName);
         return reader.ReadToEnd();
     }
 
@@ -95,6 +97,7 @@ public static class RLFiles
             stream.CopyTo(fileStream);
         }
 
+
         return tempFilePath;
     }
 
@@ -117,6 +120,7 @@ public static class RLFiles
 
         using var ms = new MemoryStream();
         stream.CopyTo(ms);
+        Log.Debug("Loaded Embedded Resource as bytes [{A}]", resourceName);
         return ms.ToArray();
     }
 

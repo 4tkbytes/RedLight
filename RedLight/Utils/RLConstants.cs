@@ -10,4 +10,6 @@ public static class RLConstants
 
     public static readonly string RL_BASIC_SHADER_FRAG =
         RLFiles.GetEmbeddedResourceString("RedLight.Resources.Shaders.basic.frag");
+        
+    public static readonly int MAX_BONE_INFLUENCE = 4;
 }
