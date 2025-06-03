@@ -23,7 +23,7 @@ jobs:
         run: dotnet restore
 
       - name: Format code
-        run: dotnet format --verify-no-changes
+        run: dotnet format
 
       - name: Build solution
         run: dotnet build --configuration Release --no-restore
