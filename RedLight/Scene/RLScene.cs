@@ -1,4 +1,5 @@
 using RedLight.Graphics;
+using RedLight.Input;
 
 namespace RedLight.Scene;
 
@@ -9,6 +10,8 @@ public interface RLScene
     SceneManager SceneManager { get; set; }
     ShaderManager ShaderManager { get; set; }
     TextureManager TextureManager { get; set; }
+    InputManager InputManager { get; set; }
+
 
     void OnLoad();
 

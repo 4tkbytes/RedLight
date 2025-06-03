@@ -83,6 +83,7 @@ public class SceneManager
         currentScene.SceneManager = this;
         currentScene.ShaderManager = shaderManager;
         currentScene.TextureManager = textureManager;
+        currentScene.InputManager = input;
 
         input.SubscribeToInputs(currentKeyboard, currentMouse);
         

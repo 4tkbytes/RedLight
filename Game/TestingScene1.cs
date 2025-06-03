@@ -10,6 +10,7 @@ using Silk.NET.Core.Native;
 using Silk.NET.Input;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;
+using Silk.NET.OpenGL.Extensions.ImGui;
 using ShaderType = RedLight.Graphics.ShaderType;
 
 namespace Game;
@@ -20,14 +21,15 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     public SceneManager SceneManager { get; set; }
     public ShaderManager ShaderManager { get; set; }
     public TextureManager TextureManager { get; set; }
+    public InputManager InputManager { get; set; }
     public RLEngine Engine { get; set; }
     public HashSet<Key> PressedKeys { get; } = new();
 
     private Camera camera;
-    private IMouse mouse;
     private bool isCaptured = true;
+    private ImGuiController controller;
 
-    private Transformable<RLModel> _rlModel;
+    private Transformable<RLModel> maxwell;
     
     public void OnLoad()
     {
@@ -49,15 +51,20 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
             )
         );
 
+        controller = Graphics.ImGuiLoad(Engine.Window, InputManager);
+
         camera = new Camera(new Vector3D<float>(0, 0, 3),
             new Vector3D<float>(0, 0, -1),
             new Vector3D<float>(0, 1, 0),
             float.DegreesToRadians(60.0f), (float)800 / 600, 0.1f, 100.0f).SetSpeed(0.05f);
 
-        _rlModel = new RLModel(Graphics, RLFiles.GetEmbeddedResourcePath("RedLight.Resources.Models.cube.model"), TextureManager)
+        maxwell = new RLModel(
+                Graphics,
+                RLFiles.GetEmbeddedResourcePath("RedLight.Resources.Models.maxwell.obj"),
+                TextureManager)
             .AttachShader(ShaderManager.Get("basic"))
-            .AttachTexture(TextureManager.Get("thing"))
             .MakeTransformable();
+        maxwell = maxwell.Scale(new Vector3D<float>(0.2f, 0.2f, 0.2f));
     }
     
     public void OnUpdate(double deltaTime)
@@ -84,17 +91,21 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     {
         Graphics.Begin();
         {
+            
             Graphics.Clear();
             Graphics.ClearColour(RLConstants.RL_COLOUR_CORNFLOWER_BLUE);
-
-            Graphics.Use(_rlModel);
-            Graphics.UpdateView(camera, _rlModel);
-            Graphics.UpdateProjection(camera, _rlModel);
-            Graphics.UpdateModel(_rlModel);
-            Graphics.Draw(_rlModel);
+            
+            Graphics.Use(maxwell);
+            
+            Graphics.Update(camera, maxwell);
+            
+            Graphics.Draw(maxwell);
             Graphics.CheckGLErrors();
         }
         Graphics.End();
+        
+        if (!isCaptured)
+            Graphics.ImGuiRender(controller, deltaTime);
     }
 
     public void OnKeyDown(IKeyboard keyboard, Key key, int keyCode)
@@ -122,8 +133,6 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 
     public void OnMouseMove(IMouse mouse, Vector2 mousePosition)
     {
-        this.mouse = mouse;
-
         Graphics.IsCaptured(mouse, isCaptured);
         camera.FreeMove(mousePosition);
     }

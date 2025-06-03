@@ -7,7 +7,7 @@ namespace RedLight.Input;
 
 public class InputManager
 {
-    private IInputContext input;
+    public IInputContext input;
     private RLWindow window;
 
     public Dictionary<string, RLKeyboard> Keyboards { get; set; } = new();

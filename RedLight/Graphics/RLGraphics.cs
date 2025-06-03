@@ -1,8 +1,12 @@
+using System.Drawing;
+using ImGuiNET;
 using RedLight.Core;
+using RedLight.Input;
 using Serilog;
 using Silk.NET.Input;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;
+using Silk.NET.OpenGL.Extensions.ImGui;
 using Silk.NET.Windowing;
 
 namespace RedLight.Graphics;
@@ -128,6 +132,13 @@ public class RLGraphics
             }
         }
     }
+
+    public void Update(Camera camera, Transformable<RLModel> Tmodel)
+    {
+        UpdateModel(Tmodel);
+        UpdateView(camera, Tmodel);
+        UpdateProjection(camera, Tmodel);
+    }
     
     public void CheckGLErrors()
     {
@@ -234,5 +245,26 @@ public class RLGraphics
     public void Draw(Transformable<RLModel> model)
     {
         model.Target.Draw();
+    }
+
+    public ImGuiController ImGuiLoad(RLWindow window, InputManager inputManager)
+    {
+        ImGuiController controller = new ImGuiController(
+            OpenGL,
+            window.Window,
+            inputManager.input);
+        return controller;
+    }
+
+    public void ImGuiRender(ImGuiController controller, double deltaTime)
+    {
+        controller.Update((float) deltaTime);
+        
+        OpenGL.ClearColor(Color.FromArgb(255, (int) (.45f * 255), (int) (.55f * 255), (int) (.60f * 255)));
+        OpenGL.Clear((uint) ClearBufferMask.ColorBufferBit);
+        
+        ImGui.ShowDemoWindow();
+
+        controller.Render();
     }
 }

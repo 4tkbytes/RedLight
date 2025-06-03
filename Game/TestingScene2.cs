@@ -15,6 +15,7 @@ public class TestingScene2 : RLScene, RLKeyboard, RLMouse
     public SceneManager SceneManager { get; set; }
     public ShaderManager ShaderManager { get; set; }
     public TextureManager TextureManager { get; set; }
+    public InputManager InputManager { get; set; }
 
     public void OnLoad()
     {
