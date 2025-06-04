@@ -1,6 +1,7 @@
 using RedLight.Scene;
 using Serilog;
 using Silk.NET.Windowing;
+using Silk.NET.Windowing.Sdl;
 
 namespace RedLight.Core;
 
@@ -11,6 +12,7 @@ public class RLWindow
 
     public RLWindow(WindowOptions options, RLScene scene)
     {
+        // SdlWindowing.Use();
         Window = Silk.NET.Windowing.Window.Create(options);
     }
 

@@ -292,3 +292,4 @@ __pycache__/
 logs
 *.txt
 logs/*
+imgui.ini

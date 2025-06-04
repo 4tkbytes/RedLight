@@ -51,17 +51,26 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
                 RLTextureType.Normal
             )
         );
-
+        
+        TextureManager.TryAdd(
+            "maxwell_base",
+            new RLTexture(
+                Graphics,
+                RLFiles.GetEmbeddedResourcePath("RedLight.Resources.Models.Maxwell.obj.textures.dingus_baseColor.jpeg"),
+                RLTextureType.Normal
+            )
+        );
+        
         controller = Graphics.ImGuiLoad(Engine.Window, InputManager);
 
         var size = Engine.Window.Window.Size;
         camera = new Camera(size);
 
-        Cube cube = new(Graphics, TextureManager, ShaderManager, "cube1");
-        Sphere sphere = new(Graphics, TextureManager, ShaderManager, "sphere1");
+        var maxwell = new RLModel(Graphics,
+            RLFiles.GetEmbeddedResourcePath("RedLight.Resources.Models.Maxwell.obj.maxwell.obj"), TextureManager,
+            "maxwell").AttachTexture(TextureManager.Get("maxwell_base")).MakeTransformable();
 
-        objectModels.Add(cube.Model);
-        objectModels.Add(sphere.Model);
+        objectModels.Add(maxwell);
     }
 
     public void OnUpdate(double deltaTime)
