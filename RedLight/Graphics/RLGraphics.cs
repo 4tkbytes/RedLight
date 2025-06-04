@@ -1,4 +1,5 @@
 using System.Drawing;
+using System.Numerics;
 using ImGuiNET;
 using RedLight.Core;
 using RedLight.Input;
@@ -17,6 +18,9 @@ public class RLGraphics
 
     // other graphics apis will be added later
     public bool IsRendering { get; private set; }
+    public bool ShutUp { get; set; }
+
+    private bool locked = false;
 
     public struct Colour
     {
@@ -215,30 +219,58 @@ public class RLGraphics
             if (ImGui.CollapsingHeader(header, ImGuiTreeNodeFlags.DefaultOpen))
             {
                 // Extract current values from the matrix
-                var pos = new System.Numerics.Vector3(
-                    model.Model.M41, model.Model.M42, model.Model.M43
-                );
-                var scale = new System.Numerics.Vector3(
-                    model.Model.M11, model.Model.M22, model.Model.M33
-                );
-                float yaw = 0; // You'll need to store this separately or extract from matrix
+                Matrix4X4.Decompose(model.Model, out var sc, out var rot, out var pos);
+                var position = new Vector3(pos.X, pos.Y, pos.Z);
+                var rotation = new Vector4(rot.W, rot.X, rot.Y, rot.Z);
+                var scale = new Vector3(sc.X, sc.Y, sc.Z);
 
                 bool changed = false;
 
                 // Position sliders
-                if (ImGui.SliderFloat3($"Position##{idx}", ref pos, -10f, 10f))
+                if (ImGui.SliderFloat3($"Position##{idx}", ref position, -10f, 10f))
                 {
                     changed = true;
                 }
 
                 // Scale sliders
-                if (ImGui.SliderFloat3($"Scale##{idx}", ref scale, 0.01f, 2f))
+                bool scaleChanged = false;
+                if (locked)
+                {
+                    // Only show one slider, and apply to all axes
+                    float uniformScale = scale.X;
+                    if (ImGui.SliderFloat($"Scale (Locked)##{idx}", ref uniformScale, 0.01f, 2f))
+                    {
+                        scale = new Vector3(uniformScale, uniformScale, uniformScale);
+                        scaleChanged = true;
+                    }
+                }
+                else
+                {
+                    if (ImGui.SliderFloat3($"Scale##{idx}", ref scale, 0.01f, 2f))
+                    {
+                        scaleChanged = true;
+                    }
+                }
+
+                if (ImGui.Button(locked ? "Unlock Scale" : "Lock Scale"))
+                {
+                    locked = !locked;
+                    Log.Debug("ImGui Scale Lock has been toggled [{A}]", locked);
+                    if (locked)
+                    {
+                        scale = new Vector3(scale.X, scale.X, scale.X);
+                        model.AbsoluteReset();
+                        model.Scale(new Vector3D<float>(scale.X, scale.Y, scale.Z));
+                    }
+                }
+
+                if (scaleChanged)
                 {
                     changed = true;
                 }
 
                 // Rotation slider
-                if (ImGui.SliderAngle($"Yaw##{idx}", ref yaw, -180, 180))
+                if (ImGui.SliderFloat4($"Yaw##{idx}", ref rotation, -180, 180))
                 {
                     changed = true;
                 }
@@ -248,8 +280,27 @@ public class RLGraphics
                 {
                     model.AbsoluteReset(); // Reset to identity
                     model.Scale(new Vector3D<float>(scale.X, scale.Y, scale.Z));
-                    model.Rotate(yaw, Vector3D<float>.UnitY);
-                    model.Translate(new Vector3D<float>(pos.X, pos.Y, pos.Z));
+                    // Convert quaternion to angle/axis for Rotate
+                    var quat = new System.Numerics.Quaternion(rotation.X, rotation.Y, rotation.Z, rotation.W);
+                    quat = System.Numerics.Quaternion.Normalize(quat);
+                    float angle = 2.0f * (float)Math.Acos(quat.W);
+                    float sinHalfAngle = (float)Math.Sqrt(1.0f - quat.W * quat.W);
+                    Vector3D<float> axis;
+                    if (sinHalfAngle < 0.001f)
+                    {
+                        // If the angle is small, use default axis
+                        axis = Vector3D<float>.UnitY;
+                    }
+                    else
+                    {
+                        axis = new Vector3D<float>(
+                            quat.X / sinHalfAngle,
+                            quat.Y / sinHalfAngle,
+                            quat.Z / sinHalfAngle
+                        );
+                    }
+                    model.Rotate(angle, axis);
+                    model.Translate(new Vector3D<float>(position.X, position.Y, position.Z));
                 }
             }
             ImGui.Separator();

@@ -28,6 +28,7 @@ public class RLModel
         this.graphics = graphics;
         _gl = graphics.OpenGL;
         this.textureManager = textureManager;
+
         LoadModel(path);
         if (Meshes.Count == 0)
         {
@@ -35,7 +36,6 @@ public class RLModel
             throw new Exception("No meshes loaded from model!");
         }
         Log.Debug($"Loaded {Meshes.Count} mesh(es) from model.");
-        AttachTextureFirstTime(null);
     }
 
     public RLModel(RLGraphics graphics, string path, TextureManager textureManager)
@@ -57,7 +57,7 @@ public class RLModel
             throw new Exception(error);
         }
 
-        Directory = path;
+        Directory = RLFiles.GetParentFolder(path);
 
         ProcessNode(scene->MRootNode, scene);
     }
@@ -74,11 +74,13 @@ public class RLModel
 
     private unsafe void ProcessNode(Node* node, Silk.NET.Assimp.Scene* scene)
     {
-        Log.Debug($"ProcessNode: node has {node->MNumMeshes} meshes, {node->MNumChildren} children");
+        if (!graphics.ShutUp)
+            Log.Debug($"ProcessNode: node has {node->MNumMeshes} meshes, {node->MNumChildren} children");
         for (var i = 0; i < node->MNumMeshes; i++)
         {
             var mesh = scene->MMeshes[node->MMeshes[i]];
-            Log.Debug($"  Mesh {i}: {mesh->MNumVertices} vertices, {mesh->MNumFaces} faces");
+            if (!graphics.ShutUp)
+                Log.Debug($"  Mesh {i}: {mesh->MNumVertices} vertices, {mesh->MNumFaces} faces");
             Meshes.Add(ProcessMesh(mesh, scene));
         }
 
@@ -103,12 +105,12 @@ public class RLModel
     {
         if (texture == null)
         {
-            if (silent)
+            if (!silent)
                 Log.Warning("RLModel.AttachTexture: Provided texture is null. Using fallback 'no-texture'.");
             if (textureManager != null)
             {
                 if (textureManager.TryGet("no-texture", true) == null)
-                    textureManager.Add("no-texture", new RLTexture(graphics, RLFiles.GetEmbeddedResourcePath(RLConstants.RL_NO_TEXTURE_PATH), RLTextureType.Normal));
+                    textureManager.Add("no-texture", new RLTexture(graphics, RLFiles.GetEmbeddedResourcePath(RLConstants.RL_NO_TEXTURE_PATH), RLTextureType.Diffuse));
 
                 texture = textureManager.Get("no-texture");
             }
@@ -138,7 +140,8 @@ public class RLModel
 
     private unsafe Mesh ProcessMesh(Silk.NET.Assimp.Mesh* mesh, Silk.NET.Assimp.Scene* scene)
     {
-        Log.Debug($"ProcessMesh: {mesh->MNumVertices} vertices, {mesh->MNumFaces} faces");
+        if (!graphics.ShutUp)
+            Log.Debug($"ProcessMesh: {mesh->MNumVertices} vertices, {mesh->MNumFaces} faces");
         List<Vertex> vertices = new List<Vertex>();
         List<uint> indices = new List<uint>();
         List<RLTexture> textures = new List<RLTexture>();
@@ -162,11 +165,9 @@ public class RLModel
                 vertex.Normal = vector;
             }
             // texture coordinates
-            if (mesh->MTextureCoords[0] != null) // does the mesh contain texture coordinates?
+            if (mesh->MTextureCoords[0] != null)
             {
                 Vector2D<float> vec = new();
-                // a vertex can contain up to 8 different texture coordinates. We thus make the assumption that we won't 
-                // use models where a vertex can have multiple texture coordinates so we always take the first set (0).
                 vec.X = mesh->MTextureCoords[0][i].X;
                 vec.Y = mesh->MTextureCoords[0][i].Y;
                 vertex.TexCoords = vec;
@@ -192,45 +193,41 @@ public class RLModel
 
             vertices.Add(vertex);
         }
-        // now wak through each of the mesh's faces (a face is a mesh its triangle) and retrieve the corresponding vertex indices.
+        // now walk through each of the mesh's faces (a face is a mesh its triangle) and retrieve the corresponding vertex indices.
         for (uint i = 0; i < mesh->MNumFaces; i++)
         {
             Face face = mesh->MFaces[i];
-            // retrieve all indices of the face and store them in the indices vector
             for (uint j = 0; j < face.MNumIndices; j++)
                 indices.Add(face.MIndices[j]);
         }
         // process materials
         Material* material = scene->MMaterials[mesh->MMaterialIndex];
-        // we assume a convention for sampler names in the shaders. Each diffuse texture should be named
-        // as 'texture_diffuseN' where N is a sequential number ranging from 1 to MAX_SAMPLER_NUMBER. 
-        // Same applies to other texture as the following list summarizes:
-        // diffuse: texture_diffuseN
-        // specular: texture_specularN
-        // normal: texture_normalN
 
-        // 1. diffuse maps
-        var diffuseMaps = LoadMaterialTextures(material, TextureType.Diffuse, "texture_diffuse");
-        if (diffuseMaps.Any())
-            textures.AddRange(diffuseMaps);
-        // 2. specular maps
-        var specularMaps = LoadMaterialTextures(material, TextureType.Specular, "texture_specular");
-        if (specularMaps.Any())
-            textures.AddRange(specularMaps);
-        // 3. normal maps
-        var normalMaps = LoadMaterialTextures(material, TextureType.Height, "texture_normal");
-        if (normalMaps.Any())
-            textures.AddRange(normalMaps);
-        // 4. height maps
-        var heightMaps = LoadMaterialTextures(material, TextureType.Ambient, "texture_height");
-        if (heightMaps.Any())
-            textures.AddRange(heightMaps);
+        // Load all relevant textures for this material
+        textures.AddRange(LoadMaterialTextures(material, TextureType.Diffuse, RLTextureType.Diffuse));
+        textures.AddRange(LoadMaterialTextures(material, TextureType.Metalness, RLTextureType.Metallic));
+        textures.AddRange(LoadMaterialTextures(material, TextureType.DiffuseRoughness, RLTextureType.Roughness));
+        textures.AddRange(LoadMaterialTextures(material, TextureType.Specular, RLTextureType.Specular));
+        textures.AddRange(LoadMaterialTextures(material, TextureType.Normals, RLTextureType.Normal));
+        textures.AddRange(LoadMaterialTextures(material, TextureType.Height, RLTextureType.Normal));
+        textures.AddRange(LoadMaterialTextures(material, TextureType.Ambient, RLTextureType.Height));
+
+        if (!textures.Any())
+        {
+            Log.Warning($"No texture found for mesh '{mesh->MName}' in model '{Name}'. Mesh will render without texture.");
+        }
+
+        if (textures.Any())
+        {
+            if (!graphics.ShutUp)
+                Log.Debug($"Assigned {textures.Count} textures to mesh '{mesh->MName}' in model '{Name}'.");
+        }
 
         var meshObj = new Mesh(graphics, vertices, BuildIndices(indices)).AttachTexture(textures);
         return meshObj;
     }
 
-    private unsafe List<RLTexture> LoadMaterialTextures(Material* mat, TextureType type, string typeName)
+    private unsafe List<RLTexture> LoadMaterialTextures(Material* mat, TextureType type, RLTextureType rlType)
     {
         var textureCount = _assimp.GetMaterialTextureCount(mat, type);
         List<RLTexture> textures = new List<RLTexture>();
@@ -238,6 +235,18 @@ public class RLModel
         {
             AssimpString path;
             _assimp.GetMaterialTexture(mat, type, i, &path, null, null, null, null, null, null);
+
+            var textureFile = path.ToString();
+
+            // Skip invalid or empty texture names
+            if (string.IsNullOrWhiteSpace(textureFile) ||
+                textureFile == "?" ||
+                textureFile.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0)
+            {
+                Log.Warning("Skipping invalid texture file name: {TextureFile}", textureFile);
+                continue;
+            }
+
             bool skip = false;
             for (int j = 0; j < _texturesLoaded.Count; j++)
             {
@@ -250,26 +259,18 @@ public class RLModel
             }
             if (!skip)
             {
-                // Map Assimp TextureType to RLTextureType
-                RLTextureType rlType = RLTextureType.Diffuse; // default
-                switch (type)
+                var texturePath = Path.Combine(Directory, textureFile);
+                if (!System.IO.File.Exists(texturePath))
                 {
-                    case TextureType.Diffuse:
-                        rlType = RLTextureType.Diffuse;
-                        break;
-                    case TextureType.Specular:
-                        rlType = RLTextureType.Specular;
-                        break;
-                    case TextureType.Normals:
-                    case TextureType.Height:
-                        rlType = RLTextureType.Normal;
-                        break;
-                    case TextureType.Ambient:
-                        rlType = RLTextureType.Height;
-                        break;
+                    Log.Error("Texture file not found: {TexturePath}", texturePath);
                 }
-                var texture = new RLTexture(graphics, Directory, rlType);
-                texture.Path = path;
+                else
+                {
+                    Log.Debug("Loading texture: {TexturePath}", texturePath);
+                }
+                var texture = new RLTexture(graphics, texturePath, rlType);
+                texture.Path = textureFile;
+                texture.Type = rlType;
                 textures.Add(texture);
                 _texturesLoaded.Add(texture);
             }

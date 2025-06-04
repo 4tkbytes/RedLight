@@ -67,4 +67,14 @@ public class TextureManager
 
         textures.Remove(id);
     }
+
+    public void TryRemove(string id)
+    {
+        if (!textures.ContainsKey(id))
+        {
+            return;
+        }
+
+        textures.Remove(id);
+    }
 }

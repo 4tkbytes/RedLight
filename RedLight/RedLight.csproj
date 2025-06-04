@@ -5,6 +5,23 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <GenerateDocumentationFile>False</GenerateDocumentationFile>
+        <Title>RedLight Game Engine</Title>
+        <Authors>4tkbytes</Authors>
+        <PackageProjectUrl>https://github.com/4tkbytes/RedLight</PackageProjectUrl>
+        <Description>The RedLight Game Engine is the library used to power various games. </Description>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <RepositoryUrl>https://github.com/4tkbytes/RedLight</RepositoryUrl>
+        <FileVersion>0.0.1.0</FileVersion>
+        <AssemblyVersion>0.0.1.0</AssemblyVersion>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+      <DebugType>embedded</DebugType>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+      <DebugType>embedded</DebugType>
     </PropertyGroup>
 
     <ItemGroup>
@@ -24,6 +41,13 @@
         <EmbeddedResource Include="Resources\Shaders\**\*" />
         <EmbeddedResource Include="Resources\Textures\**\*" />
         <EmbeddedResource Include="Resources\Models\**\*" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="..\README.md">
+        <Pack>True</Pack>
+        <PackagePath>\</PackagePath>
+      </None>
     </ItemGroup>
 
 </Project>

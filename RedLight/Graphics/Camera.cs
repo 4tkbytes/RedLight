@@ -48,7 +48,7 @@ public class Camera
         : this(new Vector3D<float>(0, 0, 3),
             new Vector3D<float>(0, 0, -1),
             new Vector3D<float>(0, 1, 0),
-            float.DegreesToRadians(60.0f),
+            float.DegreesToRadians(90.0f),
             (float)screenSize.X / screenSize.Y,
             0.1f,
             100.0f)

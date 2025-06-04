@@ -1,4 +1,5 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Numerics;
 using RedLight;
 using RedLight.Graphics;
@@ -36,56 +37,20 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     {
         Log.Information("Scene 1 Loaded");
         Graphics.Enable();
+        Graphics.ShutUp = true;
 
         ShaderManager.TryAdd(
             "basic",
             new RLShader(Graphics, ShaderType.Vertex, RLConstants.RL_BASIC_SHADER_VERT),
             new RLShader(Graphics, ShaderType.Fragment, RLConstants.RL_BASIC_SHADER_FRAG)
         );
-
-        TextureManager.TryAdd(
-            "thing",
-            new RLTexture(
-                Graphics,
-                RLFiles.GetEmbeddedResourcePath("RedLight.Resources.Textures.thing.png"),
-                RLTextureType.Normal
-            )
-        );
-        
-        TextureManager.TryAdd(
-            "dingus_baseColor",
-            new RLTexture(
-                Graphics,
-                RLFiles.GetEmbeddedResourcePath("RedLight.Resources.Models.Maxwell.gltf.textures.dingus_baseColor.jpeg"),
-                RLTextureType.Normal
-            )
-        );
-
-        TextureManager.TryAdd(
-            "whiskers_baseColor",
-            new RLTexture(
-                Graphics,
-                RLFiles.GetEmbeddedResourcePath("RedLight.Resources.Models.Maxwell.gltf.textures.whiskers_baseColor.png"),
-                RLTextureType.Normal
-            )
-        );
         
         controller = Graphics.ImGuiLoad(Engine.Window, InputManager);
 
         var size = Engine.Window.Window.Size;
         camera = new Camera(size);
-        
-        string gltfPath = RLFiles.ExtractGltfWithDependencies(
-            "RedLight.Resources.Models.Maxwell.gltf.scene.gltf",
-            "RedLight.Resources.Models.Maxwell.gltf.scene.bin"
-        );
 
-        var maxwell = new RLModel(Graphics, gltfPath, TextureManager, "maxwell")
-            .AttachShader(ShaderManager.Get("basic"))
-            .AttachTexture(TextureManager.Get("dingus_baseColor"))
-            .MakeTransformable();
-
-        objectModels.Add(maxwell);
+        objectModels.Add(new RLModel(Graphics, RLFiles.CopyDirToTempAndGetEmbeddedResource("RedLight.Resources.Models.Basic.cat.fbx"), TextureManager).AttachShader(ShaderManager.Get("basic")).MakeTransformable());
     }
 
     public void OnUpdate(double deltaTime)
@@ -106,6 +71,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 
             foreach (var model in objectModels)
             {
+
                 Graphics.Use(model);
 
                 Graphics.Update(camera, model);

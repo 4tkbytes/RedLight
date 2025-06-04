@@ -1,0 +1,39 @@
+# Exported from Nomad Sculpt
+
+newmtl Sphere
+ map_Kd Sphere_color.png
+ map_roughness Sphere_roughness.png
+ map_metallic Sphere_metalness.png
+
+newmtl Sphere_1
+ map_Kd Sphere_1_color.png
+ map_roughness Sphere_1_roughness.png
+ map_metallic Sphere_1_metalness.png
+
+newmtl Mesh
+ map_Kd Mesh_color.png
+ map_roughness Mesh_roughness.png
+ map_metallic Mesh_metalness.png
+
+newmtl Mesh_2
+ map_Kd Mesh_2_color.png
+ map_roughness Mesh_2_roughness.png
+ map_metallic Mesh_2_metalness.png
+
+newmtl Mesh_12
+ map_Kd Mesh_12_color.png
+ map_roughness Mesh_12_roughness.png
+ map_metallic Mesh_12_metalness.png
+
+newmtl Mesh_1
+ map_Kd Mesh_1_color.png
+ map_roughness Mesh_1_roughness.png
+ map_metallic Mesh_1_metalness.png
+
+newmtl Sphere_2
+
+newmtl Torus
+
+newmtl Sphere_2_1
+
+newmtl Torus_1

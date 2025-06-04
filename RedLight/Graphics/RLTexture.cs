@@ -77,5 +77,7 @@ public enum RLTextureType
     Diffuse,
     Specular,
     Normal,
-    Height
+    Height,
+    Metallic,
+    Roughness
 }
