@@ -5,8 +5,14 @@ namespace RedLight.Graphics.Primitive;
 public class Cube
 {
     public Transformable<RLModel> Model { get; set; }
-    
+
     public Cube(RLGraphics graphics, TextureManager textureManager, ShaderManager shaderManager)
+    : this(graphics, textureManager, shaderManager, "cube")
+    {
+
+    }
+
+    public Cube(RLGraphics graphics, TextureManager textureManager, ShaderManager shaderManager, string name)
     {
         Model = new RLModel(
                 graphics,

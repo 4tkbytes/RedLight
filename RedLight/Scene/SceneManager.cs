@@ -82,10 +82,10 @@ public class SceneManager
 
         currentSceneId = id;
         currentScene = scenes[id];
-    
+
         currentKeyboard = input.Keyboards[id];
         currentMouse = input.Mice[id];
-    
+
         engine.Window.SubscribeToEvents(currentScene);
 
         currentScene.Engine = engine;
@@ -102,7 +102,7 @@ public class SceneManager
 
     private void FPSCounter()
     {
-        engine.Window.Window.Update += (double deltaTime) => 
+        engine.Window.Window.Update += (double deltaTime) =>
         {
             engine.Window.FramesPerSecond = 1.0 / deltaTime;
         };

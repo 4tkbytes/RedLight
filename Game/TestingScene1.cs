@@ -30,8 +30,8 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     private Camera camera;
     private bool isCaptured = true;
     private ImGuiController controller;
-    private Dictionary<string, Transformable<RLModel>> objectModels = new();
-    
+    private List<Transformable<RLModel>> objectModels = new();
+
     public void OnLoad()
     {
         Log.Information("Scene 1 Loaded");
@@ -57,13 +57,11 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         var size = Engine.Window.Window.Size;
         camera = new Camera(size);
 
-        Cube cube = new(Graphics, TextureManager, ShaderManager);
-        Sphere sphere = new(Graphics, TextureManager, ShaderManager);
-        Plane plane = new(Graphics, TextureManager, ShaderManager);
-        
-        objectModels.TryAdd("cube1", cube.Model);
-        objectModels.TryAdd("sphere1", sphere.Model);
-        objectModels.TryAdd("floor", plane.Model);
+        Cube cube = new(Graphics, TextureManager, ShaderManager, "cube1");
+        Sphere sphere = new(Graphics, TextureManager, ShaderManager, "sphere1");
+
+        objectModels.Add(cube.Model);
+        objectModels.Add(sphere.Model);
     }
 
     public void OnUpdate(double deltaTime)
@@ -71,7 +69,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         Engine.Window.FramesPerSecond = 1.0 / deltaTime;
 
         camera = camera.SetSpeed(2.5f * (float)deltaTime);
-        
+
         camera.KeyMap(PressedKeys);
     }
 
@@ -84,16 +82,16 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 
             foreach (var model in objectModels)
             {
-                Graphics.Use(model.Value);
+                Graphics.Use(model);
 
-                Graphics.Update(camera, model.Value);
+                Graphics.Update(camera, model);
 
-                Graphics.Draw(model.Value);
+                Graphics.Draw(model);
             }
         }
         Graphics.End();
 
-        // Graphics.ImGuiRender(controller, deltaTime, objectModels);
+        Graphics.ImGuiRender(controller, deltaTime, objectModels);
 
     }
 

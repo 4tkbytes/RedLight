@@ -201,48 +201,63 @@ public class RLGraphics
     {
         controller.Update((float)deltaTime);
 
-        // After this comment, imgui contents will render
-        // ---------------------------------------------
+        var io = ImGui.GetIO();
+        var windowSize = new System.Numerics.Vector2(350, io.DisplaySize.Y);
+        ImGui.SetNextWindowPos(new System.Numerics.Vector2(io.DisplaySize.X - windowSize.X, 0), ImGuiCond.Always);
+        ImGui.SetNextWindowSize(windowSize, ImGuiCond.Always);
 
-        ImGui.Begin("Testing Scene 1", ImGuiWindowFlags.AlwaysAutoResize);
-        foreach (Transformable<RLModel> model in objectModels)
+        ImGui.Begin("Scene Objects", ImGuiWindowFlags.AlwaysAutoResize);
+
+        int idx = 0;
+        foreach (var model in objectModels)
         {
-            // Position sliders
-            var pos = new System.Numerics.Vector3(
-                model.Model.M41, model.Model.M42, model.Model.M43
-            );
-            if (ImGui.SliderFloat3("Position", ref pos, -10f, 10f))
+            string header = $"{model.Target.Name}";
+            if (ImGui.CollapsingHeader(header, ImGuiTreeNodeFlags.DefaultOpen))
             {
-                // Update translation (reset then apply new translation)
-                //model.AbsoluteReset();
-                model.Translate(new Vector3D<float>(pos.X, pos.Y, pos.Z));
-            }
+                // Extract current values from the matrix
+                var pos = new System.Numerics.Vector3(
+                    model.Model.M41, model.Model.M42, model.Model.M43
+                );
+                var scale = new System.Numerics.Vector3(
+                    model.Model.M11, model.Model.M22, model.Model.M33
+                );
+                float yaw = 0; // You'll need to store this separately or extract from matrix
 
-            // Scale sliders
-            var scale = new System.Numerics.Vector3(
-                model.Model.M11, model.Model.M22, model.Model.M33
-            );
-            if (ImGui.SliderFloat3("Scale", ref scale, 0.01f, 2f))
-            {
-                //model.AbsoluteReset();
-                model.Scale(new Vector3D<float>(scale.X, scale.Y, scale.Z));
-                model.Translate(new Vector3D<float>(pos.X, pos.Y, pos.Z)); // re-apply translation
-            }
+                bool changed = false;
 
-            // Rotation slider (for simplicity, just Yaw)
-            float yaw = 0;
-            ImGui.SliderAngle("Yaw", ref yaw, -180, 180);
-            if (ImGui.IsItemDeactivatedAfterEdit())
-            {
-                //model.AbsoluteReset();
-                model.Rotate(yaw, Vector3D<float>.UnitY);
-                model.Translate(new Vector3D<float>(pos.X, pos.Y, pos.Z));
-                model.Scale(new Vector3D<float>(scale.X, scale.Y, scale.Z));
+                // Position sliders
+                if (ImGui.SliderFloat3($"Position##{idx}", ref pos, -10f, 10f))
+                {
+                    changed = true;
+                }
+
+                // Scale sliders
+                if (ImGui.SliderFloat3($"Scale##{idx}", ref scale, 0.01f, 2f))
+                {
+                    changed = true;
+                }
+
+                // Rotation slider
+                if (ImGui.SliderAngle($"Yaw##{idx}", ref yaw, -180, 180))
+                {
+                    changed = true;
+                }
+
+                // Only update when something changed
+                if (changed)
+                {
+                    model.AbsoluteReset(); // Reset to identity
+                    model.Scale(new Vector3D<float>(scale.X, scale.Y, scale.Z));
+                    model.Rotate(yaw, Vector3D<float>.UnitY);
+                    model.Translate(new Vector3D<float>(pos.X, pos.Y, pos.Z));
+                }
             }
+            ImGui.Separator();
+            idx++;
         }
-        ImGui.End();
 
-        // ---------------------------------------------
+        ImGui.End();
         controller.Render();
     }
+
 }

@@ -48,9 +48,9 @@ public class Camera
         : this(new Vector3D<float>(0, 0, 3),
             new Vector3D<float>(0, 0, -1),
             new Vector3D<float>(0, 1, 0),
-            float.DegreesToRadians(60.0f), 
-            (float)screenSize.X / screenSize.Y, 
-            0.1f, 
+            float.DegreesToRadians(60.0f),
+            (float)screenSize.X / screenSize.Y,
+            0.1f,
             100.0f)
     {
     }
@@ -114,7 +114,7 @@ public class Camera
 
     public Camera KeyMap(HashSet<Key> PressedKeys)
     {
-       
+
         if (PressedKeys.Contains(Key.W))
             MoveForward();
         if (PressedKeys.Contains(Key.S))

@@ -17,10 +17,12 @@ public class RLModel
     private TextureManager textureManager;
     public string Directory { get; protected set; } = string.Empty;
     public List<Mesh> Meshes { get; protected set; } = new List<Mesh>();
+    public String Name { get; private set; }
 
-    public RLModel(RLGraphics graphics, string path, TextureManager textureManager)
+    public RLModel(RLGraphics graphics, string path, TextureManager textureManager, string name)
     {
         var assimp = Assimp.GetApi();
+        Name = name;
         _assimp = assimp;
         this.graphics = graphics;
         _gl = graphics.OpenGL;
@@ -34,6 +36,13 @@ public class RLModel
         Log.Debug($"Loaded {Meshes.Count} mesh(es) from model.");
         AttachTextureFirstTime(null);
     }
+
+    public RLModel(RLGraphics graphics, string path, TextureManager textureManager)
+    : this(graphics, path, textureManager, "")
+    {
+
+    }
+
 
     public Transformable<RLModel> MakeTransformable()
     {
