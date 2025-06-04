@@ -83,10 +83,6 @@ public static class RLFiles
 
         // Create a unique temporary file name
         string fileExtension = Path.GetExtension(resourceName);
-        if (string.IsNullOrEmpty(fileExtension))
-        {
-            fileExtension = ".png"; // Default to png if no extension is found
-        }
 
         string tempFileName = $"{Path.GetFileNameWithoutExtension(resourceName)}_{Guid.NewGuid()}{fileExtension}";
         string tempFilePath = Path.Combine(Path.GetTempPath(), tempFileName);
@@ -97,7 +93,7 @@ public static class RLFiles
             stream.CopyTo(fileStream);
         }
 
-        Log.Debug("Successfully fetches file path [{A}]", resourceName);
+        Log.Debug("Successfully fetched file path [{A}]", resourceName);
         return tempFilePath;
     }
 
@@ -135,5 +131,61 @@ public static class RLFiles
 
         // Combine and return the absolute path
         return Path.GetFullPath(Path.Combine(baseDir, normalizedPath));
+    }
+    
+    public static string ExtractGltfWithDependencies(string gltfResource, string binResource)
+    {
+        // Create a unique temporary directory
+        string tempDir = Path.Combine(Path.GetTempPath(), "RedLightGltf_" + Guid.NewGuid().ToString("N")[..8]);
+        Directory.CreateDirectory(tempDir);
+
+        try
+        {
+            // Extract GLTF file
+            string gltfPath = Path.Combine(tempDir, "scene.gltf");
+            using (var gltfStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(gltfResource))
+            {
+                if (gltfStream == null)
+                {
+                    Log.Error("Could not find embedded resource: {Resource}", gltfResource);
+                    throw new FileNotFoundException($"Embedded resource not found: {gltfResource}");
+                }
+            
+                using (var fileStream = File.Create(gltfPath))
+                {
+                    gltfStream.CopyTo(fileStream);
+                }
+            }
+
+            // Extract BIN file  
+            string binPath = Path.Combine(tempDir, "scene.bin");
+            using (var binStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(binResource))
+            {
+                if (binStream == null)
+                {
+                    Log.Error("Could not find embedded resource: {Resource}", binResource);
+                    throw new FileNotFoundException($"Embedded resource not found: {binResource}");
+                }
+            
+                using (var fileStream = File.Create(binPath))
+                {
+                    binStream.CopyTo(fileStream);
+                }
+            }
+
+            Log.Debug("Extracted GLTF to: {GltfPath}", gltfPath);
+            Log.Debug("Extracted BIN to: {BinPath}", binPath);
+            Log.Debug("Files in temp directory: {Files}", string.Join(", ", Directory.GetFiles(tempDir)));
+
+            return gltfPath;
+        }
+        catch (Exception ex)
+        {
+            Log.Error("Failed to extract GLTF files: {Error}", ex.Message);
+        
+            // Clean up on failure
+            try { Directory.Delete(tempDir, true); } catch { }
+            throw;
+        }
     }
 }

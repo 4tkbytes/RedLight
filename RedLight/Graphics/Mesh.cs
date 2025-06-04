@@ -157,7 +157,6 @@ public class Mesh
                     break;
             }
 
-            // Compose uniform name like "texture_diffuse1"
             string uniformName = $"texture_{name}{number}";
             int location = gl.GetUniformLocation(program, uniformName);
             if (location != -1)

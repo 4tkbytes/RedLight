@@ -228,7 +228,18 @@ public class RLEngine
 
     public void Run()
     {
-        Window.Window.Run();
-        Log.Information("Exiting RedLight Engine now");
+        try
+        {
+            Window.Window.Run();
+        }
+        catch (Exception e)
+        {
+            Log.Error("An error occurred while running App: {A}", e);
+            throw;
+        }
+        finally
+        {
+            Log.Information("Exiting RedLight Engine now");
+        }
     }
 }

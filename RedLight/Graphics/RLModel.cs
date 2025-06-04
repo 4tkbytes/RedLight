@@ -18,6 +18,7 @@ public class RLModel
     public string Directory { get; protected set; } = string.Empty;
     public List<Mesh> Meshes { get; protected set; } = new List<Mesh>();
     public String Name { get; private set; }
+    private bool shaderAttached = false;
 
     public RLModel(RLGraphics graphics, string path, TextureManager textureManager, string name)
     {
@@ -39,11 +40,8 @@ public class RLModel
 
     public RLModel(RLGraphics graphics, string path, TextureManager textureManager)
     : this(graphics, path, textureManager, "")
-    {
-
-    }
-
-
+    { }
+    
     public Transformable<RLModel> MakeTransformable()
     {
         return new Transformable<RLModel>(this);
@@ -66,6 +64,8 @@ public class RLModel
 
     public void Draw()
     {
+        if (!shaderAttached)
+            Log.Error("No shader found for mesh [{A}]. Did you forget to attach it?", Name);
         foreach (var mesh in Meshes)
         {
             mesh.Draw();
@@ -94,7 +94,8 @@ public class RLModel
         {
             mesh.AttachShader(shaderBundle.vertexShader, shaderBundle.fragmentShader);
         }
-
+        
+        shaderAttached = true;
         return this;
     }
 

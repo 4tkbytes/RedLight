@@ -53,10 +53,19 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         );
         
         TextureManager.TryAdd(
-            "maxwell_base",
+            "dingus_baseColor",
             new RLTexture(
                 Graphics,
-                RLFiles.GetEmbeddedResourcePath("RedLight.Resources.Models.Maxwell.obj.textures.dingus_baseColor.jpeg"),
+                RLFiles.GetEmbeddedResourcePath("RedLight.Resources.Models.Maxwell.gltf.textures.dingus_baseColor.jpeg"),
+                RLTextureType.Normal
+            )
+        );
+
+        TextureManager.TryAdd(
+            "whiskers_baseColor",
+            new RLTexture(
+                Graphics,
+                RLFiles.GetEmbeddedResourcePath("RedLight.Resources.Models.Maxwell.gltf.textures.whiskers_baseColor.png"),
                 RLTextureType.Normal
             )
         );
@@ -65,10 +74,16 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 
         var size = Engine.Window.Window.Size;
         camera = new Camera(size);
+        
+        string gltfPath = RLFiles.ExtractGltfWithDependencies(
+            "RedLight.Resources.Models.Maxwell.gltf.scene.gltf",
+            "RedLight.Resources.Models.Maxwell.gltf.scene.bin"
+        );
 
-        var maxwell = new RLModel(Graphics,
-            RLFiles.GetEmbeddedResourcePath("RedLight.Resources.Models.Maxwell.obj.maxwell.obj"), TextureManager,
-            "maxwell").AttachTexture(TextureManager.Get("maxwell_base")).MakeTransformable();
+        var maxwell = new RLModel(Graphics, gltfPath, TextureManager, "maxwell")
+            .AttachShader(ShaderManager.Get("basic"))
+            .AttachTexture(TextureManager.Get("dingus_baseColor"))
+            .MakeTransformable();
 
         objectModels.Add(maxwell);
     }
