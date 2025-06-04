@@ -7,7 +7,7 @@ public class Sphere
     public Transformable<RLModel> Model { get; set; }
 
     public Sphere(RLGraphics graphics, TextureManager textureManager, ShaderManager shaderManager)
-    : this(graphics, textureManager, shaderManager, "cube")
+    : this(graphics, textureManager, shaderManager, "sphere")
     {
 
     }

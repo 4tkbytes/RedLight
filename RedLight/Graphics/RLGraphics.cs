@@ -3,6 +3,7 @@ using System.Numerics;
 using ImGuiNET;
 using RedLight.Core;
 using RedLight.Input;
+using RedLight.Utils;
 using Serilog;
 using Silk.NET.Input;
 using Silk.NET.Maths;
@@ -154,6 +155,13 @@ public class RLGraphics
         }
         Log.Verbose("[RLGraphics] Using program: {Program}", prog);
         OpenGL.UseProgram(prog);
+    }
+
+    public Transformable<RLModel> CreateModel(string resourceName, TextureManager textureManager, ShaderManager shaderManager, string name)
+    {
+        return new RLModel(this, RLFiles.CopyDirToTempAndGetEmbeddedResource(resourceName), textureManager, name)
+            .AttachShader(shaderManager.Get("basic"))
+            .MakeTransformable();
     }
 
     public void Begin()

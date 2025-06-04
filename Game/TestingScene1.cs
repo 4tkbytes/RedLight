@@ -44,13 +44,20 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
             new RLShader(Graphics, ShaderType.Vertex, RLConstants.RL_BASIC_SHADER_VERT),
             new RLShader(Graphics, ShaderType.Fragment, RLConstants.RL_BASIC_SHADER_FRAG)
         );
+
+        TextureManager.TryAdd(
+            "no-texture",
+            new RLTexture(Graphics, RLFiles.GetEmbeddedResourcePath(RLConstants.RL_NO_TEXTURE_PATH), RLTextureType.Diffuse)
+            );
         
         controller = Graphics.ImGuiLoad(Engine.Window, InputManager);
 
         var size = Engine.Window.Window.Size;
         camera = new Camera(size);
 
-        objectModels.Add(new RLModel(Graphics, RLFiles.CopyDirToTempAndGetEmbeddedResource("RedLight.Resources.Models.Basic.cat.fbx"), TextureManager).AttachShader(ShaderManager.Get("basic")).MakeTransformable());
+
+        objectModels.Add(Graphics.CreateModel("Game.Resources.Crab.Project 16.obj", TextureManager, ShaderManager, "jane_doe"));
+        objectModels.Add(new Cube(Graphics, TextureManager, ShaderManager, "player").Model);
     }
 
     public void OnUpdate(double deltaTime)
@@ -60,6 +67,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         camera = camera.SetSpeed(2.5f * (float)deltaTime);
 
         camera.KeyMap(PressedKeys);
+        Graphics.MakePlayer(camera, objectModels[0]);
     }
 
     public void OnRender(double deltaTime)
@@ -71,11 +79,8 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 
             foreach (var model in objectModels)
             {
-
                 Graphics.Use(model);
-
                 Graphics.Update(camera, model);
-
                 Graphics.Draw(model);
             }
         }

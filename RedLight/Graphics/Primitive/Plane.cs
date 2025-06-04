@@ -7,7 +7,7 @@ public class Plane
     public Transformable<RLModel> Model { get; set; }
 
     public Plane(RLGraphics graphics, TextureManager textureManager, ShaderManager shaderManager)
-    : this(graphics, textureManager, shaderManager, "cube")
+    : this(graphics, textureManager, shaderManager, "plane")
     {
 
     }

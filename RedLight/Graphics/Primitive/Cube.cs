@@ -19,6 +19,7 @@ public class Cube
                 RLFiles.GetEmbeddedResourcePath("RedLight.Resources.Models.Basic.cube.model"),
                 textureManager)
             .AttachShader(shaderManager.Get("basic"))
+            .AttachTexture(textureManager.Get("no-texture"))
             .MakeTransformable();
     }
 }
