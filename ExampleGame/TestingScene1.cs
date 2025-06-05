@@ -44,12 +44,12 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
             new RLTexture(Graphics, RLFiles.GetEmbeddedResourcePath(RLConstants.RL_NO_TEXTURE_PATH))
         );
 
-        TextureManager.Add(
+        TextureManager.TryAdd(
             "Carrot_Base_diffuse",
             new RLTexture(Graphics, RLFiles.GetEmbeddedResourcePath("ExampleGame.Resources.Carrot.textures.Carrot_Base_diffuse.png"))
         );
 
-        TextureManager.Add(
+        TextureManager.TryAdd(
             "Carrot_Leaves_diffuse",
             new RLTexture(Graphics, RLFiles.GetEmbeddedResourcePath("ExampleGame.Resources.Carrot.textures.Carrot_Leaves_diffuse.png"))
         );
