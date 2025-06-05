@@ -5,7 +5,7 @@
         <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <PublishAot>True</PublishAot>
+        <PublishAot>False</PublishAot>
         <SignAssembly>False</SignAssembly>
         <Description>The example game for the RedLight Game Engine</Description>
         <PackageProjectUrl>https://github.com/4tkbytes/RedLight</PackageProjectUrl>
