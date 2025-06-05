@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <PublishAot>True</PublishAot>
+        <SignAssembly>False</SignAssembly>
+        <Description>The example game for the RedLight Game Engine</Description>
+        <PackageProjectUrl>https://github.com/4tkbytes/RedLight</PackageProjectUrl>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+      <DebugType>portable</DebugType>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+      <DebugType>portable</DebugType>
+    </PropertyGroup>
+
+    <ItemGroup>
+		<EmbeddedResource Include="Resources\**\*" />
+	</ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\RedLight\RedLight.csproj" />
+    </ItemGroup>
+
+</Project>

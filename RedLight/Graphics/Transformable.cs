@@ -1,3 +1,4 @@
+using System.Numerics;
 using Silk.NET.Maths;
 using RedLight.Utils;
 using Serilog;
@@ -10,6 +11,7 @@ public class Transformable<T>
     private bool defaultSet = false;
 
     private Matrix4X4<float> modelDefault = Matrix4X4<float>.Identity;
+    public Vector3 eulerAngles = new Vector3(0, 0, 0);
 
     public Matrix4X4<float> Model { get; private set; } = Matrix4X4<float>.Identity;
 

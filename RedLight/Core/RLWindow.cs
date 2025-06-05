@@ -18,7 +18,7 @@ public class RLWindow
 
     internal void SubscribeToEvents(RLScene scene)
     {
-        Window.Load += scene.OnLoad;
+        Window.Load += scene.Load;
         Window.Render += scene.OnRender;
         Window.Update += scene.OnUpdate;
         Log.Debug("Subscribed to window events");
@@ -26,7 +26,7 @@ public class RLWindow
 
     internal void UnsubscribeFromEvents(RLScene scene)
     {
-        Window.Load -= scene.OnLoad;
+        Window.Load -= scene.Load;
         Window.Render -= scene.OnRender;
         Window.Update -= scene.OnUpdate;
         Log.Debug("Unsubscribed from window events");

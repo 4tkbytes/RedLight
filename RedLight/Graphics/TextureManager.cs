@@ -12,6 +12,8 @@ public class TextureManager
         {
             throw new Exception($"Texture [{id}] already exists");
         }
+
+        rlTexture.Name = id;
         textures.Add(id, rlTexture);
     }
 

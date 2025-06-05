@@ -1,5 +1,6 @@
 using RedLight.Graphics;
 using RedLight.Input;
+using Serilog;
 
 namespace RedLight.Scene;
 
@@ -14,6 +15,11 @@ public interface RLScene
 
 
     void OnLoad();
+
+    void Load()
+    {
+        Log.Debug("Scene loaded");
+    }
 
     void OnUpdate(double deltaTime);
 

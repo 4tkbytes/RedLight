@@ -13,8 +13,9 @@ public class RLTexture
     public uint Handle { get; set; }
     public string Path { get; set; }
     public RLTextureType Type { get; set; }
+    public string Name { get; set; }
 
-    public RLTexture(RLGraphics graphics, string directory, RLTextureType type)
+    public RLTexture(RLGraphics graphics, string directory, RLTextureType type = RLTextureType.Diffuse)
     {
         this.graphics = graphics;
         var gl = graphics.OpenGL;

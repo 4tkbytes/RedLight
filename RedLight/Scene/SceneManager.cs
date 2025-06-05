@@ -6,7 +6,7 @@ namespace RedLight.Scene;
 
 public class SceneManager
 {
-    private Dictionary<string, RLScene> scenes;
+    public Dictionary<string, RLScene> Scenes { get; }
     internal InputManager input;
     private RLEngine engine;
     private ShaderManager shaderManager;
@@ -17,11 +17,16 @@ public class SceneManager
     private RLKeyboard currentKeyboard;
     private RLMouse currentMouse;
 
+    private LoadingState loadingState = LoadingState.Completed;
+    private string? pendingSceneId = null;
+    private string loadingSceneId = "loading";
+    private double loadingTimer = 0;
+
     internal bool coconutToggle = false;
 
     public SceneManager(RLEngine engine, ShaderManager shaderManager, TextureManager textureManager)
     {
-        scenes = new Dictionary<string, RLScene>();
+        Scenes = new Dictionary<string, RLScene>();
         input = new InputManager(engine.Window);
         this.engine = engine;
         this.shaderManager = shaderManager;
@@ -32,12 +37,12 @@ public class SceneManager
 
     public void Add(string id, RLScene scene, RLKeyboard keyboard, RLMouse mouse)
     {
-        if (scenes.ContainsKey(id))
+        if (Scenes.ContainsKey(id))
         {
             throw new Exception($"ID [{id}] is already registered");
         }
 
-        scenes.Add(id, scene);
+        Scenes.Add(id, scene);
 
         input.Keyboards.Add(id, keyboard);
         input.Mice.Add(id, mouse);
@@ -51,9 +56,14 @@ public class SceneManager
         }
     }
 
+    public void Add(string id, RLScene scene)
+    {
+        Add(id, scene, scene as RLKeyboard, scene as RLMouse);
+    }
+
     public void SwitchScene(RLScene scene)
     {
-        var thing = scenes.FirstOrDefault(x => x.Value == scene).Key;
+        var thing = Scenes.FirstOrDefault(x => x.Value == scene).Key;
         if (thing != null)
         {
             SwitchScene(thing);
@@ -66,7 +76,7 @@ public class SceneManager
 
     public void SwitchScene(string id)
     {
-        if (!scenes.ContainsKey(id))
+        if (!Scenes.ContainsKey(id))
         {
             throw new Exception($"ID [{id}] does not exist");
         }
@@ -81,7 +91,7 @@ public class SceneManager
         }
 
         currentSceneId = id;
-        currentScene = scenes[id];
+        currentScene = Scenes[id];
 
         currentKeyboard = input.Keyboards[id];
         currentMouse = input.Mice[id];
@@ -97,7 +107,44 @@ public class SceneManager
 
         input.SubscribeToInputs(currentKeyboard, currentMouse);
 
-        currentScene.OnLoad();
+        currentScene.Load();
+    }
+
+    public void SomeOtherFunction(RLScene scene)
+    {
+        var thing = Scenes.FirstOrDefault(x => x.Value == scene).Key;
+        if (thing == null)
+        {
+            throw new Exception($"Scene [{scene}] is not registered");
+        }
+
+        if (currentScene != null)
+        {
+            engine.Window.UnsubscribeFromEvents(currentScene);
+            if (currentKeyboard != null && currentMouse != null)
+            {
+                input.UnsubscribeFromInputs(currentKeyboard, currentMouse);
+            }
+        }
+
+        var id = thing;
+
+        currentSceneId = id;
+        currentScene = Scenes[id];
+
+        currentKeyboard = input.Keyboards[id];
+        currentMouse = input.Mice[id];
+
+        engine.Window.SubscribeToEvents(currentScene);
+
+        currentScene.Engine = engine;
+        currentScene.Graphics = engine.Graphics;
+        currentScene.SceneManager = this;
+        currentScene.ShaderManager = shaderManager;
+        currentScene.TextureManager = textureManager;
+        currentScene.InputManager = input;
+
+        input.SubscribeToInputs(currentKeyboard, currentMouse);
     }
 
     private void FPSCounter()
@@ -114,11 +161,17 @@ public class SceneManager
         {
             throw new Exception("Cannot remove the currently active scene");
         }
-        scenes.Remove(id);
+        Scenes.Remove(id);
     }
 
     public RLScene GetCurrentScene()
     {
         return currentScene;
     }
+}
+
+public enum LoadingState
+{
+    Loading,
+    Completed,
 }

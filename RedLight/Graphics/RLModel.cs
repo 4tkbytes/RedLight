@@ -16,7 +16,7 @@ public class RLModel
     private List<RLTexture> _texturesLoaded = new();
     private TextureManager textureManager;
     public string Directory { get; protected set; } = string.Empty;
-    public List<Mesh> Meshes { get; protected set; } = new List<Mesh>();
+    public List<Mesh> Meshes { get; protected set; } = new();
     public String Name { get; private set; }
     private bool shaderAttached = false;
 
@@ -41,7 +41,7 @@ public class RLModel
     public RLModel(RLGraphics graphics, string path, TextureManager textureManager)
     : this(graphics, path, textureManager, "")
     { }
-    
+
     public Transformable<RLModel> MakeTransformable()
     {
         return new Transformable<RLModel>(this);
@@ -90,13 +90,102 @@ public class RLModel
         }
     }
 
+    public RLModel ApplyTextureOverride(string meshName, string texturePath, RLTextureType textureType = RLTextureType.Diffuse)
+    {
+        if (int.TryParse(meshName, out int meshIndex) && meshIndex >= 0 && meshIndex < Meshes.Count)
+        {
+            var texture = new RLTexture(graphics, texturePath, textureType);
+            Meshes[meshIndex].AttachTexture(texture);
+            Log.Debug("Applied texture override for mesh index [{Index}]: {TexturePath}", meshIndex, texturePath);
+            return this;
+        }
+
+        for (int i = 0; i < Meshes.Count; i++)
+        {
+            if (Meshes[i].ToString().Contains(meshName) ||
+                (Meshes[i].Name != null && Meshes[i].Name.Contains(meshName)))
+            {
+                var texture = new RLTexture(graphics, texturePath, textureType);
+                Meshes[i].AttachTexture(texture);
+                Log.Debug("Applied texture override for mesh [{MeshName}]: {TexturePath}", meshName, texturePath);
+                return this;
+            }
+        }
+
+        Log.Warning("Cannot apply texture override: Mesh [{MeshName}] not found", meshName);
+        return this;
+    }
+
+    public RLModel ApplyTextureOverride(int meshIndex, string texturePath, RLTextureType textureType = RLTextureType.Diffuse)
+    {
+        if (meshIndex >= 0 && meshIndex < Meshes.Count)
+        {
+            var texture = new RLTexture(graphics, texturePath, textureType);
+            Meshes[meshIndex].AttachTexture(texture);
+            Log.Debug("Applied texture override for mesh index [{Index}]: {TexturePath}", meshIndex, texturePath);
+        }
+        else
+        {
+            Log.Warning("Cannot apply texture override: Mesh index [{Index}] out of range (0-{Count})",
+                meshIndex, Meshes.Count - 1);
+        }
+        return this;
+    }
+
+    public RLModel ApplyTextureFromManager(string meshName, RLTexture texture)
+    {
+        if (textureManager == null)
+        {
+            Log.Error("Cannot apply texture: TextureManager is null");
+            return this;
+        }
+
+        // Try to find mesh by index first
+        if (int.TryParse(meshName, out int meshIndex) && meshIndex >= 0 && meshIndex < Meshes.Count)
+        {
+            if (texture != null)
+            {
+                Meshes[meshIndex].AttachTexture(texture);
+                Log.Debug("Applied texture for mesh index [{Index}] from texture manager: {TextureName}",
+                    meshIndex, texture.Name);
+            }
+            else
+            {
+                Log.Warning("Cannot apply texture: Texture is null");
+            }
+            return this;
+        }
+
+        // Then try to find mesh by name
+        for (int i = 0; i < Meshes.Count; i++)
+        {
+            if (Meshes[i].Name == meshName)
+            {
+                if (texture != null)
+                {
+                    Meshes[i].AttachTexture(texture);
+                    Log.Debug("Applied texture for mesh [{MeshName}] from texture manager: {TextureName}",
+                        meshName, texture.Name);
+                }
+                else
+                {
+                    Log.Warning("Cannot apply texture: Texture is null");
+                }
+                return this;
+            }
+        }
+
+        Log.Warning("Cannot apply texture: Mesh [{MeshName}] not found", meshName);
+        return this;
+    }
+
     public RLModel AttachShader(RLShaderBundle shaderBundle)
     {
         foreach (var mesh in Meshes)
         {
             mesh.AttachShader(shaderBundle.vertexShader, shaderBundle.fragmentShader);
         }
-        
+
         shaderAttached = true;
         return this;
     }
@@ -224,6 +313,10 @@ public class RLModel
         }
 
         var meshObj = new Mesh(graphics, vertices, BuildIndices(indices)).AttachTexture(textures);
+        unsafe
+        {
+            meshObj.Name = mesh->MName.ToString();
+        }
         return meshObj;
     }
 

@@ -17,7 +17,8 @@ public static class RLFiles
         if (resourceName.Split(".")[0].Contains("RedLight"))
         {
             return Assembly.GetExecutingAssembly();
-        } else
+        }
+        else
         {
             return Assembly.GetEntryAssembly();
         }

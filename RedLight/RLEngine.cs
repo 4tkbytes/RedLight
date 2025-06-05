@@ -20,7 +20,7 @@ public class RLEngine
     public SceneManager SceneManager { private get; set; }
 
     private int logStrength = 0;
-    
+
     private Vector2D<int> windowedSize;
     private Vector2D<int> windowedPosition;
     private bool isFullscreen = false;
@@ -31,12 +31,12 @@ public class RLEngine
     {
         ParseArguments(args);
         InitialiseLogger();
-        
+
         WindowOptions options = WindowOptions.Default;
         options.Title = title;
-        
+
         windowedSize = new Vector2D<int>(width, height);
-        
+
         if (isFullscreen)
         {
             options.WindowState = WindowState.Fullscreen;
@@ -75,7 +75,7 @@ public class RLEngine
                 new RLTexture(Graphics, RLFiles.GetEmbeddedResourcePath(RLConstants.RL_NO_TEXTURE_PATH), RLTextureType.Diffuse)
             );
         };
-        
+
         Window.Window.FramebufferResize += OnFramebufferResize;
         Window.Window.StateChanged += OnWindowStateChanged;
     }
@@ -142,33 +142,6 @@ public class RLEngine
         }
     }
 
-    public void ToggleFullscreen()
-    {
-        if (!isFullscreen)
-        {
-            Window.Window.WindowState = WindowState.Normal;
-            Window.Window.Size = windowedSize;
-            if (windowedPosition.X != 0 || windowedPosition.Y != 0)
-            {
-                Window.Window.Position = windowedPosition;
-            }
-            isFullscreen = false;
-            Log.Information("Switched to windowed mode");
-        }
-        else
-        {
-            if (Window.Window.WindowState == WindowState.Normal)
-            {
-                windowedSize = Window.Window.Size;
-                windowedPosition = Window.Window.Position;
-            }
-            
-            Window.Window.WindowState = WindowState.Fullscreen;
-            isFullscreen = true;
-            Log.Information("Switched to fullscreen mode");
-        }
-    }
-
     private void OnWindowStateChanged(WindowState newState)
     {
         isFullscreen = (newState == WindowState.Fullscreen);
@@ -190,7 +163,8 @@ public class RLEngine
             else if (arg.Equals("--Fullscreen", StringComparison.OrdinalIgnoreCase))
             {
                 isFullscreen = true;
-            } else if (arg.Equals("--Maximised", StringComparison.OrdinalIgnoreCase))
+            }
+            else if (arg.Equals("--Maximised", StringComparison.OrdinalIgnoreCase))
             {
                 isMaximised = true;
             }
@@ -200,7 +174,7 @@ public class RLEngine
     private void OnFramebufferResize(Vector2D<int> newSize)
     {
         Graphics.OpenGL.Viewport(newSize);
-        
+
         // If we're in windowed mode, update our stored windowed size
         if (!isFullscreen && Window.Window.WindowState == WindowState.Normal)
         {
@@ -212,10 +186,11 @@ public class RLEngine
     {
         var loggerConfig = new LoggerConfiguration()
             .WriteTo.Console()
+            .WriteTo.Debug()
             .WriteTo.File("logs/log.txt",
                 rollingInterval: RollingInterval.Day,
                 rollOnFileSizeLimit: false);
-                
+
         if (logStrength == 1)
             loggerConfig.MinimumLevel.Debug();
         if (logStrength == 2)
@@ -224,6 +199,15 @@ public class RLEngine
         Log.Logger = loggerConfig.CreateLogger();
         Log.Information("Logger has been created");
         Log.Information("Logger is logging at strength [{A}]", logStrength);
+    }
+
+    public SceneManager CreateSceneManager()
+    {
+        var shaderManager = new ShaderManager();
+        var textureManager = new TextureManager();
+        var sceneManager = new SceneManager(this, shaderManager, textureManager);
+        SceneManager = sceneManager;
+        return SceneManager;
     }
 
     public void Run()

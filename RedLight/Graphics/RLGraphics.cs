@@ -10,6 +10,7 @@ using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 using Silk.NET.OpenGL.Extensions.ImGui;
 using Silk.NET.Windowing;
+// ReSharper disable ReplaceWithSingleAssignment.False
 
 namespace RedLight.Graphics;
 
@@ -20,8 +21,6 @@ public class RLGraphics
     // other graphics apis will be added later
     public bool IsRendering { get; private set; }
     public bool ShutUp { get; set; }
-
-    private bool locked = false;
 
     public struct Colour
     {
@@ -105,11 +104,51 @@ public class RLGraphics
         }
     }
 
+    public void UpdateProjection(Camera camera, Transformable<Mesh> Tmesh)
+    {
+        unsafe
+        {
+            var local = camera.Projection;
+            float* ptr = (float*)&local;
+            int loc = OpenGL.GetUniformLocation(Tmesh.Target.program, "projection");
+            OpenGL.UniformMatrix4(loc, 1, false, ptr);
+        }
+    }
+
+    public void UpdateView(Camera camera, Transformable<Mesh> Tmesh)
+    {
+        unsafe
+        {
+            var local = camera.View;
+            float* ptr = (float*)&local;
+            int loc = OpenGL.GetUniformLocation(Tmesh.Target.program, "view");
+            OpenGL.UniformMatrix4(loc, 1, false, ptr);
+        }
+    }
+
+    public void UpdateModel(Transformable<Mesh> Tmesh)
+    {
+        unsafe
+        {
+            var local = Tmesh.Model;
+            float* ptr = (float*)&local;
+            int loc = OpenGL.GetUniformLocation(Tmesh.Target.program, "model");
+            OpenGL.UniformMatrix4(loc, 1, false, ptr);
+        }
+    }
+
     public void Update(Camera camera, Transformable<RLModel> Tmodel)
     {
         UpdateModel(Tmodel);
         UpdateView(camera, Tmodel);
         UpdateProjection(camera, Tmodel);
+    }
+
+    public void Update(Camera camera, Transformable<Mesh> Tmesh)
+    {
+        UpdateModel(Tmesh);
+        UpdateView(camera, Tmesh);
+        UpdateProjection(camera, Tmesh);
     }
 
     public void CheckGLErrors()
@@ -209,7 +248,7 @@ public class RLGraphics
         return controller;
     }
 
-    public void ImGuiRender(ImGuiController controller, double deltaTime, List<Transformable<RLModel>> objectModels)
+    public void ImGuiRender(ImGuiController controller, double deltaTime, List<Transformable<RLModel>> objectModels, Camera camera)
     {
         controller.Update((float)deltaTime);
 
@@ -220,16 +259,18 @@ public class RLGraphics
 
         ImGui.Begin("Scene Objects", ImGuiWindowFlags.AlwaysAutoResize);
 
+        // Model controls section
         int idx = 0;
         foreach (var model in objectModels)
         {
             string header = $"{model.Target.Name}";
             if (ImGui.CollapsingHeader(header, ImGuiTreeNodeFlags.DefaultOpen))
             {
+                bool locked = false;
+
                 // Extract current values from the matrix
                 Matrix4X4.Decompose(model.Model, out var sc, out var rot, out var pos);
                 var position = new Vector3(pos.X, pos.Y, pos.Z);
-                var rotation = new Vector4(rot.W, rot.X, rot.Y, rot.Z);
                 var scale = new Vector3(sc.X, sc.Y, sc.Z);
 
                 bool changed = false;
@@ -237,6 +278,12 @@ public class RLGraphics
                 // Position sliders
                 if (ImGui.SliderFloat3($"Position##{idx}", ref position, -10f, 10f))
                 {
+                    changed = true;
+                }
+                ImGui.SameLine();
+                if (ImGui.Button($"Reset Pos##{idx}"))
+                {
+                    position = new Vector3(0, 0, 0);
                     changed = true;
                 }
 
@@ -251,11 +298,23 @@ public class RLGraphics
                         scale = new Vector3(uniformScale, uniformScale, uniformScale);
                         scaleChanged = true;
                     }
+                    ImGui.SameLine();
+                    if (ImGui.Button($"Reset Scale##{idx}"))
+                    {
+                        scale = new Vector3(1, 1, 1);
+                        scaleChanged = true;
+                    }
                 }
                 else
                 {
                     if (ImGui.SliderFloat3($"Scale##{idx}", ref scale, 0.01f, 2f))
                     {
+                        scaleChanged = true;
+                    }
+                    ImGui.SameLine();
+                    if (ImGui.Button($"Reset Scale##{idx}"))
+                    {
+                        scale = new Vector3(1, 1, 1);
                         scaleChanged = true;
                     }
                 }
@@ -267,8 +326,7 @@ public class RLGraphics
                     if (locked)
                     {
                         scale = new Vector3(scale.X, scale.X, scale.X);
-                        model.AbsoluteReset();
-                        model.Scale(new Vector3D<float>(scale.X, scale.Y, scale.Z));
+                        changed = true;
                     }
                 }
 
@@ -277,42 +335,114 @@ public class RLGraphics
                     changed = true;
                 }
 
-                // Rotation slider
-                if (ImGui.SliderFloat4($"Yaw##{idx}", ref rotation, -180, 180))
+                if (ImGui.SliderFloat3($"Rotation (Pitch/Yaw/Roll)##{idx}", ref model.eulerAngles, -180f, 180f))
                 {
                     changed = true;
                 }
 
-                // Only update when something changed
+                ImGui.SameLine();
+                if (ImGui.Button($"Reset Rot##{idx}"))
+                {
+                    model.eulerAngles = new Vector3(0, 0, 0);
+                    changed = true;
+                }
+
                 if (changed)
                 {
-                    model.AbsoluteReset(); // Reset to identity
+                    model.AbsoluteReset();
                     model.Scale(new Vector3D<float>(scale.X, scale.Y, scale.Z));
-                    // Convert quaternion to angle/axis for Rotate
-                    var quat = new System.Numerics.Quaternion(rotation.X, rotation.Y, rotation.Z, rotation.W);
-                    quat = System.Numerics.Quaternion.Normalize(quat);
-                    float angle = 2.0f * (float)Math.Acos(quat.W);
-                    float sinHalfAngle = (float)Math.Sqrt(1.0f - quat.W * quat.W);
-                    Vector3D<float> axis;
-                    if (sinHalfAngle < 0.001f)
-                    {
-                        // If the angle is small, use default axis
-                        axis = Vector3D<float>.UnitY;
-                    }
-                    else
-                    {
-                        axis = new Vector3D<float>(
-                            quat.X / sinHalfAngle,
-                            quat.Y / sinHalfAngle,
-                            quat.Z / sinHalfAngle
-                        );
-                    }
-                    model.Rotate(angle, axis);
+
+                    var rotationX = Quaternion.CreateFromAxisAngle(Vector3.UnitX, model.eulerAngles.X * MathF.PI / 180f);
+                    var rotationY = Quaternion.CreateFromAxisAngle(Vector3.UnitY, model.eulerAngles.Y * MathF.PI / 180f);
+                    var rotationZ = Quaternion.CreateFromAxisAngle(Vector3.UnitZ, model.eulerAngles.Z * MathF.PI / 180f);
+
+                    var finalRotation = rotationX * rotationY * rotationZ;
+
+                    var rotMatrix = Matrix4X4.CreateFromQuaternion(new Quaternion<float>(
+                        finalRotation.X, finalRotation.Y, finalRotation.Z, finalRotation.W));
+
+                    model.SetModel(Matrix4X4.Multiply(rotMatrix, model.Model));
                     model.Translate(new Vector3D<float>(position.X, position.Y, position.Z));
                 }
             }
             ImGui.Separator();
             idx++;
+        }
+
+        ImGui.Separator();
+        if (ImGui.CollapsingHeader("Camera Controls", ImGuiTreeNodeFlags.DefaultOpen))
+        {
+            // Camera position control
+            var cameraPos = new Vector3(camera.Position.X, camera.Position.Y, camera.Position.Z);
+            if (ImGui.SliderFloat3("Camera Position", ref cameraPos, -20f, 20f))
+            {
+                camera.SetPosition(new Vector3D<float>(cameraPos.X, cameraPos.Y, cameraPos.Z));
+            }
+
+            // Camera speed control
+            float cameraSpeed = camera.Speed;
+            if (ImGui.SliderFloat("Camera Speed", ref cameraSpeed, 0.1f, 10.0f))
+            {
+                camera.SetSpeed(cameraSpeed);
+            }
+
+            // Camera orientation controls
+            float yaw = camera.Yaw;
+            float pitch = camera.Pitch;
+            bool orientationChanged = false;
+
+            if (ImGui.SliderFloat("Yaw", ref yaw, -180f, 180f))
+            {
+                camera.Yaw = yaw;
+                orientationChanged = true;
+            }
+
+            if (ImGui.SliderFloat("Pitch", ref pitch, -89f, 89f))
+            {
+                camera.Pitch = pitch;
+                orientationChanged = true;
+            }
+
+            if (orientationChanged)
+            {
+                // Update camera direction based on yaw and pitch
+                Vector3D<float> direction = new Vector3D<float>();
+                direction.X = float.Cos(float.DegreesToRadians(yaw)) * float.Cos(float.DegreesToRadians(pitch));
+                direction.Y = float.Sin(float.DegreesToRadians(pitch));
+                direction.Z = float.Sin(float.DegreesToRadians(yaw)) * float.Cos(float.DegreesToRadians(pitch));
+                camera.SetFront(direction);
+            }
+
+            // Quick movement buttons
+            if (ImGui.Button("Move Forward"))
+            {
+                camera.MoveForward(1.0f);
+            }
+            ImGui.SameLine();
+            if (ImGui.Button("Move Back"))
+            {
+                camera.MoveBack(1.0f);
+            }
+
+            if (ImGui.Button("Move Left"))
+            {
+                camera.MoveLeft(1.0f);
+            }
+            ImGui.SameLine();
+            if (ImGui.Button("Move Right"))
+            {
+                camera.MoveRight(1.0f);
+            }
+
+            // Reset camera button
+            if (ImGui.Button("Reset Camera"))
+            {
+                // Reset to default values
+                camera.SetPosition(new Vector3D<float>(0, 0, 3));
+                camera.SetFront(new Vector3D<float>(0, 0, -1));
+                camera.Yaw = 0;
+                camera.Pitch = 0;
+            }
         }
 
         ImGui.End();

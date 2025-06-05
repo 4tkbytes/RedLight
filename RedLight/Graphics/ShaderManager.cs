@@ -31,6 +31,17 @@ public class ShaderManager
         });
     }
 
+    public RLShaderBundle TryGet(string id)
+    {
+        if (!shaders.ContainsKey(id))
+        {
+            Log.Warning($"ID [{id}] does not exist, returning null");
+            return new RLShaderBundle { vertexShader = null, fragmentShader = null, program = null };
+        }
+
+        return shaders[id];
+    }
+
     public RLShaderBundle Get(string id)
     {
         if (!shaders.ContainsKey(id))
