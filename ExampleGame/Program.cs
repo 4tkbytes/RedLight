@@ -15,7 +15,7 @@ class Program
         // var loadingScene = new LoadingScene("testing_scene_1");
 
         // Create engine instance
-        var engine = new RLEngine(1280, 720, "Example ExampleGame", scene1, args);
+        var engine = new RLEngine(1280, 720, "RedLight Game Engine Editor", scene1, args);
 
         // create scene manager
         var sceneManager = engine.CreateSceneManager();
