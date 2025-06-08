@@ -12,17 +12,17 @@ class Program
     {
         // Initialise scenes
         var scene1 = new TestingScene1();
-        var loadingScene = new LoadingScene("testing_scene_1");
+        // var loadingScene = new LoadingScene("testing_scene_1");
 
         // Create engine instance
-        var engine = new RLEngine(1280, 720, "Example ExampleGame", loadingScene, args);
+        var engine = new RLEngine(1280, 720, "Example ExampleGame", scene1, args);
 
         // create scene manager
         var sceneManager = engine.CreateSceneManager();
 
         // add scenes to scene manager
-        sceneManager.Add("loading", loadingScene, loadingScene, loadingScene);
-        sceneManager.Add("testing_scene_1", scene1, scene1, scene1);
+        // sceneManager.Add("loading", loadingScene, loadingScene, loadingScene);
+        sceneManager.Add("testing_scene_1", scene1);
 
         // run
         engine.Run();

@@ -55,23 +55,6 @@ public class RLGraphics
     }
 
     /// <summary>
-    /// Checks if a mouse is captured and changes the cursor mode.
-    ///
-    /// If the mouse is captured, it will change it to CursorMode.Disabled. If it
-    /// is not disabled, it will change it to CursorMode.Normal.  
-    /// </summary>
-    /// <param name="mouse">IMouse</param>
-    /// <param name="isCaptured">bool</param>
-    public void IsCaptured(IMouse mouse, bool isCaptured)
-    {
-        if (!isCaptured)
-            mouse.Cursor.CursorMode = CursorMode.Normal;
-
-        if (isCaptured)
-            mouse.Cursor.CursorMode = CursorMode.Disabled;
-    }
-
-    /// <summary>
     /// Enabled OpenGL's Depth Text, culls the back faces and internal faces from textures. 
     /// </summary>
     public void Enable()
@@ -368,6 +351,13 @@ public class RLGraphics
         model.Translate(targetPos);
     }
 
+    /// <summary>
+    /// This function adds models to both list, specifically the ObjectModels list and the ImGui list
+    /// in the case that it is required. It halves the amount of commands used and makes it simpler. 
+    /// </summary>
+    /// <param name="models"><see cref="List{Transformable{RLModel}"/></param>
+    /// <param name="imGui"><see cref="RLImGui"/></param>
+    /// <param name="model"><see cref="Transformable{RLModel}"/></param>
     public void AddModels(List<Transformable<RLModel>> models, RLImGui imGui, Transformable<RLModel> model)
     {
         models.Add(model);

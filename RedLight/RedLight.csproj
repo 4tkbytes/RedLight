@@ -25,6 +25,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.14.0" />
+      <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.14.0" />
       <PackageReference Include="Serilog" Version="4.3.0" />
       <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
       <PackageReference Include="Serilog.Sinks.Debug" Version="3.0.0" />
@@ -35,19 +37,22 @@
       <PackageReference Include="Silk.NET.OpenGL.Extensions.ImGui" Version="2.22.0" />
       <PackageReference Include="Silk.NET.Windowing" Version="2.22.0" />
       <PackageReference Include="StbImageSharp" Version="2.30.15" />
+      <PackageReference Include="System.Text.Json" Version="9.0.5" />
     </ItemGroup>
 
     <ItemGroup>
         <Content Include="Resources\Shaders\**\*" CopyToOutputDirectory="Always" />
         <Content Include="Resources\Textures\**\*" CopyToOutputDirectory="Always" />
         <Content Include="Resources\Models\**\*" CopyToOutputDirectory="Always" />
-    </ItemGroup>
+		<Content Include="Resources\Templates\**\*" CopyToOutputDirectory="Always" />
+	</ItemGroup>
 
     <ItemGroup>
       <None Include="..\README.md">
         <Pack>True</Pack>
         <PackagePath>\</PackagePath>
       </None>
+      <None Include="Resources\Templates\SceneTemplate.cs" />
     </ItemGroup>
 
 </Project>

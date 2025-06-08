@@ -1,5 +1,6 @@
-﻿using System.Numerics;
-using ImGuiNET;
+﻿using ImGuiNET;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using RedLight.Core;
 using RedLight.Graphics;
 using RedLight.Input;
@@ -8,6 +9,8 @@ using Serilog;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 using Silk.NET.OpenGL.Extensions.ImGui;
+using System.Numerics;
+using System.Reflection;
 
 namespace RedLight.UI;
 
@@ -61,7 +64,7 @@ public class RLImGui
     }
 
     /// <summary>
-    /// A purely idiomatic way of rendering ImGui menus.
+    /// A very easy way of rendering ImGui menus.
     ///
     /// Function contains:
     ///     - Support for editing object positions and rotations.
@@ -414,19 +417,15 @@ public class RLImGui
             AddLog("Commands:");
             AddLog("  clear - Clear console");
             AddLog("  help - Show help");
-            AddLog("  model add <resource_path> [model_name] - Create a new model");
-            AddLog("  model delete <model_name> - Delete a model");
-            AddLog("  model texture override <model_name> <mesh_name> <textureID> - Override texture");
-            AddLog("  model texture list all - List all textures in the manager");
-            AddLog("  model texture list <model_name> - List all textures used by a model");
-            AddLog("  model texture dump <model_name> - Dump all textures used by a model to its resource folder");
+            AddLog("  model - Model configuration");
+            AddLog("  scene - Scene editing");
         }
         else if (command.StartsWith("model", StringComparison.OrdinalIgnoreCase))
         {
             var parts = command.Split(" ", StringSplitOptions.RemoveEmptyEntries);
             if (parts.Length < 2)
             {
-                AddLog("Available model commands: create, delete, texture");
+                AddLog("Available model commands: add, delete, texture");
                 return;
             }
 
@@ -459,11 +458,45 @@ public class RLImGui
                     break;
                 default:
                     AddLog($"Unknown model subcommand: {subCommand}");
-                    AddLog("Available model commands: create, delete, texture");
+                    AddLog("Available model commands: add, delete, texture");
                     break;
             }
-        }
-        else if (command == "maxwell")
+        } else if (command.StartsWith("scene", StringComparison.OrdinalIgnoreCase))
+        {
+            var parts = command.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length < 2)
+            {
+                AddLog("Available scene commands: create, switch, delete, export, import, compile");
+                return;
+            }
+            
+            var subCommand = parts[1].ToLowerInvariant();
+            switch (subCommand)
+            {
+                case "create":
+                    HandleSceneCreate(parts);
+                    break;
+                case "delete":
+                    HandleSceneDelete(parts);
+                    break;
+                case "switch":
+                    HandleSceneSwitch(parts);
+                    break;
+                case "export":
+                    HandleSceneExport(parts);
+                    break;
+                case "import":
+                    HandleSceneImport(parts);
+                    break;
+                case "compile":
+                    HandleSceneCompile(parts);
+                    break;
+                default:
+                    AddLog($"Unknown scene subcommand: {subCommand}");
+                    AddLog("Available scene commands: create, switch, delete, export, import, compile");
+                    break;
+            }
+        } else if (command == "maxwell")
         {
             maxwellSpin = !maxwellSpin;
             maxwellModel = null;
@@ -618,7 +651,7 @@ public class RLImGui
     {
         if (parts.Length < 3)
         {
-            AddLog("Usage: model create <resource_path> [model_name]");
+            AddLog("Usage: model add <resource_path> [model_name]");
             return;
         }
 
@@ -738,8 +771,207 @@ public class RLImGui
             AddLog($"[ERR] Failed to override texture: {ex.Message}");
         }
     }
-    
-        
+
+    private void HandleSceneExport(string[] parts)
+    {
+        try
+        {
+            int sceneIndex = 0;
+            if (parts.Length > 2 && int.TryParse(parts[2], out int idx))
+                sceneIndex = idx;
+
+            string templatePath = "Resources/Templates/SceneTemplate.cs";
+
+            string exportDir = Path.Combine(AppContext.BaseDirectory, "Resources", "Exported");
+
+            // get all the models
+            var objectModels = sceneManager.GetCurrentScene().ObjectModels;
+
+            Utils.RLFiles.ExportScene(templatePath, exportDir, sceneIndex, objectModels);
+
+            AddLog($"Scene exported as ExportedScene{sceneIndex}.cs in Resources/Exported/");
+        }
+        catch (Exception ex)
+        {
+            AddLog($"[ERR] Scene export failed: {ex.Message}");
+        }
+    }
+
+    private void HandleSceneImport(string[] parts)
+    {
+        if (parts.Length < 3)
+        {
+            AddLog("Usage: scene import <SceneClassName>");
+            return;
+        }
+        string className = parts[2];
+        try
+        {
+            // Assume the scene class is already compiled and available in the current AppDomain
+            var type = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(a => a.GetTypes())
+                .FirstOrDefault(t => t.Name == className);
+
+            if (type == null)
+            {
+                AddLog($"[ERR] Scene class '{className}' not found in loaded assemblies.");
+                return;
+            }
+
+            var scene = (RLScene)Activator.CreateInstance(type)!;
+            sceneManager.Add(className, scene);
+            AddLog($"Scene '{className}' imported and added to SceneManager.");
+        }
+        catch (Exception ex)
+        {
+            AddLog($"[ERR] Failed to import scene: {ex.Message}");
+        }
+    }
+
+    private void HandleSceneSwitch(string[] parts)
+    {
+        if (parts.Length < 3)
+        {
+            AddLog("Usage: scene switch <sceneId>");
+            return;
+        }
+        string sceneId = parts[2];
+        try
+        {
+            foreach (var scene in sceneManager.Scenes)
+            {
+                Log.Debug("{A}, {B}", scene.Key, scene.Value);
+            }
+            sceneManager.SwitchScene(sceneId);
+            AddLog($"Switched to scene '{sceneId}'.");
+        }
+        catch (Exception ex)
+        {
+            AddLog($"[ERR] Failed to switch scene: {ex.Message}");
+            AddLog(ex.StackTrace);
+        }
+    }
+
+    private void HandleSceneCreate(string[] parts)
+    {
+        if (parts.Length < 3)
+        {
+            AddLog("Usage: scene create <NewSceneName>");
+            return;
+        }
+        string newSceneName = parts[2];
+        try
+        {
+            // Copy template file to new scene file
+            string templatePath = "Resources/Templates/SceneTemplate.cs";
+            string exportDir = Path.Combine(AppContext.BaseDirectory, "Resources", "Exported");
+            string newScenePath = Path.Combine(exportDir, $"{newSceneName}.cs");
+            File.Copy(templatePath, newScenePath, overwrite: true);
+
+            // Replace class name inside the file
+            string content = File.ReadAllText(newScenePath);
+            content = content.Replace("SceneTemplate", newSceneName);
+            File.WriteAllText(newScenePath, content);
+
+            AddLog($"Scene file '{newSceneName}.cs' created in Resources/Exported. Compile and import to use.");
+
+            // Try to import and switch to the new scene
+            HandleSceneImport(new string[] { "scene", "import", newSceneName });
+            HandleSceneSwitch(new string[] { "scene", "switch", newSceneName });
+        }
+        catch (Exception ex)
+        {
+            AddLog($"[ERR] Failed to create scene: {ex.Message}");
+        }
+    }
+
+    private void HandleSceneDelete(string[] parts)
+    {
+        if (parts.Length < 3)
+        {
+            AddLog("Usage: scene delete <sceneId>");
+            return;
+        }
+        string sceneId = parts[2];
+        try
+        {
+            sceneManager.Remove(sceneId);
+            AddLog($"Scene '{sceneId}' removed from SceneManager.");
+            // Optionally, delete the .cs file
+            string exportDir = Path.Combine(AppContext.BaseDirectory, "Resources", "Exported");
+            string sceneFile = Path.Combine(exportDir, $"{sceneId}.cs");
+            if (File.Exists(sceneFile))
+            {
+                File.Delete(sceneFile);
+                AddLog($"Scene file '{sceneId}.cs' deleted from Resources/Exported.");
+            }
+        }
+        catch (Exception ex)
+        {
+            AddLog($"[ERR] Failed to delete scene: {ex.Message}");
+        }
+    }
+
+    private void HandleSceneCompile(string[] parts)
+    {
+        if (parts.Length < 3)
+        {
+            AddLog("Usage: scene compile <SceneClassName>");
+            return;
+        }
+        string className = parts[2];
+        string exportDir = Path.Combine(AppContext.BaseDirectory, "Resources", "Exported");
+        string sceneFile = Path.Combine(exportDir, $"{className}.cs");
+
+        if (!File.Exists(sceneFile))
+        {
+            AddLog($"[ERR] Scene file '{sceneFile}' not found.");
+            return;
+        }
+
+        try
+        {
+            string code = File.ReadAllText(sceneFile);
+
+            // Reference all currently loaded assemblies
+            var references = AppDomain.CurrentDomain.GetAssemblies()
+                .Where(a => !a.IsDynamic && !string.IsNullOrEmpty(a.Location))
+                .Select(a => MetadataReference.CreateFromFile(a.Location))
+                .Cast<MetadataReference>()
+                .ToList();
+
+            var syntaxTree = CSharpSyntaxTree.ParseText(code);
+            var compilation = CSharpCompilation.Create(
+                $"{className}_Dynamic",
+                new[] { syntaxTree },
+                references,
+                new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
+            );
+
+            using var ms = new MemoryStream();
+            var result = compilation.Emit(ms);
+
+            if (!result.Success)
+            {
+                foreach (var diagnostic in result.Diagnostics.Where(d => d.Severity == DiagnosticSeverity.Error))
+                    AddLog($"[ERR] {diagnostic}");
+                return;
+            }
+
+            ms.Seek(0, SeekOrigin.Begin);
+            var assembly = Assembly.Load(ms.ToArray());
+
+            AddLog($"Scene '{className}' compiled and loaded into memory.");
+
+            HandleSceneImport(new string[] { "scene", "import", className });
+        }
+        catch (Exception ex)
+        {
+            AddLog($"[ERR] Scene compilation failed: {ex.Message}");
+        }
+    }
+
+
     /// <summary>
     /// Adds 1 model to the ImGuiRenderingObjects. 
     /// </summary>

@@ -9,6 +9,8 @@ public class InputManager
 {
     public IInputContext input;
     private RLWindow window;
+    public bool isCaptured { get; private set; } = true;
+    private bool togglePressed = true;
 
     public Dictionary<string, RLKeyboard> Keyboards { get; set; } = new();
     public Dictionary<string, RLMouse> Mice { get; set; } = new();
@@ -39,6 +41,10 @@ public class InputManager
                 kb.KeyUp += keyboardManager.OnKeyUp;
             }
         }
+        else
+        {
+            Log.Error("Keyboard Manager is null");
+        }
 
         if (mouseManager != null)
         {
@@ -47,10 +53,14 @@ public class InputManager
                 mouse.MouseMove += mouseManager.OnMouseMove;
             }
         }
+        else
+        {
+            Log.Error("Mouse Manager is null");
+        }
 
         Keyboard = keyboardManager;
         Mouse = mouseManager;
-        Log.Debug("Subscribed to keyboard");
+        Log.Debug("Subscribed to keyboard (InputManager)");
     }
 
     public void UnsubscribeFromInputs(RLKeyboard keyboardManager, RLMouse mouseManager)
@@ -78,5 +88,55 @@ public class InputManager
         Keyboard = null;
         Mouse = null;
         Log.Debug("Unsubscribed from keyboard");
+    }
+    
+    public void ChangeCaptureToggle(Key key)
+    {
+        if (key == Key.ControlRight && !togglePressed)
+        {
+            togglePressed = true;
+            isCaptured = !isCaptured;
+        
+            foreach (var mouse in input.Mice)
+            {
+                IsCaptured(mouse, isCaptured);
+            }
+        
+            Log.Debug("Changing mouse capture mode [{A}]", isCaptured);
+        }
+    }
+    
+    /// <summary>
+    /// Checks if a mouse is captured and changes the cursor mode.
+    ///
+    /// If the mouse is captured, it will change it to CursorMode.Disabled. If it
+    /// is not disabled, it will change it to CursorMode.Normal.  
+    /// </summary>
+    /// <param name="mouse">IMouse</param>
+    /// <param name="isCaptured">bool</param>
+    public void IsCaptured(IMouse mouse, bool isCaptured)
+    {
+        if (!isCaptured)
+            mouse.Cursor.CursorMode = CursorMode.Normal;
+
+        if (isCaptured)
+            mouse.Cursor.CursorMode = CursorMode.Disabled;
+    }
+    
+    public void IsCaptured(IMouse mouse)
+    {
+        if (!isCaptured)
+            mouse.Cursor.CursorMode = CursorMode.Normal;
+
+        if (isCaptured)
+            mouse.Cursor.CursorMode = CursorMode.Disabled;
+    }
+
+    public void ChangeCaptureToggleReset(Key key)
+    {
+        if (key == Key.ControlRight)
+        {
+            togglePressed = false;
+        }
     }
 }

@@ -1,6 +1,8 @@
 using RedLight.Core;
 using RedLight.Graphics;
 using RedLight.Input;
+using RedLight.Utils;
+using Serilog;
 
 namespace RedLight.Scene;
 
@@ -83,70 +85,86 @@ public class SceneManager
 
         if (currentScene != null)
         {
+            Log.Debug("Current scene is not null");
             engine.Window.UnsubscribeFromEvents(currentScene);
+            Log.Debug("Unsubscribing from events");
             if (currentKeyboard != null && currentMouse != null)
             {
+                Log.Debug("Unsubscribing from keyboard and mouse events");
                 input.UnsubscribeFromInputs(currentKeyboard, currentMouse);
             }
+            else
+            {
+                Log.Error("Current keyboard and current mouse is null");
+            }
+        }
+        else
+        {
+            Log.Error("Current scene is null");
         }
 
         currentSceneId = id;
+        Log.Debug("Scene ID: {A}", currentSceneId);
         currentScene = Scenes[id];
+        Log.Debug("Scene: {A}", currentScene);
 
         currentKeyboard = input.Keyboards[id];
+        Log.Debug("Keyboard: {A}", currentKeyboard);
         currentMouse = input.Mice[id];
+        Log.Debug("Mice: {A}", currentMouse);
 
         engine.Window.SubscribeToEvents(currentScene);
+        Log.Debug("Subscribing to window events");
 
         currentScene.Engine = engine;
+        if (currentScene.Engine == null)
+        {
+            Log.Error("Engine is null");
+        }
         currentScene.Graphics = engine.Graphics;
+        if (currentScene.Graphics == null)
+        {
+            Log.Error("Graphics is null");
+        }
         currentScene.SceneManager = this;
+        if (currentScene.SceneManager == null)
+        {
+            Log.Error("SceneManager is null");
+        }
+
         currentScene.ShaderManager = shaderManager;
+        if (currentScene.ShaderManager == null)
+        {
+            Log.Error("ShaderManager is null");
+        }
         currentScene.TextureManager = textureManager;
+        if (currentScene.TextureManager == null)
+        {
+            Log.Error("TextureManager is null");
+        }
         currentScene.InputManager = input;
+        if (currentScene.InputManager == null)
+        {
+            Log.Error("InputManager is null");
+        }
+        
+        currentScene.TextureManager.TryAdd(
+            "no-texture",
+            new RLTexture(currentScene.Graphics, RLFiles.GetResourcePath(RLConstants.RL_NO_TEXTURE_PATH))
+        );
 
-        input.SubscribeToInputs(currentKeyboard, currentMouse);
+        currentScene.ShaderManager.TryAdd("basic",
+            new RLShader(currentScene.Graphics, ShaderType.Vertex, RLConstants.RL_BASIC_SHADER_VERT),
+            new RLShader(currentScene.Graphics, ShaderType.Fragment, RLConstants.RL_BASIC_SHADER_FRAG));
 
+        Log.Debug("Loading current scene");
         currentScene.Load();
-    }
-
-    public void SomeOtherFunction(RLScene scene)
-    {
-        var thing = Scenes.FirstOrDefault(x => x.Value == scene).Key;
-        if (thing == null)
-        {
-            throw new Exception($"Scene [{scene}] is not registered");
-        }
-
-        if (currentScene != null)
-        {
-            engine.Window.UnsubscribeFromEvents(currentScene);
-            if (currentKeyboard != null && currentMouse != null)
-            {
-                input.UnsubscribeFromInputs(currentKeyboard, currentMouse);
-            }
-        }
-
-        var id = thing;
-
-        currentSceneId = id;
-        currentScene = Scenes[id];
-
-        currentKeyboard = input.Keyboards[id];
-        currentMouse = input.Mice[id];
-
-        engine.Window.SubscribeToEvents(currentScene);
-
-        currentScene.Engine = engine;
-        currentScene.Graphics = engine.Graphics;
-        currentScene.SceneManager = this;
-        currentScene.ShaderManager = shaderManager;
-        currentScene.TextureManager = textureManager;
-        currentScene.InputManager = input;
-        if (currentScene.ObjectModels == null)
-            currentScene.ObjectModels = new List<Transformable<RLModel>>();
+        
+        currentScene.OnLoad();
+        Log.Debug("Scene fully initialized");
 
         input.SubscribeToInputs(currentKeyboard, currentMouse);
+        Log.Debug("Subscribing to keyboard events");
     }
 
     private void FPSCounter()

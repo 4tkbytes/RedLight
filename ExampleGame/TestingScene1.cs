@@ -28,24 +28,13 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     public HashSet<Key> PressedKeys { get; set; } = new();
 
     private Camera camera;
-    private bool isCaptured = true;
     private RLImGui controller;
+    private float cameraSpeed = 2.5f;
 
     public void OnLoad()
     {
         Graphics.Enable();
         Graphics.ShutUp = true;
-
-        ShaderManager.TryAdd(
-            "basic",
-            new RLShader(Graphics, ShaderType.Vertex, RLConstants.RL_BASIC_SHADER_VERT),
-            new RLShader(Graphics, ShaderType.Fragment, RLConstants.RL_BASIC_SHADER_FRAG)
-        );
-
-        TextureManager.TryAdd(
-            "no-texture",
-            new RLTexture(Graphics, RLFiles.GetResourcePath(RLConstants.RL_NO_TEXTURE_PATH))
-        );
 
         var plane = new Plane(Graphics, TextureManager, ShaderManager, 20f, 20f).Default();
 
@@ -55,7 +44,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         var size = Engine.Window.Window.Size;
         camera = new Camera(size);
 
-        var maxwell = Graphics.CreateModel("ExampleGame.Resources.Maxwell.maxwell_the_cat.glb", TextureManager, ShaderManager, "maxwell")
+        var maxwell = Graphics.CreateModel("ExampleGame.Resources.Models.Maxwell.maxwell_the_cat.glb", TextureManager, ShaderManager, "maxwell")
             .Rotate(float.DegreesToRadians(-90.0f), Vector3D<float>.UnitX)
             .Scale(new Vector3D<float>(0.05f, 0.05f, 0.05f));
 
@@ -65,11 +54,9 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 
     public void OnUpdate(double deltaTime)
     {
-        Engine.Window.FramesPerSecond = 1.0 / deltaTime;
-
-        camera = camera.SetSpeed(2.5f * (float)deltaTime);
-
-        if (isCaptured)
+        camera = camera.SetSpeed(cameraSpeed * (float)deltaTime);
+        
+        if (InputManager.isCaptured)
             camera.KeyMap(PressedKeys);
     }
 
@@ -99,23 +86,20 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         {
             Engine.Window.Window.Close();
         }
-        if (key == Key.Left)
-        {
-            var oldCaptured = isCaptured;
-            isCaptured = !isCaptured;
-            Log.Debug("Changing mouse capture mode [{A} -> {B}]", oldCaptured, isCaptured);
-        }
+        
+        InputManager.ChangeCaptureToggle(key);
     }
 
     public void OnKeyUp(IKeyboard keyboard, Key key, int keyCode)
     {
         PressedKeys.Remove(key);
+        InputManager.ChangeCaptureToggleReset(key);
     }
 
     public void OnMouseMove(IMouse mouse, Vector2 mousePosition)
     {
-        Graphics.IsCaptured(mouse, isCaptured);
-        if (isCaptured)
+        InputManager.IsCaptured(mouse);
+        if (InputManager.isCaptured)
             camera.FreeMove(mousePosition);
     }
 }

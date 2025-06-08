@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using RedLight.Core;
 using RedLight.Graphics;
 using RedLight.Input;
@@ -10,6 +11,7 @@ using Silk.NET.Input;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
+using ShaderType = RedLight.Graphics.ShaderType;
 
 namespace RedLight;
 
@@ -58,7 +60,7 @@ public class RLEngine
         Log.Debug("Window has been created");
         Graphics = new RLGraphics();
         Log.Debug("Graphics has been initialised");
-
+        
         Window.Window.Load += () =>
         {
             Graphics.OpenGL = Window.Window.CreateOpenGL();
@@ -72,15 +74,17 @@ public class RLEngine
             if (startingScene != null)
             {
                 SceneManager.SwitchScene(startingScene);
-                input.SubscribeToInputs(startingScene as RLKeyboard, startingScene as RLMouse);
+                Log.Debug("Scene is switching to {A}", startingScene);
+                // Remove this line:
+                // input.SubscribeToInputs(startingScene as RLKeyboard, startingScene as RLMouse);
+                // Log.Debug("Subscribing to inputs: {A}, {B}", startingScene as RLKeyboard, startingScene as RLMouse);
             }
-
-            startingScene.TextureManager.TryAdd(
-                "no-texture",
-                new RLTexture(Graphics, RLFiles.GetResourcePath(RLConstants.RL_NO_TEXTURE_PATH))
-            );
+            else
+            {
+                Log.Error("Starting scene is null");
+            }
         };
-
+        
         Window.Window.FramebufferResize += OnFramebufferResize;
         Window.Window.StateChanged += OnWindowStateChanged;
     }
