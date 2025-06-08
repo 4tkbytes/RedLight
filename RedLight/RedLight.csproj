@@ -39,9 +39,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <EmbeddedResource Include="Resources\Shaders\**\*" />
-        <EmbeddedResource Include="Resources\Textures\**\*" />
-        <EmbeddedResource Include="Resources\Models\**\*" />
+        <Content Include="Resources\Shaders\**\*" CopyToOutputDirectory="Always" />
+        <Content Include="Resources\Textures\**\*" CopyToOutputDirectory="Always" />
+        <Content Include="Resources\Models\**\*" CopyToOutputDirectory="Always" />
     </ItemGroup>
 
     <ItemGroup>

@@ -16,7 +16,7 @@ public class Sphere
     {
         Model = new RLModel(
                 graphics,
-                RLFiles.GetEmbeddedResourcePath("RedLight.Resources.Models.Basic.sphere.model"),
+                RLFiles.GetResourcePath("RedLight.Resources.Models.Basic.sphere.model"),
                 textureManager)
             .AttachShader(shaderManager.Get("basic"))
             .MakeTransformable();

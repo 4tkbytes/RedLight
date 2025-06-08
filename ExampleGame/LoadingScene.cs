@@ -58,7 +58,7 @@ public class LoadingScene : RLLoadingScene
         if (TextureManager.TryGet("loading_screen") == null)
         {
             TextureManager.Add("loading_screen",
-                new RLTexture(Graphics, RLFiles.GetEmbeddedResourcePath("RedLight.Resources.Textures.loading_screen.png")));
+                new RLTexture(Graphics, RLFiles.GetResourcePath("RedLight.Resources.Textures.loading_screen.png")));
         }
 
         quadMesh.AttachTexture(TextureManager.Get("loading_screen"));

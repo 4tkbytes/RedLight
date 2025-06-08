@@ -61,7 +61,7 @@ namespace RedLight.Graphics.Primitive
             var shader = shaderManager.Get("basic");
             planeMesh.AttachShader(shader.vertexShader, shader.fragmentShader);
 
-            RLModel model = new RLModel(graphics, RLFiles.GetEmbeddedResourcePath("RedLight.Resources.Models.Basic.plane.model"), textureManager, "plane");
+            RLModel model = new RLModel(graphics, RLFiles.GetResourcePath("RedLight.Resources.Models.Basic.plane.model"), textureManager, "plane");
             model.Meshes.Clear();
             model.Meshes.Add(planeMesh);
             model.AttachShader(shaderManager.Get("basic"));

@@ -21,7 +21,7 @@ namespace RedLight.Graphics.Primitive
         {
             Model = new RLModel(
                     graphics,
-                    RLFiles.GetEmbeddedResourcePath("RedLight.Resources.Models.Basic.cat.fbx"),
+                    RLFiles.GetResourcePath("RedLight.Resources.Models.Basic.cat.fbx"),
                     textureManager)
                 .AttachShader(shaderManager.Get("basic"))
                 .MakeTransformable();
