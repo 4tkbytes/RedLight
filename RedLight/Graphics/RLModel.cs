@@ -239,7 +239,8 @@ public class RLModel
             {
                 Vector2D<float> vec = new();
                 vec.X = mesh->MTextureCoords[0][i].X;
-                vec.Y = mesh->MTextureCoords[0][i].Y;
+                // lol glb texture fix was just flipping the v coord
+                vec.Y = 1.0f - mesh->MTextureCoords[0][i].Y;
                 vertex.TexCoords = vec;
                 // tangent
                 if (mesh->MTangents != null)
@@ -263,7 +264,6 @@ public class RLModel
 
             vertices.Add(vertex);
         }
-        // now walk through each of the mesh's faces (a face is a mesh its triangle) and retrieve the corresponding vertex indices.
         for (uint i = 0; i < mesh->MNumFaces; i++)
         {
             Face face = mesh->MFaces[i];
@@ -273,7 +273,7 @@ public class RLModel
         // process materials
         Material* material = scene->MMaterials[mesh->MMaterialIndex];
 
-        // Load all relevant textures for this material
+        // load the textures
         textures.AddRange(LoadMaterialTextures(material, TextureType.Diffuse, RLTextureType.Diffuse, scene));
         textures.AddRange(LoadMaterialTextures(material, TextureType.Metalness, RLTextureType.Metallic, scene));
         textures.AddRange(LoadMaterialTextures(material, TextureType.DiffuseRoughness, RLTextureType.Roughness, scene));

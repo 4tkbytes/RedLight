@@ -51,16 +51,6 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
             new RLTexture(Graphics, RLFiles.GetResourcePath(RLConstants.RL_NO_TEXTURE_PATH))
         );
 
-        TextureManager.TryAdd(
-            "Carrot_Base_diffuse",
-            new RLTexture(Graphics, RLFiles.GetResourcePath("ExampleGame.Resources.Carrot.textures.Carrot_Base_diffuse.png"))
-        );
-
-        TextureManager.TryAdd(
-            "Carrot_Leaves_diffuse",
-            new RLTexture(Graphics, RLFiles.GetResourcePath("ExampleGame.Resources.Carrot.textures.Carrot_Leaves_diffuse.png"))
-        );
-
         var plane = new Plane(Graphics, TextureManager, ShaderManager, 20f, 20f).Default();
 
         controller = new RLImGui(Graphics, Engine.Window, InputManager, ShaderManager, TextureManager, SceneManager);
