@@ -9,7 +9,6 @@ namespace RedLight.Graphics;
 
 public class RLModel
 {
-    List<Mesh> meshes = new List<Mesh>();
     private Assimp _assimp;
     private RLGraphics graphics;
     private GL _gl;
@@ -18,7 +17,7 @@ public class RLModel
     public string Directory { get; protected set; } = string.Empty;
     public List<Mesh> Meshes { get; protected set; } = new();
     public String Name { get; private set; }
-    private bool shaderAttached = false;
+    private bool shaderAttached;
 
     public RLModel(RLGraphics graphics, string path, TextureManager textureManager, string name)
     {
@@ -42,6 +41,11 @@ public class RLModel
     : this(graphics, path, textureManager, "")
     { }
 
+    /// <summary>
+    /// Makes it transformable. Once it is transformable, you can edit the position, rotation
+    /// and scale. 
+    /// </summary>
+    /// <returns></returns>
     public Transformable<RLModel> MakeTransformable()
     {
         return new Transformable<RLModel>(this);
@@ -90,49 +94,15 @@ public class RLModel
         }
     }
 
-    public RLModel ApplyTextureOverride(string meshName, string texturePath, RLTextureType textureType = RLTextureType.Diffuse)
-    {
-        if (int.TryParse(meshName, out int meshIndex) && meshIndex >= 0 && meshIndex < Meshes.Count)
-        {
-            var texture = new RLTexture(graphics, texturePath, textureType);
-            Meshes[meshIndex].AttachTexture(texture);
-            Log.Debug("Applied texture override for mesh index [{Index}]: {TexturePath}", meshIndex, texturePath);
-            return this;
-        }
-
-        for (int i = 0; i < Meshes.Count; i++)
-        {
-            if (Meshes[i].ToString().Contains(meshName) ||
-                (Meshes[i].Name != null && Meshes[i].Name.Contains(meshName)))
-            {
-                var texture = new RLTexture(graphics, texturePath, textureType);
-                Meshes[i].AttachTexture(texture);
-                Log.Debug("Applied texture override for mesh [{MeshName}]: {TexturePath}", meshName, texturePath);
-                return this;
-            }
-        }
-
-        Log.Warning("Cannot apply texture override: Mesh [{MeshName}] not found", meshName);
-        return this;
-    }
-
-    public RLModel ApplyTextureOverride(int meshIndex, string texturePath, RLTextureType textureType = RLTextureType.Diffuse)
-    {
-        if (meshIndex >= 0 && meshIndex < Meshes.Count)
-        {
-            var texture = new RLTexture(graphics, texturePath, textureType);
-            Meshes[meshIndex].AttachTexture(texture);
-            Log.Debug("Applied texture override for mesh index [{Index}]: {TexturePath}", meshIndex, texturePath);
-        }
-        else
-        {
-            Log.Warning("Cannot apply texture override: Mesh index [{Index}] out of range (0-{Count})",
-                meshIndex, Meshes.Count - 1);
-        }
-        return this;
-    }
-
-    public RLModel ApplyTextureFromManager(string meshName, RLTexture texture)
+    /// <summary>
+    /// This function is used in the case that a texture is not being rendered properly from a model.
+    ///
+    /// The mesh name will be logged. You can take that and apply the texture override to a specific mesh. 
+    /// </summary>
+    /// <param name="meshName">string</param>
+    /// <param name="texture">RLTexture</param>
+    /// <returns>RLModel</returns>
+    public RLModel ApplyTextureOverride(string meshName, RLTexture texture)
     {
         if (textureManager == null)
         {
@@ -179,6 +149,11 @@ public class RLModel
         return this;
     }
 
+    /// <summary>
+    /// Attach a texture to an RLModel. It iterates through each mesh and attaches the shader to each one. 
+    /// </summary>
+    /// <param name="shaderBundle">RLShaderBundle</param>
+    /// <returns>RLModel</returns>
     public RLModel AttachShader(RLShaderBundle shaderBundle)
     {
         foreach (var mesh in Meshes)
@@ -190,6 +165,12 @@ public class RLModel
         return this;
     }
 
+    /// <summary>
+    /// Attaches a texture to a model. Can change it so it is silent (logging). 
+    /// </summary>
+    /// <param name="texture">RLTexture</param>
+    /// <param name="silent">bool</param>
+    /// <returns>RLModel</returns>
     public RLModel AttachTexture(RLTexture texture, bool silent)
     {
         if (texture == null)
@@ -217,11 +198,11 @@ public class RLModel
         return this;
     }
 
-    private RLModel AttachTextureFirstTime(RLTexture texture)
-    {
-        return AttachTexture(texture, true);
-    }
-
+    /// <summary>
+    /// Attaches a texture to the RLModel model. By default, it is not silent, so there will be logging. 
+    /// </summary>
+    /// <param name="texture">RLTexture</param>
+    /// <returns>RLModel</returns>
     public RLModel AttachTexture(RLTexture texture)
     {
         return AttachTexture(texture, false);
@@ -293,20 +274,20 @@ public class RLModel
         Material* material = scene->MMaterials[mesh->MMaterialIndex];
 
         // Load all relevant textures for this material
-        textures.AddRange(LoadMaterialTextures(material, TextureType.Diffuse, RLTextureType.Diffuse));
-        textures.AddRange(LoadMaterialTextures(material, TextureType.Metalness, RLTextureType.Metallic));
-        textures.AddRange(LoadMaterialTextures(material, TextureType.DiffuseRoughness, RLTextureType.Roughness));
-        textures.AddRange(LoadMaterialTextures(material, TextureType.Specular, RLTextureType.Specular));
-        textures.AddRange(LoadMaterialTextures(material, TextureType.Normals, RLTextureType.Normal));
-        textures.AddRange(LoadMaterialTextures(material, TextureType.Height, RLTextureType.Normal));
-        textures.AddRange(LoadMaterialTextures(material, TextureType.Ambient, RLTextureType.Height));
+        textures.AddRange(LoadMaterialTextures(material, TextureType.Diffuse, RLTextureType.Diffuse, scene));
+        textures.AddRange(LoadMaterialTextures(material, TextureType.Metalness, RLTextureType.Metallic, scene));
+        textures.AddRange(LoadMaterialTextures(material, TextureType.DiffuseRoughness, RLTextureType.Roughness, scene));
+        textures.AddRange(LoadMaterialTextures(material, TextureType.Specular, RLTextureType.Specular, scene));
+        textures.AddRange(LoadMaterialTextures(material, TextureType.Normals, RLTextureType.Normal, scene));
+        textures.AddRange(LoadMaterialTextures(material, TextureType.Height, RLTextureType.Normal, scene));
+        textures.AddRange(LoadMaterialTextures(material, TextureType.Ambient, RLTextureType.Height, scene));
 
-        if (!textures.Any())
+        if (textures.Count == 0)
         {
             Log.Warning($"No texture found for mesh '{mesh->MName}' in model '{Name}'. Mesh will render without texture.");
         }
 
-        if (textures.Any())
+        if (textures.Count <= 1)
         {
             if (!graphics.ShutUp)
                 Log.Debug($"Assigned {textures.Count} textures to mesh '{mesh->MName}' in model '{Name}'.");
@@ -320,7 +301,7 @@ public class RLModel
         return meshObj;
     }
 
-    private unsafe List<RLTexture> LoadMaterialTextures(Material* mat, TextureType type, RLTextureType rlType)
+    private unsafe List<RLTexture> LoadMaterialTextures(Material* mat, TextureType type, RLTextureType rlType, Silk.NET.Assimp.Scene* scene)
     {
         var textureCount = _assimp.GetMaterialTextureCount(mat, type);
         List<RLTexture> textures = new List<RLTexture>();
@@ -328,13 +309,12 @@ public class RLModel
         {
             AssimpString path;
             _assimp.GetMaterialTexture(mat, type, i, &path, null, null, null, null, null, null);
-
             var textureFile = path.ToString();
 
             // Skip invalid or empty texture names
             if (string.IsNullOrWhiteSpace(textureFile) ||
                 textureFile == "?" ||
-                textureFile.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0)
+                textureFile.IndexOfAny(Path.GetInvalidFileNameChars().Where(c => c != '*').ToArray()) >= 0)
             {
                 Log.Warning("Skipping invalid texture file name: {TextureFile}", textureFile);
                 continue;
@@ -350,22 +330,111 @@ public class RLModel
                     break;
                 }
             }
+
             if (!skip)
             {
-                var texturePath = Path.Combine(Directory, textureFile);
-                if (!System.IO.File.Exists(texturePath))
+                RLTexture texture = null;
+
+                // Handle embedded textures (with "*" in the path)
+                if (textureFile.Contains("*"))
                 {
-                    Log.Error("Texture file not found: {TexturePath}", texturePath);
+                    // Parse the texture index from the path (e.g., "*1" -> 1)
+                    if (int.TryParse(textureFile.Substring(1), out int texIndex))
+                    {
+                        Log.Debug("Loading embedded texture with index {Index}", texIndex);
+
+                        // Look for the texture in the texture manager first with a standard naming convention
+                        string embeddedTexName = $"embedded_{Name}_{texIndex}";
+
+                        if (textureManager.Exists(embeddedTexName))
+                        {
+                            // Use existing texture if already loaded
+                            texture = textureManager.Get(embeddedTexName);
+                            Log.Debug("Using existing embedded texture: {Name}", embeddedTexName);
+                        }
+                        else
+                        {
+                            // Extract the embedded texture from the scene
+                            try
+                            {
+                                // Verify the scene and texture index are valid
+                                if (scene != null && texIndex >= 0 && texIndex < scene->MNumTextures)
+                                {
+                                    var embTexture = scene->MTextures[texIndex];
+                                    if (embTexture != null)
+                                    {
+                                        // Create a texture ID for the texture manager
+                                        string textureId = embeddedTexName;
+                                        
+                                        // Get dimensions
+                                        int width = (int)embTexture->MWidth;
+                                        int height = embTexture->MHeight > 0 ? (int)embTexture->MHeight : 1; // Handle 1D textures
+                                        
+                                        // Create texture directly from the embedded Texel data
+                                        texture = new RLTexture(graphics, embTexture, rlType);
+                                        
+                                        // Add to texture manager for future reference
+                                        textureManager.Add(textureId, texture);
+                                        Log.Information("Created embedded texture: {TextureId} ({Width}x{Height})", textureId, width, height);
+                                    }
+                                    else
+                                    {
+                                        Log.Warning("Embedded texture at index {Index} is invalid", texIndex);
+                                        texture = textureManager.Get("no-texture");
+                                    }
+                                }
+                                else
+                                {
+                                    Log.Warning("Embedded texture index {Index} is out of range (max: {Max})",
+                                        texIndex, scene != null ? scene->MNumTextures - 1 : -1);
+                                    texture = textureManager.Get("no-texture");
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Log.Error("Failed to create embedded texture: {Error}", ex.Message);
+                                texture = textureManager.Get("no-texture");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Log.Warning("Invalid embedded texture format: {Path}", textureFile);
+                        texture = textureManager.Get("no-texture");
+                    }
                 }
                 else
                 {
-                    Log.Debug("Loading texture: {TexturePath}", texturePath);
+                    // Handle regular file-based textures
+                    string filename = Path.GetFileName(textureFile);
+                    string fullPath = Path.Combine(Directory, filename);
+
+                    try
+                    {
+                        if (System.IO.File.Exists(fullPath))
+                        {
+                            texture = new RLTexture(graphics, fullPath, rlType);
+                        }
+                        else
+                        {
+                            Log.Warning("Texture file not found: {Path}", fullPath);
+                            texture = textureManager.Get("no-texture");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error("Failed to load texture: {Path} - {Error}", fullPath, ex.Message);
+                        texture = textureManager.Get("no-texture");
+                    }
                 }
-                var texture = new RLTexture(graphics, texturePath, rlType);
-                texture.Path = textureFile;
-                texture.Type = rlType;
-                textures.Add(texture);
-                _texturesLoaded.Add(texture);
+
+                if (texture != null)
+                {
+                    texture.Path = textureFile;
+                    texture.Type = rlType;
+                    textures.Add(texture);
+                    _texturesLoaded.Add(texture);
+                }
             }
         }
         return textures;

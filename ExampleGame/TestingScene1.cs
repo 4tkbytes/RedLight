@@ -3,10 +3,14 @@ using RedLight;
 using RedLight.Graphics;
 using RedLight.Input;
 using RedLight.Scene;
+using RedLight.UI;
 using RedLight.Utils;
 using Serilog;
+using Silk.NET.Assimp;
 using Silk.NET.Input;
+using Silk.NET.Maths;
 using Silk.NET.OpenGL.Extensions.ImGui;
+using Camera = RedLight.Graphics.Camera;
 using Plane = RedLight.Graphics.Primitive.Plane;
 using ShaderType = RedLight.Graphics.ShaderType;
 
@@ -19,13 +23,17 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     public ShaderManager ShaderManager { get; set; }
     public TextureManager TextureManager { get; set; }
     public InputManager InputManager { get; set; }
+    public List<Transformable<RLModel>> ObjectModels { get; set; } = new();
     public RLEngine Engine { get; set; }
     public HashSet<Key> PressedKeys { get; set; } = new();
 
     private Camera camera;
     private bool isCaptured = true;
-    private ImGuiController controller;
-    private List<Transformable<RLModel>> objectModels = new();
+    private RLImGui controller;
+    
+    private bool modelListChanged = false;
+    private List<Transformable<RLModel>> newModels = new();
+    private int oldLength;
 
     public void OnLoad()
     {
@@ -55,23 +63,19 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 
         var plane = new Plane(Graphics, TextureManager, ShaderManager, 20f, 20f).Default();
 
-        controller = Graphics.ImGuiLoad(Engine.Window, InputManager);
+        controller = new RLImGui(Graphics, Engine.Window, InputManager, ShaderManager, TextureManager, SceneManager);
+        Engine.InitialiseLogger(controller.Console);
 
         var size = Engine.Window.Window.Size;
         camera = new Camera(size);
 
-        // var carrot = Graphics.CreateModel("ExampleGame.Resources.Carrot.scene.gltf", TextureManager, ShaderManager,
-        //     "carrot");
-        // carrot.Target.ApplyTextureFromManager("Carrot_0", TextureManager.Get("Carrot_Base_diffuse"));
-        // carrot.Target.ApplyTextureFromManager("Carrot_1", TextureManager.Get("Carrot_Leaves_diffuse"));
+        var fox = Graphics.CreateModel("ExampleGame.Resources.low_poly_fox.glb", TextureManager, ShaderManager, "fox")
+            .Rotate((float) -Math.PI/2, Vector3D<float>.UnitX);
 
-        var deer = Graphics.CreateModel("ExampleGame.Resources.Deer_001.fbx", TextureManager, ShaderManager,
-            "deer");
+        Graphics.AddModels(ObjectModels, controller, fox);
+        Graphics.AddModels(ObjectModels, controller, plane.Model);
         
-        objectModels.Add(deer);
-        // objectModels.Add(crab);
-        // objectModels.Add(carrot);
-        objectModels.Add(plane.Model);
+        oldLength = ObjectModels.Count;
     }
 
     public void OnUpdate(double deltaTime)
@@ -80,7 +84,20 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 
         camera = camera.SetSpeed(2.5f * (float)deltaTime);
 
-        camera.KeyMap(PressedKeys);
+        if (ObjectModels.Count != oldLength)
+        {
+            modelListChanged = true;
+            
+            for (int i = oldLength; i < ObjectModels.Count; i++)
+            {
+                newModels.Add(ObjectModels[i]);
+            }
+            
+            oldLength = ObjectModels.Count;
+        }
+
+        if (isCaptured)
+            camera.KeyMap(PressedKeys);
     }
 
     public void OnRender(double deltaTime)
@@ -90,7 +107,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
             Graphics.Clear();
             Graphics.ClearColour(RLConstants.RL_COLOUR_CORNFLOWER_BLUE);
 
-            foreach (var model in objectModels)
+            foreach (var model in ObjectModels)
             {
                 Graphics.Use(model);
                 Graphics.Update(camera, model);
@@ -98,9 +115,8 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
             }
         }
         Graphics.End();
-
-        Graphics.ImGuiRender(controller, deltaTime, objectModels, camera);
-
+        
+        controller.Render(deltaTime, camera);
     }
 
     public void OnKeyDown(IKeyboard keyboard, Key key, int keyCode)
@@ -109,10 +125,6 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         if (key == Key.Escape)
         {
             Engine.Window.Window.Close();
-        }
-        if (key == Key.Number2)
-        {
-            SceneManager.SwitchScene("stress_test");
         }
         if (key == Key.Left)
         {

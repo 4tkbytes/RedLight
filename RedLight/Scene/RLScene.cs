@@ -12,6 +12,7 @@ public interface RLScene
     ShaderManager ShaderManager { get; set; }
     TextureManager TextureManager { get; set; }
     InputManager InputManager { get; set; }
+    List<Transformable<RLModel>> ObjectModels { get; set; }
 
 
     void OnLoad();

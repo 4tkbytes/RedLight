@@ -3,6 +3,7 @@ using RedLight.Core;
 using RedLight.Graphics;
 using RedLight.Input;
 using RedLight.Scene;
+using RedLight.UI;
 using RedLight.Utils;
 using Serilog;
 using Silk.NET.Input;
@@ -14,8 +15,12 @@ namespace RedLight;
 
 public class RLEngine
 {
+    /// <summary>
+    /// The Silk.NET default window
+    /// </summary>
     public RLWindow Window { get; private set; }
     public RLGraphics Graphics { get; private set; }
+    public RLImGui ImGui { get; set; }
 
     public SceneManager SceneManager { private get; set; }
 
@@ -182,7 +187,7 @@ public class RLEngine
         }
     }
 
-    public void InitialiseLogger()
+    public void InitialiseLogger(ConsoleLog console = null)
     {
         var loggerConfig = new LoggerConfiguration()
             .WriteTo.Console()
@@ -190,6 +195,11 @@ public class RLEngine
             .WriteTo.File("logs/log.txt",
                 rollingInterval: RollingInterval.Day,
                 rollOnFileSizeLimit: false);
+            
+        if (console != null)
+        {
+            loggerConfig.WriteTo.ImGuiConsole(console);
+        }
 
         if (logStrength == 1)
             loggerConfig.MinimumLevel.Debug();
@@ -197,8 +207,16 @@ public class RLEngine
             loggerConfig.MinimumLevel.Verbose();
 
         Log.Logger = loggerConfig.CreateLogger();
-        Log.Information("Logger has been created");
-        Log.Information("Logger is logging at strength [{A}]", logStrength);
+        if (console == null)
+        {
+            Log.Information("Logger has been created");
+            Log.Information("Logger is logging at strength [{A}]", logStrength);
+        }
+        else
+        {
+            Log.Information("ImGui Logger Sink has been created");
+        }
+      
     }
 
     public SceneManager CreateSceneManager()

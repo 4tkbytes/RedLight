@@ -1,7 +1,6 @@
 using RedLight.Scene;
 using Serilog;
 using Silk.NET.Windowing;
-using Silk.NET.Windowing.Sdl;
 
 namespace RedLight.Core;
 

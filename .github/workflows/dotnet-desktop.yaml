@@ -34,9 +34,6 @@ jobs:
       - name: Publish Game Executable
         run: dotnet publish ExampleGame/ExampleGame.csproj --configuration Release --output ./publish/game
 
-      - name: Publish PointLonely Executable
-        run: dotnet publish PointLonely/PointLonely.csproj --configuration Release --output ./publish/pointLonely
-
       - name: Upload Engine Library Artifact
         uses: actions/upload-artifact@v4
         with:
@@ -48,9 +45,3 @@ jobs:
         with:
           name: game-executable
           path: ./publish/game
-
-      - name: Upload Point Lonely Executable Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: point-lonely
-          path: ./publish/point-lonely
