@@ -15,6 +15,7 @@ public class RLModel
     private List<RLTexture> _texturesLoaded = new();
     private TextureManager textureManager;
     public string Directory { get; protected set; } = string.Empty;
+    public string ResourcePath { get; private set; } = string.Empty;
     public List<Mesh> Meshes { get; protected set; } = new();
     public String Name { get; private set; }
     private bool shaderAttached;
@@ -27,6 +28,9 @@ public class RLModel
         this.graphics = graphics;
         _gl = graphics.OpenGL;
         this.textureManager = textureManager;
+
+        ResourcePath = path;
+        path = RLFiles.GetResourcePath(path);
 
         LoadModel(path);
         if (Meshes.Count == 0)
@@ -304,122 +308,88 @@ public class RLModel
     private unsafe List<RLTexture> LoadMaterialTextures(Material* mat, TextureType type, RLTextureType rlType, Silk.NET.Assimp.Scene* scene)
     {
         var textureCount = _assimp.GetMaterialTextureCount(mat, type);
+        Log.Verbose("Loading {Count} textures of type {Type} for material.", textureCount, type);
         List<RLTexture> textures = new List<RLTexture>();
+
         for (uint i = 0; i < textureCount; i++)
         {
             AssimpString path;
             _assimp.GetMaterialTexture(mat, type, i, &path, null, null, null, null, null, null);
             var textureFile = path.ToString();
+            Log.Verbose("Processing texture index {Index}: {TextureFile}", i, textureFile);
 
-            // Skip invalid or empty texture names
-            if (string.IsNullOrWhiteSpace(textureFile) ||
-                textureFile == "?" ||
-                textureFile.IndexOfAny(Path.GetInvalidFileNameChars().Where(c => c != '*').ToArray()) >= 0)
+            // Skip if already loaded
+            var loaded = _texturesLoaded.FirstOrDefault(t => t.Path == textureFile);
+            if (loaded != null)
             {
-                Log.Warning("Skipping invalid texture file name: {TextureFile}", textureFile);
+                Log.Verbose("Texture already loaded: {TextureFile}", textureFile);
+                textures.Add(loaded);
                 continue;
             }
 
-            bool skip = false;
-            for (int j = 0; j < _texturesLoaded.Count; j++)
+            // Skip if empty or just '?'
+            if (string.IsNullOrWhiteSpace(textureFile) || textureFile == "?")
             {
-                if (_texturesLoaded[j].Path == path)
-                {
-                    textures.Add(_texturesLoaded[j]);
-                    skip = true;
-                    break;
-                }
+                Log.Warning("Skipping empty or placeholder texture: {TextureFile}", textureFile);
+                continue;
             }
 
-            if (!skip)
+            // If path contains invalid characters (except '*'), attempt fallback with filename
+            if (textureFile.IndexOfAny(Path.GetInvalidFileNameChars().Where(c => c != '*').ToArray()) >= 0)
             {
-                RLTexture texture = null;
+                Log.Warning("Texture path contains invalid characters, attempting fallback search: {TextureFile}", textureFile);
+                // Fallback search logic will run below
+            }
 
-                // Handle embedded textures (with "*" in the path)
-                if (textureFile.Contains("*"))
+            RLTexture texture = null;
+
+            // Embedded texture
+            if (textureFile.Contains("*"))
+            {
+                Log.Verbose("Detected embedded texture: {TextureFile}", textureFile);
+                if (int.TryParse(textureFile.Substring(1), out int texIndex) && scene != null && texIndex >= 0 && texIndex < scene->MNumTextures)
                 {
-                    // Parse the texture index from the path (e.g., "*1" -> 1)
-                    if (int.TryParse(textureFile.Substring(1), out int texIndex))
+                    string embeddedTexName = $"embedded_{Name}_{texIndex}";
+                    if (textureManager.Exists(embeddedTexName))
                     {
-                        Log.Debug("Loading embedded texture with index {Index}", texIndex);
-
-                        // Look for the texture in the texture manager first with a standard naming convention
-                        string embeddedTexName = $"embedded_{Name}_{texIndex}";
-
-                        if (textureManager.Exists(embeddedTexName))
-                        {
-                            // Use existing texture if already loaded
-                            texture = textureManager.Get(embeddedTexName);
-                            Log.Debug("Using existing embedded texture: {Name}", embeddedTexName);
-                        }
-                        else
-                        {
-                            // Extract the embedded texture from the scene
-                            try
-                            {
-                                // Verify the scene and texture index are valid
-                                if (scene != null && texIndex >= 0 && texIndex < scene->MNumTextures)
-                                {
-                                    var embTexture = scene->MTextures[texIndex];
-                                    if (embTexture != null)
-                                    {
-                                        // Create a texture ID for the texture manager
-                                        string textureId = embeddedTexName;
-                                        
-                                        // Get dimensions
-                                        int width = (int)embTexture->MWidth;
-                                        int height = embTexture->MHeight > 0 ? (int)embTexture->MHeight : 1; // Handle 1D textures
-                                        
-                                        // Create texture directly from the embedded Texel data
-                                        texture = new RLTexture(graphics, embTexture, rlType);
-                                        
-                                        // Add to texture manager for future reference
-                                        textureManager.Add(textureId, texture);
-                                        Log.Information("Created embedded texture: {TextureId} ({Width}x{Height})", textureId, width, height);
-                                    }
-                                    else
-                                    {
-                                        Log.Warning("Embedded texture at index {Index} is invalid", texIndex);
-                                        texture = textureManager.Get("no-texture");
-                                    }
-                                }
-                                else
-                                {
-                                    Log.Warning("Embedded texture index {Index} is out of range (max: {Max})",
-                                        texIndex, scene != null ? scene->MNumTextures - 1 : -1);
-                                    texture = textureManager.Get("no-texture");
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                Log.Error("Failed to create embedded texture: {Error}", ex.Message);
-                                texture = textureManager.Get("no-texture");
-                            }
-                        }
+                        Log.Verbose("Embedded texture already exists in manager: {Name}", embeddedTexName);
+                        texture = textureManager.Get(embeddedTexName);
                     }
                     else
                     {
-                        Log.Warning("Invalid embedded texture format: {Path}", textureFile);
-                        texture = textureManager.Get("no-texture");
+                        try
+                        {
+                            var embTexture = scene->MTextures[texIndex];
+                            texture = new RLTexture(graphics, embTexture, rlType);
+                            textureManager.Add(embeddedTexName, texture);
+                            Log.Verbose("Created and registered new embedded texture: {Name}", embeddedTexName);
+                        }
+                        catch (Exception ex)
+                        {
+                            Log.Error("Failed to create embedded texture: {Error}", ex.Message);
+                            texture = textureManager.Get("no-texture");
+                        }
                     }
                 }
                 else
                 {
-                    // Handle regular file-based textures
-                    string filename = Path.GetFileName(textureFile);
-                    string fullPath = Path.Combine(Directory, filename);
+                    Log.Warning("Invalid embedded texture format or index: {Path}", textureFile);
+                    texture = textureManager.Get("no-texture");
+                }
+            }
+            else
+            {
+                // Regular file-based texture
+                string filename = Path.GetFileName(textureFile);
+                string fullPath = Path.Combine(Directory, filename);
+                Log.Verbose("Looking for texture file at: {FullPath}", fullPath);
 
+                if (System.IO.File.Exists(fullPath))
+                {
                     try
                     {
-                        if (System.IO.File.Exists(fullPath))
-                        {
-                            texture = new RLTexture(graphics, fullPath, rlType);
-                        }
-                        else
-                        {
-                            Log.Warning("Texture file not found: {Path}", fullPath);
-                            texture = textureManager.Get("no-texture");
-                        }
+                        Log.Verbose("Texture file found at expected location: {FullPath}", fullPath);
+                        texture = new RLTexture(graphics, fullPath, rlType);
                     }
                     catch (Exception ex)
                     {
@@ -427,14 +397,43 @@ public class RLModel
                         texture = textureManager.Get("no-texture");
                     }
                 }
-
-                if (texture != null)
+                else
                 {
-                    texture.Path = textureFile;
-                    texture.Type = rlType;
-                    textures.Add(texture);
-                    _texturesLoaded.Add(texture);
+                    Log.Verbose("Texture file not found at expected location. Searching recursively for: {Filename}", filename);
+                    // Fallback: recursively search for the file in the models directory
+                    string foundPath = System.IO.Directory
+                        .EnumerateFiles(Directory, filename, SearchOption.AllDirectories)
+                        .FirstOrDefault();
+
+                    if (!string.IsNullOrEmpty(foundPath))
+                    {
+                        try
+                        {
+                            Log.Verbose("Found fallback texture at: {FoundPath}", foundPath);
+                            texture = new RLTexture(graphics, foundPath, rlType);
+                            Log.Information("Found and loaded fallback texture: {Path}", foundPath);
+                        }
+                        catch (Exception ex)
+                        {
+                            Log.Error("Failed to load found fallback texture: {Path} - {Error}", foundPath, ex.Message);
+                            texture = textureManager.Get("no-texture");
+                        }
+                    }
+                    else
+                    {
+                        Log.Warning("Texture file not found: {Path}", fullPath);
+                        texture = textureManager.Get("no-texture");
+                    }
                 }
+            }
+
+            if (texture != null)
+            {
+                Log.Verbose("Registering texture: {TextureFile}", textureFile);
+                texture.Path = textureFile;
+                texture.Type = rlType;
+                textures.Add(texture);
+                _texturesLoaded.Add(texture);
             }
         }
         return textures;

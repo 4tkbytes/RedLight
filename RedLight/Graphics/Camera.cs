@@ -55,16 +55,17 @@ public class Camera
     {
     }
 
-    public Camera UpdateCamera()
+    public Camera UpdateCamera(bool shutup = true)
     {
         cameraTarget = Position + Vector3D.Normalize(Front);
         LookAt(Position, cameraTarget, Up);
-
-        Log.Verbose("Updated camera target");
+        
+        if (!shutup)
+            Log.Verbose("Updated camera target");
         return this;
     }
 
-    public Camera LookAt(Vector3D<float> position, Vector3D<float> cameraTarget, Vector3D<float> cameraUpVector)
+    public Camera LookAt(Vector3D<float> position, Vector3D<float> cameraTarget, Vector3D<float> cameraUpVector, bool shutup = true)
     {
         View = Matrix4X4.CreateLookAt(
             position,
@@ -72,7 +73,8 @@ public class Camera
             cameraUpVector
         );
 
-        Log.Verbose("Looking at new view");
+        if (!shutup)
+            Log.Verbose("Looking at new view");
         return this;
     }
 

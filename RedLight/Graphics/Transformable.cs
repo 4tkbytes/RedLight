@@ -98,19 +98,7 @@ public class Transformable<T>
     /// </summary>
     /// <returns>Transformable</returns>
     /// <exception cref="Exception"></exception>
-    public Transformable<T> Reset()
-    {
-        if (!defaultSet)
-        {
-            Log.Warning("Unable to reset as a lock state has not been created, resetting absolute");
-            AbsoluteReset();
-        }
-        Model = modelDefault;
-        Log.Verbose("Resetted the mesh model");
-        return this;
-    }
-
-    public Transformable<T> Reset(bool silent)
+    public Transformable<T> Reset(bool silent = true)
     {
         if (!defaultSet)
         {

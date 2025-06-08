@@ -6,6 +6,9 @@ using RedLight.Input;
 using RedLight.Scene;
 using RedLight.UI;
 using RedLight.Utils;
+using Plane = RedLight.Graphics.Primitive.Plane;
+using Cube = RedLight.Graphics.Primitive.Cube;
+using Sphere = RedLight.Graphics.Primitive.Sphere;
 
 using Silk.NET.Input;
 using Silk.NET.Maths;
@@ -35,30 +38,39 @@ public class SceneTemplate : RLScene, RLKeyboard, RLMouse
         Graphics.ShutUp = true;
         
         controller = new RLImGui(Graphics, Engine.Window, InputManager, ShaderManager, TextureManager, SceneManager);
+        Engine.InitialiseLogger(controller.Console);
+        
         camera = new Camera(Engine.Window.Window.Size);
 
+        // Generated contents starts from this line below
     }
-
-    public void OnRender(double deltaTime)
+    
+    public void OnUpdate(double deltaTime)
     {
         camera = camera.SetSpeed(cameraSpeed * (float)deltaTime);
         
         if (InputManager.isCaptured)
             camera.KeyMap(PressedKeys);
     }
-
-    public void OnUpdate(double deltaTime)
+    
+    public void OnRender(double deltaTime)
     {
         Graphics.Begin();
         {
             Graphics.Clear();
             Graphics.ClearColour(RLConstants.RL_COLOUR_CORNFLOWER_BLUE);
 
-            foreach (var model in ObjectModels)
+            if (ObjectModels != null && ObjectModels.Count > 0)
             {
-                Graphics.Use(model);
-                Graphics.Update(camera, model);
-                Graphics.Draw(model);
+                foreach (var model in ObjectModels)
+                {
+                    if (model != null)
+                    {
+                        Graphics.Use(model);
+                        Graphics.Update(camera, model);
+                        Graphics.Draw(model);
+                    }
+                }
             }
         }
         Graphics.End();
@@ -72,4 +84,3 @@ public class SceneTemplate : RLScene, RLKeyboard, RLMouse
             camera.FreeMove(mousePosition);
     }
 }
-

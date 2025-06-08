@@ -75,9 +75,6 @@ public class RLEngine
             {
                 SceneManager.SwitchScene(startingScene);
                 Log.Debug("Scene is switching to {A}", startingScene);
-                // Remove this line:
-                // input.SubscribeToInputs(startingScene as RLKeyboard, startingScene as RLMouse);
-                // Log.Debug("Subscribing to inputs: {A}, {B}", startingScene as RLKeyboard, startingScene as RLMouse);
             }
             else
             {

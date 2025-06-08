@@ -256,7 +256,8 @@ public class RLGraphics
             Log.Error("[RLGraphics] Attempted to use invalid shader program (0)!");
             return;
         }
-        Log.Verbose("[RLGraphics] Using program: {Program}", mesh.Target.program);
+        if (!ShutUp)
+            Log.Verbose("[RLGraphics] Using program: {Program}", mesh.Target.program);
         OpenGL.UseProgram(mesh.Target.program);
     }
 
@@ -272,7 +273,8 @@ public class RLGraphics
             Log.Error("[RLGraphics] Attempted to use invalid shader program (0)!");
             return;
         }
-        Log.Verbose("[RLGraphics] Using program: {Program}", prog);
+        if (!ShutUp)
+            Log.Verbose("[RLGraphics] Using program: {Program}", prog);
         OpenGL.UseProgram(prog);
     }
 
@@ -287,7 +289,7 @@ public class RLGraphics
     /// <returns>Transformable RLModel</returns>
     public Transformable<RLModel> CreateModel(string resourceName, TextureManager textureManager, ShaderManager shaderManager, string name)
     {
-        return new RLModel(this, RLFiles.GetResourcePath(resourceName), textureManager, name)
+        return new RLModel(this, resourceName, textureManager, name)
             .AttachShader(shaderManager.Get("basic"))
             .MakeTransformable();
     }
@@ -297,7 +299,8 @@ public class RLGraphics
     /// </summary>
     public void Begin()
     {
-        Log.Verbose("[RLGraphics] Begin frame");
+        if (!ShutUp)
+            Log.Verbose("[RLGraphics] Begin frame");
         IsRendering = true;
     }
 
@@ -306,7 +309,8 @@ public class RLGraphics
     /// </summary>
     public void End()
     {
-        Log.Verbose("[RLGraphics] End frame");
+        if (!ShutUp)
+            Log.Verbose("[RLGraphics] End frame");
         IsRendering = false;
     }
 
