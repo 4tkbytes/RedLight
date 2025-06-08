@@ -12,7 +12,6 @@ class Program
     {
         // Initialise scenes
         var scene1 = new TestingScene1();
-        var stressTest = new StressTestScene();
         var loadingScene = new LoadingScene("testing_scene_1");
 
         // Create engine instance
@@ -24,7 +23,6 @@ class Program
         // add scenes to scene manager
         sceneManager.Add("loading", loadingScene, loadingScene, loadingScene);
         sceneManager.Add("testing_scene_1", scene1, scene1, scene1);
-        sceneManager.Add("stress_test", stressTest, stressTest, stressTest);
 
         // run
         engine.Run();

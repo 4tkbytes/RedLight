@@ -81,6 +81,12 @@ public class Mesh
         textures = new List<RLTexture>();
     }
 
+    /// <summary>
+    /// Attaches a shader to a mesh
+    /// </summary>
+    /// <param name="vertexShader">RLShader</param>
+    /// <param name="fragmentShader">RLShader</param>
+    /// <returns></returns>
     public Mesh AttachShader(RLShader vertexShader, RLShader fragmentShader)
     {
         var gl = graphics.OpenGL;
@@ -114,6 +120,11 @@ public class Mesh
         return this;
     }
 
+    /// <summary>
+    /// Attaches a texture to a mesh
+    /// </summary>
+    /// <param name="texture">RLTexture</param>
+    /// <returns></returns>
     public Mesh AttachTexture(RLTexture texture)
     {
         textures.Add(texture);

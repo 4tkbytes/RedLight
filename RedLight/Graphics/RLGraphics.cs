@@ -3,6 +3,7 @@ using System.Numerics;
 using ImGuiNET;
 using RedLight.Core;
 using RedLight.Input;
+using RedLight.UI;
 using RedLight.Utils;
 using Serilog;
 using Silk.NET.Input;
@@ -10,31 +11,57 @@ using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 using Silk.NET.OpenGL.Extensions.ImGui;
 using Silk.NET.Windowing;
-// ReSharper disable ReplaceWithSingleAssignment.False
 
 namespace RedLight.Graphics;
 
 public class RLGraphics
 {
+    /// <summary>
+    /// OpenGL rendering API. 
+    /// </summary>
     public GL OpenGL { get; set; }
 
-    // other graphics apis will be added later
     public bool IsRendering { get; private set; }
+    
+    /// <summary>
+    /// Extra debugging information for model loading
+    /// </summary>
     public bool ShutUp { get; set; }
 
+    /// <summary>
+    /// Struct containing colour. There's probably better alternatives with better support but this works for me. 
+    /// </summary>
     public struct Colour
     {
+        /// <summary>
+        /// red
+        /// </summary>
         public float r;
+        
+        /// <summary>
+        /// green
+        /// </summary>
         public float g;
+        
+        /// <summary>
+        /// blue
+        /// </summary>
         public float b;
+        
+        /// <summary>
+        /// alpha
+        /// </summary>
         public float a;
     }
 
-    // public Mesh CreateMesh(float[] vertices, uint[] indices, RLShader vertexShader, RLShader fragmentShader)
-    // {
-    //     return new Mesh(this, vertices, indices, vertexShader, fragmentShader);
-    // }
-
+    /// <summary>
+    /// Checks if a mouse is captured and changes the cursor mode.
+    ///
+    /// If the mouse is captured, it will change it to CursorMode.Disabled. If it
+    /// is not disabled, it will change it to CursorMode.Normal.  
+    /// </summary>
+    /// <param name="mouse">IMouse</param>
+    /// <param name="isCaptured">bool</param>
     public void IsCaptured(IMouse mouse, bool isCaptured)
     {
         if (!isCaptured)
@@ -44,6 +71,9 @@ public class RLGraphics
             mouse.Cursor.CursorMode = CursorMode.Disabled;
     }
 
+    /// <summary>
+    /// Enabled OpenGL's Depth Text, culls the back faces and internal faces from textures. 
+    /// </summary>
     public void Enable()
     {
         OpenGL.Enable(EnableCap.DepthTest);
@@ -52,16 +82,28 @@ public class RLGraphics
         OpenGL.FrontFace(GLEnum.Ccw);
     }
 
+    /// <summary>
+    /// Clears the screen
+    /// </summary>
     public void Clear()
     {
         OpenGL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
     }
 
+    /// <summary>
+    /// Clears the screen with a colour
+    /// </summary>
+    /// <param name="colour">Graphics.Colour</param>
     public void ClearColour(Colour colour)
     {
         OpenGL.ClearColor(colour.r, colour.g, colour.b, colour.a);
     }
 
+    /// <summary>
+    /// Updates the projection model of a RLModel
+    /// </summary>
+    /// <param name="camera">Camera</param>
+    /// <param name="Tmodel"></param>
     public void UpdateProjection(Camera camera, Transformable<RLModel> Tmodel)
     {
         unsafe
@@ -76,6 +118,11 @@ public class RLGraphics
         }
     }
 
+    /// <summary>
+    /// Updates the view of a RLModel
+    /// </summary>
+    /// <param name="camera">Camera</param>
+    /// <param name="Tmodel"></param>
     public void UpdateView(Camera camera, Transformable<RLModel> Tmodel)
     {
         unsafe
@@ -90,6 +137,10 @@ public class RLGraphics
         }
     }
 
+    /// <summary>
+    /// Updates the model's positioning and other stuff
+    /// </summary>
+    /// <param name="Tmodel"></param>
     public void UpdateModel(Transformable<RLModel> Tmodel)
     {
         unsafe
@@ -104,6 +155,11 @@ public class RLGraphics
         }
     }
 
+    /// <summary>
+    /// Updates the projection of a mesh
+    /// </summary>
+    /// <param name="camera"></param>
+    /// <param name="Tmesh"></param>
     public void UpdateProjection(Camera camera, Transformable<Mesh> Tmesh)
     {
         unsafe
@@ -114,7 +170,12 @@ public class RLGraphics
             OpenGL.UniformMatrix4(loc, 1, false, ptr);
         }
     }
-
+    
+    /// <summary>
+    /// Updates the view of a mesh
+    /// </summary>
+    /// <param name="camera"></param>
+    /// <param name="Tmesh"></param>
     public void UpdateView(Camera camera, Transformable<Mesh> Tmesh)
     {
         unsafe
@@ -126,6 +187,10 @@ public class RLGraphics
         }
     }
 
+    /// <summary>
+    /// Updates the model of a mesh
+    /// </summary>
+    /// <param name="Tmesh"></param>
     public void UpdateModel(Transformable<Mesh> Tmesh)
     {
         unsafe
@@ -137,13 +202,23 @@ public class RLGraphics
         }
     }
 
+    /// <summary>
+    /// Updates the model, view and projection all in one of a Transformable Model. 
+    /// </summary>
+    /// <param name="camera"></param>
+    /// <param name="Tmodel"></param>
     public void Update(Camera camera, Transformable<RLModel> Tmodel)
     {
         UpdateModel(Tmodel);
         UpdateView(camera, Tmodel);
         UpdateProjection(camera, Tmodel);
     }
-
+    
+    /// <summary>
+    /// Updates the model, view and projection all in one of a Transformable Mesh. 
+    /// </summary>
+    /// <param name="camera"></param>
+    /// <param name="Tmesh"></param>
     public void Update(Camera camera, Transformable<Mesh> Tmesh)
     {
         UpdateModel(Tmesh);
@@ -151,6 +226,10 @@ public class RLGraphics
         UpdateProjection(camera, Tmesh);
     }
 
+    /// <summary>
+    /// Checks if there are any OpenGL errors. Best to use straight after an OpenGL function as it will check
+    /// the latest error and log it. 
+    /// </summary>
     public void CheckGLErrors()
     {
         var err = OpenGL.GetError();
@@ -158,11 +237,21 @@ public class RLGraphics
             Log.Error("GL Error: {Error}", err);
     }
 
+    /// <summary>
+    /// Logs a vector (specifically a Vector3D float) in verbose mode. 
+    /// </summary>
+    /// <param name="type">string</param>
+    /// <param name="vector">Vector3D</param>
     public void LogVector(string type, Vector3D<float> vector)
     {
         Log.Verbose("{A}: {X}, {Y}, {Z}", type, vector.X, vector.Y, vector.Z);
     }
 
+    /// <summary>
+    /// Logs a matrix (specifically a Matrix4X4 float) in verbose mode. 
+    /// </summary>
+    /// <param name="type">string</param>
+    /// <param name="matrix">Matrix4X4</param>
     public void LogMatrix4(string type, Matrix4X4<float> matrix)
     {
         Log.Verbose("{A}: \n {B} {C} {D} {E}\n {F} {G} {H} {I} \n {J} {K} {L} {M} \n {N} {O} {P} {Q}\n",
@@ -173,6 +262,10 @@ public class RLGraphics
             matrix.M41, matrix.M42, matrix.M43, matrix.M44);
     }
 
+    /// <summary>
+    /// Enables the mesh's shader program. 
+    /// </summary>
+    /// <param name="mesh"></param>
     public void Use(Transformable<Mesh> mesh)
     {
         if (mesh.Target.program == 0)
@@ -184,6 +277,10 @@ public class RLGraphics
         OpenGL.UseProgram(mesh.Target.program);
     }
 
+    /// <summary>
+    /// Enables the model's shader program. 
+    /// </summary>
+    /// <param name="model"></param>
     public void Use(Transformable<RLModel> model)
     {
         var prog = model.Target.Meshes.First().program;
@@ -196,37 +293,70 @@ public class RLGraphics
         OpenGL.UseProgram(prog);
     }
 
+    /// <summary>
+    /// Creates a new model in an easier way. It creates a new RLModel from the resouceName, then attaches the "basic"
+    /// shader and makes it Transformable. 
+    /// </summary>
+    /// <param name="resourceName">string</param>
+    /// <param name="textureManager">TextureManager</param>
+    /// <param name="shaderManager">ShaderManager</param>
+    /// <param name="name">string</param>
+    /// <returns>Transformable RLModel</returns>
     public Transformable<RLModel> CreateModel(string resourceName, TextureManager textureManager, ShaderManager shaderManager, string name)
     {
-        var thing = resourceName.Split(".");
         return new RLModel(this, RLFiles.GetResourcePath(resourceName), textureManager, name)
             .AttachShader(shaderManager.Get("basic"))
             .MakeTransformable();
     }
 
+    /// <summary>
+    /// Starts rendering the frame and enables IsRendering boolean
+    /// </summary>
     public void Begin()
     {
         Log.Verbose("[RLGraphics] Begin frame");
         IsRendering = true;
     }
 
+    /// <summary>
+    /// Stops rendering the frame and disables the IsRendering boolean. 
+    /// </summary>
     public void End()
     {
         Log.Verbose("[RLGraphics] End frame");
         IsRendering = false;
     }
 
+    /// <summary>
+    /// Draws the model using OpenGL. 
+    /// </summary>
+    /// <param name="model">Transformable RLModel</param>
     public void Draw(Transformable<RLModel> model)
     {
         model.Target.Draw();
         CheckGLErrors();
     }
 
+    /// <summary>
+    /// Makes a model a player by setting the camera as third person. It is very broken and buddy so it is to be changed.
+    ///
+    /// Sets the distance a default of 5.0f
+    /// </summary>
+    /// <param name="camera">Camera</param>
+    /// <param name="model">Transformable Model</param>
     public void MakePlayer(Camera camera, Transformable<RLModel> model)
     {
         MakePlayer(camera, model, 5.0f);
     }
 
+    /// <summary>
+    /// Makes a model a player by setting the camera as third person. It is very broken and buggy so it is to be changes
+    ///
+    /// You are able to change the players distance. 
+    /// </summary>
+    /// <param name="camera">Camera</param>
+    /// <param name="model">Transformable Model</param>
+    /// <param name="distance">float</param>
     public void MakePlayer(Camera camera, Transformable<RLModel> model, float distance)
     {
         // Camera position and forward direction
@@ -238,216 +368,9 @@ public class RLGraphics
         model.Translate(targetPos);
     }
 
-    public ImGuiController ImGuiLoad(RLWindow window, InputManager inputManager)
+    public void AddModels(List<Transformable<RLModel>> models, RLImGui imGui, Transformable<RLModel> model)
     {
-        ImGuiController controller = new ImGuiController(
-            OpenGL,
-            window.Window,
-            inputManager.input
-        );
-
-        return controller;
+        models.Add(model);
+        imGui.AddModels(model);
     }
-
-    public void ImGuiRender(ImGuiController controller, double deltaTime, List<Transformable<RLModel>> objectModels, Camera camera)
-    {
-        controller.Update((float)deltaTime);
-
-        var io = ImGui.GetIO();
-        var windowSize = new System.Numerics.Vector2(350, io.DisplaySize.Y);
-        ImGui.SetNextWindowPos(new System.Numerics.Vector2(io.DisplaySize.X - windowSize.X, 0), ImGuiCond.Always);
-        ImGui.SetNextWindowSize(windowSize, ImGuiCond.Always);
-
-        ImGui.Begin("Scene Objects", ImGuiWindowFlags.AlwaysAutoResize);
-
-        // Model controls section
-        int idx = 0;
-        foreach (var model in objectModels)
-        {
-            string header = $"{model.Target.Name}";
-            if (ImGui.CollapsingHeader(header, ImGuiTreeNodeFlags.DefaultOpen))
-            {
-                bool locked = false;
-
-                // Extract current values from the matrix
-                Matrix4X4.Decompose(model.Model, out var sc, out var rot, out var pos);
-                var position = new Vector3(pos.X, pos.Y, pos.Z);
-                var scale = new Vector3(sc.X, sc.Y, sc.Z);
-
-                bool changed = false;
-
-                // Position sliders
-                if (ImGui.SliderFloat3($"Position##{idx}", ref position, -10f, 10f))
-                {
-                    changed = true;
-                }
-                ImGui.SameLine();
-                if (ImGui.Button($"Reset Pos##{idx}"))
-                {
-                    position = new Vector3(0, 0, 0);
-                    changed = true;
-                }
-
-                // Scale sliders
-                bool scaleChanged = false;
-                if (locked)
-                {
-                    // Only show one slider, and apply to all axes
-                    float uniformScale = scale.X;
-                    if (ImGui.SliderFloat($"Scale (Locked)##{idx}", ref uniformScale, 0.01f, 2f))
-                    {
-                        scale = new Vector3(uniformScale, uniformScale, uniformScale);
-                        scaleChanged = true;
-                    }
-                    ImGui.SameLine();
-                    if (ImGui.Button($"Reset Scale##{idx}"))
-                    {
-                        scale = new Vector3(1, 1, 1);
-                        scaleChanged = true;
-                    }
-                }
-                else
-                {
-                    if (ImGui.SliderFloat3($"Scale##{idx}", ref scale, 0.01f, 2f))
-                    {
-                        scaleChanged = true;
-                    }
-                    ImGui.SameLine();
-                    if (ImGui.Button($"Reset Scale##{idx}"))
-                    {
-                        scale = new Vector3(1, 1, 1);
-                        scaleChanged = true;
-                    }
-                }
-
-                if (ImGui.Button(locked ? "Unlock Scale" : "Lock Scale"))
-                {
-                    locked = !locked;
-                    Log.Debug("ImGui Scale Lock has been toggled [{A}]", locked);
-                    if (locked)
-                    {
-                        scale = new Vector3(scale.X, scale.X, scale.X);
-                        changed = true;
-                    }
-                }
-
-                if (scaleChanged)
-                {
-                    changed = true;
-                }
-
-                if (ImGui.SliderFloat3($"Rotation (Pitch/Yaw/Roll)##{idx}", ref model.eulerAngles, -180f, 180f))
-                {
-                    changed = true;
-                }
-
-                ImGui.SameLine();
-                if (ImGui.Button($"Reset Rot##{idx}"))
-                {
-                    model.eulerAngles = new Vector3(0, 0, 0);
-                    changed = true;
-                }
-
-                if (changed)
-                {
-                    model.AbsoluteReset();
-                    model.Scale(new Vector3D<float>(scale.X, scale.Y, scale.Z));
-
-                    var rotationX = Quaternion.CreateFromAxisAngle(Vector3.UnitX, model.eulerAngles.X * MathF.PI / 180f);
-                    var rotationY = Quaternion.CreateFromAxisAngle(Vector3.UnitY, model.eulerAngles.Y * MathF.PI / 180f);
-                    var rotationZ = Quaternion.CreateFromAxisAngle(Vector3.UnitZ, model.eulerAngles.Z * MathF.PI / 180f);
-
-                    var finalRotation = rotationX * rotationY * rotationZ;
-
-                    var rotMatrix = Matrix4X4.CreateFromQuaternion(new Quaternion<float>(
-                        finalRotation.X, finalRotation.Y, finalRotation.Z, finalRotation.W));
-
-                    model.SetModel(Matrix4X4.Multiply(rotMatrix, model.Model));
-                    model.Translate(new Vector3D<float>(position.X, position.Y, position.Z));
-                }
-            }
-            ImGui.Separator();
-            idx++;
-        }
-
-        ImGui.Separator();
-        if (ImGui.CollapsingHeader("Camera Controls", ImGuiTreeNodeFlags.DefaultOpen))
-        {
-            // Camera position control
-            var cameraPos = new Vector3(camera.Position.X, camera.Position.Y, camera.Position.Z);
-            if (ImGui.SliderFloat3("Camera Position", ref cameraPos, -20f, 20f))
-            {
-                camera.SetPosition(new Vector3D<float>(cameraPos.X, cameraPos.Y, cameraPos.Z));
-            }
-
-            // Camera speed control
-            float cameraSpeed = camera.Speed;
-            if (ImGui.SliderFloat("Camera Speed", ref cameraSpeed, 0.1f, 10.0f))
-            {
-                camera.SetSpeed(cameraSpeed);
-            }
-
-            // Camera orientation controls
-            float yaw = camera.Yaw;
-            float pitch = camera.Pitch;
-            bool orientationChanged = false;
-
-            if (ImGui.SliderFloat("Yaw", ref yaw, -180f, 180f))
-            {
-                camera.Yaw = yaw;
-                orientationChanged = true;
-            }
-
-            if (ImGui.SliderFloat("Pitch", ref pitch, -89f, 89f))
-            {
-                camera.Pitch = pitch;
-                orientationChanged = true;
-            }
-
-            if (orientationChanged)
-            {
-                // Update camera direction based on yaw and pitch
-                Vector3D<float> direction = new Vector3D<float>();
-                direction.X = float.Cos(float.DegreesToRadians(yaw)) * float.Cos(float.DegreesToRadians(pitch));
-                direction.Y = float.Sin(float.DegreesToRadians(pitch));
-                direction.Z = float.Sin(float.DegreesToRadians(yaw)) * float.Cos(float.DegreesToRadians(pitch));
-                camera.SetFront(direction);
-            }
-
-            // Quick movement buttons
-            if (ImGui.Button("Move Forward"))
-            {
-                camera.MoveForward(1.0f);
-            }
-            ImGui.SameLine();
-            if (ImGui.Button("Move Back"))
-            {
-                camera.MoveBack(1.0f);
-            }
-
-            if (ImGui.Button("Move Left"))
-            {
-                camera.MoveLeft(1.0f);
-            }
-            ImGui.SameLine();
-            if (ImGui.Button("Move Right"))
-            {
-                camera.MoveRight(1.0f);
-            }
-
-            // Reset camera button
-            if (ImGui.Button("Reset Camera"))
-            {
-                // Reset to default values
-                camera.SetPosition(new Vector3D<float>(0, 0, 3));
-                camera.SetFront(new Vector3D<float>(0, 0, -1));
-                camera.Yaw = 0;
-                camera.Pitch = 0;
-            }
-        }
-
-        ImGui.End();
-        controller.Render();
-    }
-
 }

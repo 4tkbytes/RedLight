@@ -5,6 +5,9 @@ using System.Collections.Generic;
 
 namespace RedLight.Graphics.Primitive
 {
+    /// <summary>
+    /// A flat plane. Thats it. 
+    /// </summary>
     public class Plane
     {
         private RLGraphics graphics;
@@ -12,6 +15,16 @@ namespace RedLight.Graphics.Primitive
         private ShaderManager shaderManager;
         public Transformable<RLModel> Model { get; private set; }
 
+        /// <summary>
+        /// Creates a flat plane that you can use to present models or any other purposes.
+        /// </summary>
+        /// <param name="graphics">The <see cref="RLGraphics"/> instance used for rendering.</param>
+        /// <param name="textureManager">The <see cref="TextureManager"/> for handling textures.</param>
+        /// <param name="shaderManager">The <see cref="ShaderManager"/> for shader programs.</param>
+        /// <param name="width">Width of the plane.</param>
+        /// <param name="height">Height of the plane.</param>
+        /// <param name="tilesX">Number of texture tiles in X direction.</param>
+        /// <param name="tilesZ">Number of texture tiles in Z direction.</param>
         public Plane(RLGraphics graphics, TextureManager textureManager, ShaderManager shaderManager,
             float width = 10f, float height = 10f, int tilesX = 10, int tilesZ = 10)
         {
@@ -70,6 +83,10 @@ namespace RedLight.Graphics.Primitive
             Model = model.MakeTransformable();
         }
 
+        /// <summary>
+        /// This function just translate the Model to a default location. This location is (0, -0.5f, 0). 
+        /// </summary>
+        /// <returns><see cref="Plane"/></returns>
         public Plane Default()
         {
             Model.Translate(new Vector3D<float>(0, -0.5f, 0));

@@ -14,6 +14,7 @@ public abstract class RLLoadingScene : RLScene, RLKeyboard, RLMouse
     public ShaderManager ShaderManager { get; set; }
     public TextureManager TextureManager { get; set; }
     public InputManager InputManager { get; set; }
+    public List<Transformable<RLModel>> ObjectModels { get; set; }
 
     public HashSet<Key> PressedKeys { get; set; } = new();
 

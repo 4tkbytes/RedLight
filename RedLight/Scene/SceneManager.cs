@@ -143,6 +143,8 @@ public class SceneManager
         currentScene.ShaderManager = shaderManager;
         currentScene.TextureManager = textureManager;
         currentScene.InputManager = input;
+        if (currentScene.ObjectModels == null)
+            currentScene.ObjectModels = new List<Transformable<RLModel>>();
 
         input.SubscribeToInputs(currentKeyboard, currentMouse);
     }

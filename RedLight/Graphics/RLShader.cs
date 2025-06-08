@@ -11,6 +11,14 @@ public class RLShader
 
     public uint Handle { get; private set; }
 
+    /// <summary>
+    /// This function creates a new shader for OpenGL. 
+    /// </summary>
+    /// <param name="graphics"></param>
+    /// <param name="shaderType"></param>
+    /// <param name="shaderSource"></param>
+    /// <exception cref="ArgumentException"></exception>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public RLShader(RLGraphics graphics, ShaderType shaderType, string shaderSource)
     {
         if (string.IsNullOrWhiteSpace(shaderSource))
@@ -30,6 +38,10 @@ public class RLShader
         Compile();
     }
 
+    /// <summary>
+    /// As the name suggests, it just compiles the shader. 
+    /// </summary>
+    /// <exception cref="Exception"></exception>
     public void Compile()
     {
         if (!IsCompiled)
@@ -45,6 +57,9 @@ public class RLShader
         IsCompiled = true;
     }
 
+    /// <summary>
+    /// Deletes the shader. Thats it. 
+    /// </summary>
     public void Delete()
     {
         graphics.OpenGL.DeleteShader(Handle);
@@ -52,12 +67,18 @@ public class RLShader
     }
 }
 
-// Example usage: Creating and linking a shader program
 public class RLShaderProgram
 {
     public uint ProgramHandle { get; private set; }
     private RLGraphics graphics;
 
+    /// <summary>
+    /// Creates a shader program for the RLShaders to link to. 
+    /// </summary>
+    /// <param name="graphics"></param>
+    /// <param name="vertexShader"></param>
+    /// <param name="fragmentShader"></param>
+    /// <exception cref="Exception"></exception>
     public RLShaderProgram(RLGraphics graphics, RLShader vertexShader, RLShader fragmentShader)
     {
         this.graphics = graphics;
@@ -76,22 +97,31 @@ public class RLShaderProgram
             throw new Exception($"Shader program linking failed: {info}");
         }
 
-        // Optional: detach shaders after linking
         gl.DetachShader(ProgramHandle, vertexShader.Handle);
         gl.DetachShader(ProgramHandle, fragmentShader.Handle);
     }
 
+    /// <summary>
+    /// Enables/Uses the program
+    /// </summary>
     public void Use()
     {
         graphics.OpenGL.UseProgram(ProgramHandle);
     }
 
+    /// <summary>
+    /// Deletes the program
+    /// </summary>
     public void Delete()
     {
         graphics.OpenGL.DeleteProgram(ProgramHandle);
     }
 }
 
+/// <summary>
+/// This contains the different shader types. So far, there is only support for Vertex and Fragment Shaders. Anything
+/// else is considered a mental illness. 
+/// </summary>
 public enum ShaderType
 {
     Vertex,
