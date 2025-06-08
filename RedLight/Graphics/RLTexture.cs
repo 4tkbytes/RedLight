@@ -37,7 +37,7 @@ public class RLTexture
             // Load fallback texture (e.g., no-texture.png)
             try
             {
-                using var fallbackStream = File.OpenRead(RLFiles.GetEmbeddedResourcePath("RedLight.Resources.Textures.no-texture.png"));
+                using var fallbackStream = File.OpenRead(RLFiles.GetResourcePath("RedLight.Resources.Textures.no-texture.png"));
                 imageResult = ImageResult.FromStream(fallbackStream, ColorComponents.RedGreenBlueAlpha);
             }
             catch (Exception fallbackEx)

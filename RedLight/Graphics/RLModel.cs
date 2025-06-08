@@ -57,7 +57,7 @@ public class RLModel
             throw new Exception(error);
         }
 
-        Directory = RLFiles.GetParentFolder(path);
+        Directory = Path.GetDirectoryName(RLFiles.GetResourcePath(path)) ?? string.Empty;
 
         ProcessNode(scene->MRootNode, scene);
     }
@@ -199,7 +199,7 @@ public class RLModel
             if (textureManager != null)
             {
                 if (textureManager.TryGet("no-texture", true) == null)
-                    textureManager.Add("no-texture", new RLTexture(graphics, RLFiles.GetEmbeddedResourcePath(RLConstants.RL_NO_TEXTURE_PATH), RLTextureType.Diffuse));
+                    textureManager.Add("no-texture", new RLTexture(graphics, RLFiles.GetResourcePath(RLConstants.RL_NO_TEXTURE_PATH), RLTextureType.Diffuse));
 
                 texture = textureManager.Get("no-texture");
             }

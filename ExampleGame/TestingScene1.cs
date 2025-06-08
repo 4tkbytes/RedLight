@@ -6,7 +6,6 @@ using RedLight.Scene;
 using RedLight.Utils;
 using Serilog;
 using Silk.NET.Input;
-using Silk.NET.Maths;
 using Silk.NET.OpenGL.Extensions.ImGui;
 using Plane = RedLight.Graphics.Primitive.Plane;
 using ShaderType = RedLight.Graphics.ShaderType;
@@ -41,17 +40,17 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 
         TextureManager.TryAdd(
             "no-texture",
-            new RLTexture(Graphics, RLFiles.GetEmbeddedResourcePath(RLConstants.RL_NO_TEXTURE_PATH))
+            new RLTexture(Graphics, RLFiles.GetResourcePath(RLConstants.RL_NO_TEXTURE_PATH))
         );
 
         TextureManager.TryAdd(
             "Carrot_Base_diffuse",
-            new RLTexture(Graphics, RLFiles.GetEmbeddedResourcePath("ExampleGame.Resources.Carrot.textures.Carrot_Base_diffuse.png"))
+            new RLTexture(Graphics, RLFiles.GetResourcePath("ExampleGame.Resources.Carrot.textures.Carrot_Base_diffuse.png"))
         );
 
         TextureManager.TryAdd(
             "Carrot_Leaves_diffuse",
-            new RLTexture(Graphics, RLFiles.GetEmbeddedResourcePath("ExampleGame.Resources.Carrot.textures.Carrot_Leaves_diffuse.png"))
+            new RLTexture(Graphics, RLFiles.GetResourcePath("ExampleGame.Resources.Carrot.textures.Carrot_Leaves_diffuse.png"))
         );
 
         var plane = new Plane(Graphics, TextureManager, ShaderManager, 20f, 20f).Default();
@@ -61,16 +60,17 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         var size = Engine.Window.Window.Size;
         camera = new Camera(size);
 
-        var carrot = Graphics.CreateModel("ExampleGame.Resources.Carrot.scene.gltf", TextureManager, ShaderManager,
-            "carrot");
-        carrot.Target.ApplyTextureFromManager("Carrot_0", TextureManager.Get("Carrot_Base_diffuse"));
-        carrot.Target.ApplyTextureFromManager("Carrot_1", TextureManager.Get("Carrot_Leaves_diffuse"));
+        // var carrot = Graphics.CreateModel("ExampleGame.Resources.Carrot.scene.gltf", TextureManager, ShaderManager,
+        //     "carrot");
+        // carrot.Target.ApplyTextureFromManager("Carrot_0", TextureManager.Get("Carrot_Base_diffuse"));
+        // carrot.Target.ApplyTextureFromManager("Carrot_1", TextureManager.Get("Carrot_Leaves_diffuse"));
 
-        var crab = Graphics.CreateModel("ExampleGame.Resources.Crab.Project 16.obj", TextureManager, ShaderManager,
-            "crab");
-
-        objectModels.Add(crab);
-        objectModels.Add(carrot);
+        var deer = Graphics.CreateModel("ExampleGame.Resources.Deer_001.fbx", TextureManager, ShaderManager,
+            "deer");
+        
+        objectModels.Add(deer);
+        // objectModels.Add(crab);
+        // objectModels.Add(carrot);
         objectModels.Add(plane.Model);
     }
 

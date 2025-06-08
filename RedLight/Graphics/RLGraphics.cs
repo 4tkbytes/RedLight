@@ -198,7 +198,8 @@ public class RLGraphics
 
     public Transformable<RLModel> CreateModel(string resourceName, TextureManager textureManager, ShaderManager shaderManager, string name)
     {
-        return new RLModel(this, RLFiles.CopyDirToTempAndGetEmbeddedResource(resourceName), textureManager, name)
+        var thing = resourceName.Split(".");
+        return new RLModel(this, RLFiles.GetResourcePath(resourceName), textureManager, name)
             .AttachShader(shaderManager.Get("basic"))
             .MakeTransformable();
     }

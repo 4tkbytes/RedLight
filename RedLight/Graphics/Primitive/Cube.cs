@@ -16,7 +16,7 @@ public class Cube
     {
         Model = new RLModel(
                 graphics,
-                RLFiles.GetEmbeddedResourcePath("RedLight.Resources.Models.Basic.cube.model"),
+                RLFiles.GetResourcePath("RedLight.Resources.Models.Basic.cube.model"),
                 textureManager)
             .AttachShader(shaderManager.Get("basic"))
             .AttachTexture(textureManager.Get("no-texture"))
