@@ -44,7 +44,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         var size = Engine.Window.Window.Size;
         camera = new Camera(size);
 
-        var maxwell = Graphics.CreateModel("ExampleGame.Resources.Models.Maxwell.maxwell_the_cat.glb", TextureManager, ShaderManager, "maxwell")
+        var maxwell = Graphics.CreateModel("RedLight.Resources.Models.Maxwell.maxwell_the_cat.glb", TextureManager, ShaderManager, "maxwell")
             .Rotate(float.DegreesToRadians(-90.0f), Vector3D<float>.UnitX)
             .Scale(new Vector3D<float>(0.05f, 0.05f, 0.05f));
 
