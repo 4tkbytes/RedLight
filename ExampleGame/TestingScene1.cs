@@ -30,10 +30,6 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     private Camera camera;
     private bool isCaptured = true;
     private RLImGui controller;
-    
-    private bool modelListChanged = false;
-    private List<Transformable<RLModel>> newModels = new();
-    private int oldLength;
 
     public void OnLoad()
     {
@@ -59,13 +55,12 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         var size = Engine.Window.Window.Size;
         camera = new Camera(size);
 
-        var fox = Graphics.CreateModel("ExampleGame.Resources.low_poly_fox.glb", TextureManager, ShaderManager, "fox")
-            .Rotate((float) -Math.PI/2, Vector3D<float>.UnitX);
+        var maxwell = Graphics.CreateModel("ExampleGame.Resources.Maxwell.maxwell_the_cat.glb", TextureManager, ShaderManager, "maxwell")
+            .Rotate(float.DegreesToRadians(-90.0f), Vector3D<float>.UnitX)
+            .Scale(new Vector3D<float>(0.05f, 0.05f, 0.05f));
 
-        Graphics.AddModels(ObjectModels, controller, fox);
+        Graphics.AddModels(ObjectModels, controller, maxwell);
         Graphics.AddModels(ObjectModels, controller, plane.Model);
-        
-        oldLength = ObjectModels.Count;
     }
 
     public void OnUpdate(double deltaTime)
@@ -73,18 +68,6 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         Engine.Window.FramesPerSecond = 1.0 / deltaTime;
 
         camera = camera.SetSpeed(2.5f * (float)deltaTime);
-
-        if (ObjectModels.Count != oldLength)
-        {
-            modelListChanged = true;
-            
-            for (int i = oldLength; i < ObjectModels.Count; i++)
-            {
-                newModels.Add(ObjectModels[i]);
-            }
-            
-            oldLength = ObjectModels.Count;
-        }
 
         if (isCaptured)
             camera.KeyMap(PressedKeys);

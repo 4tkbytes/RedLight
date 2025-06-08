@@ -23,7 +23,13 @@ public class RLImGui
     private string _filterText = string.Empty;
     private string _inputBuffer = string.Empty;
     private bool _autoScroll = true;
-    
+
+    // ignore
+    private bool maxwellSpin;
+    private Transformable<RLModel>? maxwellModel;
+
+    private Dictionary<string, bool> scaleLockStates = new();
+
     public ConsoleLog Console { get; private set; } = new ConsoleLog();
     
     public ImGuiController Controller { get; private set; }
@@ -85,7 +91,7 @@ public class RLImGui
             string header = $"{model.Target.Name}";
             if (ImGui.CollapsingHeader(header, ImGuiTreeNodeFlags.DefaultOpen))
             {
-                bool locked = false;
+                bool locked = scaleLockStates.TryGetValue(model.Target.Name, out var l) ? l : false;
 
                 // Extract current values from the matrix
                 Matrix4X4.Decompose(model.Model, out var sc, out var rot, out var pos);
@@ -102,15 +108,28 @@ public class RLImGui
                 ImGui.SameLine();
                 if (ImGui.Button($"Reset Pos##{idx}"))
                 {
+                    Log.Debug("{A} position has been reset", model.Target.Name);
                     position = new Vector3(0, 0, 0);
                     changed = true;
+                }
+
+                // scale lock
+                if (ImGui.Button(locked ? "Unlock Scale" : "Lock Scale"))
+                {
+                    locked = !locked;
+                    scaleLockStates[model.Target.Name] = locked;
+                    Log.Debug("Lock state has been changed for model \"{A}\": [{B}]", model.Target.Name, locked);
+                    if (locked)
+                    {
+                        scale = new Vector3(scale.X, scale.X, scale.X);
+                        changed = true;
+                    }
                 }
 
                 // Scale sliders
                 bool scaleChanged = false;
                 if (locked)
                 {
-                    // Only show one slider, and apply to all axes
                     float uniformScale = scale.X;
                     if (ImGui.SliderFloat($"Scale (Locked)##{idx}", ref uniformScale, 0.01f, 2f))
                     {
@@ -120,6 +139,7 @@ public class RLImGui
                     ImGui.SameLine();
                     if (ImGui.Button($"Reset Scale##{idx}"))
                     {
+                        Log.Debug("{A} scale has been reset", model.Target.Name);
                         scale = new Vector3(1, 1, 1);
                         scaleChanged = true;
                     }
@@ -133,19 +153,9 @@ public class RLImGui
                     ImGui.SameLine();
                     if (ImGui.Button($"Reset Scale##{idx}"))
                     {
+                        Log.Debug("{A} scale has been reset", model.Target.Name);
                         scale = new Vector3(1, 1, 1);
                         scaleChanged = true;
-                    }
-                }
-
-                if (ImGui.Button(locked ? "Unlock Scale" : "Lock Scale"))
-                {
-                    locked = !locked;
-                    Log.Debug("ImGui Scale Lock has been toggled [{A}]", locked);
-                    if (locked)
-                    {
-                        scale = new Vector3(scale.X, scale.X, scale.X);
-                        changed = true;
                     }
                 }
 
@@ -162,13 +172,14 @@ public class RLImGui
                 ImGui.SameLine();
                 if (ImGui.Button($"Reset Rot##{idx}"))
                 {
+                    Log.Debug("\"{A}\" rotation has been reset", model.Target.Name);
                     model.eulerAngles = new Vector3(0, 0, 0);
                     changed = true;
                 }
 
                 if (changed)
                 {
-                    model.AbsoluteReset();
+                    model.Reset();
                     model.Scale(new Vector3D<float>(scale.X, scale.Y, scale.Z));
 
                     var rotationX = Quaternion.CreateFromAxisAngle(Vector3.UnitX, model.eulerAngles.X * MathF.PI / 180f);
@@ -182,6 +193,16 @@ public class RLImGui
 
                     model.SetModel(Matrix4X4.Multiply(rotMatrix, model.Model));
                     model.Translate(new Vector3D<float>(position.X, position.Y, position.Z));
+                }
+                if (maxwellSpin && maxwellModel != null)
+                {
+                    // Spin as before
+                    maxwellModel.Rotate((float)(deltaTime * MathF.PI), Silk.NET.Maths.Vector3D<float>.UnitZ);
+
+                    // Move up and down in a sine wave by 1 unit
+                    double time = DateTimeOffset.Now.ToUnixTimeMilliseconds() / 1000.0;
+                    float offset = (float)Math.Sin(time * 6.5) * 0.5f; // 2.0 = frequency, 1.0 = amplitude
+                    maxwellModel.Translate(new Silk.NET.Maths.Vector3D<float>(0, 0, offset));
                 }
             }
             ImGui.Separator();
@@ -393,7 +414,7 @@ public class RLImGui
             AddLog("Commands:");
             AddLog("  clear - Clear console");
             AddLog("  help - Show help");
-            AddLog("  model create <resource_path> [model_name] - Create a new model");
+            AddLog("  model add <resource_path> [model_name] - Create a new model");
             AddLog("  model delete <model_name> - Delete a model");
             AddLog("  model texture override <model_name> <mesh_name> <textureID> - Override texture");
             AddLog("  model texture list all - List all textures in the manager");
@@ -412,7 +433,7 @@ public class RLImGui
             var subCommand = parts[1].ToLowerInvariant();
             switch (subCommand)
             {
-                case "create":
+                case "add":
                     HandleModelCreate(parts);
                     break;
                 case "delete":
@@ -440,6 +461,39 @@ public class RLImGui
                     AddLog($"Unknown model subcommand: {subCommand}");
                     AddLog("Available model commands: create, delete, texture");
                     break;
+            }
+        }
+        else if (command == "maxwell")
+        {
+            maxwellSpin = !maxwellSpin;
+            maxwellModel = null;
+            var objectModels = sceneManager.GetCurrentScene().ObjectModels;
+            foreach (var model in objectModels)
+            {
+                if (model.Target.Name == "maxwell")
+                {
+                    maxwellModel = model;
+                    break;
+                }
+            }
+            if (maxwellModel == null)
+            {
+                AddLog("[ERR] Maxwell_the_cat model not found :(");
+                maxwellSpin = false;
+                return;
+            }
+
+            // create lock
+            maxwellModel.SetDefault();
+            if (maxwellSpin)
+            {
+                maxwellModel.Reset();
+                AddLog("o i i a i o i i a i");
+
+            }
+            else
+            {
+                AddLog("maxwell stopped");
             }
         }
         else
