@@ -7,6 +7,10 @@ using Serilog;
 
 namespace RedLight.Graphics;
 
+/// <summary>
+/// Represents a 3D model loaded from a file using Assimp.
+/// Handles loading, processing, and rendering of 3D models with materials and textures.
+/// </summary>
 public class RLModel
 {
     private Assimp _assimp;
@@ -14,12 +18,35 @@ public class RLModel
     private GL _gl;
     private List<RLTexture> _texturesLoaded = new();
     private TextureManager textureManager;
+    
+    /// <summary>
+    /// Gets the directory path where the model file is located.
+    /// </summary>
     public string Directory { get; protected set; } = string.Empty;
+    
+    /// <summary>
+    /// Gets the resource path used to load the model.
+    /// </summary>
     public string ResourcePath { get; private set; } = string.Empty;
+    
+    /// <summary>
+    /// Gets the collection of meshes that make up this model.
+    /// </summary>
     public List<Mesh> Meshes { get; protected set; } = new();
+    
+    /// <summary>
+    /// Gets the name identifier of this model.
+    /// </summary>
     public String Name { get; private set; }
     private bool shaderAttached;
 
+    /// <summary>
+    /// Initialises a new instance of the RLModel class with a specified name.
+    /// </summary>
+    /// <param name="graphics">The graphics context to use for rendering.</param>
+    /// <param name="path">The resource path to the model file.</param>
+    /// <param name="textureManager">The texture manager to use for loading textures.</param>
+    /// <param name="name">The name to assign to this model.</param>
     public RLModel(RLGraphics graphics, string path, TextureManager textureManager, string name)
     {
         var assimp = Assimp.GetApi();
@@ -41,15 +68,21 @@ public class RLModel
         Log.Debug($"Loaded {Meshes.Count} mesh(es) from model.");
     }
 
+    /// <summary>
+    /// Initializes a new instance of the RLModel class.
+    /// Uses an empty string as the model name.
+    /// </summary>
+    /// <param name="graphics">The graphics context to use for rendering.</param>
+    /// <param name="path">The resource path to the model file.</param>
+    /// <param name="textureManager">The texture manager to use for loading textures.</param>
     public RLModel(RLGraphics graphics, string path, TextureManager textureManager)
     : this(graphics, path, textureManager, "")
     { }
 
     /// <summary>
-    /// Makes it transformable. Once it is transformable, you can edit the position, rotation
-    /// and scale. 
+    /// Makes the model transformable, allowing manipulation of position, rotation, and scale.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A transformable wrapper around this model.</returns>
     public Transformable<RLModel> MakeTransformable()
     {
         return new Transformable<RLModel>(this);
@@ -70,6 +103,10 @@ public class RLModel
         ProcessNode(scene->MRootNode, scene);
     }
 
+    /// <summary>
+    /// Renders the model by drawing all of its meshes.
+    /// Requires a shader to be attached before calling.
+    /// </summary>
     public void Draw()
     {
         if (!shaderAttached)
@@ -99,13 +136,12 @@ public class RLModel
     }
 
     /// <summary>
-    /// This function is used in the case that a texture is not being rendered properly from a model.
-    ///
-    /// The mesh name will be logged. You can take that and apply the texture override to a specific mesh. 
+    /// Applies a texture override to a specific mesh in the model.
+    /// Useful when a texture is not rendering properly from the original model.
     /// </summary>
-    /// <param name="meshName">string</param>
-    /// <param name="texture">RLTexture</param>
-    /// <returns>RLModel</returns>
+    /// <param name="meshName">The name or index of the mesh to apply the texture to.</param>
+    /// <param name="texture">The texture to apply.</param>
+    /// <returns>This model instance for method chaining.</returns>
     public RLModel ApplyTextureOverride(string meshName, RLTexture texture)
     {
         if (textureManager == null)
@@ -154,10 +190,11 @@ public class RLModel
     }
 
     /// <summary>
-    /// Attach a texture to an RLModel. It iterates through each mesh and attaches the shader to each one. 
+    /// Attaches a shader to all meshes in the model.
+    /// Required before rendering the model.
     /// </summary>
-    /// <param name="shaderBundle">RLShaderBundle</param>
-    /// <returns>RLModel</returns>
+    /// <param name="shaderBundle">The shader bundle to attach.</param>
+    /// <returns>This model instance for method chaining.</returns>
     public RLModel AttachShader(RLShaderBundle shaderBundle)
     {
         foreach (var mesh in Meshes)
@@ -170,11 +207,11 @@ public class RLModel
     }
 
     /// <summary>
-    /// Attaches a texture to a model. Can change it so it is silent (logging). 
+    /// Attaches a texture to all meshes in the model.
     /// </summary>
-    /// <param name="texture">RLTexture</param>
-    /// <param name="silent">bool</param>
-    /// <returns>RLModel</returns>
+    /// <param name="texture">The texture to attach.</param>
+    /// <param name="silent">Whether to suppress logging.</param>
+    /// <returns>This model instance for method chaining.</returns>
     public RLModel AttachTexture(RLTexture texture, bool silent)
     {
         if (texture == null)
@@ -203,10 +240,10 @@ public class RLModel
     }
 
     /// <summary>
-    /// Attaches a texture to the RLModel model. By default, it is not silent, so there will be logging. 
+    /// Attaches a texture to all meshes in the model with logging enabled.
     /// </summary>
-    /// <param name="texture">RLTexture</param>
-    /// <returns>RLModel</returns>
+    /// <param name="texture">The texture to attach.</param>
+    /// <returns>This model instance for method chaining.</returns>
     public RLModel AttachTexture(RLTexture texture)
     {
         return AttachTexture(texture, false);
@@ -459,14 +496,4 @@ public class RLModel
     {
         return indices.ToArray();
     }
-
-    // public void Dispose()
-    // {
-    //     foreach (var mesh in Meshes)
-    //     {
-    //         mesh.Dispose();
-    //     }
-    //
-    //     _texturesLoaded = null;
-    // }
 }

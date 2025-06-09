@@ -6,6 +6,7 @@ using Silk.NET.OpenGL;
 
 namespace RedLight.Physics;
 
+// fuck you, you are such a pain in the ass -tk
 /// <summary>
 /// This class converts any Transformable Model into an Entity, which can unlock
 /// any physics based logic, such as collisions and hitboxes. 
@@ -28,6 +29,8 @@ public abstract class Entity<T>
     // bounding box
     public Vector3D<float> BoundingBoxMin { get; set; }
     public Vector3D<float> BoundingBoxMax { get; set; }
+    public Vector3D<float> DefaultBoundingBoxMin { get; set; }
+    public Vector3D<float> DefaultBoundingBoxMax { get; set; }
 
     // hitbox changing
     public void ShowHitbox() => isHitboxShown = true;
@@ -52,9 +55,14 @@ public abstract class Entity<T>
         {
             position = tObj.Position;
         }
-
-        BoundingBoxMin = position + new Vector3D<float>(-0.5f, 0.0f, -0.5f);
-        BoundingBoxMax = position + new Vector3D<float>(0.5f, 2.0f, 0.5f);
+    
+        // Set default bounding box offsets
+        DefaultBoundingBoxMin = new Vector3D<float>(-0.5f, 0.0f, -0.5f);
+        DefaultBoundingBoxMax = new Vector3D<float>(0.5f, 2.0f, 0.5f);
+    
+        // Initialize actual bounding box
+        BoundingBoxMin = position + DefaultBoundingBoxMin;
+        BoundingBoxMax = position + DefaultBoundingBoxMax;
     }
 
     /// <summary>
@@ -73,6 +81,30 @@ public abstract class Entity<T>
         }
         // Reset acceleration after each update (if using force-based system)
         Acceleration = Vector3D<float>.Zero;
+    }
+    
+    /// <summary>
+    /// Updates the bounding box of the hitbox of the entity. 
+    /// </summary>
+    public virtual void UpdateBoundingBox()
+    {
+        Vector3D<float> currentPosition = Vector3D<float>.Zero;
+        if (target is Transformable<RLModel> tModel)
+        {
+            currentPosition = tModel.Position;
+        }
+        else if (target is Transformable<Mesh> tMesh)
+        {
+            currentPosition = tMesh.Position;
+        }
+        else if (target is Transformable<object> tObj)
+        {
+            currentPosition = tObj.Position;
+        }
+
+        // Update the bounding box coordinates
+        BoundingBoxMin = currentPosition + DefaultBoundingBoxMin;
+        BoundingBoxMax = currentPosition + DefaultBoundingBoxMax;
     }
 
     /// <summary>
@@ -94,6 +126,75 @@ public abstract class Entity<T>
         return (BoundingBoxMin.X <= otherEntity.BoundingBoxMax.X && BoundingBoxMax.X >= otherEntity.BoundingBoxMin.X) &&
                (BoundingBoxMin.Y <= otherEntity.BoundingBoxMax.Y && BoundingBoxMax.Y >= otherEntity.BoundingBoxMin.Y) &&
                (BoundingBoxMin.Z <= otherEntity.BoundingBoxMax.Z && BoundingBoxMax.Z >= otherEntity.BoundingBoxMin.Z);
+    }
+
+    /// <summary>
+    /// Sets a hitbox default. It can be edited by the hitboxMin and hitboxMax. 
+    /// </summary>
+    /// <param name="hitboxMin"><see cref="Vector3D"/></param>
+    /// <param name="hitboxMax"><see cref="Vector3D"/></param>
+    public void SetHitboxDefault(Vector3D<float> hitboxMin, Vector3D<float> hitboxMax)
+    {
+        if (target is Transformable<RLModel> tModel)
+        {
+            DefaultBoundingBoxMin = hitboxMin;
+            DefaultBoundingBoxMax = hitboxMax;
+        }
+        else
+        {
+            Log.Error("Unable to set hitbox default due to not recognising type of entity, target is {Target}",
+                Target.GetType().ToString());
+        }
+    }
+    
+    /// <summary>
+    /// Automatically calculates and sets the hitbox dimensions based on the model's actual vertices.
+    /// </summary>
+    /// <param name="padding">Optional padding to add around the calculated bounds (default: 0.1f)</param>
+    /// <returns>This entity instance for method chaining</returns>
+    public virtual Entity<T> AutoMapHitboxToModel(float padding = 0.1f)
+    {
+        if (target is Transformable<RLModel> tModel)
+        {
+            var model = tModel.Target;
+            
+            // Initialize with extreme values
+            Vector3D<float> min = new Vector3D<float>(float.MaxValue, float.MaxValue, float.MaxValue);
+            Vector3D<float> max = new Vector3D<float>(float.MinValue, float.MinValue, float.MinValue);
+
+            // Use the fact that we at least have the meshes to calculate rough bounds
+            Log.Debug("Scanning {MeshCount} meshes for model bounds", model.Meshes.Count);
+            
+            // For now, just set reasonable default bounds if we can't access vertices directly
+            // You can modify this based on the model's scale
+            DefaultBoundingBoxMin = new Vector3D<float>(-1.0f, -1.0f, -1.0f);
+            DefaultBoundingBoxMax = new Vector3D<float>(1.0f, 1.0f, 1.0f);
+            
+            // Consider model scale (important for scaled models)
+            var scale = tModel.Scale;
+            DefaultBoundingBoxMin *= scale;
+            DefaultBoundingBoxMax *= scale;
+            
+            // Apply padding
+            DefaultBoundingBoxMin -= new Vector3D<float>(padding, padding, padding);
+            DefaultBoundingBoxMax += new Vector3D<float>(padding, padding, padding);
+            
+            // Update the actual bounding box
+            UpdateBoundingBox();
+            
+            Log.Debug("Auto-mapped hitbox for model: Min={Min}, Max={Max}", DefaultBoundingBoxMin, DefaultBoundingBoxMax);
+            return this;
+        }
+        else if (target is Transformable<Mesh> tMesh)
+        {
+            Log.Warning("Auto-mapping for Mesh type not yet implemented");
+        }
+        else
+        {
+            Log.Error("Cannot auto-map hitbox: unsupported target type {Type}", target?.GetType().Name);
+        }
+
+        return this;
     }
     
     /// <summary>
@@ -124,8 +225,8 @@ public abstract class Entity<T>
         }
 
         // Calculate bounding box based on current position
-        var min = currentPosition + new Vector3D<float>(-0.5f, 0.0f, -0.5f);
-        var max = currentPosition + new Vector3D<float>(0.5f, 2.0f, 0.5f);
+        var min = currentPosition + DefaultBoundingBoxMin; 
+        var max = currentPosition + DefaultBoundingBoxMax;
         
         // Create vertices for a wireframe box (just the 8 corners)
         float[] vertices = new float[]
@@ -153,20 +254,24 @@ public abstract class Entity<T>
         if (vao == 0)
         {
             vao = gl.GenVertexArray();
-            Log.Debug("any errors after gen vao?");
+            if (!graphics.ShutUp)
+                Log.Debug("any errors after gen vao?");
             graphics.CheckGLErrors();
             
             vbo = gl.GenBuffer();
-            Log.Debug("any errors after gen vbo?");
+            if (!graphics.ShutUp)
+                Log.Debug("any errors after gen vbo?");
             graphics.CheckGLErrors();
         }
 
         gl.BindVertexArray(vao);
-        Log.Debug("any errors after bind vertex array?");
+        if (!graphics.ShutUp)
+            Log.Debug("any errors after bind vertex array?");
         graphics.CheckGLErrors();
         
         gl.BindBuffer(BufferTargetARB.ArrayBuffer, vbo);
-        Log.Debug("any errors after bind buffer?");
+        if (!graphics.ShutUp)
+            Log.Debug("any errors after bind buffer?");
         graphics.CheckGLErrors();
 
         unsafe
@@ -175,23 +280,27 @@ public abstract class Entity<T>
             {
                 gl.BufferData(BufferTargetARB.ArrayBuffer, (nuint)(vertices.Length * sizeof(float)), vtx,
                     BufferUsageARB.StreamDraw);
-                Log.Debug("any errors after buffer data?");
+                if (!graphics.ShutUp)
+                    Log.Debug("any errors after buffer data?");
                 graphics.CheckGLErrors();
             }
         }
 
         gl.EnableVertexAttribArray(0); 
-        Log.Debug("any errors after enable vertex attrib array");
+        if (!graphics.ShutUp)
+            Log.Debug("any errors after enable vertex attrib array");
         graphics.CheckGLErrors();
         unsafe
         {
             gl.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), (void*)0);
-            Log.Debug("any errors after vertex attrib pointer?");
+            if (!graphics.ShutUp)
+                Log.Debug("any errors after vertex attrib pointer?");
             graphics.CheckGLErrors();
         }
 
         gl.UseProgram(shaderBundle.program.ProgramHandle); 
-        Log.Debug("any errors after use program?");
+        if (!graphics.ShutUp)
+            Log.Debug("any errors after use program?");
         graphics.CheckGLErrors();
 
         // Set transformation matrices
@@ -203,7 +312,8 @@ public abstract class Entity<T>
             int modelLoc = gl.GetUniformLocation(shaderBundle.program.ProgramHandle, "model");
             if (modelLoc != -1)
                 gl.UniformMatrix4(modelLoc, 1, false, modelPtr);
-            Log.Debug("any errors after model matrix?");
+            if (!graphics.ShutUp)
+                Log.Debug("any errors after model matrix?");
             graphics.CheckGLErrors();
             
             // View matrix
@@ -212,7 +322,8 @@ public abstract class Entity<T>
             int viewLoc = gl.GetUniformLocation(shaderBundle.program.ProgramHandle, "view");
             if (viewLoc != -1)
                 gl.UniformMatrix4(viewLoc, 1, false, viewPtr);
-            Log.Debug("any errors after view matrix?");
+            if (!graphics.ShutUp)
+                Log.Debug("any errors after view matrix?");
             graphics.CheckGLErrors();
             
             // Projection matrix
@@ -221,7 +332,8 @@ public abstract class Entity<T>
             int projLoc = gl.GetUniformLocation(shaderBundle.program.ProgramHandle, "projection");
             if (projLoc != -1)
                 gl.UniformMatrix4(projLoc, 1, false, projPtr);
-            Log.Debug("any errors after proj matrix?");
+            if (!graphics.ShutUp)
+                Log.Debug("any errors after proj matrix?");
             graphics.CheckGLErrors();
         }
 
@@ -229,12 +341,16 @@ public abstract class Entity<T>
         int colorLoc = gl.GetUniformLocation(shaderBundle.program.ProgramHandle, "uColor");
         if (colorLoc != -1) // This check prevents error if uColor is not found
             gl.Uniform4(colorLoc, 1.0f, 0.0f, 0.0f, 1.0f);
-        Log.Debug("any errors after setting colour uniform?");
+        if (!graphics.ShutUp)
+            Log.Debug("any errors after setting colour uniform?");
         graphics.CheckGLErrors();
 
         // Set line width for thicker lines
         gl.LineWidth(1.0f);
-        Log.Debug("any errors after setting line width?");
+        
+        if (!graphics.ShutUp)
+            Log.Debug("any errors after setting line width?");
+        
         graphics.CheckGLErrors();
 
         // Draw the wireframe using line segments
@@ -243,16 +359,19 @@ public abstract class Entity<T>
             fixed (uint* indices = lineIndices)
             {
                 gl.DrawElements(PrimitiveType.Lines, (uint)lineIndices.Length, DrawElementsType.UnsignedInt, indices);
-                Log.Debug("any errors after drawing line?");
+                if (!graphics.ShutUp)
+                    Log.Debug("any errors after drawing line?");
                 graphics.CheckGLErrors();
             }
         }
 
         gl.BindVertexArray(0);
-        Log.Debug("any errors after unbinding vao?");
+        if (!graphics.ShutUp)
+            Log.Debug("any errors after unbinding vao?");
         graphics.CheckGLErrors();
         gl.BindBuffer(BufferTargetARB.ArrayBuffer, 0);
-        Log.Debug("any errors after unbinding vbo?");
+        if (!graphics.ShutUp)
+            Log.Debug("any errors after unbinding vbo?");
         graphics.CheckGLErrors();
 
         graphics.CheckGLErrors();

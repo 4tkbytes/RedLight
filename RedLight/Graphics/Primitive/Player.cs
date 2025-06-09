@@ -29,7 +29,7 @@ public class Player: Entity<Transformable<RLModel>>
 
     private Vector3D<float> lastModelPosition;
 
-    public Player(Camera camera, Transformable<RLModel> model): base(model)
+    public Player(Camera camera, Transformable<RLModel> model, bool autoMapHitbox = true): base(model)
     {
         Camera = camera;
         Model = model;
@@ -37,6 +37,8 @@ public class Player: Entity<Transformable<RLModel>>
         Rotation = model.Rotation;
         Scale = model.Scale;
         lastModelPosition = Position;
+        if (autoMapHitbox)
+            base.AutoMapHitboxToModel();
         Log.Debug("[Player] Created with initial position: {Position}, rotation: {Rotation}, scale: {Scale}", Position, Rotation, Scale);
     }
 
@@ -60,7 +62,6 @@ public class Player: Entity<Transformable<RLModel>>
     {
         Vector3D<float> direction = Vector3D<float>.Zero;
 
-        // Use the player camera's orientation for movement
         var forward = Vector3D.Normalize(new Vector3D<float>(Camera.Front.X, 0, Camera.Front.Z));
         var right = Vector3D.Normalize(Vector3D.Cross(Camera.Front, Camera.Up));
         var up = Camera.Up;
@@ -112,13 +113,13 @@ public class Player: Entity<Transformable<RLModel>>
     {
         if (CameraToggle == PlayerCameraPOV.FirstPerson)
         {
-            // First person: camera at player position
+            // first person
             Camera.Position = Position;
             Log.Verbose("[Player] Camera set to first person at {Position}", Position);
         }
         else
         {
-            // Third person: camera behind the player
+            // third person
             float thirdPersonDistance = 5.0f;
             Vector3D<float> cameraOffset = new Vector3D<float>(0, 2, 0);
             Camera.Position = Position - Camera.Front * thirdPersonDistance + cameraOffset;
@@ -126,7 +127,6 @@ public class Player: Entity<Transformable<RLModel>>
             var prevPos = Position;
             if (Position != lastModelPosition)
             {
-                // Update rotation to match camera yaw (Y axis, or change to Z if needed)
                 Rotation = new Vector3D<float>(Rotation.X, -float.DegreesToRadians(Camera.Yaw), Rotation.Z);
                 lastModelPosition = Position;
             }
@@ -166,11 +166,22 @@ public class Player: Entity<Transformable<RLModel>>
         // Implement free roam logic if needed
     }
 
+    /// <summary>
+    /// Sets the point of view of the players camera. 
+    /// </summary>
+    /// <param name="cameraPOV"><see cref="PlayerCameraPOV"/></param>
     public void SetPOV(PlayerCameraPOV cameraPOV)
     {
         CameraToggle = cameraPOV;
     }
 
+    /// <summary>
+    /// Sets the point of view of the players camera. This function overload uses an int, which is then
+    /// type casted into the PlayerCameraPOV. It is recommended to use the <see cref="SetPOV(RedLight.Graphics.Primitive.PlayerCameraPOV)"/>
+    /// function to avoid any exceptions. 
+    /// </summary>
+    /// <param name="cameraPOV"><see cref="int"/> 1 for first person or 3 for third person </param>
+    /// <exception cref="Exception"></exception>
     public void SetPOV(int cameraPOV)
     {
         if (cameraPOV != 1 || cameraPOV != 3)

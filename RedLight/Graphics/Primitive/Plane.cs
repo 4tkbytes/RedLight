@@ -82,6 +82,11 @@ namespace RedLight.Graphics.Primitive
             model.AttachTexture(textureManager.Get("no-texture"));
 
             EntityModel = model.MakeTransformable().MakeEntity();
+            
+            EntityModel.SetHitboxDefault(
+                new Vector3D<float>(-10f, -0.1f, -10f), 
+                new Vector3D<float>(10f, 0.1f, 10f)
+            );
         }
 
         /// <summary>

@@ -611,6 +611,16 @@ public class RLImGui
                 var parts = trimmedCmd.Split(" ", StringSplitOptions.RemoveEmptyEntries);
                 HandleGraphicsCommand(parts);
             }
+            else if (trimmedCmd.Equals("shutup", StringComparison.OrdinalIgnoreCase))
+            {
+                graphics.ShutUp = true;
+                AddLog("[INF] Graphics verbose output disabled");
+            }
+            else if (trimmedCmd.Equals("speak", StringComparison.OrdinalIgnoreCase))
+            {
+                graphics.ShutUp = false;
+                AddLog("[INF] Graphics verbose output enabled");
+            }
             else
             {
                 AddLog($"Unknown command: {trimmedCmd}");

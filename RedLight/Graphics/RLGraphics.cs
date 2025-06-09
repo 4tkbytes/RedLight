@@ -24,11 +24,12 @@ public class RLGraphics
     public GL OpenGL { get; set; }
 
     public bool IsRendering { get; private set; }
-    
+
     /// <summary>
-    /// Extra debugging information for model loading
+    /// Extra debugging information for model loading. By default, it is set to true
+    /// to improve performance and decrease the load/info from the logger. 
     /// </summary>
-    public bool ShutUp { get; set; }
+    public bool ShutUp { get; set; } = true;
 
     /// <summary>
     /// Struct containing colour. There's probably better alternatives with better support but this works for me. 
@@ -67,8 +68,13 @@ public class RLGraphics
         OpenGL.FrontFace(GLEnum.Ccw);
     }
 
+    /// <summary>
+    /// Enabled OpenGL Debug Error Callback. This is to be only used for debugging purposes, as it
+    /// can tank performance by a decent amount. 
+    /// </summary>
     public void EnableDebugErrorCallback()
     {
+        #if DEBUG
         OpenGL.Enable(GLEnum.DebugOutput);
         OpenGL.Enable(GLEnum.DebugOutputSynchronous);
         unsafe
@@ -79,6 +85,10 @@ public class RLGraphics
                 Console.WriteLine($"[GL DEBUG] {msg}");
             }, null);
         }
+        #else
+        Log.Information("OpenGL Debug Error Callback can only work under a Debug build, therefore it will not work.")
+        Log.Information("Instead, expect to see standard OpenGL errors (if there are any)!")
+        #endif
     }
 
     /// <summary>
@@ -310,12 +320,24 @@ public class RLGraphics
             .MakeTransformable();
     }
 
+    /// <summary>
+    /// Converts a model into a player. This overload creates a new camera on your behalf. 
+    /// </summary>
+    /// <param name="screenSize"><see cref="Vector2D"/></param>
+    /// <param name="model"><see cref="Transformable{RLModel}"/></param>
+    /// <returns></returns>
     public Player MakePlayer(Vector2D<int> screenSize, Transformable<RLModel> model)
     {
         var camera = new Camera(screenSize);
         return new Player(camera, model);
     }
 
+    /// <summary>
+    /// Converts a model into a player. This specific overload includes a custom camera that can be parsed through. 
+    /// </summary>
+    /// <param name="camera"><see cref="Camera"/></param>
+    /// <param name="model"><see cref="Transformable{RLModel}"/></param>
+    /// <returns><see cref="Player"/></returns>
     public Player MakePlayer(Camera camera, Transformable<RLModel> model)
     {
         return new Player(camera, model);

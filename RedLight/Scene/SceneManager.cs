@@ -179,6 +179,7 @@ public class SceneManager
         engine.Window.Window.Update += (double deltaTime) =>
         {
             engine.Window.FramesPerSecond = 1.0 / deltaTime;
+            engine.Window.Window.Title = engine.title + " | " + engine.Window.FramesPerSecond.ToString("F2");
         };
     }
 

@@ -70,6 +70,8 @@ public class RLEngine
     private bool bug = false;
     private bool isMaximised = false;
 
+    public string title = "";
+
     public RLEngine(int width, int height, string title, RLScene startingScene, string[] args)
     {
         ParseArguments(args);
@@ -77,6 +79,7 @@ public class RLEngine
 
         WindowOptions options = WindowOptions.Default;
         options.Title = title;
+        this.title = title;
 
         windowedSize = new Vector2D<int>(width, height);
 

@@ -89,16 +89,21 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         {
             useDebugCamera = !useDebugCamera;
             Log.Debug("Debug Camera is set to {A}", useDebugCamera);
-        }        if (PressedKeys.Contains(Key.F2))
+        }        
+        if (PressedKeys.Contains(Key.F2))
         {
             player.ToggleHitbox();
             plane.EntityModel.ToggleHitbox();
         }
+        
+        player.UpdateBoundingBox();
+        plane.EntityModel.UpdateBoundingBox();
 
-        // if (player.Intersects(plane.EntityModel))
-        // {
-        //     Log.Debug("Player is intersecting with plane!");
-        // }
+        if (player.Intersects(plane.EntityModel))
+        {
+            if (!Graphics.ShutUp)
+                Log.Debug("Player is intersecting with plane!");
+        }
 
         if (useDebugCamera)
         {
