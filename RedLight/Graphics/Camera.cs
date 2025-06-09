@@ -11,7 +11,7 @@ public class Camera
     // changable variables
     public Matrix4X4<float> View { get; set; } = Matrix4X4<float>.Identity;
     public Matrix4X4<float> Projection { get; private set; } = Matrix4X4<float>.Identity;
-    public Vector3D<float> Position { get; private set; }
+    public Vector3D<float> Position { get; set; }
     public Vector3D<float> Front { get; private set; }
     public Vector3D<float> Up { get; private set; }
     public float Yaw { get; set; }

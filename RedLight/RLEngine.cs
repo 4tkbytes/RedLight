@@ -1,31 +1,67 @@
-﻿using System;
-using System.Diagnostics;
-using RedLight.Core;
+﻿using RedLight.Core;
 using RedLight.Graphics;
 using RedLight.Input;
 using RedLight.Scene;
 using RedLight.UI;
 using RedLight.Utils;
 using Serilog;
+using Silk.NET.Assimp;
 using Silk.NET.Input;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
+using System;
+using System.Diagnostics;
 using ShaderType = RedLight.Graphics.ShaderType;
 
 namespace RedLight;
 
+/// <summary>
+/// The entry point to the RedLight Game Engine. 
+/// </summary>
+/// <remarks>
+/// The <see cref="RLEngine"/> class serves as the main entry point for initializing and running the
+/// application. It manages the window, graphics backend, and scenes, and provides logging capabilities.
+/// Use the <see cref="Run"/> method to start the engine's main loop.
+/// </remarks>
+/// <example>
+/// <code>
+/// // Initialise scenes
+/// var scene1 = new TestingScene1();
+/// // Create engine instance
+/// var engine = new RLEngine(1280, 720, "RedLight Game Engine Editor", scene1, args);
+/// // Create scene manager
+/// var sceneManager = engine.CreateSceneManager();
+/// // Add scenes to scene manager
+/// sceneManager.Add("loading", loadingScene, loadingScene, loadingScene);
+/// sceneManager.Add("testing_scene_1", scene1);
+/// // Run
+/// engine.Run();
+/// </code>
+/// </example>
 public class RLEngine
 {
     /// <summary>
     /// The Silk.NET default window
     /// </summary>
     public RLWindow Window { get; private set; }
+    /// <summary>
+    /// Wrapper class containing different graphics backend APIs
+    /// </summary>
     public RLGraphics Graphics { get; private set; }
     public RLImGui ImGui { get; set; }
 
     public SceneManager SceneManager { private get; set; }
 
+    /// <summary>
+    /// Log strength used by Serilog. By default, the log strength is 0 (normal) however
+    /// you are able to change it with program arguments.
+    /// 
+    /// 0 = Normal
+    /// 1 = Debug
+    /// 2 = Verbose
+    /// Default = Normal
+    /// </summary>
     private int logStrength = 0;
 
     private Vector2D<int> windowedSize;

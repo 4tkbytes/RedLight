@@ -89,7 +89,7 @@ namespace RedLight.Graphics.Primitive
         /// <returns><see cref="Plane"/></returns>
         public Plane Default()
         {
-            Model.Translate(new Vector3D<float>(0, -0.5f, 0));
+            Model.SetPosition(new Vector3D<float>(0, -0.5f, 0));
             return this;
         }
     }

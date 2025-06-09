@@ -12,6 +12,7 @@ using Silk.NET.OpenGL.Extensions.ImGui;
 using System.Numerics;
 using System.Reflection;
 using RedLight.Utils;
+using Serilog.Core;
 
 namespace RedLight.UI;
 
@@ -27,6 +28,9 @@ public class RLImGui
     private string _filterText = string.Empty;
     private string _inputBuffer = string.Empty;
     private bool _autoScroll = true;
+    private int _logLevel = 0;
+    private static readonly string[] _logLevelNames = { "Information", "Debug", "Verbose" };
+    private static readonly LoggingLevelSwitch _levelSwitch = new(Serilog.Events.LogEventLevel.Information);
 
     // ignore
     private bool maxwellSpin;
@@ -182,27 +186,29 @@ public class RLImGui
                 if (changed)
                 {
                     model.Reset();
-                    model.Scale(new Vector3D<float>(scale.X, scale.Y, scale.Z));
+                    model.SetScale(new Vector3D<float>(scale.X, scale.Y, scale.Z));
 
                     var rotationX = Quaternion.CreateFromAxisAngle(Vector3.UnitX, model.eulerAngles.X * MathF.PI / 180f);
                     var rotationY = Quaternion.CreateFromAxisAngle(Vector3.UnitY, model.eulerAngles.Y * MathF.PI / 180f);
                     var rotationZ = Quaternion.CreateFromAxisAngle(Vector3.UnitZ, model.eulerAngles.Z * MathF.PI / 180f);
 
                     var finalRotation = rotationX * rotationY * rotationZ;
-
                     var rotMatrix = Matrix4X4.CreateFromQuaternion(new Quaternion<float>(
                         finalRotation.X, finalRotation.Y, finalRotation.Z, finalRotation.W));
 
-                    model.SetModel(Matrix4X4.Multiply(rotMatrix, model.Model));
-                    model.Translate(new Vector3D<float>(position.X, position.Y, position.Z));
+                    var scaleMatrix = Matrix4X4.CreateScale(scale.X, scale.Y, scale.Z);
+                    var translationMatrix = Matrix4X4.CreateTranslation(position.X, position.Y, position.Z);
+                    var modelMatrix = scaleMatrix * rotMatrix * translationMatrix;
+
+                    model.SetModel(modelMatrix);
                 }
                 if (maxwellSpin && maxwellModel != null)
                 {
-                    maxwellModel.Rotate((float)(deltaTime * MathF.PI), Silk.NET.Maths.Vector3D<float>.UnitZ);
+                    maxwellModel.SetRotation((float)(deltaTime * MathF.PI), Silk.NET.Maths.Vector3D<float>.UnitZ);
 
                     double time = DateTimeOffset.Now.ToUnixTimeMilliseconds() / 1000.0;
                     float offset = (float)Math.Sin(time * 6.5) * 0.5f; // 2.0 = frequency, 1.0 = amplitude
-                    maxwellModel.Translate(new Silk.NET.Maths.Vector3D<float>(0, 0, offset));
+                    maxwellModel.SetPosition(new Silk.NET.Maths.Vector3D<float>(0, 0, offset));
                 }
             }
             ImGui.Separator();
@@ -304,6 +310,26 @@ public class RLImGui
 
         if (ImGui.Button("Options"))
             ImGui.OpenPopup("Options");
+        ImGui.SameLine();
+        ImGui.Text("Log Level:");
+        ImGui.SameLine();
+        if (ImGui.Combo("##LogLevel", ref _logLevel, _logLevelNames, _logLevelNames.Length))
+        {
+            switch (_logLevel)
+            {
+                case 1: _levelSwitch.MinimumLevel = Serilog.Events.LogEventLevel.Debug; break;
+                case 2: _levelSwitch.MinimumLevel = Serilog.Events.LogEventLevel.Verbose; break;
+                default: _levelSwitch.MinimumLevel = Serilog.Events.LogEventLevel.Information; break;
+            }
+            Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.ControlledBy(RLImGui._levelSwitch)
+            .WriteTo.Console()
+            .WriteTo.Debug()
+            .WriteTo.File("logs/log.txt", rollingInterval: Serilog.RollingInterval.Day, rollOnFileSizeLimit: false)
+            .WriteTo.ImGuiConsole(Console)
+            .CreateLogger();
+            AddLog($"[INF] Log level set to {_logLevelNames[_logLevel]}");
+        }
         ImGui.SameLine();
         bool clearButton = ImGui.Button("Clear");
         ImGui.SameLine();

@@ -2,6 +2,7 @@ using System.Drawing;
 using System.Numerics;
 using ImGuiNET;
 using RedLight.Core;
+using RedLight.Graphics.Primitive;
 using RedLight.Input;
 using RedLight.UI;
 using RedLight.Utils;
@@ -294,6 +295,17 @@ public class RLGraphics
             .MakeTransformable();
     }
 
+    public Player MakePlayer(Vector2D<int> screenSize, Transformable<RLModel> model)
+    {
+        var camera = new Camera(screenSize);
+        return new Player(camera, model);
+    }
+
+    public Player MakePlayer(Camera camera, Transformable<RLModel> model)
+    {
+        return new Player(camera, model);
+    }
+
     /// <summary>
     /// Starts rendering the frame and enables IsRendering boolean
     /// </summary>
@@ -324,36 +336,36 @@ public class RLGraphics
         CheckGLErrors();
     }
 
-    /// <summary>
-    /// Makes a model a player by setting the camera as third person. It is very broken and buddy so it is to be changed.
-    ///
-    /// Sets the distance a default of 5.0f
-    /// </summary>
-    /// <param name="camera">Camera</param>
-    /// <param name="model">Transformable Model</param>
-    public void MakePlayer(Camera camera, Transformable<RLModel> model)
-    {
-        MakePlayer(camera, model, 5.0f);
-    }
+    ///// <summary>
+    ///// Makes a model a player by setting the camera as third person. It is very broken and buddy so it is to be changed.
+    /////
+    ///// Sets the distance a default of 5.0f
+    ///// </summary>
+    ///// <param name="camera">Camera</param>
+    ///// <param name="model">Transformable Model</param>
+    //public void MakePlayer(Camera camera, Transformable<RLModel> model)
+    //{
+    //    MakePlayer(camera, model, 5.0f);
+    //}
 
-    /// <summary>
-    /// Makes a model a player by setting the camera as third person. It is very broken and buggy so it is to be changes
-    ///
-    /// You are able to change the players distance. 
-    /// </summary>
-    /// <param name="camera">Camera</param>
-    /// <param name="model">Transformable Model</param>
-    /// <param name="distance">float</param>
-    public void MakePlayer(Camera camera, Transformable<RLModel> model, float distance)
-    {
-        // Camera position and forward direction
-        var camPos = camera.Position;
-        var camForward = camera.Front; // Assuming your Camera class has a .Front property (normalized direction)
-        var targetPos = camPos + camForward * distance;
-        // Reset and set the new position
-        model.AbsoluteReset();
-        model.Translate(targetPos);
-    }
+    ///// <summary>
+    ///// Makes a model a player by setting the camera as third person. It is very broken and buggy so it is to be changes
+    /////
+    ///// You are able to change the players distance. 
+    ///// </summary>
+    ///// <param name="camera">Camera</param>
+    ///// <param name="model">Transformable Model</param>
+    ///// <param name="distance">float</param>
+    //public void MakePlayer(Camera camera, Transformable<RLModel> model, float distance)
+    //{
+    //    // Camera position and forward direction
+    //    var camPos = camera.Position;
+    //    var camForward = camera.Front; // Assuming your Camera class has a .Front property (normalized direction)
+    //    var targetPos = camPos + camForward * distance;
+    //    // Reset and set the new position
+    //    model.AbsoluteReset();
+    //    model.Translate(targetPos);
+    //}
 
     /// <summary>
     /// This function adds models to both list, specifically the ObjectModels list and the ImGui list

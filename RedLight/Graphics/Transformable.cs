@@ -18,6 +18,7 @@ public class Transformable<T>
     
     public Vector3 eulerAngles = new Vector3(0, 0, 0);
     public Matrix4X4<float> Model { get; private set; } = Matrix4X4<float>.Identity;
+
     /// <summary>
     /// The target, specifically what you put in when you initialised a Transformable. 
     /// </summary>
@@ -33,7 +34,7 @@ public class Transformable<T>
     /// </summary>
     /// <param name="translation">Vector3D</param>
     /// <returns>Transformable</returns>
-    public Transformable<T> Translate(Vector3D<float> translation)
+    public Transformable<T> SetPosition(Vector3D<float> translation)
     {
         Model = Matrix4X4.Multiply(Matrix4X4.CreateTranslation(translation), Model);
         Log.Verbose("Translated mesh");
@@ -46,7 +47,7 @@ public class Transformable<T>
     /// <param name="radians">float</param>
     /// <param name="axis">Vector3D</param>
     /// <returns>Transformable</returns>
-    public Transformable<T> Rotate(float radians, Vector3D<float> axis)
+    public Transformable<T> SetRotation(float radians, Vector3D<float> axis)
     {
         var normAxis = Vector3D.Normalize(axis);
         var rotation = Matrix4X4.CreateFromAxisAngle(normAxis, radians);
@@ -60,7 +61,7 @@ public class Transformable<T>
     /// </summary>
     /// <param name="scale">Vector3D</param>
     /// <returns>Transformable</returns>
-    public Transformable<T> Scale(Vector3D<float> scale)
+    public Transformable<T> SetScale(Vector3D<float> scale)
     {
         Model = Matrix4X4.Multiply(Matrix4X4.CreateScale(scale), Model);
         Log.Verbose("Scaled mesh");
@@ -144,5 +145,59 @@ public class Transformable<T>
     {
         Model = model;
         return this;
+    }
+
+    public Vector3D<float> Position
+    {
+        get => new Vector3D<float>(Model.M41, Model.M42, Model.M43);
+    }
+
+    public Vector3D<float> Scale
+    {
+        get
+        {
+            // Extract scale from the basis vectors of the matrix
+            var scaleX = new Vector3D<float>(Model.M11, Model.M12, Model.M13).Length;
+            var scaleY = new Vector3D<float>(Model.M21, Model.M22, Model.M23).Length;
+            var scaleZ = new Vector3D<float>(Model.M31, Model.M32, Model.M33).Length;
+            return new Vector3D<float>(scaleX, scaleY, scaleZ);
+        }
+    }
+
+    public Vector3D<float> Rotation
+    {
+        get
+        {
+            // Remove scale from the rotation matrix
+            var scale = Scale;
+            var m11 = Model.M11 / scale.X;
+            var m12 = Model.M12 / scale.X;
+            var m13 = Model.M13 / scale.X;
+            var m21 = Model.M21 / scale.Y;
+            var m22 = Model.M22 / scale.Y;
+            var m23 = Model.M23 / scale.Y;
+            var m31 = Model.M31 / scale.Z;
+            var m32 = Model.M32 / scale.Z;
+            var m33 = Model.M33 / scale.Z;
+
+            // Extract Euler angles (YXZ order)
+            float sy = -m13;
+            float cy = MathF.Sqrt(1 - sy * sy);
+
+            float x, y, z;
+            if (cy > 1e-6)
+            {
+                x = MathF.Atan2(m23, m33);
+                y = MathF.Asin(sy);
+                z = MathF.Atan2(m12, m11);
+            }
+            else
+            {
+                x = MathF.Atan2(-m32, m22);
+                y = MathF.Asin(sy);
+                z = 0;
+            }
+            return new Vector3D<float>(x, y, z);
+        }
     }
 }

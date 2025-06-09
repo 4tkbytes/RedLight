@@ -1,6 +1,6 @@
-﻿using System.Numerics;
-using RedLight;
+﻿using RedLight;
 using RedLight.Graphics;
+using RedLight.Graphics.Primitive;
 using RedLight.Input;
 using RedLight.Scene;
 using RedLight.UI;
@@ -10,6 +10,8 @@ using Silk.NET.Assimp;
 using Silk.NET.Input;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL.Extensions.ImGui;
+using System.Numerics;
+using static System.Net.Mime.MediaTypeNames;
 using Camera = RedLight.Graphics.Camera;
 using Plane = RedLight.Graphics.Primitive.Plane;
 using ShaderType = RedLight.Graphics.ShaderType;
@@ -31,6 +33,11 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     private RLImGui controller;
     private float cameraSpeed = 2.5f;
 
+    private Player player;
+    private Camera playerCamera;
+    private Camera debugCamera;
+    private bool useDebugCamera = false;
+
     public void OnLoad()
     {
         Graphics.Enable();
@@ -45,19 +52,49 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         camera = new Camera(size);
 
         var maxwell = Graphics.CreateModel("RedLight.Resources.Models.Maxwell.maxwell_the_cat.glb", TextureManager, ShaderManager, "maxwell")
-            .Rotate(float.DegreesToRadians(-90.0f), Vector3D<float>.UnitX)
-            .Scale(new Vector3D<float>(0.05f, 0.05f, 0.05f));
+            .SetRotation(float.DegreesToRadians(-90.0f), Vector3D<float>.UnitX)
+            .SetScale(new Vector3D<float>(0.05f, 0.05f, 0.05f));
 
-        Graphics.AddModels(ObjectModels, controller, maxwell);
+        var goose = Graphics.CreateModel("RedLight.Resources.Models.goose.fbx", TextureManager, ShaderManager, "player_goose");
+
+        playerCamera = new Camera(size);
+        debugCamera = new Camera(size);
+        player = Graphics.MakePlayer(playerCamera, maxwell);
+
         Graphics.AddModels(ObjectModels, controller, plane.Model);
+        Graphics.AddModels(ObjectModels, controller, player.Model);
     }
 
     public void OnUpdate(double deltaTime)
     {
         camera = camera.SetSpeed(cameraSpeed * (float)deltaTime);
-        
+
+        if (!useDebugCamera)
+        {
+            player.Update(PressedKeys, (float)deltaTime);
+        }
+
         if (InputManager.isCaptured)
             camera.KeyMap(PressedKeys);
+
+        if (PressedKeys.Contains(Key.F5))
+        {
+            player.ToggleCamera();
+            Log.Debug("Camera POV has been toggled to {A}", player.CameraToggle);
+        }
+
+        if (PressedKeys.Contains(Key.F6))
+        {
+            useDebugCamera = !useDebugCamera;
+            Log.Debug("Debug Camera is set to {A}", useDebugCamera);
+        }
+
+        if (useDebugCamera)
+        {
+            debugCamera = debugCamera.SetSpeed(cameraSpeed * (float)deltaTime);
+            if (InputManager.isCaptured)
+                debugCamera.KeyMap(PressedKeys);
+        }
     }
 
     public void OnRender(double deltaTime)
@@ -67,16 +104,20 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
             Graphics.Clear();
             Graphics.ClearColour(RLConstants.RL_COLOUR_CORNFLOWER_BLUE);
 
+            Camera activeCamera = useDebugCamera ? debugCamera : player.Camera;
             foreach (var model in ObjectModels)
             {
                 Graphics.Use(model);
-                Graphics.Update(camera, model);
+                Graphics.Update(activeCamera, model);
                 Graphics.Draw(model);
             }
+            Graphics.Use(player.Model);
+            Graphics.Update(activeCamera, player.Model);
+            Graphics.Draw(player.Model);
         }
         Graphics.End();
-        
-        controller.Render(deltaTime, camera);
+
+        controller.Render(deltaTime, useDebugCamera ? debugCamera : player.Camera);
     }
 
     public void OnKeyDown(IKeyboard keyboard, Key key, int keyCode)
@@ -100,6 +141,11 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     {
         InputManager.IsCaptured(mouse);
         if (InputManager.isCaptured)
-            camera.FreeMove(mousePosition);
+        {
+            if (useDebugCamera)
+                debugCamera.FreeMove(mousePosition);
+            else
+                player.Camera.FreeMove(mousePosition);
+        }
     }
 }
