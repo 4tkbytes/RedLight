@@ -92,7 +92,7 @@ public class InputManager
     
     public void ChangeCaptureToggle(Key key)
     {
-        if (key == Key.ControlRight && !togglePressed)
+        if (key == Key.F1 && !togglePressed)
         {
             togglePressed = true;
             isCaptured = !isCaptured;
@@ -134,7 +134,7 @@ public class InputManager
 
     public void ChangeCaptureToggleReset(Key key)
     {
-        if (key == Key.ControlRight)
+        if (key == Key.F1)
         {
             togglePressed = false;
         }

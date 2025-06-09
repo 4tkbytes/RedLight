@@ -3,10 +3,11 @@ using Silk.NET.Maths;
 using System;
 using System.Collections.Generic;
 using Serilog;
+using RedLight.Physics;
 
 namespace RedLight.Graphics.Primitive;
 
-public class Player
+public class Player: Entity<Transformable<RLModel>>
 {
     public Camera Camera { get; set; }
     public Transformable<RLModel> Model { get; set; }
@@ -15,10 +16,10 @@ public class Player
     /// Camera toggle changes between first and third person POV's. 
     /// 1 = First Person
     /// 3 = Third Person
-    /// Default = First Person
+    /// Default = Third Person
     /// </summary>
     /// <see cref="PlayerCameraPOV"/>
-    public PlayerCameraPOV CameraToggle = PlayerCameraPOV.FirstPerson;
+    public PlayerCameraPOV CameraToggle = PlayerCameraPOV.ThirdPerson;
 
     public Vector3D<float> Position { get; set; }
     public Vector3D<float> Rotation { get; set; }
@@ -28,7 +29,7 @@ public class Player
 
     private Vector3D<float> lastModelPosition;
 
-    public Player(Camera camera, Transformable<RLModel> model)
+    public Player(Camera camera, Transformable<RLModel> model): base(model)
     {
         Camera = camera;
         Model = model;
@@ -42,7 +43,7 @@ public class Player
     public Player(Vector2D<int> screenSize, Transformable<RLModel> model) : this(new Camera(screenSize), model) { }
 
     /// <summary>
-    /// Call this every frame to update player logic.
+    /// Updates player logic
     /// </summary>
     public void Update(HashSet<Silk.NET.Input.Key> pressedKeys, float deltaTime)
     {
@@ -164,13 +165,18 @@ public class Player
         Log.Debug("[Player] FreeRoam called.");
         // Implement free roam logic if needed
     }
-}
 
-// Extension method for extracting translation from Matrix4X4<float>
-public static class MatrixExtensions
-{
-    public static Vector3D<float> M41M42M43(this Matrix4X4<float> m)
-        => new Vector3D<float>(m.M41, m.M42, m.M43);
+    public void SetPOV(PlayerCameraPOV cameraPOV)
+    {
+        CameraToggle = cameraPOV;
+    }
+
+    public void SetPOV(int cameraPOV)
+    {
+        if (cameraPOV != 1 || cameraPOV != 3)
+            throw new Exception("Camera POV value is not valid (1|3)");
+        CameraToggle = (PlayerCameraPOV)cameraPOV;
+    }
 }
 
 /// <summary>

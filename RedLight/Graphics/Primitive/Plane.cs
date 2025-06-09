@@ -1,4 +1,5 @@
 using RedLight.Graphics;
+using RedLight.Physics;
 using RedLight.Utils;
 using Silk.NET.Maths;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace RedLight.Graphics.Primitive
         private RLGraphics graphics;
         private TextureManager textureManager;
         private ShaderManager shaderManager;
-        public Transformable<RLModel> Model { get; private set; }
+        public ConcreteEntity<Transformable<RLModel>> EntityModel { get; private set; }
 
         /// <summary>
         /// Creates a flat plane that you can use to present models or any other purposes.
@@ -80,7 +81,7 @@ namespace RedLight.Graphics.Primitive
             model.AttachShader(shaderManager.Get("basic"));
             model.AttachTexture(textureManager.Get("no-texture"));
 
-            Model = model.MakeTransformable();
+            EntityModel = model.MakeTransformable().MakeEntity();
         }
 
         /// <summary>
@@ -89,7 +90,7 @@ namespace RedLight.Graphics.Primitive
         /// <returns><see cref="Plane"/></returns>
         public Plane Default()
         {
-            Model.SetPosition(new Vector3D<float>(0, -0.5f, 0));
+            EntityModel.Target.SetPosition(new Vector3D<float>(0, -0.5f, 0));
             return this;
         }
     }

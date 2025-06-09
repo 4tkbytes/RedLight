@@ -2,14 +2,15 @@ using System.Numerics;
 using Silk.NET.Maths;
 using RedLight.Utils;
 using Serilog;
+using RedLight.Physics;
 
 namespace RedLight.Graphics;
 
 /// <summary>
-/// This class makes any class transformable. Typically used with Meshes or RLModels, this can allow you to
+/// This class makes any class transformable. Typically used with Meshes or RLModels, this class can allow you to
 /// translate the model, rotate the model or change its scale. 
 /// </summary>
-/// <typeparam name="T">Mesh or RLModel</typeparam>
+/// <typeparam name="T"><seealso cref="RLModel"/><seealso cref="Mesh"/></typeparam>
 public class Transformable<T>
 {
     private readonly T target;
@@ -32,8 +33,8 @@ public class Transformable<T>
     /// <summary>
     /// Translate the target by a Vector3D float. 
     /// </summary>
-    /// <param name="translation">Vector3D</param>
-    /// <returns>Transformable</returns>
+    /// <param name="translation"><see cref="Vector3D"/></param>
+    /// <returns><see cref="Transformable{T}"/></returns>
     public Transformable<T> SetPosition(Vector3D<float> translation)
     {
         Model = Matrix4X4.Multiply(Matrix4X4.CreateTranslation(translation), Model);
@@ -45,8 +46,8 @@ public class Transformable<T>
     /// Rotates the target by a radians and its axis (typically Vector3D's UnitX, UnitY or UnitZ).
     /// </summary>
     /// <param name="radians">float</param>
-    /// <param name="axis">Vector3D</param>
-    /// <returns>Transformable</returns>
+    /// <param name="axis"><see cref="Vector3D"/></param>
+    /// <returns><see cref="Transformable{T}"/></returns>
     public Transformable<T> SetRotation(float radians, Vector3D<float> axis)
     {
         var normAxis = Vector3D.Normalize(axis);
@@ -59,8 +60,8 @@ public class Transformable<T>
     /// <summary>
     /// Changes the scale of the model. Takes an input of scale and multiplies the model matrix by the scale. 
     /// </summary>
-    /// <param name="scale">Vector3D</param>
-    /// <returns>Transformable</returns>
+    /// <param name="scale"><see cref="Vector3D"/></param>
+    /// <returns><see cref="Transformable{T}"/></returns>
     public Transformable<T> SetScale(Vector3D<float> scale)
     {
         Model = Matrix4X4.Multiply(Matrix4X4.CreateScale(scale), Model);
@@ -71,7 +72,7 @@ public class Transformable<T>
     /// <summary>
     /// Resets the model to its matrix identity. 
     /// </summary>
-    /// <returns>Transformable</returns>
+    /// <returns><see cref="Transformable{T}"/></returns>
     public Transformable<T> AbsoluteReset()
     {
         Model = Matrix4X4<float>.Identity;
@@ -83,8 +84,8 @@ public class Transformable<T>
     /// <summary>
     /// Reset the model to its matrix identity multiplied by a scalar. 
     /// </summary>
-    /// <param name="scalar">float</param>
-    /// <returns>Transformable</returns>
+    /// <param name="scalar"><see cref="float"/></param>
+    /// <returns><see cref="Transformable{T}"/></returns>
     public Transformable<T> AbsoluteReset(float scalar)
     {
         Model = Matrix4X4<float>.Identity * scalar;
@@ -97,7 +98,7 @@ public class Transformable<T>
     /// Resets the model to a previously changed state. It requires a lock state to have been created, which can be
     /// created using SetDefault(). 
     /// </summary>
-    /// <returns>Transformable</returns>
+    /// <returns><see cref="Transformable{T}"/></returns>
     /// <exception cref="Exception"></exception>
     public Transformable<T> Reset(bool silent = true)
     {
@@ -113,6 +114,12 @@ public class Transformable<T>
         return this;
     }
 
+    /// <summary>
+    /// Releases the lock state by setting the related boolean to false. To reuse the lock state,
+    /// you will have to use recreate another lock state by using <see cref="Transformable{T}.SetDefault"/>
+    /// </summary>
+    /// <returns><see cref="Transformable{T}"/> Self</returns>
+    /// <exception cref="Exception"></exception>
     public Transformable<T> Release()
     {
         if (!defaultSet)
@@ -127,7 +134,7 @@ public class Transformable<T>
     /// "Saves" the previous model state and creates a lock state. It can be reset to its original position at the time
     /// when the lock state was created by using Reset(). 
     /// </summary>
-    /// <returns>Transformable</returns>
+    /// <returns><see cref="Transformable{T}"/></returns>
     public Transformable<T> SetDefault()
     {
         modelDefault = Model;
@@ -135,16 +142,26 @@ public class Transformable<T>
         Log.Verbose("Default set the mesh model");
         return this;
     }
-    
+
     /// <summary>
-    /// Sets the model
+    /// Sets the model matrix
     /// </summary>
-    /// <param name="model">Matrix4X4</param>
-    /// <returns>Transformable</returns>
+    /// <param name="model"><see cref="Matrix4X4"/></param>
+    /// <returns><see cref="Transformable{T}"/></returns>
     public Transformable<T> SetModel(Matrix4X4<float> model)
     {
         Model = model;
         return this;
+    }
+
+    /// <summary>
+    /// This function converts a <see cref="Transformable{T}"/> (typically this) into an entity to unlock
+    /// physics and collisions. 
+    /// </summary>
+    /// <returns></returns>
+    public ConcreteEntity<Transformable<T>> MakeEntity()
+    {
+        return new ConcreteEntity<Transformable<T>>(this);
     }
 
     public Vector3D<float> Position
@@ -154,9 +171,9 @@ public class Transformable<T>
 
     public Vector3D<float> Scale
     {
+        // this is so confusing holy shit
         get
         {
-            // Extract scale from the basis vectors of the matrix
             var scaleX = new Vector3D<float>(Model.M11, Model.M12, Model.M13).Length;
             var scaleY = new Vector3D<float>(Model.M21, Model.M22, Model.M23).Length;
             var scaleZ = new Vector3D<float>(Model.M31, Model.M32, Model.M33).Length;
@@ -166,9 +183,9 @@ public class Transformable<T>
 
     public Vector3D<float> Rotation
     {
+        // this is so confusing holy shit
         get
         {
-            // Remove scale from the rotation matrix
             var scale = Scale;
             var m11 = Model.M11 / scale.X;
             var m12 = Model.M12 / scale.X;
@@ -180,7 +197,6 @@ public class Transformable<T>
             var m32 = Model.M32 / scale.Z;
             var m33 = Model.M33 / scale.Z;
 
-            // Extract Euler angles (YXZ order)
             float sy = -m13;
             float cy = MathF.Sqrt(1 - sy * sy);
 

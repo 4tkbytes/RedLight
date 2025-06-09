@@ -148,14 +148,21 @@ public class SceneManager
             Log.Error("InputManager is null");
         }
         
+        // default no texture path
         currentScene.TextureManager.TryAdd(
             "no-texture",
             new RLTexture(currentScene.Graphics, RLFiles.GetResourcePath(RLConstants.RL_NO_TEXTURE_PATH))
         );
 
+        // basic shader
         currentScene.ShaderManager.TryAdd("basic",
             new RLShader(currentScene.Graphics, ShaderType.Vertex, RLConstants.RL_BASIC_SHADER_VERT),
             new RLShader(currentScene.Graphics, ShaderType.Fragment, RLConstants.RL_BASIC_SHADER_FRAG));
+
+        // hitbox shader for rendering hitboxes
+        currentScene.ShaderManager.TryAdd("hitbox",
+            new RLShader(currentScene.Graphics, ShaderType.Vertex, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.line.vert")),
+            new RLShader(currentScene.Graphics, ShaderType.Fragment, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.line.frag")));
 
         Log.Debug("Loading current scene");
         currentScene.Load();

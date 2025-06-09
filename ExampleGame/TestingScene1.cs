@@ -2,6 +2,7 @@
 using RedLight.Graphics;
 using RedLight.Graphics.Primitive;
 using RedLight.Input;
+using RedLight.Physics;
 using RedLight.Scene;
 using RedLight.UI;
 using RedLight.Utils;
@@ -34,6 +35,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     private float cameraSpeed = 2.5f;
 
     private Player player;
+    private Plane plane;
     private Camera playerCamera;
     private Camera debugCamera;
     private bool useDebugCamera = false;
@@ -41,9 +43,10 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     public void OnLoad()
     {
         Graphics.Enable();
+        Graphics.EnableDebugErrorCallback();
         Graphics.ShutUp = true;
 
-        var plane = new Plane(Graphics, TextureManager, ShaderManager, 20f, 20f).Default();
+        plane = new Plane(Graphics, TextureManager, ShaderManager, 20f, 20f).Default();
 
         controller = new RLImGui(Graphics, Engine.Window, InputManager, ShaderManager, TextureManager, SceneManager);
         Engine.InitialiseLogger(controller.Console);
@@ -55,13 +58,12 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
             .SetRotation(float.DegreesToRadians(-90.0f), Vector3D<float>.UnitX)
             .SetScale(new Vector3D<float>(0.05f, 0.05f, 0.05f));
 
-        var goose = Graphics.CreateModel("RedLight.Resources.Models.goose.fbx", TextureManager, ShaderManager, "player_goose");
-
         playerCamera = new Camera(size);
         debugCamera = new Camera(size);
         player = Graphics.MakePlayer(playerCamera, maxwell);
+        player.SetPOV(PlayerCameraPOV.ThirdPerson);
 
-        Graphics.AddModels(ObjectModels, controller, plane.Model);
+        Graphics.AddModels(ObjectModels, controller, plane.EntityModel.Target);
         Graphics.AddModels(ObjectModels, controller, player.Model);
     }
 
@@ -89,6 +91,16 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
             Log.Debug("Debug Camera is set to {A}", useDebugCamera);
         }
 
+        if (PressedKeys.Contains(Key.F2))
+        {
+            player.ToggleHitbox();
+        }
+
+        // if (player.Intersects(plane.EntityModel))
+        // {
+        //     Log.Debug("Player is intersecting with plane!");
+        // }
+
         if (useDebugCamera)
         {
             debugCamera = debugCamera.SetSpeed(cameraSpeed * (float)deltaTime);
@@ -114,6 +126,11 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
             Graphics.Use(player.Model);
             Graphics.Update(activeCamera, player.Model);
             Graphics.Draw(player.Model);
+
+            if (player.isHitboxShown)
+            {
+                player.DrawBoundingBox(Graphics, ShaderManager.Get("basic"));
+            }
         }
         Graphics.End();
 
