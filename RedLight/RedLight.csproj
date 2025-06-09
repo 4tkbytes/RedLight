@@ -6,7 +6,8 @@
         <Nullable>enable</Nullable>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <GenerateDocumentationFile>False</GenerateDocumentationFile>
-        <Title>RedLight Game Engine</Title>
+		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+		<Title>RedLight Game Engine</Title>
         <Authors>4tkbytes</Authors>
         <PackageProjectUrl>https://github.com/4tkbytes/RedLight</PackageProjectUrl>
         <Description>The RedLight Game Engine is the library used to power various games. </Description>
