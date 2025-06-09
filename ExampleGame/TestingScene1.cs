@@ -89,11 +89,10 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         {
             useDebugCamera = !useDebugCamera;
             Log.Debug("Debug Camera is set to {A}", useDebugCamera);
-        }
-
-        if (PressedKeys.Contains(Key.F2))
+        }        if (PressedKeys.Contains(Key.F2))
         {
             player.ToggleHitbox();
+            plane.EntityModel.ToggleHitbox();
         }
 
         // if (player.Intersects(plane.EntityModel))
@@ -122,14 +121,16 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
                 Graphics.Use(model);
                 Graphics.Update(activeCamera, model);
                 Graphics.Draw(model);
-            }
-            Graphics.Use(player.Model);
+            }            Graphics.Use(player.Model);
             Graphics.Update(activeCamera, player.Model);
             Graphics.Draw(player.Model);
-
             if (player.isHitboxShown)
             {
-                player.DrawBoundingBox(Graphics, ShaderManager.Get("basic"));
+                player.DrawBoundingBox(Graphics, ShaderManager.Get("hitbox"), activeCamera);
+            }
+            if (plane.EntityModel.isHitboxShown)
+            {
+                plane.EntityModel.DrawBoundingBox(Graphics, ShaderManager.Get("hitbox"), activeCamera);
             }
         }
         Graphics.End();

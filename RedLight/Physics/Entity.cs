@@ -94,17 +94,19 @@ public abstract class Entity<T>
         return (BoundingBoxMin.X <= otherEntity.BoundingBoxMax.X && BoundingBoxMax.X >= otherEntity.BoundingBoxMin.X) &&
                (BoundingBoxMin.Y <= otherEntity.BoundingBoxMax.Y && BoundingBoxMax.Y >= otherEntity.BoundingBoxMin.Y) &&
                (BoundingBoxMin.Z <= otherEntity.BoundingBoxMax.Z && BoundingBoxMax.Z >= otherEntity.BoundingBoxMin.Z);
-    }
-
-    /// <summary>
+    }    /// <summary>
     /// Draws the bounding box edges in red using OpenGL lines.
     /// </summary>
     public virtual void DrawBoundingBox(RLGraphics graphics, RLShaderBundle shaderBundle)
     {
+        if (!isHitboxShown) return;
+        
         var gl = graphics.OpenGL;
 
         var min = BoundingBoxMin;
         var max = BoundingBoxMax;
+        
+        // Create vertices for a wireframe box (just the 8 corners)
         float[] vertices = new float[]
         {
             min.X, min.Y, min.Z, // 0
@@ -117,30 +119,15 @@ public abstract class Entity<T>
             min.X, max.Y, max.Z  // 7
         };
 
-        // Each face: 2 triangles (6 indices), 6 faces
-        int[] indices = {
-            // Bottom
-            0, 1, 2, 2, 3, 0,
-            // Top
-            4, 5, 6, 6, 7, 4,
-            // Front
-            0, 1, 5, 5, 4, 0,
-            // Back
-            3, 2, 6, 6, 7, 3,
-            // Left
-            0, 3, 7, 7, 4, 0,
-            // Right
-            1, 2, 6, 6, 5, 1
+        // Indices for wireframe lines (each edge of the cube)
+        uint[] lineIndices = {
+            // Bottom face edges
+            0, 1, 1, 2, 2, 3, 3, 0,
+            // Top face edges  
+            4, 5, 5, 6, 6, 7, 7, 4,
+            // Vertical edges connecting bottom to top
+            0, 4, 1, 5, 2, 6, 3, 7
         };
-
-        float[] cubeVertices = new float[indices.Length * 3];
-        for (int i = 0; i < indices.Length; i++)
-        {
-            int idx = indices[i];
-            cubeVertices[i * 3 + 0] = vertices[idx * 3 + 0];
-            cubeVertices[i * 3 + 1] = vertices[idx * 3 + 1];
-            cubeVertices[i * 3 + 2] = vertices[idx * 3 + 2];
-        }
 
         if (vao == 0)
         {
@@ -153,9 +140,9 @@ public abstract class Entity<T>
 
         unsafe
         {
-            fixed (float* vtx = cubeVertices)
+            fixed (float* vtx = vertices)
             {
-                gl.BufferData(BufferTargetARB.ArrayBuffer, (nuint)(cubeVertices.Length * sizeof(float)), vtx, BufferUsageARB.StreamDraw);
+                gl.BufferData(BufferTargetARB.ArrayBuffer, (nuint)(vertices.Length * sizeof(float)), vtx, BufferUsageARB.StreamDraw);
             }
         }
 
@@ -167,11 +154,158 @@ public abstract class Entity<T>
 
         gl.UseProgram(shaderBundle.program.ProgramHandle);
 
+        // Set transformation matrices
+        // Model matrix (identity since we're using world coordinates)
+        var modelMatrix = Matrix4X4<float>.Identity;
+        unsafe
+        {
+            float* modelPtr = (float*)&modelMatrix;
+            int modelLoc = gl.GetUniformLocation(shaderBundle.program.ProgramHandle, "model");
+            if (modelLoc != -1)
+                gl.UniformMatrix4(modelLoc, 1, false, modelPtr);
+        }
+
+        // Note: View and Projection matrices should be set externally by the calling code
+        // since Entity doesn't have access to camera information
+
+        // Set the color uniform (red for hitbox)
         int colorLoc = gl.GetUniformLocation(shaderBundle.program.ProgramHandle, "uColor");
         if (colorLoc != -1)
-            gl.Uniform4(colorLoc, 1.0f, 0.0f, 0.0f, 1.0f); // Solid red
+            gl.Uniform4(colorLoc, 1.0f, 0.0f, 0.0f, 1.0f); // Bright red
 
-        gl.DrawArrays(PrimitiveType.Triangles, 0, (uint)indices.Length);
+        // Set line width for thicker lines
+        gl.LineWidth(3.0f);
+
+        // Draw the wireframe using line segments
+        unsafe
+        {
+            fixed (uint* indices = lineIndices)
+            {
+                gl.DrawElements(PrimitiveType.Lines, (uint)lineIndices.Length, DrawElementsType.UnsignedInt, indices);
+            }
+        }
+
+        gl.BindVertexArray(0);
+        gl.BindBuffer(BufferTargetARB.ArrayBuffer, 0);
+
+        graphics.CheckGLErrors();
+    }    /// <summary>
+    /// Draws the bounding box edges in red using OpenGL lines with proper camera transformations.
+    /// </summary>
+    public virtual void DrawBoundingBox(RLGraphics graphics, RLShaderBundle shaderBundle, Camera camera)
+    {
+        if (!isHitboxShown) return;
+        
+        var gl = graphics.OpenGL;
+
+        // Get current entity position and update bounding box
+        Vector3D<float> currentPosition = Vector3D<float>.Zero;
+        if (target is Transformable<RLModel> tModel)
+        {
+            currentPosition = tModel.Position;
+        }
+        else if (target is Transformable<Mesh> tMesh)
+        {
+            currentPosition = tMesh.Position;
+        }
+        else if (target is Transformable<object> tObj)
+        {
+            currentPosition = tObj.Position;
+        }
+
+        // Calculate bounding box based on current position
+        var min = currentPosition + new Vector3D<float>(-0.5f, 0.0f, -0.5f);
+        var max = currentPosition + new Vector3D<float>(0.5f, 2.0f, 0.5f);
+        
+        // Create vertices for a wireframe box (just the 8 corners)
+        float[] vertices = new float[]
+        {
+            min.X, min.Y, min.Z, // 0
+            max.X, min.Y, min.Z, // 1
+            max.X, max.Y, min.Z, // 2
+            min.X, max.Y, min.Z, // 3
+            min.X, min.Y, max.Z, // 4
+            max.X, min.Y, max.Z, // 5
+            max.X, max.Y, max.Z, // 6
+            min.X, max.Y, max.Z  // 7
+        };
+
+        // Indices for wireframe lines (each edge of the cube)
+        uint[] lineIndices = {
+            // Bottom face edges
+            0, 1, 1, 2, 2, 3, 3, 0,
+            // Top face edges  
+            4, 5, 5, 6, 6, 7, 7, 4,
+            // Vertical edges connecting bottom to top
+            0, 4, 1, 5, 2, 6, 3, 7
+        };
+
+        if (vao == 0)
+        {
+            vao = gl.GenVertexArray();
+            vbo = gl.GenBuffer();
+        }
+
+        gl.BindVertexArray(vao);
+        gl.BindBuffer(BufferTargetARB.ArrayBuffer, vbo);
+
+        unsafe
+        {
+            fixed (float* vtx = vertices)
+            {
+                gl.BufferData(BufferTargetARB.ArrayBuffer, (nuint)(vertices.Length * sizeof(float)), vtx, BufferUsageARB.StreamDraw);
+            }
+        }
+
+        gl.EnableVertexAttribArray(0);
+        unsafe
+        {
+            gl.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), (void*)0);
+        }
+
+        gl.UseProgram(shaderBundle.program.ProgramHandle);
+
+        // Set transformation matrices
+        unsafe
+        {
+            // Model matrix (identity since we're using world coordinates)
+            var modelMatrix = Matrix4X4<float>.Identity;
+            float* modelPtr = (float*)&modelMatrix;
+            int modelLoc = gl.GetUniformLocation(shaderBundle.program.ProgramHandle, "model");
+            if (modelLoc != -1)
+                gl.UniformMatrix4(modelLoc, 1, false, modelPtr);
+
+            // View matrix
+            var viewMatrix = camera.View;
+            float* viewPtr = (float*)&viewMatrix;
+            int viewLoc = gl.GetUniformLocation(shaderBundle.program.ProgramHandle, "view");
+            if (viewLoc != -1)
+                gl.UniformMatrix4(viewLoc, 1, false, viewPtr);
+
+            // Projection matrix
+            var projMatrix = camera.Projection;
+            float* projPtr = (float*)&projMatrix;
+            int projLoc = gl.GetUniformLocation(shaderBundle.program.ProgramHandle, "projection");
+            if (projLoc != -1)
+                gl.UniformMatrix4(projLoc, 1, false, projPtr);
+        }
+
+        // Set the color uniform (red for hitbox)
+        int colorLoc = gl.GetUniformLocation(shaderBundle.program.ProgramHandle, "uColor");
+        if (colorLoc != -1)
+            gl.Uniform4(colorLoc, 1.0f, 0.0f, 0.0f, 1.0f); // Bright red
+
+        // Set line width for thicker lines
+        gl.LineWidth(3.0f);
+
+        // Draw the wireframe using line segments
+        unsafe
+        {
+            fixed (uint* indices = lineIndices)
+            {
+                gl.DrawElements(PrimitiveType.Lines, (uint)lineIndices.Length, DrawElementsType.UnsignedInt, indices);
+            }
+        }
 
         gl.BindVertexArray(0);
         gl.BindBuffer(BufferTargetARB.ArrayBuffer, 0);
