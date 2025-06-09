@@ -44,7 +44,6 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     {
         Graphics.Enable();
         Graphics.EnableDebugErrorCallback();
-        Graphics.ShutUp = true;
 
         plane = new Plane(Graphics, TextureManager, ShaderManager, 20f, 20f).Default();
 

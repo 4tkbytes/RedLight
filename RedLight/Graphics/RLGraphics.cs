@@ -86,9 +86,9 @@ public class RLGraphics
             }, null);
         }
         #else
-        Log.Information("OpenGL Debug Error Callback can only work under a Debug build, therefore it will not work.")
-        Log.Information("Instead, expect to see standard OpenGL errors (if there are any)!")
-        #endif
+        Log.Information("OpenGL Debug Error Callback can only work under a Debug build, therefore it will not work.");
+        Log.Information("Instead, expect to see standard OpenGL errors (if there are any)!");
+#endif
     }
 
     /// <summary>

@@ -98,5 +98,13 @@ namespace RedLight.Graphics.Primitive
             EntityModel.Target.SetPosition(new Vector3D<float>(0, -0.5f, 0));
             return this;
         }
+
+        /// <summary>
+        /// Updates the bounding box's position (for <see cref="Plane"/> class)
+        /// </summary>
+        public void UpdateBoundingBox()
+        {
+            EntityModel.UpdateBoundingBox();
+        }
     }
 }
