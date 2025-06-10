@@ -142,6 +142,33 @@ public class Mesh
         Log.Verbose("Made mesh transformable");
         return new ConcreteTransformable<Mesh>(this);
     }
+    
+    public Vector3D<float>[] GetVertexPositions()
+    {
+        return vertices?.Select(v => v.Position).ToArray() ?? Array.Empty<Vector3D<float>>();
+    }
+
+    public (Vector3D<float> min, Vector3D<float> max) GetBounds()
+    {
+        if (vertices == null || vertices.Count == 0)
+            return (new Vector3D<float>(-1, -1, -1), new Vector3D<float>(1, 1, 1));
+        
+        Vector3D<float> min = new(float.MaxValue);
+        Vector3D<float> max = new(float.MinValue);
+    
+        foreach (var vertex in vertices)
+        {
+            min.X = MathF.Min(min.X, vertex.Position.X);
+            min.Y = MathF.Min(min.Y, vertex.Position.Y);
+            min.Z = MathF.Min(min.Z, vertex.Position.Z);
+        
+            max.X = MathF.Max(max.X, vertex.Position.X);
+            max.Y = MathF.Max(max.Y, vertex.Position.Y);
+            max.Z = MathF.Max(max.Z, vertex.Position.Z);
+        }
+    
+        return (min, max);
+    }
 
     public void Draw()
     {

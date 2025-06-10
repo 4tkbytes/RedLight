@@ -7,7 +7,7 @@ using RedLight.Physics;
 
 namespace RedLight.Graphics.Primitive;
 
-public class Player: Entity<Transformable<RLModel>>
+public class Player: Entity<RLModel>
 {
     public Camera Camera { get; set; }
     
@@ -28,16 +28,16 @@ public class Player: Entity<Transformable<RLModel>>
 
     private Vector3D<float> lastModelPosition;
 
-    public Player(Camera camera, Transformable<RLModel> model, bool autoMapHitbox = true): base(model)
+    public Player(Camera camera, Transformable<RLModel> model, bool autoMapHitbox = true): base(model.Target)
     {
         Camera = camera;
-        Target = model;
+        Target = model.Target;
         Position = model.Position;
         Rotation = model.Rotation;
         Scale = model.Scale;
         lastModelPosition = Position;
         if (autoMapHitbox)
-            base.AutoMapHitboxToModel();
+            AutoMapHitboxToModel();
         Log.Debug("[Player] Created with initial position: {Position}, rotation: {Rotation}, scale: {Scale}", Position, Rotation, Scale);
     }
 
@@ -67,17 +67,17 @@ public class Player: Entity<Transformable<RLModel>>
         var right = Vector3D.Normalize(Vector3D.Cross(Camera.Front, Camera.Up));
         var up = Camera.Up;
 
-        if (pressedKeys.Contains(Silk.NET.Input.Key.W))
+        if (pressedKeys.Contains(Silk.NET.Input.Key.W) && !ObjectCollisionSides.Contains(CollisionSide.Front))
             direction += forward;
-        if (pressedKeys.Contains(Silk.NET.Input.Key.S))
+        if (pressedKeys.Contains(Silk.NET.Input.Key.S) && !ObjectCollisionSides.Contains(CollisionSide.Back))
             direction -= forward;
-        if (pressedKeys.Contains(Silk.NET.Input.Key.A))
+        if (pressedKeys.Contains(Silk.NET.Input.Key.A) && !ObjectCollisionSides.Contains(CollisionSide.Left))
             direction -= right;
-        if (pressedKeys.Contains(Silk.NET.Input.Key.D))
+        if (pressedKeys.Contains(Silk.NET.Input.Key.D) && !ObjectCollisionSides.Contains(CollisionSide.Right))
             direction += right;
-        if (pressedKeys.Contains(Silk.NET.Input.Key.Space))
+        if (pressedKeys.Contains(Silk.NET.Input.Key.Space) && !ObjectCollisionSides.Contains(CollisionSide.Up))
             direction += up;
-        if (pressedKeys.Contains(Silk.NET.Input.Key.ShiftLeft))
+        if (pressedKeys.Contains(Silk.NET.Input.Key.ShiftLeft) && !ObjectCollisionSides.Contains(CollisionSide.Down))
             direction -= up;
 
         if (direction != Vector3D<float>.Zero)
@@ -154,7 +154,7 @@ public class Player: Entity<Transformable<RLModel>>
             * Matrix4X4.CreateRotationZ(Rotation.Z);
         var translationMatrix = Matrix4X4.CreateTranslation(Position.X, Position.Y, Position.Z);
         var modelMatrix = scaleMatrix * rotationMatrix * translationMatrix;
-        Target.SetModel(modelMatrix);
+        SetModel(modelMatrix);
         Log.Verbose("[Player] Model transform updated. Position: {Position}, Rotation: {Rotation}, Scale: {Scale}", Position, Rotation, Scale);
     }
 

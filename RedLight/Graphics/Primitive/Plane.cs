@@ -36,7 +36,6 @@ namespace RedLight.Graphics.Primitive
                 "plane"
             )
             .AttachShader(shaderManager.Get("basic"))
-            .MakeTransformable()
             )
         {
             this.graphics = graphics;
@@ -85,10 +84,10 @@ namespace RedLight.Graphics.Primitive
             var shader = shaderManager.Get("basic");
             planeMesh.AttachShader(shader.vertexShader, shader.fragmentShader);
 
-            Target.Target.Meshes.Clear();
-            Target.Target.Meshes.Add(planeMesh);
-            Target.Target.AttachShader(shaderManager.Get("basic"));
-            Target.Target.AttachTexture(textureManager.Get("no-texture"));
+            Target.Meshes.Clear();
+            Target.Meshes.Add(planeMesh);
+            Target.AttachShader(shaderManager.Get("basic"));
+            Target.AttachTexture(textureManager.Get("no-texture"));
             
             SetHitboxDefault(
                 new Vector3D<float>(-10f, -0.1f, -10f), 
@@ -102,7 +101,7 @@ namespace RedLight.Graphics.Primitive
         /// <returns><see cref="Plane"/></returns>
         public Plane Default()
         {
-            Target.Translate(new Vector3D<float>(0, -1, 0));
+            Translate(new Vector3D<float>(0, -1, 0));
             return this;
         }
 

@@ -1,4 +1,5 @@
 ﻿using RedLight.Graphics;
+using RedLight.Graphics.Primitive;
 using Serilog;
 using Silk.NET.Input;
 using Silk.NET.Maths;
@@ -38,6 +39,9 @@ public abstract class Entity<T> : Transformable<T>
     
     // collisions
     public HashSet<CollisionSide> ObjectCollisionSides { get; set; } = new();
+    public bool IsColliding { get; private set; }
+    
+    private Vector3D<float> lastSafePosition;
 
     public Entity(T transformable) : base(transformable)
     {
@@ -64,9 +68,16 @@ public abstract class Entity<T> : Transformable<T>
     {
         ObjectCollisionSides.Clear();
         UpdateBoundingBox();
-        Velocity += Acceleration * deltaTime;
+    
+        // store as safe
         if (Target is Transformable<RLModel> tModel)
+        {
+            lastSafePosition = tModel.Position;
+            // Then apply velocity
+            Velocity += Acceleration * deltaTime;
             tModel.Translate(Velocity * deltaTime);
+        }
+    
         Acceleration = Vector3D<float>.Zero;
     }
     
@@ -159,141 +170,92 @@ public abstract class Entity<T> : Transformable<T>
         DefaultBoundingBoxMin = hitboxMin;
         DefaultBoundingBoxMax = hitboxMax;
     }
-
-    public void DontMoveIfColliding(Entity<T> otherEntity, bool silent = true)
+    
+    public bool CheckCollisionAndResolve(List<Entity<T>> otherEntities, bool silent = false)
     {
-        silent = false;
-        bool isColliding = Intersects(otherEntity);
-        if (!silent)
-            Log.Debug("IsColliding = {IsColliding}", isColliding);
+        if (!(Target is Transformable<RLModel> tModel))
+            return false;
 
-        if (!silent)
-            Log.Debug("otherEntity is {OtherEntity}", otherEntity);
-        if (otherEntity.Target is Transformable<RLModel> tModel)
+        bool collisionResolved = false;
+        UpdateBoundingBox();
+
+        // Store original position before collision checks
+        Vector3D<float> originalPosition = tModel.Position;
+
+        foreach (var otherEntity in otherEntities)
         {
-            foreach (CollisionSide side in ObjectCollisionSides)
-                if (!silent)
-                    Log.Debug("Colliding on {A}", side);
-            
-            // down
-            if (isColliding && ObjectCollisionSides.Contains(CollisionSide.Down))
-            {
-                float otherEntityTopY = otherEntity.BoundingBoxMax.Y;
-                if (!silent)
-                    Log.Debug("Other entity top Y: {TopY}", otherEntityTopY);
-    
-                float modelBottomY = tModel.Position.Y + DefaultBoundingBoxMin.Y;
-                if (!silent)
-                    Log.Debug("Model bottom Y: {BottomY}", modelBottomY);
-                float adjustment = otherEntityTopY - modelBottomY;
-                if (!silent)
-                    Log.Debug("Adjustment: {Adjustment}", adjustment);
-    
-                tModel.SetPosition(new Vector3D<float>(tModel.Position.X, 
-                    tModel.Position.Y + adjustment, 
-                    tModel.Position.Z));
-            }
-            
-            // up
-            if (isColliding && ObjectCollisionSides.Contains(CollisionSide.Up))
-            {
-                float otherEntityBottomY = otherEntity.BoundingBoxMin.Y;
-                if (!silent)
-                    Log.Debug("Other entity bottom Y: {BottomY}", otherEntityBottomY);
+            // Skip self-collision
+            if (this == otherEntity)
+                continue;
 
-                float modelTopY = tModel.Position.Y + DefaultBoundingBoxMax.Y;
-                if (!silent)
-                    Log.Debug("Model top Y: {TopY}", modelTopY);
-                
-                float adjustment = otherEntityBottomY - modelTopY;
-                if (!silent)
-                    Log.Debug("Adjustment: {Adjustment}", adjustment);
+            otherEntity.UpdateBoundingBox();
+            bool isColliding = Intersects(otherEntity, silent);
+            if (!isColliding)
+                continue;
 
-                tModel.SetPosition(new Vector3D<float>(tModel.Position.X,
-                    tModel.Position.Y + adjustment,
-                    tModel.Position.Z));
+            if (!silent)
+            {
+                Log.Debug("Collision detected with entity, sides: {0}", string.Join(", ", ObjectCollisionSides));
+                Log.Debug("Player position: {0}", tModel.Position);
+                Log.Debug("Player bbox: Min={0}, Max={1}", BoundingBoxMin, BoundingBoxMax);
+                Log.Debug("Other bbox: Min={0}, Max={1}", otherEntity.BoundingBoxMin, otherEntity.BoundingBoxMax);
             }
 
-            // LEFT collision (entity's left side hitting right side of another entity)
-            if (isColliding && ObjectCollisionSides.Contains(CollisionSide.Left))
+            Vector3D<float> position = tModel.Position;
+            const float buffer = 0.001f;
+
+            // Resolve collisions based on penetration depth
+            if (ObjectCollisionSides.Contains(CollisionSide.Up))
             {
-                float otherEntityRightX = otherEntity.BoundingBoxMax.X;
-                if (!silent)
-                    Log.Debug("Other entity right X: {RightX}", otherEntityRightX);
-
-                float modelLeftX = tModel.Position.X + DefaultBoundingBoxMin.X;
-                if (!silent)
-                    Log.Debug("Model left X: {LeftX}", modelLeftX);
-                
-                float adjustment = otherEntityRightX - modelLeftX;
-                if (!silent)
-                    Log.Debug("Adjustment: {Adjustment}", adjustment);
-
-                tModel.SetPosition(new Vector3D<float>(tModel.Position.X + adjustment,
-                    tModel.Position.Y,
-                    tModel.Position.Z));
+                position.Y = otherEntity.BoundingBoxMin.Y - DefaultBoundingBoxMax.Y - buffer;
+                Velocity = Velocity with { Y = 0 }; // Zero out velocity in this direction
+                if (!silent) Log.Debug("Blocking upward movement");
             }
 
-            // RIGHT collision (entity's right side hitting left side of another entity)
-            if (isColliding && ObjectCollisionSides.Contains(CollisionSide.Right))
+            if (ObjectCollisionSides.Contains(CollisionSide.Down))
             {
-                float otherEntityLeftX = otherEntity.BoundingBoxMin.X;
-                if (!silent)
-                    Log.Debug("Other entity left X: {LeftX}", otherEntityLeftX);
-
-                float modelRightX = tModel.Position.X + DefaultBoundingBoxMax.X;
-                if (!silent)
-                    Log.Debug("Model right X: {RightX}", modelRightX);
-                
-                float adjustment = otherEntityLeftX - modelRightX;
-                if (!silent)
-                    Log.Debug("Adjustment: {Adjustment}", adjustment);
-
-                tModel.SetPosition(new Vector3D<float>(tModel.Position.X + adjustment,
-                    tModel.Position.Y,
-                    tModel.Position.Z));
+                position.Y = otherEntity.BoundingBoxMax.Y - DefaultBoundingBoxMin.Y + buffer;
+                Velocity = Velocity with { Y = 0 }; // Zero out velocity in this direction
+                if (!silent) Log.Debug("Blocking downward movement");
             }
 
-            // FRONT collision (entity's front hitting back of another entity)
-            if (isColliding && ObjectCollisionSides.Contains(CollisionSide.Front))
+            if (ObjectCollisionSides.Contains(CollisionSide.Right))
             {
-                float otherEntityBackZ = otherEntity.BoundingBoxMax.Z;
-                if (!silent)
-                    Log.Debug("Other entity back Z: {BackZ}", otherEntityBackZ);
-
-                float modelFrontZ = tModel.Position.Z + DefaultBoundingBoxMin.Z;
-                if (!silent)
-                    Log.Debug("Model front Z: {FrontZ}", modelFrontZ);
-                
-                float adjustment = otherEntityBackZ - modelFrontZ;
-                if (!silent)
-                    Log.Debug("Adjustment: {Adjustment}", adjustment);
-
-                tModel.SetPosition(new Vector3D<float>(tModel.Position.X,
-                    tModel.Position.Y,
-                    tModel.Position.Z + adjustment));
+                position.X = otherEntity.BoundingBoxMin.X - DefaultBoundingBoxMax.X - buffer;
+                Velocity = Velocity with { X = 0 }; // Zero out velocity in this direction
+                if (!silent) Log.Debug("Blocking rightward movement");
             }
 
-            // BACK collision (entity's back hitting front of another entity)
-            if (isColliding && ObjectCollisionSides.Contains(CollisionSide.Back))
+            if (ObjectCollisionSides.Contains(CollisionSide.Left))
             {
-                float otherEntityFrontZ = otherEntity.BoundingBoxMin.Z;
-                if (!silent)
-                    Log.Debug("Other entity front Z: {FrontZ}", otherEntityFrontZ);
-
-                float modelBackZ = tModel.Position.Z + DefaultBoundingBoxMax.Z;
-                if (!silent)
-                    Log.Debug("Model back Z: {BackZ}", modelBackZ);
-                
-                float adjustment = otherEntityFrontZ - modelBackZ;
-                if (!silent)
-                    Log.Debug("Adjustment: {Adjustment}", adjustment);
-
-                tModel.SetPosition(new Vector3D<float>(tModel.Position.X,
-                    tModel.Position.Y,
-                    tModel.Position.Z + adjustment));
+                position.X = otherEntity.BoundingBoxMax.X - DefaultBoundingBoxMin.X + buffer;
+                Velocity = Velocity with { X = 0 }; // Zero out velocity in this direction
+                if (!silent) Log.Debug("Blocking leftward movement");
             }
+
+            if (ObjectCollisionSides.Contains(CollisionSide.Back))
+            {
+                position.Z = otherEntity.BoundingBoxMin.Z - DefaultBoundingBoxMax.Z - buffer;
+                Velocity = Velocity with { Z = 0 }; // Zero out velocity in this direction
+                if (!silent) Log.Debug("Blocking backward movement");
+            }
+
+            if (ObjectCollisionSides.Contains(CollisionSide.Front))
+            {
+                position.Z = otherEntity.BoundingBoxMax.Z - DefaultBoundingBoxMin.Z + buffer;
+                Velocity = Velocity with { Z = 0 }; // Zero out velocity in this direction
+                if (!silent) Log.Debug("Blocking forward movement");
+            }
+
+            // Apply the corrected position
+            tModel.SetPosition(position);
+            UpdateBoundingBox();
+            collisionResolved = true;
+
+            if (!silent) Log.Debug("Position corrected to: {0}", position);
         }
+
+        return collisionResolved;
     }
     
     /// <summary>
@@ -303,34 +265,98 @@ public abstract class Entity<T> : Transformable<T>
     /// <returns>This entity instance for method chaining</returns>
     public Entity<T> AutoMapHitboxToModel(float padding = 0.1f)
     {
-        if (Target is Transformable<RLModel> tModel)
+        try
         {
-            var model = tModel.Target;
-            DefaultBoundingBoxMin = new Vector3D<float>(-1.0f, -1.0f, -1.0f);
-            DefaultBoundingBoxMax = new Vector3D<float>(1.0f, 1.0f, 1.0f);
-            
-            var scale = tModel.Scale;
-            DefaultBoundingBoxMin *= scale;
-            DefaultBoundingBoxMax *= scale;
-
-            DefaultBoundingBoxMin -= new Vector3D<float>(padding, padding, padding);
-            DefaultBoundingBoxMax += new Vector3D<float>(padding, padding, padding);
+            // Handle case where Target is already a Transformable<RLModel>
+            if (Target is Transformable<RLModel> tModel)
+            {
+                var model = tModel.Target;
+                CalculateModelBounds(model, tModel.Scale, padding);
+            }
+            // Handle case where T is directly RLModel
+            else if (Target is RLModel model)
+            {
+                // Get scale from the entity if possible
+                var scale = new Vector3D<float>(1.0f, 1.0f, 1.0f);
+                CalculateModelBounds(model, scale, padding);
+            }
+            // Handle Player specifically
+            else if (this is Player player)
+            {
+                DefaultBoundingBoxMin = new Vector3D<float>(-0.5f, 0.0f, -0.5f);
+                DefaultBoundingBoxMax = new Vector3D<float>(0.5f, 2.0f, 0.5f);
+                Log.Debug("Applied player-specific hitbox");
+            }
+            else
+            {
+                // Fallback to default bounds
+                DefaultBoundingBoxMin = new Vector3D<float>(-0.5f, -0.5f, -0.5f);
+                DefaultBoundingBoxMax = new Vector3D<float>(0.5f, 0.5f, 0.5f);
+                Log.Warning("Using default hitbox for unsupported type {Type}", Target?.GetType().Name);
+            }
 
             UpdateBoundingBox();
+            Log.Debug("Hitbox set: Min={Min}, Max={Max}", DefaultBoundingBoxMin, DefaultBoundingBoxMax);
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Error auto-mapping hitbox");
+            // Set safe default values
+            DefaultBoundingBoxMin = new Vector3D<float>(-1.0f, -1.0f, -1.0f);
+            DefaultBoundingBoxMax = new Vector3D<float>(1.0f, 1.0f, 1.0f);
+            UpdateBoundingBox();
+        }
+        return this;
+    }
+    
+    private void CalculateModelBounds(RLModel model, Vector3D<float> scale, float padding)
+    {
+        if (model != null && model.Meshes.Count > 0)
+        {
+            // Start with extreme initial values
+            Vector3D<float> min = new Vector3D<float>(float.MaxValue, float.MaxValue, float.MaxValue);
+            Vector3D<float> max = new Vector3D<float>(float.MinValue, float.MinValue, float.MinValue);
 
-            Log.Debug("Auto-mapped hitbox for model: Min={Min}, Max={Max}", DefaultBoundingBoxMin, DefaultBoundingBoxMax);
+            // Find actual bounds from all meshes in the model
+            foreach (var mesh in model.Meshes)
+            {
+                var (meshMin, meshMax) = mesh.GetBounds();
+            
+                // Update global min/max values
+                min.X = MathF.Min(min.X, meshMin.X);
+                min.Y = MathF.Min(min.Y, meshMin.Y);
+                min.Z = MathF.Min(min.Z, meshMin.Z);
+            
+                max.X = MathF.Max(max.X, meshMax.X);
+                max.Y = MathF.Max(max.Y, meshMax.Y);
+                max.Z = MathF.Max(max.Z, meshMax.Z);
+            }
+
+            // Apply padding and scaling
+            min = (min - new Vector3D<float>(padding)) * scale;
+            max = (max + new Vector3D<float>(padding)) * scale;
+        
+            DefaultBoundingBoxMin = min;
+            DefaultBoundingBoxMax = max;
         }
         else
         {
-            Log.Error("Cannot auto-map hitbox: unsupported Target type {Type}", Target?.GetType().Name);
+            DefaultBoundingBoxMin = new Vector3D<float>(-1.0f, -1.0f, -1.0f) * scale;
+            DefaultBoundingBoxMax = new Vector3D<float>(1.0f, 1.0f, 1.0f) * scale;
+            Log.Warning("Model has no meshes, using default bounds");
         }
-        return this;
+
+        if (model is Cube)
+        {
+            DefaultBoundingBoxMin = new Vector3D<float>(-0.5f, -0.5f, -0.5f) * scale;
+            DefaultBoundingBoxMax = new Vector3D<float>(0.5f, 0.5f, 0.5f) * scale;
+        }
     }
     
     /// <summary>
     /// Draws the bounding box edges in red using OpenGL lines with proper camera transformations.
     /// </summary>
-    public virtual void DrawBoundingBox(RLGraphics graphics, RLShaderBundle shaderBundle, Camera camera)
+    public void DrawBoundingBox(RLGraphics graphics, RLShaderBundle shaderBundle, Camera camera)
     {
         if (!isHitboxShown) return;
         
@@ -518,10 +544,7 @@ public abstract class Entity<T> : Transformable<T>
 /// </para>
 /// </summary>
 /// <typeparam name="T"><see cref="Transformable{T}"/></typeparam>
-public class ConcreteEntity<T> : Entity<T>
-{
-    public ConcreteEntity(T Target) : base(Target) { }
-}
+public class ConcreteEntity<T>(T target) : Entity<T>(target);
 
 /// <summary>
 /// Enum representing which side is being collided. Numerical values are taken inspiration from

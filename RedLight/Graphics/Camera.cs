@@ -1,4 +1,6 @@
 ﻿using System.Numerics;
+using RedLight.Graphics.Primitive;
+using RedLight.Physics;
 using Serilog;
 using Serilog.Core;
 using Silk.NET.Input;
@@ -128,6 +130,25 @@ public class Camera
         if (PressedKeys.Contains(Key.ShiftLeft))
             MoveDown();
         if (PressedKeys.Contains(Key.Space))
+            MoveUp();
+        UpdateCamera();
+
+        return this;
+    }
+    
+    public Camera KeyMap(HashSet<Key> PressedKeys, Player player)
+    {
+        if (PressedKeys.Contains(Key.W) && !player.ObjectCollisionSides.Contains(CollisionSide.Front))
+            MoveForward();
+        if (PressedKeys.Contains(Key.S) && !player.ObjectCollisionSides.Contains(CollisionSide.Back))
+            MoveBack();
+        if (PressedKeys.Contains(Key.A) && !player.ObjectCollisionSides.Contains(CollisionSide.Left))
+            MoveLeft();
+        if (PressedKeys.Contains(Key.D) && !player.ObjectCollisionSides.Contains(CollisionSide.Right))
+            MoveRight();
+        if (PressedKeys.Contains(Key.ShiftLeft) && !player.ObjectCollisionSides.Contains(CollisionSide.Down))
+            MoveDown();
+        if (PressedKeys.Contains(Key.Space) && !player.ObjectCollisionSides.Contains(CollisionSide.Up))
             MoveUp();
         UpdateCamera();
 

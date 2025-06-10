@@ -5,9 +5,9 @@ namespace RedLight.Graphics.Primitive;
 using Silk.NET.Maths;
 using System.Numerics;
 
-public abstract class SimpleShape : Entity<Transformable<RLModel>>
+public abstract class SimpleShape : Entity<RLModel>
 {
-    protected SimpleShape(Transformable<RLModel> transformable) : base(transformable)
+    protected SimpleShape(RLModel model) : base(model)
     {
         
     }
