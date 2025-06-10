@@ -12,12 +12,11 @@ namespace RedLight.Physics;
 /// any physics based logic, such as collisions and hitboxes. 
 /// </summary>
 /// <typeparam name="T"><see cref="Transformable{T}"/></typeparam>
-public abstract class Entity<T>
+public abstract class Entity<T> : Transformable<T>
 {
-    protected readonly T target;
     public bool isHitboxShown;
-    public T Target => target;
-
+    
+    // hitbox shaders
     private uint vbo = 0;
     private uint vao = 0;
     
@@ -38,29 +37,19 @@ public abstract class Entity<T>
     public void ToggleHitbox() => isHitboxShown = !isHitboxShown;
 
 
-    public Entity(T target)
+    public Entity(T transformable) : base(transformable)
     {
-        this.target = target;
-
         Vector3D<float> position = Vector3D<float>.Zero;
-        if (target is Transformable<RLModel> tModel)
-        {
+        if (transformable is Transformable<RLModel> tModel)
             position = tModel.Position;
-        }
-        else if (target is Transformable<Mesh> tMesh)
-        {
+        else if (transformable is Transformable<Mesh> tMesh)
             position = tMesh.Position;
-        }
-        else if (target is Transformable<object> tObj)
-        {
+        else if (transformable is Transformable<object> tObj)
             position = tObj.Position;
-        }
-    
-        // Set default bounding box offsets
+
         DefaultBoundingBoxMin = new Vector3D<float>(-0.5f, 0.0f, -0.5f);
         DefaultBoundingBoxMax = new Vector3D<float>(0.5f, 2.0f, 0.5f);
-    
-        // Initialize actual bounding box
+
         BoundingBoxMin = position + DefaultBoundingBoxMin;
         BoundingBoxMax = position + DefaultBoundingBoxMax;
     }
@@ -71,15 +60,9 @@ public abstract class Entity<T>
     /// <param name="deltaTime">Time elapsed since last update (in seconds).</param>
     public virtual void UpdatePhysics(float deltaTime)
     {
-        // Basic Euler integration
         Velocity += Acceleration * deltaTime;
-
-        // If T is Transformable, update its position
-        if (target is Transformable<RLModel> transformable)
-        {
-            transformable.SetPosition(Velocity * deltaTime);
-        }
-        // Reset acceleration after each update (if using force-based system)
+        if (Target is Transformable<RLModel> tModel)
+            tModel.SetPosition(Velocity * deltaTime);
         Acceleration = Vector3D<float>.Zero;
     }
     
@@ -89,30 +72,31 @@ public abstract class Entity<T>
     public virtual void UpdateBoundingBox()
     {
         Vector3D<float> currentPosition = Vector3D<float>.Zero;
-        if (target is Transformable<RLModel> tModel)
-        {
+        if (Target is Transformable<RLModel> tModel)
             currentPosition = tModel.Position;
-        }
-        else if (target is Transformable<Mesh> tMesh)
-        {
+        else if (Target is Transformable<Mesh> tMesh)
             currentPosition = tMesh.Position;
-        }
-        else if (target is Transformable<object> tObj)
-        {
+        else if (Target is Transformable<object> tObj)
             currentPosition = tObj.Position;
-        }
 
-        // Update the bounding box coordinates
         BoundingBoxMin = currentPosition + DefaultBoundingBoxMin;
         BoundingBoxMax = currentPosition + DefaultBoundingBoxMax;
     }
 
     /// <summary>
-    /// Applies a force to the entity (F = m * a).
+    /// Applies a force to the entity using Newtons Second Law (F = m * a).
     /// </summary>
-    public virtual void ApplyForce(Vector3D<float> force)
+    public void ApplyForce(Vector3D<float> force)
     {
         Acceleration += force / Mass;
+    }
+
+    public void UpdateIfIntersected(Entity<T> otherEntity)
+    {
+        if (Intersects(otherEntity))
+        {
+            
+        }
     }
 
     /// <summary>
@@ -135,16 +119,8 @@ public abstract class Entity<T>
     /// <param name="hitboxMax"><see cref="Vector3D"/></param>
     public void SetHitboxDefault(Vector3D<float> hitboxMin, Vector3D<float> hitboxMax)
     {
-        if (target is Transformable<RLModel> tModel)
-        {
-            DefaultBoundingBoxMin = hitboxMin;
-            DefaultBoundingBoxMax = hitboxMax;
-        }
-        else
-        {
-            Log.Error("Unable to set hitbox default due to not recognising type of entity, target is {Target}",
-                Target.GetType().ToString());
-        }
+        DefaultBoundingBoxMin = hitboxMin;
+        DefaultBoundingBoxMax = hitboxMax;
     }
     
     /// <summary>
@@ -154,46 +130,27 @@ public abstract class Entity<T>
     /// <returns>This entity instance for method chaining</returns>
     public virtual Entity<T> AutoMapHitboxToModel(float padding = 0.1f)
     {
-        if (target is Transformable<RLModel> tModel)
+        if (Target is Transformable<RLModel> tModel)
         {
             var model = tModel.Target;
-            
-            // Initialize with extreme values
-            Vector3D<float> min = new Vector3D<float>(float.MaxValue, float.MaxValue, float.MaxValue);
-            Vector3D<float> max = new Vector3D<float>(float.MinValue, float.MinValue, float.MinValue);
-
-            // Use the fact that we at least have the meshes to calculate rough bounds
-            Log.Debug("Scanning {MeshCount} meshes for model bounds", model.Meshes.Count);
-            
-            // For now, just set reasonable default bounds if we can't access vertices directly
-            // You can modify this based on the model's scale
             DefaultBoundingBoxMin = new Vector3D<float>(-1.0f, -1.0f, -1.0f);
             DefaultBoundingBoxMax = new Vector3D<float>(1.0f, 1.0f, 1.0f);
-            
-            // Consider model scale (important for scaled models)
+
             var scale = tModel.Scale;
             DefaultBoundingBoxMin *= scale;
             DefaultBoundingBoxMax *= scale;
-            
-            // Apply padding
+
             DefaultBoundingBoxMin -= new Vector3D<float>(padding, padding, padding);
             DefaultBoundingBoxMax += new Vector3D<float>(padding, padding, padding);
-            
-            // Update the actual bounding box
+
             UpdateBoundingBox();
-            
+
             Log.Debug("Auto-mapped hitbox for model: Min={Min}, Max={Max}", DefaultBoundingBoxMin, DefaultBoundingBoxMax);
-            return this;
-        }
-        else if (target is Transformable<Mesh> tMesh)
-        {
-            Log.Warning("Auto-mapping for Mesh type not yet implemented");
         }
         else
         {
-            Log.Error("Cannot auto-map hitbox: unsupported target type {Type}", target?.GetType().Name);
+            Log.Error("Cannot auto-map hitbox: unsupported Target type {Type}", Target?.GetType().Name);
         }
-
         return this;
     }
     
@@ -208,11 +165,11 @@ public abstract class Entity<T>
 
         // Get current entity position and update bounding box
         Vector3D<float> currentPosition = Vector3D<float>.Zero;
-        if (target is Transformable<RLModel> tModel)
+        if (Target is Transformable<RLModel> tModel)
         {
             currentPosition = tModel.Position;
         }
-        else if (target is Transformable<object> tObj)
+        else if (Target is Transformable<object> tObj)
         {
             currentPosition = tObj.Position;
         }
@@ -221,7 +178,7 @@ public abstract class Entity<T>
         if (float.IsNaN(currentPosition.X) || float.IsNaN(currentPosition.Y) || float.IsNaN(currentPosition.Z))
         {
             // Identify which entity is causing this, you might want to add a Name property to Entity or check its type
-            Log.Error($"Entity.DrawBoundingBox: currentPosition contains NaN. Position: {currentPosition}. Target type: {target?.GetType().FullName}");
+            Log.Error($"Entity.DrawBoundingBox: currentPosition contains NaN. Position: {currentPosition}. Target type: {Target?.GetType().FullName}");
         }
 
         // Calculate bounding box based on current position
@@ -390,5 +347,5 @@ public abstract class Entity<T>
 /// <typeparam name="T"><see cref="Transformable{T}"/></typeparam>
 public class ConcreteEntity<T> : Entity<T>
 {
-    public ConcreteEntity(T target) : base(target) { }
+    public ConcreteEntity(T Target) : base(Target) { }
 }

@@ -140,7 +140,7 @@ public class Mesh
     public Transformable<Mesh> MakeTransformable()
     {
         Log.Verbose("Made mesh transformable");
-        return new Transformable<Mesh>(this);
+        return new ConcreteTransformable<Mesh>(this);
     }
 
     public void Draw()

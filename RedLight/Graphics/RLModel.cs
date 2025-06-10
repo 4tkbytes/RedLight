@@ -85,7 +85,7 @@ public class RLModel
     /// <returns>A transformable wrapper around this model.</returns>
     public Transformable<RLModel> MakeTransformable()
     {
-        return new Transformable<RLModel>(this);
+        return new ConcreteTransformable<RLModel>(this);
     }
 
     private unsafe void LoadModel(string path)

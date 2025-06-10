@@ -2,20 +2,15 @@
 using RedLight.Graphics;
 using RedLight.Graphics.Primitive;
 using RedLight.Input;
-using RedLight.Physics;
 using RedLight.Scene;
 using RedLight.UI;
 using RedLight.Utils;
 using Serilog;
-using Silk.NET.Assimp;
 using Silk.NET.Input;
 using Silk.NET.Maths;
-using Silk.NET.OpenGL.Extensions.ImGui;
 using System.Numerics;
-using static System.Net.Mime.MediaTypeNames;
 using Camera = RedLight.Graphics.Camera;
 using Plane = RedLight.Graphics.Primitive.Plane;
-using ShaderType = RedLight.Graphics.ShaderType;
 
 namespace ExampleGame;
 
@@ -59,21 +54,18 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 
         playerCamera = new Camera(size);
         debugCamera = new Camera(size);
+        
+        
         player = Graphics.MakePlayer(playerCamera, maxwell);
         player.SetPOV(PlayerCameraPOV.ThirdPerson);
-
+        
         Graphics.AddModels(ObjectModels, controller, plane.EntityModel.Target);
-        Graphics.AddModels(ObjectModels, controller, player.Model);
+        Graphics.AddModels(ObjectModels, controller, player.Target);
     }
 
     public void OnUpdate(double deltaTime)
     {
         camera = camera.SetSpeed(cameraSpeed * (float)deltaTime);
-
-        if (!useDebugCamera)
-        {
-            player.Update(PressedKeys, (float)deltaTime);
-        }
 
         if (InputManager.isCaptured)
             camera.KeyMap(PressedKeys);
@@ -96,19 +88,18 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         }
         
         player.UpdateBoundingBox();
-        plane.EntityModel.UpdateBoundingBox();
-
-        if (player.Intersects(plane.EntityModel))
-        {
-            if (!Graphics.ShutUp)
-                Log.Debug("Player is intersecting with plane!");
-        }
-
+        plane.UpdateBoundingBox();
+        
         if (useDebugCamera)
         {
             debugCamera = debugCamera.SetSpeed(cameraSpeed * (float)deltaTime);
             if (InputManager.isCaptured)
                 debugCamera.KeyMap(PressedKeys);
+        }
+        
+        if (!useDebugCamera)
+        {
+            player.Update(PressedKeys, (float)deltaTime);
         }
     }
 
@@ -125,9 +116,8 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
                 Graphics.Use(model);
                 Graphics.Update(activeCamera, model);
                 Graphics.Draw(model);
-            }            Graphics.Use(player.Model);
-            Graphics.Update(activeCamera, player.Model);
-            Graphics.Draw(player.Model);
+            }            
+            
             if (player.isHitboxShown)
             {
                 player.DrawBoundingBox(Graphics, ShaderManager.Get("hitbox"), activeCamera);

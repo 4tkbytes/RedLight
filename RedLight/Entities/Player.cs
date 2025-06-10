@@ -10,8 +10,7 @@ namespace RedLight.Graphics.Primitive;
 public class Player: Entity<Transformable<RLModel>>
 {
     public Camera Camera { get; set; }
-    public Transformable<RLModel> Model { get; set; }
-
+    
     /// <summary>
     /// Camera toggle changes between first and third person POV's. 
     /// 1 = First Person
@@ -32,7 +31,7 @@ public class Player: Entity<Transformable<RLModel>>
     public Player(Camera camera, Transformable<RLModel> model, bool autoMapHitbox = true): base(model)
     {
         Camera = camera;
-        Model = model;
+        Target = model;
         Position = model.Position;
         Rotation = model.Rotation;
         Scale = model.Scale;
@@ -153,7 +152,7 @@ public class Player: Entity<Transformable<RLModel>>
             * Matrix4X4.CreateRotationZ(Rotation.Z);
         var translationMatrix = Matrix4X4.CreateTranslation(Position.X, Position.Y, Position.Z);
         var modelMatrix = scaleMatrix * rotationMatrix * translationMatrix;
-        Model.SetModel(modelMatrix);
+        Target.SetModel(modelMatrix);
         Log.Verbose("[Player] Model transform updated. Position: {Position}, Rotation: {Rotation}, Scale: {Scale}", Position, Rotation, Scale);
     }
 

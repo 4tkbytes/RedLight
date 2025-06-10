@@ -11,19 +11,24 @@ namespace RedLight.Graphics;
 /// translate the model, rotate the model or change its scale. 
 /// </summary>
 /// <typeparam name="T"><seealso cref="RLModel"/><seealso cref="Mesh"/></typeparam>
-public class Transformable<T>
+public abstract class Transformable<T>
 {
-    private readonly T target;
-    private bool defaultSet = false;
+    private T target;
+    private bool defaultSet;
     private Matrix4X4<float> modelDefault = Matrix4X4<float>.Identity;
     
     public Vector3 eulerAngles = new Vector3(0, 0, 0);
     public Matrix4X4<float> Model { get; private set; } = Matrix4X4<float>.Identity;
 
     /// <summary>
-    /// The target, specifically what you put in when you initialised a Transformable. 
+    /// The target, specifically what you put in when you initialised a Transformable, or it
+    /// could be an RLModel/Mesh depending on how the program feels. 
     /// </summary>
-    public T Target => target;
+    public T Target
+    {
+        get { return target; }
+        set { target = value; }
+    }
 
     public Transformable(T target)
     {
@@ -155,7 +160,7 @@ public class Transformable<T>
     }
 
     /// <summary>
-    /// This function converts a <see cref="Transformable{T}"/> (typically this) into an entity to unlock
+    /// This function converts a <see cref="Transformable{T}"/> into an <see cref="Entity{T}"/> to unlock
     /// physics and collisions. 
     /// </summary>
     /// <returns></returns>
@@ -166,6 +171,7 @@ public class Transformable<T>
 
     public Vector3D<float> Position
     {
+        // ez
         get => new Vector3D<float>(Model.M41, Model.M42, Model.M43);
     }
 
@@ -216,4 +222,13 @@ public class Transformable<T>
             return new Vector3D<float>(x, y, z);
         }
     }
+}
+
+/// <summary>
+/// Creates a class that is a Transformable if it was a class. 
+/// </summary>
+/// <typeparam name="T"></typeparam>
+public class ConcreteTransformable<T> : Transformable<T>
+{
+    public ConcreteTransformable(T target) : base(target) { }
 }

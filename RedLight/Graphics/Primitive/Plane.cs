@@ -3,13 +3,14 @@ using RedLight.Physics;
 using RedLight.Utils;
 using Silk.NET.Maths;
 using System.Collections.Generic;
+using System.Numerics;
 
 namespace RedLight.Graphics.Primitive
 {
     /// <summary>
     /// A flat plane. Thats it. 
     /// </summary>
-    public class Plane
+    public class Plane : SimpleShape
     {
         private RLGraphics graphics;
         private TextureManager textureManager;
@@ -27,7 +28,17 @@ namespace RedLight.Graphics.Primitive
         /// <param name="tilesX">Number of texture tiles in X direction.</param>
         /// <param name="tilesZ">Number of texture tiles in Z direction.</param>
         public Plane(RLGraphics graphics, TextureManager textureManager, ShaderManager shaderManager,
-            float width = 10f, float height = 10f, int tilesX = 10, int tilesZ = 10)
+            float width = 10f, float height = 10f, int tilesX = 10, int tilesZ = 10) : base(
+            // Pass the transformable and color to SimpleShape
+            new RLModel(
+                graphics,
+                RLFiles.GetResourcePath("RedLight.Resources.Models.Basic.plane.model"),
+                textureManager,
+                "plane"
+            )
+            .AttachShader(shaderManager.Get("basic"))
+            .MakeTransformable()
+            )
         {
             this.graphics = graphics;
             this.textureManager = textureManager;
