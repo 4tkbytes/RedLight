@@ -35,7 +35,9 @@ public abstract class Entity<T> : Transformable<T>
     public void ShowHitbox() => isHitboxShown = true;
     public void HideHitbox() => isHitboxShown = false;
     public void ToggleHitbox() => isHitboxShown = !isHitboxShown;
-
+    
+    // collisions
+    public HashSet<CollisionSide> ObjectCollisionSides { get; set; } = new();
 
     public Entity(T transformable) : base(transformable)
     {
@@ -58,8 +60,10 @@ public abstract class Entity<T> : Transformable<T>
     /// Updates the physics state of the entity.
     /// </summary>
     /// <param name="deltaTime">Time elapsed since last update (in seconds).</param>
-    public virtual void UpdatePhysics(float deltaTime)
+    public void UpdatePhysics(float deltaTime)
     {
+        ObjectCollisionSides.Clear();
+        UpdateBoundingBox();
         Velocity += Acceleration * deltaTime;
         if (Target is Transformable<RLModel> tModel)
             tModel.SetPosition(Velocity * deltaTime);
@@ -69,7 +73,7 @@ public abstract class Entity<T> : Transformable<T>
     /// <summary>
     /// Updates the bounding box of the hitbox of the entity. 
     /// </summary>
-    public virtual void UpdateBoundingBox()
+    public void UpdateBoundingBox()
     {
         Vector3D<float> currentPosition = Vector3D<float>.Zero;
         if (Target is Transformable<RLModel> tModel)
@@ -84,32 +88,65 @@ public abstract class Entity<T> : Transformable<T>
     }
 
     /// <summary>
-    /// Applies a force to the entity using Newtons Second Law (F = m * a).
-    /// </summary>
-    public void ApplyForce(Vector3D<float> force)
-    {
-        Acceleration += force / Mass;
-    }
-
-    public void UpdateIfIntersected(Entity<T> otherEntity)
-    {
-        if (Intersects(otherEntity))
-        {
-            
-        }
-    }
-
-    /// <summary>
     /// Checks for collision with another entity using the AABB collision method.
     /// 
     /// <see href="https://developer.mozilla.org/en-US/docs/Games/Techniques/3D_collision_detection">
     /// Mozilla 3D Game Dev Documentation about how AABB works</see>
     /// </summary>
-    public virtual bool Intersects(Entity<T> otherEntity)
+    public bool Intersects(Entity<T> otherEntity, bool silent = true)
     {
-        return (BoundingBoxMin.X <= otherEntity.BoundingBoxMax.X && BoundingBoxMax.X >= otherEntity.BoundingBoxMin.X) &&
-               (BoundingBoxMin.Y <= otherEntity.BoundingBoxMax.Y && BoundingBoxMax.Y >= otherEntity.BoundingBoxMin.Y) &&
-               (BoundingBoxMin.Z <= otherEntity.BoundingBoxMax.Z && BoundingBoxMax.Z >= otherEntity.BoundingBoxMin.Z);
+        ObjectCollisionSides.Clear();
+
+        bool xOverlap = BoundingBoxMin.X <= otherEntity.BoundingBoxMax.X && BoundingBoxMax.X >= otherEntity.BoundingBoxMin.X;
+        bool yOverlap = BoundingBoxMin.Y <= otherEntity.BoundingBoxMax.Y && BoundingBoxMax.Y >= otherEntity.BoundingBoxMin.Y;
+        bool zOverlap = BoundingBoxMin.Z <= otherEntity.BoundingBoxMax.Z && BoundingBoxMax.Z >= otherEntity.BoundingBoxMin.Z;
+
+        if (xOverlap && yOverlap && zOverlap)
+        {
+            // Check which sides are colliding
+            if (BoundingBoxMax.X >= otherEntity.BoundingBoxMin.X && BoundingBoxMin.X < otherEntity.BoundingBoxMin.X)
+            {
+                if (!silent)
+                    Log.Debug("Colliding on the right");
+                ObjectCollisionSides.Add(CollisionSide.Right);
+            }
+            if (BoundingBoxMin.X <= otherEntity.BoundingBoxMax.X && BoundingBoxMax.X > otherEntity.BoundingBoxMax.X)
+            {
+                if (!silent)
+                    Log.Debug("Colliding on the left");
+                ObjectCollisionSides.Add(CollisionSide.Left);
+            }
+
+            if (BoundingBoxMax.Y >= otherEntity.BoundingBoxMin.Y && BoundingBoxMin.Y < otherEntity.BoundingBoxMin.Y)
+            {
+                if (!silent)
+                    Log.Debug("Colliding on the up");
+                ObjectCollisionSides.Add(CollisionSide.Up);
+            }
+            if (BoundingBoxMin.Y <= otherEntity.BoundingBoxMax.Y && BoundingBoxMax.Y > otherEntity.BoundingBoxMax.Y)
+            {
+                if (!silent)
+                    Log.Debug("Colliding on the down");
+                ObjectCollisionSides.Add(CollisionSide.Down);
+            }
+
+            if (BoundingBoxMax.Z >= otherEntity.BoundingBoxMin.Z && BoundingBoxMin.Z < otherEntity.BoundingBoxMin.Z)
+            {
+                if (!silent)
+                    Log.Debug("Colliding on the front");
+                ObjectCollisionSides.Add(CollisionSide.Front);
+            }
+            if (BoundingBoxMin.Z <= otherEntity.BoundingBoxMax.Z && BoundingBoxMax.Z > otherEntity.BoundingBoxMax.Z)
+            {
+                if (!silent)
+                    Log.Debug("Colliding on the back");
+                ObjectCollisionSides.Add(CollisionSide.Back);
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
     /// <summary>
@@ -122,20 +159,57 @@ public abstract class Entity<T> : Transformable<T>
         DefaultBoundingBoxMin = hitboxMin;
         DefaultBoundingBoxMax = hitboxMax;
     }
+
+    public void DontMoveIfColliding(Entity<T> otherEntity, bool silent = true)
+    {
+        silent = false;
+        bool isColliding = Intersects(otherEntity);
+        if (!silent)
+            Log.Debug("IsColliding = {IsColliding}", isColliding);
+
+        if (!silent)
+            Log.Debug("otherEntity is {OtherEntity}", otherEntity);
+        if (otherEntity.Target is Transformable<RLModel> tModel)
+        {
+            foreach (CollisionSide side in ObjectCollisionSides)
+                if (!silent)
+                    Log.Debug("Colliding on {A}", side);
+            
+            if (isColliding && ObjectCollisionSides.Contains(CollisionSide.Down))
+            {
+                // For a bottom collision, ensure the model stays above the other entity's top face
+                float otherEntityTopY = otherEntity.BoundingBoxMax.Y;
+                if (!silent)
+                    Log.Debug("Other entity top Y: {TopY}", otherEntityTopY);
+    
+                // Place the model so its bottom face rests on the other entity's top face
+                float modelBottomY = tModel.Position.Y + DefaultBoundingBoxMin.Y;
+                if (!silent)
+                    Log.Debug("Model bottom Y: {BottomY}", modelBottomY);
+                float adjustment = otherEntityTopY - modelBottomY;
+                if (!silent)
+                    Log.Debug("Adjustment: {Adjustment}", adjustment);
+    
+                tModel.SetPosition(new Vector3D<float>(tModel.Position.X, 
+                    tModel.Position.Y + adjustment, 
+                    tModel.Position.Z));
+            }
+        }
+    }
     
     /// <summary>
     /// Automatically calculates and sets the hitbox dimensions based on the model's actual vertices.
     /// </summary>
     /// <param name="padding">Optional padding to add around the calculated bounds (default: 0.1f)</param>
     /// <returns>This entity instance for method chaining</returns>
-    public virtual Entity<T> AutoMapHitboxToModel(float padding = 0.1f)
+    public Entity<T> AutoMapHitboxToModel(float padding = 0.1f)
     {
         if (Target is Transformable<RLModel> tModel)
         {
             var model = tModel.Target;
             DefaultBoundingBoxMin = new Vector3D<float>(-1.0f, -1.0f, -1.0f);
             DefaultBoundingBoxMax = new Vector3D<float>(1.0f, 1.0f, 1.0f);
-
+            
             var scale = tModel.Scale;
             DefaultBoundingBoxMin *= scale;
             DefaultBoundingBoxMax *= scale;
@@ -348,4 +422,18 @@ public abstract class Entity<T> : Transformable<T>
 public class ConcreteEntity<T> : Entity<T>
 {
     public ConcreteEntity(T Target) : base(Target) { }
+}
+
+/// <summary>
+/// Enum representing which side is being collided. Numerical values are taken inspiration from
+/// dice. If you forgot, look for a 3D model of a die. 
+/// </summary>
+public enum CollisionSide
+{
+    Left = 3,
+    Right = 4,
+    Up = 2,
+    Down = 5,
+    Front = 1,
+    Back = 6
 }

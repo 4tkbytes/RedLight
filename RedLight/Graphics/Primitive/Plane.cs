@@ -15,7 +15,6 @@ namespace RedLight.Graphics.Primitive
         private RLGraphics graphics;
         private TextureManager textureManager;
         private ShaderManager shaderManager;
-        public ConcreteEntity<Transformable<RLModel>> EntityModel { get; private set; }
 
         /// <summary>
         /// Creates a flat plane that you can use to present models or any other purposes.
@@ -86,15 +85,12 @@ namespace RedLight.Graphics.Primitive
             var shader = shaderManager.Get("basic");
             planeMesh.AttachShader(shader.vertexShader, shader.fragmentShader);
 
-            RLModel model = new RLModel(graphics, RLFiles.GetResourcePath("RedLight.Resources.Models.Basic.plane.model"), textureManager, "plane");
-            model.Meshes.Clear();
-            model.Meshes.Add(planeMesh);
-            model.AttachShader(shaderManager.Get("basic"));
-            model.AttachTexture(textureManager.Get("no-texture"));
-
-            EntityModel = model.MakeTransformable().MakeEntity();
+            Target.Target.Meshes.Clear();
+            Target.Target.Meshes.Add(planeMesh);
+            Target.Target.AttachShader(shaderManager.Get("basic"));
+            Target.Target.AttachTexture(textureManager.Get("no-texture"));
             
-            EntityModel.SetHitboxDefault(
+            SetHitboxDefault(
                 new Vector3D<float>(-10f, -0.1f, -10f), 
                 new Vector3D<float>(10f, 0.1f, 10f)
             );
@@ -106,16 +102,16 @@ namespace RedLight.Graphics.Primitive
         /// <returns><see cref="Plane"/></returns>
         public Plane Default()
         {
-            EntityModel.Target.SetPosition(new Vector3D<float>(0, -0.5f, 0));
+            Target.SetPosition(new Vector3D<float>(0, -1, 0));
             return this;
         }
 
         /// <summary>
         /// Updates the bounding box's position (for <see cref="Plane"/> class)
         /// </summary>
-        public void UpdateBoundingBox()
+        public void Update(float deltaTime)
         {
-            EntityModel.UpdateBoundingBox();
+            UpdatePhysics(deltaTime);
         }
     }
 }

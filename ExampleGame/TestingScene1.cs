@@ -55,11 +55,10 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         playerCamera = new Camera(size);
         debugCamera = new Camera(size);
         
-        
         player = Graphics.MakePlayer(playerCamera, maxwell);
         player.SetPOV(PlayerCameraPOV.ThirdPerson);
         
-        Graphics.AddModels(ObjectModels, controller, plane.EntityModel.Target);
+        Graphics.AddModels(ObjectModels, controller, plane.Target);
         Graphics.AddModels(ObjectModels, controller, player.Target);
     }
 
@@ -70,25 +69,23 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         if (InputManager.isCaptured)
             camera.KeyMap(PressedKeys);
 
+        if (PressedKeys.Contains(Key.F2))
+        {
+            player.ToggleHitbox();
+            plane.ToggleHitbox();
+        }
         if (PressedKeys.Contains(Key.F5))
         {
-            player.ToggleCamera();
-            Log.Debug("Camera POV has been toggled to {A}", player.CameraToggle);
+            // first person doesnt work for shit we gotta work on that
+            
+            // player.ToggleCamera();
+            // Log.Debug("Camera POV has been toggled to {A}", player.CameraToggle);
         }
-
         if (PressedKeys.Contains(Key.F6))
         {
             useDebugCamera = !useDebugCamera;
             Log.Debug("Debug Camera is set to {A}", useDebugCamera);
-        }        
-        if (PressedKeys.Contains(Key.F2))
-        {
-            player.ToggleHitbox();
-            plane.EntityModel.ToggleHitbox();
         }
-        
-        player.UpdateBoundingBox();
-        plane.UpdateBoundingBox();
         
         if (useDebugCamera)
         {
@@ -100,8 +97,13 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         if (!useDebugCamera)
         {
             player.Update(PressedKeys, (float)deltaTime);
+            plane.Update((float)deltaTime);
+            
+            player.DontMoveIfColliding(plane);
         }
     }
+    
+    
 
     public void OnRender(double deltaTime)
     {
@@ -122,9 +124,9 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
             {
                 player.DrawBoundingBox(Graphics, ShaderManager.Get("hitbox"), activeCamera);
             }
-            if (plane.EntityModel.isHitboxShown)
+            if (plane.isHitboxShown)
             {
-                plane.EntityModel.DrawBoundingBox(Graphics, ShaderManager.Get("hitbox"), activeCamera);
+                plane.DrawBoundingBox(Graphics, ShaderManager.Get("hitbox"), activeCamera);
             }
         }
         Graphics.End();

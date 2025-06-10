@@ -54,6 +54,8 @@ public class Player: Entity<Transformable<RLModel>>
             Log.Verbose("[Player] Position changed: {Prev} -> {Current}", prevPos, Position);
 
         UpdateCameraPosition();
+        UpdatePhysics(deltaTime);
+
         SyncModelTransform();
     }
 
