@@ -204,11 +204,11 @@ public class RLImGui
                 }
                 if (maxwellSpin && maxwellModel != null)
                 {
-                    maxwellModel.SetRotation((float)(deltaTime * MathF.PI), Silk.NET.Maths.Vector3D<float>.UnitZ);
+                    maxwellModel.Rotate((float)(deltaTime * MathF.PI), Silk.NET.Maths.Vector3D<float>.UnitZ);
 
                     double time = DateTimeOffset.Now.ToUnixTimeMilliseconds() / 1000.0;
                     float offset = (float)Math.Sin(time * 6.5) * 0.5f; // 2.0 = frequency, 1.0 = amplitude
-                    maxwellModel.SetPosition(new Silk.NET.Maths.Vector3D<float>(0, 0, offset));
+                    maxwellModel.Translate(new Silk.NET.Maths.Vector3D<float>(0, 0, offset));
                 }
             }
             ImGui.Separator();

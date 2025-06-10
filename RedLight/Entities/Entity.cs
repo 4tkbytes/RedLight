@@ -66,7 +66,7 @@ public abstract class Entity<T> : Transformable<T>
         UpdateBoundingBox();
         Velocity += Acceleration * deltaTime;
         if (Target is Transformable<RLModel> tModel)
-            tModel.SetPosition(Velocity * deltaTime);
+            tModel.Translate(Velocity * deltaTime);
         Acceleration = Vector3D<float>.Zero;
     }
     
@@ -175,14 +175,13 @@ public abstract class Entity<T> : Transformable<T>
                 if (!silent)
                     Log.Debug("Colliding on {A}", side);
             
+            // down
             if (isColliding && ObjectCollisionSides.Contains(CollisionSide.Down))
             {
-                // For a bottom collision, ensure the model stays above the other entity's top face
                 float otherEntityTopY = otherEntity.BoundingBoxMax.Y;
                 if (!silent)
                     Log.Debug("Other entity top Y: {TopY}", otherEntityTopY);
     
-                // Place the model so its bottom face rests on the other entity's top face
                 float modelBottomY = tModel.Position.Y + DefaultBoundingBoxMin.Y;
                 if (!silent)
                     Log.Debug("Model bottom Y: {BottomY}", modelBottomY);
@@ -193,6 +192,106 @@ public abstract class Entity<T> : Transformable<T>
                 tModel.SetPosition(new Vector3D<float>(tModel.Position.X, 
                     tModel.Position.Y + adjustment, 
                     tModel.Position.Z));
+            }
+            
+            // up
+            if (isColliding && ObjectCollisionSides.Contains(CollisionSide.Up))
+            {
+                float otherEntityBottomY = otherEntity.BoundingBoxMin.Y;
+                if (!silent)
+                    Log.Debug("Other entity bottom Y: {BottomY}", otherEntityBottomY);
+
+                float modelTopY = tModel.Position.Y + DefaultBoundingBoxMax.Y;
+                if (!silent)
+                    Log.Debug("Model top Y: {TopY}", modelTopY);
+                
+                float adjustment = otherEntityBottomY - modelTopY;
+                if (!silent)
+                    Log.Debug("Adjustment: {Adjustment}", adjustment);
+
+                tModel.SetPosition(new Vector3D<float>(tModel.Position.X,
+                    tModel.Position.Y + adjustment,
+                    tModel.Position.Z));
+            }
+
+            // LEFT collision (entity's left side hitting right side of another entity)
+            if (isColliding && ObjectCollisionSides.Contains(CollisionSide.Left))
+            {
+                float otherEntityRightX = otherEntity.BoundingBoxMax.X;
+                if (!silent)
+                    Log.Debug("Other entity right X: {RightX}", otherEntityRightX);
+
+                float modelLeftX = tModel.Position.X + DefaultBoundingBoxMin.X;
+                if (!silent)
+                    Log.Debug("Model left X: {LeftX}", modelLeftX);
+                
+                float adjustment = otherEntityRightX - modelLeftX;
+                if (!silent)
+                    Log.Debug("Adjustment: {Adjustment}", adjustment);
+
+                tModel.SetPosition(new Vector3D<float>(tModel.Position.X + adjustment,
+                    tModel.Position.Y,
+                    tModel.Position.Z));
+            }
+
+            // RIGHT collision (entity's right side hitting left side of another entity)
+            if (isColliding && ObjectCollisionSides.Contains(CollisionSide.Right))
+            {
+                float otherEntityLeftX = otherEntity.BoundingBoxMin.X;
+                if (!silent)
+                    Log.Debug("Other entity left X: {LeftX}", otherEntityLeftX);
+
+                float modelRightX = tModel.Position.X + DefaultBoundingBoxMax.X;
+                if (!silent)
+                    Log.Debug("Model right X: {RightX}", modelRightX);
+                
+                float adjustment = otherEntityLeftX - modelRightX;
+                if (!silent)
+                    Log.Debug("Adjustment: {Adjustment}", adjustment);
+
+                tModel.SetPosition(new Vector3D<float>(tModel.Position.X + adjustment,
+                    tModel.Position.Y,
+                    tModel.Position.Z));
+            }
+
+            // FRONT collision (entity's front hitting back of another entity)
+            if (isColliding && ObjectCollisionSides.Contains(CollisionSide.Front))
+            {
+                float otherEntityBackZ = otherEntity.BoundingBoxMax.Z;
+                if (!silent)
+                    Log.Debug("Other entity back Z: {BackZ}", otherEntityBackZ);
+
+                float modelFrontZ = tModel.Position.Z + DefaultBoundingBoxMin.Z;
+                if (!silent)
+                    Log.Debug("Model front Z: {FrontZ}", modelFrontZ);
+                
+                float adjustment = otherEntityBackZ - modelFrontZ;
+                if (!silent)
+                    Log.Debug("Adjustment: {Adjustment}", adjustment);
+
+                tModel.SetPosition(new Vector3D<float>(tModel.Position.X,
+                    tModel.Position.Y,
+                    tModel.Position.Z + adjustment));
+            }
+
+            // BACK collision (entity's back hitting front of another entity)
+            if (isColliding && ObjectCollisionSides.Contains(CollisionSide.Back))
+            {
+                float otherEntityFrontZ = otherEntity.BoundingBoxMin.Z;
+                if (!silent)
+                    Log.Debug("Other entity front Z: {FrontZ}", otherEntityFrontZ);
+
+                float modelBackZ = tModel.Position.Z + DefaultBoundingBoxMax.Z;
+                if (!silent)
+                    Log.Debug("Model back Z: {BackZ}", modelBackZ);
+                
+                float adjustment = otherEntityFrontZ - modelBackZ;
+                if (!silent)
+                    Log.Debug("Adjustment: {Adjustment}", adjustment);
+
+                tModel.SetPosition(new Vector3D<float>(tModel.Position.X,
+                    tModel.Position.Y,
+                    tModel.Position.Z + adjustment));
             }
         }
     }

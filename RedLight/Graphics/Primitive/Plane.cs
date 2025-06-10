@@ -102,7 +102,7 @@ namespace RedLight.Graphics.Primitive
         /// <returns><see cref="Plane"/></returns>
         public Plane Default()
         {
-            Target.SetPosition(new Vector3D<float>(0, -1, 0));
+            Target.Translate(new Vector3D<float>(0, -1, 0));
             return this;
         }
 

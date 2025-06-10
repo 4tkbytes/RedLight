@@ -40,7 +40,7 @@ public abstract class Transformable<T>
     /// </summary>
     /// <param name="translation"><see cref="Vector3D"/></param>
     /// <returns><see cref="Transformable{T}"/></returns>
-    public Transformable<T> SetPosition(Vector3D<float> translation)
+    public Transformable<T> Translate(Vector3D<float> translation)
     {
         Model = Matrix4X4.Multiply(Matrix4X4.CreateTranslation(translation), Model);
         Log.Verbose("Translated mesh");
@@ -53,7 +53,7 @@ public abstract class Transformable<T>
     /// <param name="radians">float</param>
     /// <param name="axis"><see cref="Vector3D"/></param>
     /// <returns><see cref="Transformable{T}"/></returns>
-    public Transformable<T> SetRotation(float radians, Vector3D<float> axis)
+    public Transformable<T> Rotate(float radians, Vector3D<float> axis)
     {
         var normAxis = Vector3D.Normalize(axis);
         var rotation = Matrix4X4.CreateFromAxisAngle(normAxis, radians);
@@ -71,6 +71,22 @@ public abstract class Transformable<T>
     {
         Model = Matrix4X4.Multiply(Matrix4X4.CreateScale(scale), Model);
         Log.Verbose("Scaled mesh");
+        return this;
+    }
+    
+    public Transformable<T> SetPosition(Vector3D<float> position)
+    {
+        // Create a new model matrix preserving rotation and scale, but with new position
+        Matrix4X4<float> newModel = Model;
+    
+        // Update only the translation components
+        newModel.M41 = position.X;
+        newModel.M42 = position.Y;
+        newModel.M43 = position.Z;
+    
+        Model = newModel;
+    
+        Log.Verbose("Set position to {Position}", position);
         return this;
     }
 
