@@ -4,7 +4,12 @@ namespace RedLight.Graphics;
 
 public class TextureManager
 {
+    private static readonly Lazy<TextureManager> _instance = new(() => new TextureManager());
+    public static TextureManager Instance => _instance.Value;
+
     public Dictionary<string, RLTexture> textures = new();
+
+    private TextureManager() { }
 
     /// <summary>
     /// This function attempts to add a texture to its dictionary. If the texture exists, it will throw

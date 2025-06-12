@@ -2,6 +2,7 @@
 using RedLight.Graphics;
 using RedLight.Graphics.Primitive;
 using RedLight.Input;
+using RedLight.Physics;
 using RedLight.Scene;
 using RedLight.UI;
 using RedLight.Utils;
@@ -21,9 +22,11 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     public ShaderManager ShaderManager { get; set; }
     public TextureManager TextureManager { get; set; }
     public InputManager InputManager { get; set; }
-    public List<Transformable<RLModel>> ObjectModels { get; set; } = new();
     public RLEngine Engine { get; set; }
     public HashSet<Key> PressedKeys { get; set; } = new();
+    // Make ObjectModels private to avoid interface implementation
+    private List<Entity<Transformable<RLModel>>> ObjectModels { get; set; } = new();
+    List<Entity<Transformable<RLModel>>> RLScene.ObjectModels { get => ObjectModels; set => ObjectModels = value; }
 
     private Camera camera;
     private RLImGui controller;
@@ -42,24 +45,24 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 
         plane = new Plane(Graphics, TextureManager, ShaderManager, 20f, 20f).Default();
 
-        controller = new RLImGui(Graphics, Engine.Window, InputManager, ShaderManager, TextureManager, SceneManager);
+        controller = new RLImGui(Graphics, Engine.Window);
         Engine.InitialiseLogger(controller.Console);
 
         var size = Engine.Window.Window.Size;
         camera = new Camera(size);
 
-        var maxwell = Graphics.CreateModel("RedLight.Resources.Models.Maxwell.maxwell_the_cat.glb", TextureManager, ShaderManager, "maxwell")
+        var maxwell = Graphics.CreateModel("RedLight.Resources.Models.Maxwell.maxwell_the_cat.glb", "maxwell")
             .Rotate(float.DegreesToRadians(-90.0f), Vector3D<float>.UnitX)
             .SetScale(new Vector3D<float>(0.05f, 0.05f, 0.05f));
 
         playerCamera = new Camera(size);
         debugCamera = new Camera(size);
-        
+
         player = Graphics.MakePlayer(playerCamera, maxwell);
         player.SetPOV(PlayerCameraPOV.ThirdPerson);
-        
-        Graphics.AddModels(ObjectModels, controller, plane.Target);
-        Graphics.AddModels(ObjectModels, controller, player.Target);
+
+        Graphics.AddModels(ObjectModels, controller, plane);
+        Graphics.AddModels(ObjectModels, controller, player);
     }
 
     public void OnUpdate(double deltaTime)
@@ -77,7 +80,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         if (PressedKeys.Contains(Key.F5))
         {
             // first person doesnt work for shit we gotta work on that
-            
+
             // player.ToggleCamera();
             // Log.Debug("Camera POV has been toggled to {A}", player.CameraToggle);
         }
@@ -88,22 +91,20 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         }
 
         player.Intersects(plane);
-        
+
         if (useDebugCamera)
         {
             debugCamera = debugCamera.SetSpeed(cameraSpeed * (float)deltaTime);
             if (InputManager.isCaptured)
                 debugCamera.KeyMap(PressedKeys);
         }
-        
+
         if (!useDebugCamera)
         {
             player.Update(PressedKeys, (float)deltaTime);
             plane.Update((float)deltaTime);
         }
     }
-    
-    
 
     public void OnRender(double deltaTime)
     {
@@ -115,16 +116,16 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
             Camera activeCamera = useDebugCamera ? debugCamera : player.Camera;
             foreach (var model in ObjectModels)
             {
-                Graphics.Use(model);
-                Graphics.Update(activeCamera, model);
-                Graphics.Draw(model);
-            }            
-            
-            if (player.isHitboxShown)
+                Graphics.Use(model.Target);
+                Graphics.Update(activeCamera, model.Target);
+                Graphics.Draw(model.Target);
+            }
+
+            if (player.IsHitboxShown)
             {
                 player.DrawBoundingBox(Graphics, ShaderManager.Get("hitbox"), activeCamera);
             }
-            if (plane.isHitboxShown)
+            if (plane.IsHitboxShown)
             {
                 plane.DrawBoundingBox(Graphics, ShaderManager.Get("hitbox"), activeCamera);
             }
@@ -141,7 +142,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         {
             Engine.Window.Window.Close();
         }
-        
+
         InputManager.ChangeCaptureToggle(key);
     }
 

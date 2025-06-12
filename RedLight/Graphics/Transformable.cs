@@ -18,7 +18,7 @@ public abstract class Transformable<T>
     private Matrix4X4<float> modelDefault = Matrix4X4<float>.Identity;
     
     public Vector3 eulerAngles = new Vector3(0, 0, 0);
-    public Matrix4X4<float> Model { get; private set; } = Matrix4X4<float>.Identity;
+    public Matrix4X4<float> ModelMatrix { get; private set; } = Matrix4X4<float>.Identity;
 
     /// <summary>
     /// The target, specifically what you put in when you initialised a Transformable, or it
@@ -42,7 +42,7 @@ public abstract class Transformable<T>
     /// <returns><see cref="Transformable{T}"/></returns>
     public Transformable<T> Translate(Vector3D<float> translation)
     {
-        Model = Matrix4X4.Multiply(Matrix4X4.CreateTranslation(translation), Model);
+        ModelMatrix = Matrix4X4.Multiply(Matrix4X4.CreateTranslation(translation), ModelMatrix);
         Log.Verbose("Translated mesh");
         return this;
     }
@@ -57,7 +57,7 @@ public abstract class Transformable<T>
     {
         var normAxis = Vector3D.Normalize(axis);
         var rotation = Matrix4X4.CreateFromAxisAngle(normAxis, radians);
-        Model = Matrix4X4.Multiply(rotation, Model);
+        ModelMatrix = Matrix4X4.Multiply(rotation, ModelMatrix);
         Log.Verbose("Rotated mesh");
         return this;
     }
@@ -69,7 +69,7 @@ public abstract class Transformable<T>
     /// <returns><see cref="Transformable{T}"/></returns>
     public Transformable<T> SetScale(Vector3D<float> scale)
     {
-        Model = Matrix4X4.Multiply(Matrix4X4.CreateScale(scale), Model);
+        ModelMatrix = Matrix4X4.Multiply(Matrix4X4.CreateScale(scale), ModelMatrix);
         Log.Verbose("Scaled mesh");
         return this;
     }
@@ -77,14 +77,14 @@ public abstract class Transformable<T>
     public Transformable<T> SetPosition(Vector3D<float> position)
     {
         // Create a new model matrix preserving rotation and scale, but with new position
-        Matrix4X4<float> newModel = Model;
+        Matrix4X4<float> newModel = ModelMatrix;
     
         // Update only the translation components
         newModel.M41 = position.X;
         newModel.M42 = position.Y;
         newModel.M43 = position.Z;
     
-        Model = newModel;
+        ModelMatrix = newModel;
     
         Log.Verbose("Set position to {Position}", position);
         return this;
@@ -96,7 +96,7 @@ public abstract class Transformable<T>
     /// <returns><see cref="Transformable{T}"/></returns>
     public Transformable<T> AbsoluteReset()
     {
-        Model = Matrix4X4<float>.Identity;
+        ModelMatrix = Matrix4X4<float>.Identity;
         defaultSet = false;
         Log.Verbose("Absolute reset the mesh model");
         return this;
@@ -109,7 +109,7 @@ public abstract class Transformable<T>
     /// <returns><see cref="Transformable{T}"/></returns>
     public Transformable<T> AbsoluteReset(float scalar)
     {
-        Model = Matrix4X4<float>.Identity * scalar;
+        ModelMatrix = Matrix4X4<float>.Identity * scalar;
         defaultSet = false;
         Log.Verbose("Absolute reset mesh model");
         return this;
@@ -129,7 +129,7 @@ public abstract class Transformable<T>
                 Log.Warning("Unable to reset as a lock state has not been created, resetting absolute");
             AbsoluteReset();
         }
-        Model = modelDefault;
+        ModelMatrix = modelDefault;
         if (!silent)
             Log.Verbose("Resetted the mesh model");
         return this;
@@ -158,7 +158,7 @@ public abstract class Transformable<T>
     /// <returns><see cref="Transformable{T}"/></returns>
     public Transformable<T> SetDefault()
     {
-        modelDefault = Model;
+        modelDefault = ModelMatrix;
         defaultSet = true;
         Log.Verbose("Default set the mesh model");
         return this;
@@ -171,7 +171,7 @@ public abstract class Transformable<T>
     /// <returns><see cref="Transformable{T}"/></returns>
     public Transformable<T> SetModel(Matrix4X4<float> model)
     {
-        Model = model;
+        ModelMatrix = model;
         return this;
     }
 
@@ -188,7 +188,7 @@ public abstract class Transformable<T>
     public Vector3D<float> Position
     {
         // ez
-        get => new Vector3D<float>(Model.M41, Model.M42, Model.M43);
+        get => new Vector3D<float>(ModelMatrix.M41, ModelMatrix.M42, ModelMatrix.M43);
     }
 
     public Vector3D<float> Scale
@@ -196,9 +196,9 @@ public abstract class Transformable<T>
         // this is so confusing holy shit
         get
         {
-            var scaleX = new Vector3D<float>(Model.M11, Model.M12, Model.M13).Length;
-            var scaleY = new Vector3D<float>(Model.M21, Model.M22, Model.M23).Length;
-            var scaleZ = new Vector3D<float>(Model.M31, Model.M32, Model.M33).Length;
+            var scaleX = new Vector3D<float>(ModelMatrix.M11, ModelMatrix.M12, ModelMatrix.M13).Length;
+            var scaleY = new Vector3D<float>(ModelMatrix.M21, ModelMatrix.M22, ModelMatrix.M23).Length;
+            var scaleZ = new Vector3D<float>(ModelMatrix.M31, ModelMatrix.M32, ModelMatrix.M33).Length;
             return new Vector3D<float>(scaleX, scaleY, scaleZ);
         }
     }
@@ -209,15 +209,15 @@ public abstract class Transformable<T>
         get
         {
             var scale = Scale;
-            var m11 = Model.M11 / scale.X;
-            var m12 = Model.M12 / scale.X;
-            var m13 = Model.M13 / scale.X;
-            var m21 = Model.M21 / scale.Y;
-            var m22 = Model.M22 / scale.Y;
-            var m23 = Model.M23 / scale.Y;
-            var m31 = Model.M31 / scale.Z;
-            var m32 = Model.M32 / scale.Z;
-            var m33 = Model.M33 / scale.Z;
+            var m11 = ModelMatrix.M11 / scale.X;
+            var m12 = ModelMatrix.M12 / scale.X;
+            var m13 = ModelMatrix.M13 / scale.X;
+            var m21 = ModelMatrix.M21 / scale.Y;
+            var m22 = ModelMatrix.M22 / scale.Y;
+            var m23 = ModelMatrix.M23 / scale.Y;
+            var m31 = ModelMatrix.M31 / scale.Z;
+            var m32 = ModelMatrix.M32 / scale.Z;
+            var m33 = ModelMatrix.M33 / scale.Z;
 
             float sy = -m13;
             float cy = MathF.Sqrt(1 - sy * sy);

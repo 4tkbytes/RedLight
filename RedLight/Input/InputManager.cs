@@ -7,6 +7,24 @@ namespace RedLight.Input;
 
 public class InputManager
 {
+    private static InputManager _instance;
+    public static InputManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+                throw new InvalidOperationException("InputManager is not initialized. Do InputManager.Initialise() first.");
+            return _instance;
+        }
+    }
+
+    public static void Initialise(RLWindow window)
+    {
+        if (_instance != null)
+            throw new InvalidOperationException("InputManager is already initialized.");
+        _instance = new InputManager(window);
+    }
+
     public IInputContext input;
     private RLWindow window;
     public bool isCaptured { get; private set; } = true;
@@ -17,7 +35,7 @@ public class InputManager
     public RLKeyboard Keyboard { get; set; }
     public RLMouse Mouse { get; set; }
 
-    public InputManager(RLWindow window)
+    private InputManager(RLWindow window)
     {
         this.window = window;
     }

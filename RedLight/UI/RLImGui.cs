@@ -13,17 +13,18 @@ using System.Numerics;
 using System.Reflection;
 using RedLight.Utils;
 using Serilog.Core;
+using RedLight.Physics;
 
 namespace RedLight.UI;
 
 public class RLImGui
 {
-    private RLGraphics graphics;
+    private readonly RLGraphics graphics;
     private RLWindow window;
-    private InputManager inputManager;
-    private TextureManager textureManager;
-    private ShaderManager shaderManager;
-    private SceneManager sceneManager;
+    private InputManager inputManager = InputManager.Instance;
+    private TextureManager textureManager = TextureManager.Instance;
+    private ShaderManager shaderManager = ShaderManager.Instance;
+    private SceneManager sceneManager = SceneManager.Instance;
     
     private string _filterText = string.Empty;
     private string _inputBuffer = string.Empty;
@@ -41,7 +42,7 @@ public class RLImGui
     public ConsoleLog Console { get; private set; } = new ConsoleLog();
     
     public ImGuiController Controller { get; private set; }
-    public List<Transformable<RLModel>> ImGuiRenderingObjects { get; private set; }
+    public List<Entity<Transformable<RLModel>>> ImGuiRenderingObjects { get; private set; }
     
     /// <summary>
     /// This function enables Dear ImGui and uses it in an idiomatic way. This is the ctor which creates and
@@ -49,15 +50,10 @@ public class RLImGui
     /// </summary>
     /// <param name="graphics"></param>
     /// <param name="window"></param>
-    /// <param name="inputManager"></param>
-    public RLImGui(RLGraphics graphics, RLWindow window, InputManager inputManager, ShaderManager shaderManager, TextureManager textureManager, SceneManager sceneManager)
+    public RLImGui(RLGraphics graphics, RLWindow window)
     {
         this.graphics = graphics;
         this.window = window;
-        this.inputManager = inputManager;
-        this.shaderManager = shaderManager;
-        this.textureManager = textureManager;
-        this.sceneManager = sceneManager;
         
         Controller = new ImGuiController(
             graphics.OpenGL,
@@ -65,7 +61,7 @@ public class RLImGui
             inputManager.input
         );
         
-        ImGuiRenderingObjects = new List<Transformable<RLModel>>();
+        ImGuiRenderingObjects = new();
     }
 
     /// <summary>
@@ -80,9 +76,8 @@ public class RLImGui
     public void Render(double deltaTime, Camera camera)
     {
         var controller = Controller;
-        
         controller.Update((float)deltaTime);
-        
+
         RenderConsole();
 
         var io = ImGui.GetIO();
@@ -92,39 +87,37 @@ public class RLImGui
 
         ImGui.Begin("Scene Objects", ImGuiWindowFlags.AlwaysAutoResize);
 
-        // model control section
         int idx = 0;
-        foreach (var model in ImGuiRenderingObjects)
+        foreach (var entity in ImGuiRenderingObjects)
         {
-            string header = $"{model.Target.Name}";
+            string header = $"{entity.Target.Target.Name}";
             if (ImGui.CollapsingHeader(header, ImGuiTreeNodeFlags.DefaultOpen))
             {
-                bool locked = scaleLockStates.TryGetValue(model.Target.Name, out var l) ? l : false;
+                bool locked = scaleLockStates.TryGetValue(entity.Target.Target.Name, out var l) ? l : false;
 
-                Matrix4X4.Decompose(model.Model, out var sc, out var rot, out var pos);
+                // Decompose model matrix
+                Matrix4X4.Decompose(entity.ModelMatrix, out var sc, out var rot, out var pos);
                 var position = new Vector3(pos.X, pos.Y, pos.Z);
                 var scale = new Vector3(sc.X, sc.Y, sc.Z);
+                var eulerAngles = entity.eulerAngles;
 
                 bool changed = false;
 
+                // Position
                 if (ImGui.SliderFloat3($"Position##{idx}", ref position, -10f, 10f))
-                {
                     changed = true;
-                }
                 ImGui.SameLine();
                 if (ImGui.Button($"Reset Pos##{idx}"))
                 {
-                    Log.Debug("{A} position has been reset", model.Target.Name);
-                    position = new Vector3(0, 0, 0);
+                    position = Vector3.Zero;
                     changed = true;
                 }
 
-                // scale lock
+                // Scale lock
                 if (ImGui.Button(locked ? "Unlock Scale" : "Lock Scale"))
                 {
                     locked = !locked;
-                    scaleLockStates[model.Target.Name] = locked;
-                    Log.Debug("Lock state has been changed for model \"{A}\": [{B}]", model.Target.Name, locked);
+                    scaleLockStates[entity.Target.Target.Name] = locked;
                     if (locked)
                     {
                         scale = new Vector3(scale.X, scale.X, scale.X);
@@ -132,7 +125,7 @@ public class RLImGui
                     }
                 }
 
-                // Scale sliders
+                // Scale
                 bool scaleChanged = false;
                 if (locked)
                 {
@@ -145,52 +138,64 @@ public class RLImGui
                     ImGui.SameLine();
                     if (ImGui.Button($"Reset Scale##{idx}"))
                     {
-                        Log.Debug("{A} scale has been reset", model.Target.Name);
-                        scale = new Vector3(1, 1, 1);
+                        scale = Vector3.One;
                         scaleChanged = true;
                     }
                 }
                 else
                 {
                     if (ImGui.SliderFloat3($"Scale##{idx}", ref scale, 0.01f, 2f))
-                    {
                         scaleChanged = true;
-                    }
                     ImGui.SameLine();
                     if (ImGui.Button($"Reset Scale##{idx}"))
                     {
-                        Log.Debug("{A} scale has been reset", model.Target.Name);
-                        scale = new Vector3(1, 1, 1);
+                        scale = Vector3.One;
                         scaleChanged = true;
                     }
                 }
-
                 if (scaleChanged)
-                {
                     changed = true;
-                }
 
-                if (ImGui.SliderFloat3($"Rotation (Pitch/Yaw/Roll)##{idx}", ref model.eulerAngles, -180f, 180f))
-                {
+                // Rotation
+                if (ImGui.SliderFloat3($"Rotation (Pitch/Yaw/Roll)##{idx}", ref eulerAngles, -180f, 180f))
                     changed = true;
-                }
-
                 ImGui.SameLine();
                 if (ImGui.Button($"Reset Rot##{idx}"))
                 {
-                    Log.Debug("\"{A}\" rotation has been reset", model.Target.Name);
-                    model.eulerAngles = new Vector3(0, 0, 0);
+                    eulerAngles = Vector3.Zero;
                     changed = true;
                 }
 
+                // Hitbox controls
+                var min = entity.DefaultBoundingBoxMin;
+                var max = entity.DefaultBoundingBoxMax;
+                var minVec = new Vector3(min.X, min.Y, min.Z);
+                var maxVec = new Vector3(max.X, max.Y, max.Z);
+                bool hitboxChanged = false;
+                if (ImGui.SliderFloat3($"Hitbox Min##{idx}", ref minVec, -10f, 10f))
+                    hitboxChanged = true;
+                if (ImGui.SliderFloat3($"Hitbox Max##{idx}", ref maxVec, -10f, 10f))
+                    hitboxChanged = true;
+                if (hitboxChanged)
+                {
+                    entity.SetHitboxDefault(
+                        new Vector3D<float>(minVec.X, minVec.Y, minVec.Z),
+                        new Vector3D<float>(maxVec.X, maxVec.Y, maxVec.Z)
+                    );
+                    entity.UpdateBoundingBox();
+                }
+
+                // Apply changes
                 if (changed)
                 {
-                    model.Reset();
-                    model.SetScale(new Vector3D<float>(scale.X, scale.Y, scale.Z));
+                    entity.eulerAngles = eulerAngles;
+                    entity.Reset();
+                    entity.SetScale(new Vector3D<float>(scale.X, scale.Y, scale.Z));
+                    entity.SetPosition(new Vector3D<float>(position.X, position.Y, position.Z));
 
-                    var rotationX = Quaternion.CreateFromAxisAngle(Vector3.UnitX, model.eulerAngles.X * MathF.PI / 180f);
-                    var rotationY = Quaternion.CreateFromAxisAngle(Vector3.UnitY, model.eulerAngles.Y * MathF.PI / 180f);
-                    var rotationZ = Quaternion.CreateFromAxisAngle(Vector3.UnitZ, model.eulerAngles.Z * MathF.PI / 180f);
+                    var rotationX = Quaternion.CreateFromAxisAngle(Vector3.UnitX, entity.eulerAngles.X * MathF.PI / 180f);
+                    var rotationY = Quaternion.CreateFromAxisAngle(Vector3.UnitY, entity.eulerAngles.Y * MathF.PI / 180f);
+                    var rotationZ = Quaternion.CreateFromAxisAngle(Vector3.UnitZ, entity.eulerAngles.Z * MathF.PI / 180f);
 
                     var finalRotation = rotationX * rotationY * rotationZ;
                     var rotMatrix = Matrix4X4.CreateFromQuaternion(new Quaternion<float>(
@@ -200,15 +205,7 @@ public class RLImGui
                     var translationMatrix = Matrix4X4.CreateTranslation(position.X, position.Y, position.Z);
                     var modelMatrix = scaleMatrix * rotMatrix * translationMatrix;
 
-                    model.SetModel(modelMatrix);
-                }
-                if (maxwellSpin && maxwellModel != null)
-                {
-                    maxwellModel.Rotate((float)(deltaTime * MathF.PI), Silk.NET.Maths.Vector3D<float>.UnitZ);
-
-                    double time = DateTimeOffset.Now.ToUnixTimeMilliseconds() / 1000.0;
-                    float offset = (float)Math.Sin(time * 6.5) * 0.5f; // 2.0 = frequency, 1.0 = amplitude
-                    maxwellModel.Translate(new Silk.NET.Maths.Vector3D<float>(0, 0, offset));
+                    entity.SetModel(modelMatrix);
                 }
             }
             ImGui.Separator();
@@ -220,16 +217,11 @@ public class RLImGui
         {
             var cameraPos = new Vector3(camera.Position.X, camera.Position.Y, camera.Position.Z);
             if (ImGui.SliderFloat3("Camera Position", ref cameraPos, -20f, 20f))
-            {
                 camera.SetPosition(new Vector3D<float>(cameraPos.X, cameraPos.Y, cameraPos.Z));
-            }
 
-            // you dont work for shit
             float cameraSpeed = camera.Speed;
             if (ImGui.SliderFloat("Camera Speed", ref cameraSpeed, 0.1f, 10.0f))
-            {
                 camera.SetSpeed(cameraSpeed);
-            }
 
             float yaw = camera.Yaw;
             float pitch = camera.Pitch;
@@ -240,13 +232,11 @@ public class RLImGui
                 camera.Yaw = yaw;
                 orientationChanged = true;
             }
-
             if (ImGui.SliderFloat("Pitch", ref pitch, -89f, 89f))
             {
                 camera.Pitch = pitch;
                 orientationChanged = true;
             }
-
             if (orientationChanged)
             {
                 Vector3D<float> direction = new Vector3D<float>();
@@ -256,29 +246,16 @@ public class RLImGui
                 camera.SetFront(direction);
             }
 
-            if (ImGui.Button("Move Forward"))
-            {
-                camera.MoveForward(1.0f);
-            }
+            if (ImGui.Button("Move Forward")) camera.MoveForward(1.0f);
             ImGui.SameLine();
-            if (ImGui.Button("Move Back"))
-            {
-                camera.MoveBack(1.0f);
-            }
+            if (ImGui.Button("Move Back")) camera.MoveBack(1.0f);
 
-            if (ImGui.Button("Move Left"))
-            {
-                camera.MoveLeft(1.0f);
-            }
+            if (ImGui.Button("Move Left")) camera.MoveLeft(1.0f);
             ImGui.SameLine();
-            if (ImGui.Button("Move Right"))
-            {
-                camera.MoveRight(1.0f);
-            }
+            if (ImGui.Button("Move Right")) camera.MoveRight(1.0f);
 
             if (ImGui.Button("Reset Camera"))
             {
-                // Reset to default values
                 camera.SetPosition(new Vector3D<float>(0, 0, 3));
                 camera.SetFront(new Vector3D<float>(0, 0, -1));
                 camera.Yaw = 0;
@@ -289,7 +266,7 @@ public class RLImGui
         ImGui.End();
         controller.Render();
     }
-    
+
     /// <summary>
     /// Renders a console window with command input and log display
     /// </summary>
@@ -507,7 +484,7 @@ public class RLImGui
                 switch (subCommand)
                 {
                     case "create":
-                        HandleSceneCreate(parts);
+                        Log.Information("Function is not available for now, its a bit messed up. Sorry ~(>_<。)＼");
                         break;
                     case "delete":
                         HandleSceneDelete(parts);
@@ -516,19 +493,19 @@ public class RLImGui
                         HandleSceneSwitch(parts);
                         break;
                     case "export":
-                        HandleSceneExport(parts);
+                        Log.Information("Function is not available for now, its a bit messed up. Sorry ~(>_<。)＼");
                         break;
                     case "import":
-                        HandleSceneImport(parts);
+                        Log.Information("Function is not available for now, its a bit messed up. Sorry ~(>_<。)＼");
                         break;
                     case "compile":
-                        HandleSceneCompile(parts);
+                        Log.Information("Function is not available for now, its a bit messed up. Sorry ~(>_<。)＼");
                         break;
                     case "save":
-                        HandleSceneSave(parts);
+                        Log.Information("Function is not available for now, its a bit messed up. Sorry ~(>_<。)＼");
                         break;
                     case "saveas":
-                        HandleSceneSaveAs(parts);
+                        Log.Information("Function is not available for now, its a bit messed up. Sorry ~(>_<。)＼");
                         break;
                     case "list":
                         HandleSceneList();
@@ -536,14 +513,14 @@ public class RLImGui
                     default:
                         AddLog($"Unknown scene subcommand: {subCommand}");
                         AddLog("Available scene commands: ");
-                        AddLog("  - create");
+                        AddLog("  - create [BROKEN]");
                         AddLog("  - switch");
                         AddLog("  - delete");
-                        AddLog("  - export");
-                        AddLog("  - import");
-                        AddLog("  - compile");
-                        AddLog("  - save");
-                        AddLog("  - saveas");
+                        AddLog("  - export [BROKEN]");
+                        AddLog("  - import [BROKEN]");
+                        AddLog("  - compile [BROKEN]");
+                        AddLog("  - save [BROKEN]");
+                        AddLog("  - saveas [BROKEN]");
                         AddLog("  - list");
                         break;
                 }
@@ -554,9 +531,9 @@ public class RLImGui
                 var objectModels = sceneManager.GetCurrentScene().ObjectModels;
                 foreach (var model in objectModels)
                 {
-                    if (model.Target.Name == "maxwell")
+                    if (model.Target.Target.Name == "maxwell")
                     {
-                        maxwellModel = model;
+                        maxwellModel = model.Target;
                         break;
                     }
                 }
@@ -786,13 +763,13 @@ public class RLImGui
         if (parts.Length == 4)
         {
             var modelName = parts[3];
-            var model = ImGuiRenderingObjects.FirstOrDefault(m => m.Target.Name.Equals(modelName, StringComparison.OrdinalIgnoreCase));
+            var model = ImGuiRenderingObjects.FirstOrDefault(m => m.Target.Target.Name.Equals(modelName, StringComparison.OrdinalIgnoreCase));
             if (model == null)
             {
                 AddLog($"[ERR] Model '{modelName}' not found");
                 return;
             }
-            var usedTextures = model.Target.Meshes
+            var usedTextures = model.Target.Target.Meshes
                 .SelectMany(mesh => typeof(Mesh).GetField("textures", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
                     ?.GetValue(mesh) as List<RLTexture> ?? new List<RLTexture>())
                 .Distinct()
@@ -817,20 +794,20 @@ public class RLImGui
             return;
         }
         var modelName = parts[3];
-        var model = ImGuiRenderingObjects.FirstOrDefault(m => m.Target.Name.Equals(modelName, StringComparison.OrdinalIgnoreCase));
+        var model = ImGuiRenderingObjects.FirstOrDefault(m => m.Target.Target.Name.Equals(modelName, StringComparison.OrdinalIgnoreCase));
         if (model == null)
         {
             AddLog($"[ERR] Model '{modelName}' not found");
             return;
         }
-        var modelDir = model.Target.Directory;
+        var modelDir = model.Target.Target.Directory;
         if (string.IsNullOrEmpty(modelDir) || !Directory.Exists(modelDir))
         {
             AddLog($"[ERR] Model directory '{modelDir}' not found or invalid");
             return;
         }
 
-        var usedTextures = model.Target.Meshes
+        var usedTextures = model.Target.Target.Meshes
             .SelectMany(mesh => typeof(Mesh).GetField("textures", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
                 ?.GetValue(mesh) as List<RLTexture> ?? new List<RLTexture>())
             .Distinct()
@@ -877,7 +854,7 @@ public class RLImGui
         try
         {
             AddLog($"Creating model from: {resourcePath}");
-            var model = graphics.CreateModel(resourcePath, textureManager, shaderManager, modelName);
+            var model = graphics.CreateModel(resourcePath, modelName).MakeEntity();
             
             sceneManager.GetCurrentScene().ObjectModels.Add(model);
             ImGuiRenderingObjects.Add(model);
@@ -905,7 +882,7 @@ public class RLImGui
         // Find and remove from ImGui rendering objects
         for (int i = ImGuiRenderingObjects.Count - 1; i >= 0; i--)
         {
-            if (ImGuiRenderingObjects[i].Target.Name.Equals(modelName, StringComparison.OrdinalIgnoreCase))
+            if (ImGuiRenderingObjects[i].Target.Target.Name.Equals(modelName, StringComparison.OrdinalIgnoreCase))
             {
                 ImGuiRenderingObjects.RemoveAt(i);
                 modelFound = true;
@@ -914,7 +891,7 @@ public class RLImGui
 
         for (int i = scene.ObjectModels.Count - 1; i >= 0; i--)
         {
-            if (scene.ObjectModels[i].Target.Name.Equals(modelName, StringComparison.OrdinalIgnoreCase))
+            if (scene.ObjectModels[i].Target.Target.Name.Equals(modelName, StringComparison.OrdinalIgnoreCase))
             {
                 scene.ObjectModels.RemoveAt(i);
                 modelFound = true;
@@ -941,7 +918,7 @@ public class RLImGui
 
         // Find the model
         var model = ImGuiRenderingObjects.FirstOrDefault(m => 
-            m.Target.Name.Equals(modelName, StringComparison.OrdinalIgnoreCase));
+            m.Target.Target.Name.Equals(modelName, StringComparison.OrdinalIgnoreCase));
 
         if (model == null)
         {
@@ -950,14 +927,14 @@ public class RLImGui
         }
 
         // Find the mesh
-        var mesh = model.Target.Meshes.FirstOrDefault(m => 
+        var mesh = model.Target.Target.Meshes.FirstOrDefault(m => 
             m.Name.Equals(meshName, StringComparison.OrdinalIgnoreCase));
 
         if (mesh == null)
         {
             AddLog($"[ERR] Mesh '{meshName}' not found in model '{modelName}'");
             AddLog("Available meshes:");
-            foreach (var m in model.Target.Meshes)
+            foreach (var m in model.Target.Target.Meshes)
             {
                 AddLog($"  - {m.Name}");
             }
@@ -988,72 +965,72 @@ public class RLImGui
         }
     }
 
-    private void HandleSceneExport(string[] parts)
-    {
-        try
-        {
-            int sceneIndex = 0;
-            string className = $"ExportedScene{sceneIndex}";
-            if (parts.Length > 2)
-            {
-                // If the argument is an integer, treat as index; otherwise, as class name
-                if (int.TryParse(parts[2], out int idx))
-                {
-                    sceneIndex = idx;
-                    className = $"ExportedScene{sceneIndex}";
-                }
-                else
-                {
-                    className = parts[2];
-                }
-            }
+    //private void HandleSceneExport(string[] parts)
+    //{
+    //    try
+    //    {
+    //        int sceneIndex = 0;
+    //        string className = $"ExportedScene{sceneIndex}";
+    //        if (parts.Length > 2)
+    //        {
+    //            // If the argument is an integer, treat as index; otherwise, as class name
+    //            if (int.TryParse(parts[2], out int idx))
+    //            {
+    //                sceneIndex = idx;
+    //                className = $"ExportedScene{sceneIndex}";
+    //            }
+    //            else
+    //            {
+    //                className = parts[2];
+    //            }
+    //        }
 
-            string templatePath = "Resources/Templates/SceneTemplate.cs";
-            string exportDir = Path.Combine(AppContext.BaseDirectory, "Resources", "Exported");
+    //        string templatePath = "Resources/Templates/SceneTemplate.cs";
+    //        string exportDir = Path.Combine(AppContext.BaseDirectory, "Resources", "Exported");
 
-            // get all the models
-            var objectModels = sceneManager.GetCurrentScene().ObjectModels;
+    //        // get all the models
+    //        var objectModels = sceneManager.GetCurrentScene().ObjectModels;
 
-            Utils.RLFiles.ExportScene(templatePath, exportDir, className, objectModels);
+    //        RLFiles.ExportScene(templatePath, exportDir, className, objectModels);
 
-            AddLog($"Scene exported as {className}.cs in Resources/Exported/");
-        }
-        catch (Exception ex)
-        {
-            AddLog($"[ERR] Scene export failed: {ex.Message}");
-        }
-    }
+    //        AddLog($"Scene exported as {className}.cs in Resources/Exported/");
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        AddLog($"[ERR] Scene export failed: {ex.Message}");
+    //    }
+    //}
 
-    private void HandleSceneImport(string[] parts)
-    {
-        if (parts.Length < 3)
-        {
-            AddLog("Usage: scene import <SceneClassName>");
-            return;
-        }
-        string className = parts[2];
-        try
-        {
-            // Assume the scene class is already compiled and available in the current AppDomain
-            var type = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(a => a.GetTypes())
-                .FirstOrDefault(t => t.Name == className);
+    //private void HandleSceneImport(string[] parts)
+    //{
+    //    if (parts.Length < 3)
+    //    {
+    //        AddLog("Usage: scene import <SceneClassName>");
+    //        return;
+    //    }
+    //    string className = parts[2];
+    //    try
+    //    {
+    //        // Assume the scene class is already compiled and available in the current AppDomain
+    //        var type = AppDomain.CurrentDomain.GetAssemblies()
+    //            .SelectMany(a => a.GetTypes())
+    //            .FirstOrDefault(t => t.Name == className);
 
-            if (type == null)
-            {
-                AddLog($"[ERR] Scene class '{className}' not found in loaded assemblies.");
-                return;
-            }
+    //        if (type == null)
+    //        {
+    //            AddLog($"[ERR] Scene class '{className}' not found in loaded assemblies.");
+    //            return;
+    //        }
 
-            var scene = (RLScene)Activator.CreateInstance(type)!;
-            sceneManager.Add(className, scene);
-            AddLog($"Scene '{className}' imported and added to SceneManager.");
-        }
-        catch (Exception ex)
-        {
-            AddLog($"[ERR] Failed to import scene: {ex.Message}");
-        }
-    }
+    //        var scene = (RLScene)Activator.CreateInstance(type)!;
+    //        sceneManager.Add(className, scene);
+    //        AddLog($"Scene '{className}' imported and added to SceneManager.");
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        AddLog($"[ERR] Failed to import scene: {ex.Message}");
+    //    }
+    //}
 
     private void HandleSceneSwitch(string[] parts)
     {
@@ -1079,38 +1056,38 @@ public class RLImGui
         }
     }
 
-    private void HandleSceneCreate(string[] parts)
-    {
-        if (parts.Length < 3)
-        {
-            AddLog("Usage: scene create <NewSceneName>");
-            return;
-        }
-        string newSceneName = parts[2];
-        try
-        {
-            // Copy template file to new scene file
-            string templatePath = "Resources/Templates/SceneTemplate.cs";
-            string exportDir = Path.Combine(AppContext.BaseDirectory, "Resources", "Exported");
-            string newScenePath = Path.Combine(exportDir, $"{newSceneName}.cs");
-            File.Copy(templatePath, newScenePath, overwrite: true);
+    //private void HandleSceneCreate(string[] parts)
+    //{
+    //    if (parts.Length < 3)
+    //    {
+    //        AddLog("Usage: scene create <NewSceneName>");
+    //        return;
+    //    }
+    //    string newSceneName = parts[2];
+    //    try
+    //    {
+    //        // Copy template file to new scene file
+    //        string templatePath = "Resources/Templates/SceneTemplate.cs";
+    //        string exportDir = Path.Combine(AppContext.BaseDirectory, "Resources", "Exported");
+    //        string newScenePath = Path.Combine(exportDir, $"{newSceneName}.cs");
+    //        File.Copy(templatePath, newScenePath, overwrite: true);
 
-            // Replace class name inside the file
-            string content = File.ReadAllText(newScenePath);
-            content = content.Replace("SceneTemplate", newSceneName);
-            File.WriteAllText(newScenePath, content);
+    //        // Replace class name inside the file
+    //        string content = File.ReadAllText(newScenePath);
+    //        content = content.Replace("SceneTemplate", newSceneName);
+    //        File.WriteAllText(newScenePath, content);
 
-            AddLog($"Scene file '{newSceneName}.cs' created in Resources/Exported. Compile and import to use.");
+    //        AddLog($"Scene file '{newSceneName}.cs' created in Resources/Exported. Compile and import to use.");
 
-            HandleSceneCompile(new string[] { "scene", "compile", newSceneName });
-            HandleSceneImport(new string[] { "scene", "import", newSceneName });
-            HandleSceneSwitch(new string[] { "scene", "switch", newSceneName });
-        }
-        catch (Exception ex)
-        {
-            AddLog($"[ERR] Failed to create scene: {ex.Message}");
-        }
-    }
+    //        HandleSceneCompile(new string[] { "scene", "compile", newSceneName });
+    //        HandleSceneImport(new string[] { "scene", "import", newSceneName });
+    //        HandleSceneSwitch(new string[] { "scene", "switch", newSceneName });
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        AddLog($"[ERR] Failed to create scene: {ex.Message}");
+    //    }
+    //}
 
     private void HandleSceneDelete(string[] parts)
     {
@@ -1139,64 +1116,64 @@ public class RLImGui
         }
     }
 
-    private void HandleSceneCompile(string[] parts)
-    {
-        if (parts.Length < 3)
-        {
-            AddLog("Usage: scene compile <SceneClassName>");
-            return;
-        }
-        string className = parts[2];
-        string exportDir = Path.Combine(AppContext.BaseDirectory, "Resources", "Exported");
-        string sceneFile = Path.Combine(exportDir, $"{className}.cs");
+    //private void HandleSceneCompile(string[] parts)
+    //{
+    //    if (parts.Length < 3)
+    //    {
+    //        AddLog("Usage: scene compile <SceneClassName>");
+    //        return;
+    //    }
+    //    string className = parts[2];
+    //    string exportDir = Path.Combine(AppContext.BaseDirectory, "Resources", "Exported");
+    //    string sceneFile = Path.Combine(exportDir, $"{className}.cs");
 
-        if (!File.Exists(sceneFile))
-        {
-            AddLog($"[ERR] Scene file '{sceneFile}' not found.");
-            return;
-        }
+    //    if (!File.Exists(sceneFile))
+    //    {
+    //        AddLog($"[ERR] Scene file '{sceneFile}' not found.");
+    //        return;
+    //    }
 
-        try
-        {
-            string code = File.ReadAllText(sceneFile);
+    //    try
+    //    {
+    //        string code = File.ReadAllText(sceneFile);
 
-            // Reference all currently loaded assemblies
-            var references = AppDomain.CurrentDomain.GetAssemblies()
-                .Where(a => !a.IsDynamic && !string.IsNullOrEmpty(a.Location))
-                .Select(a => MetadataReference.CreateFromFile(a.Location))
-                .Cast<MetadataReference>()
-                .ToList();
+    //        // Reference all currently loaded assemblies
+    //        var references = AppDomain.CurrentDomain.GetAssemblies()
+    //            .Where(a => !a.IsDynamic && !string.IsNullOrEmpty(a.Location))
+    //            .Select(a => MetadataReference.CreateFromFile(a.Location))
+    //            .Cast<MetadataReference>()
+    //            .ToList();
 
-            var syntaxTree = CSharpSyntaxTree.ParseText(code);
-            var compilation = CSharpCompilation.Create(
-                $"{className}_Dynamic",
-                new[] { syntaxTree },
-                references,
-                new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
-            );
+    //        var syntaxTree = CSharpSyntaxTree.ParseText(code);
+    //        var compilation = CSharpCompilation.Create(
+    //            $"{className}_Dynamic",
+    //            new[] { syntaxTree },
+    //            references,
+    //            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
+    //        );
 
-            using var ms = new MemoryStream();
-            var result = compilation.Emit(ms);
+    //        using var ms = new MemoryStream();
+    //        var result = compilation.Emit(ms);
 
-            if (!result.Success)
-            {
-                foreach (var diagnostic in result.Diagnostics.Where(d => d.Severity == DiagnosticSeverity.Error))
-                    AddLog($"[ERR] {diagnostic}");
-                return;
-            }
+    //        if (!result.Success)
+    //        {
+    //            foreach (var diagnostic in result.Diagnostics.Where(d => d.Severity == DiagnosticSeverity.Error))
+    //                AddLog($"[ERR] {diagnostic}");
+    //            return;
+    //        }
 
-            ms.Seek(0, SeekOrigin.Begin);
-            var assembly = Assembly.Load(ms.ToArray());
+    //        ms.Seek(0, SeekOrigin.Begin);
+    //        var assembly = Assembly.Load(ms.ToArray());
 
-            AddLog($"Scene '{className}' compiled and loaded into memory.");
+    //        AddLog($"Scene '{className}' compiled and loaded into memory.");
 
-            HandleSceneImport(new string[] { "scene", "import", className });
-        }
-        catch (Exception ex)
-        {
-            AddLog($"[ERR] Scene compilation failed: {ex.Message}");
-        }
-    }
+    //        HandleSceneImport(new string[] { "scene", "import", className });
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        AddLog($"[ERR] Scene compilation failed: {ex.Message}");
+    //    }
+    //}
     
     private void HandleModelTextureAdd(string[] parts)
     {
@@ -1211,14 +1188,14 @@ public class RLImGui
         var texturePath = parts[5];
 
         var model = ImGuiRenderingObjects.FirstOrDefault(m =>
-            m.Target.Name.Equals(modelName, StringComparison.OrdinalIgnoreCase));
+            m.Target.Target.Name.Equals(modelName, StringComparison.OrdinalIgnoreCase));
         if (model == null)
         {
             AddLog($"[ERR] Model '{modelName}' not found");
             return;
         }
 
-        var mesh = model.Target.Meshes.FirstOrDefault(m =>
+        var mesh = model.Target.Target.Meshes.FirstOrDefault(m =>
             m.Name.Equals(meshName, StringComparison.OrdinalIgnoreCase));
         if (mesh == null)
         {
@@ -1251,14 +1228,14 @@ public class RLImGui
         var textureName = parts[5];
 
         var model = ImGuiRenderingObjects.FirstOrDefault(m =>
-            m.Target.Name.Equals(modelName, StringComparison.OrdinalIgnoreCase));
+            m.Target.Target.Name.Equals(modelName, StringComparison.OrdinalIgnoreCase));
         if (model == null)
         {
             AddLog($"[ERR] Model '{modelName}' not found");
             return;
         }
 
-        var mesh = model.Target.Meshes.FirstOrDefault(m =>
+        var mesh = model.Target.Target.Meshes.FirstOrDefault(m =>
             m.Name.Equals(meshName, StringComparison.OrdinalIgnoreCase));
         if (mesh == null)
         {
@@ -1287,56 +1264,56 @@ public class RLImGui
         }
     }
     
-    private void HandleSceneSave(string[] parts)
-    {
-        try
-        {
-            var currentScene = sceneManager.GetCurrentScene();
-            string className = currentScene.GetType().Name;
-            string templatePath = "Resources/Templates/SceneTemplate.cs";
-            string exportDir = Path.Combine(AppContext.BaseDirectory, "Resources", "Exported");
-            var objectModels = currentScene.ObjectModels;
+    //private void HandleSceneSave(string[] parts)
+    //{
+    //    try
+    //    {
+    //        var currentScene = sceneManager.GetCurrentScene();
+    //        string className = currentScene.GetType().Name;
+    //        string templatePath = "Resources/Templates/SceneTemplate.cs";
+    //        string exportDir = Path.Combine(AppContext.BaseDirectory, "Resources", "Exported");
+    //        var objectModels = currentScene.ObjectModels;
 
-            Utils.RLFiles.ExportScene(templatePath, exportDir, className, objectModels);
+    //        Utils.RLFiles.ExportScene(templatePath, exportDir, className, objectModels);
 
-            AddLog($"Scene saved as {className}.cs in Resources/Exported/");
-        }
-        catch (Exception ex)
-        {
-            AddLog($"[ERR] Scene save failed: {ex.Message}");
-        }
-    }
+    //        AddLog($"Scene saved as {className}.cs in Resources/Exported/");
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        AddLog($"[ERR] Scene save failed: {ex.Message}");
+    //    }
+    //}
 
-    private void HandleSceneSaveAs(string[] parts)
-    {
-        if (parts.Length < 3)
-        {
-            AddLog("Usage: scene saveas <ExportedSceneName>");
-            return;
-        }
-        try
-        {
-            string className = parts[2];
-            string templatePath = "Resources/Templates/SceneTemplate.cs";
-            string exportDir = Path.Combine(AppContext.BaseDirectory, "Resources", "Exported");
-            var objectModels = sceneManager.GetCurrentScene().ObjectModels;
+    //private void HandleSceneSaveAs(string[] parts)
+    //{
+    //    if (parts.Length < 3)
+    //    {
+    //        AddLog("Usage: scene saveas <ExportedSceneName>");
+    //        return;
+    //    }
+    //    try
+    //    {
+    //        string className = parts[2];
+    //        string templatePath = "Resources/Templates/SceneTemplate.cs";
+    //        string exportDir = Path.Combine(AppContext.BaseDirectory, "Resources", "Exported");
+    //        var objectModels = sceneManager.GetCurrentScene().ObjectModels;
 
-            Utils.RLFiles.ExportScene(templatePath, exportDir, className, objectModels);
+    //        Utils.RLFiles.ExportScene(templatePath, exportDir, className, objectModels);
 
-            AddLog($"Scene saved as {className}.cs in Resources/Exported/");
-        }
-        catch (Exception ex)
-        {
-            AddLog($"[ERR] Scene saveas failed: {ex.Message}");
-        }
-    }
+    //        AddLog($"Scene saved as {className}.cs in Resources/Exported/");
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        AddLog($"[ERR] Scene saveas failed: {ex.Message}");
+    //    }
+    //}
 
 
     /// <summary>
     /// Adds 1 model to the ImGuiRenderingObjects. 
     /// </summary>
     /// <param name="model"></param>
-    public void AddModels(Transformable<RLModel> model)
+    public void AddModels(Entity<Transformable<RLModel>> model)
     {
         ImGuiRenderingObjects.Add(model);
     }
@@ -1346,7 +1323,7 @@ public class RLImGui
     /// ImGuiRenderingObjects. 
     /// </summary>
     /// <param name="models"></param>
-    public void AddModels(List<Transformable<RLModel>> models)
+    public void AddModels(List<Entity<Transformable<RLModel>>> models)
     {
         foreach (var model in models)
             ImGuiRenderingObjects.Add(model);

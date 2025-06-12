@@ -1,4 +1,4 @@
-using System.Drawing;
+﻿using System.Drawing;
 using System.Numerics;
 using ImGuiNET;
 using RedLight.Core;
@@ -74,7 +74,11 @@ public class RLGraphics
     /// </summary>
     public void EnableDebugErrorCallback()
     {
-        #if DEBUG
+#if DEBUG
+        Log.Information("This build is Debug, therefore OpenGL Debug Error callback will be enabled.");
+        Log.Information("Expect performance decreases, however it will be way more easier to play around with!");
+        Log.Information("Enjoy and have fun ヾ(≧▽≦*)o");
+
         OpenGL.Enable(GLEnum.DebugOutput);
         OpenGL.Enable(GLEnum.DebugOutputSynchronous);
         unsafe
@@ -85,9 +89,10 @@ public class RLGraphics
                 Console.WriteLine($"[GL DEBUG] {msg}");
             }, null);
         }
-        #else
+#else
         Log.Information("OpenGL Debug Error Callback can only work under a Debug build, therefore it will not work.");
         Log.Information("Instead, expect to see standard OpenGL errors (if there are any)!");
+        Log.Information("Enjoy and have fun (づ￣ 3￣)づ");
 #endif
     }
 
@@ -156,7 +161,7 @@ public class RLGraphics
         {
             foreach (var mesh in Tmodel.Target.Meshes)
             {
-                var local = Tmodel.Model;
+                var local = Tmodel.ModelMatrix;
                 float* ptr = (float*)&local;
                 int loc = OpenGL.GetUniformLocation(mesh.program, "model");
                 OpenGL.UniformMatrix4(loc, 1, false, ptr);
@@ -204,7 +209,7 @@ public class RLGraphics
     {
         unsafe
         {
-            var local = Tmesh.Model;
+            var local = Tmesh.ModelMatrix;
             float* ptr = (float*)&local;
             int loc = OpenGL.GetUniformLocation(Tmesh.Target.program, "model");
             OpenGL.UniformMatrix4(loc, 1, false, ptr);
@@ -313,10 +318,10 @@ public class RLGraphics
     /// <param name="shaderManager">ShaderManager</param>
     /// <param name="name">string</param>
     /// <returns>Transformable RLModel</returns>
-    public Transformable<RLModel> CreateModel(string resourceName, TextureManager textureManager, ShaderManager shaderManager, string name)
+    public Transformable<RLModel> CreateModel(string resourceName, string name)
     {
-        return new RLModel(this, resourceName, textureManager, name)
-            .AttachShader(shaderManager.Get("basic"))
+        return new RLModel(this, resourceName, TextureManager.Instance, name)
+            .AttachShader(ShaderManager.Instance.Get("basic"))
             .MakeTransformable();
     }
 
@@ -377,10 +382,10 @@ public class RLGraphics
     /// This function adds models to both list, specifically the ObjectModels list and the ImGui list
     /// in the case that it is required. It halves the amount of commands used and makes it simpler. 
     /// </summary>
-    /// <param name="models"><see cref="List{Transformable{RLModel}"/></param>
+    /// <param name="models"><see cref="List{Entity{Transformable{RLModel}}}"/></param>
     /// <param name="imGui"><see cref="RLImGui"/></param>
     /// <param name="model"><see cref="Transformable{RLModel}"/></param>
-    public void AddModels(List<Transformable<RLModel>> models, RLImGui imGui, Transformable<RLModel> model)
+    public void AddModels(List<Entity<Transformable<RLModel>>> models, RLImGui imGui, Entity<Transformable<RLModel>> model)
     {
         models.Add(model);
         imGui.AddModels(model);

@@ -1,6 +1,5 @@
 ﻿using RedLight;
 using RedLight.Graphics;
-using RedLight.Resources.Exported;
 using RedLight.Scene;
 using Serilog;
 using Silk.NET.OpenGL;
@@ -17,11 +16,8 @@ class Program
         // Create engine instance
         var engine = new RLEngine(1280, 720, "RedLight Game Engine Editor", scene1, args);
 
-        // create scene manager
-        var sceneManager = engine.CreateSceneManager();
-
         // add scenes to scene manager
-        sceneManager.Add("testing_scene_1", scene1);
+        SceneManager.Instance.Add("testing_scene_1", scene1);
 
         // run
         engine.Run();

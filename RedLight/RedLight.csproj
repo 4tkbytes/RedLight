@@ -45,7 +45,6 @@
         <Content Include="Resources\Shaders\**\*" CopyToOutputDirectory="Always" />
         <Content Include="Resources\Textures\**\*" CopyToOutputDirectory="Always" />
         <Content Include="Resources\Models\**\*" CopyToOutputDirectory="Always" />
-		<Content Include="Resources\Templates\**\*" CopyToOutputDirectory="Always" />
 	</ItemGroup>
 
     <ItemGroup>
@@ -53,7 +52,6 @@
         <Pack>True</Pack>
         <PackagePath>\</PackagePath>
       </None>
-      <None Include="Resources\Templates\SceneTemplate.cs" />
     </ItemGroup>
 
 </Project>

@@ -3,6 +3,8 @@ using RedLight.Graphics;
 using RedLight.Input;
 using RedLight.Utils;
 using Serilog;
+using Silk.NET.OpenGL;
+using ShaderType = RedLight.Graphics.ShaderType;
 
 namespace RedLight.Scene;
 
@@ -19,20 +21,31 @@ public class SceneManager
     private RLKeyboard currentKeyboard;
     private RLMouse currentMouse;
 
-    private LoadingState loadingState = LoadingState.Completed;
-    private string? pendingSceneId = null;
-    private string loadingSceneId = "loading";
-    private double loadingTimer = 0;
+    private static SceneManager _instance;
+    public static SceneManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+                throw new InvalidOperationException("SceneManager is not initialized. Call Initialize first.");
+            return _instance;
+        }
+    }
 
-    internal bool coconutToggle = false;
+    public static void Initialise(RLEngine engine)
+    {
+        if (_instance != null)
+            throw new InvalidOperationException("SceneManager is already initialized.");
+        _instance = new SceneManager(engine);
+    }
 
-    public SceneManager(RLEngine engine, ShaderManager shaderManager, TextureManager textureManager)
+    private SceneManager(RLEngine engine)
     {
         Scenes = new Dictionary<string, RLScene>();
-        input = new InputManager(engine.Window);
+        input = InputManager.Instance;
         this.engine = engine;
-        this.shaderManager = shaderManager;
-        this.textureManager = textureManager;
+        shaderManager = ShaderManager.Instance;
+        textureManager = TextureManager.Instance;
 
         FPSCounter();
     }

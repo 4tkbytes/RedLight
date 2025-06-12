@@ -123,6 +123,8 @@ public class RLEngine
         
         Window.Window.FramebufferResize += OnFramebufferResize;
         Window.Window.StateChanged += OnWindowStateChanged;
+
+        CreateSceneManager();
     }
 
     private void SetupFullscreenToggle(IInputContext input)
@@ -261,10 +263,11 @@ public class RLEngine
 
     public SceneManager CreateSceneManager()
     {
-        var shaderManager = new ShaderManager();
-        var textureManager = new TextureManager();
-        var sceneManager = new SceneManager(this, shaderManager, textureManager);
-        SceneManager = sceneManager;
+        var shaderManager = ShaderManager.Instance;
+        var textureManager = TextureManager.Instance;
+        InputManager.Initialise(Window);
+        SceneManager.Initialise(this);
+        SceneManager = SceneManager.Instance;
         return SceneManager;
     }
 

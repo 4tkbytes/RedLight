@@ -1,4 +1,4 @@
-﻿using Silk.NET.Input;
+﻿﻿using Silk.NET.Input;
 using Silk.NET.Maths;
 using System;
 using System.Collections.Generic;
@@ -37,8 +37,9 @@ public class Player: Entity<Transformable<RLModel>>
         Scale = model.Scale;
         lastModelPosition = Position;
         if (autoMapHitbox)
-            base.AutoMapHitboxToModel();
+            AutoMapHitboxToModel();
         Log.Debug("[Player] Created with initial position: {Position}, rotation: {Rotation}, scale: {Scale}", Position, Rotation, Scale);
+        ApplyGravity = true;
     }
 
     public Player(Vector2D<int> screenSize, Transformable<RLModel> model) : this(new Camera(screenSize), model) { }
@@ -55,6 +56,8 @@ public class Player: Entity<Transformable<RLModel>>
 
         UpdateCameraPosition();
         UpdatePhysics(deltaTime);
+        Log.Debug("Colliding with down, Velocity");
+        Velocity = new Vector3D<float>(Velocity.X, 0f, Velocity.Z);
 
         SyncModelTransform();
     }

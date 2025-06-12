@@ -1,5 +1,6 @@
 using RedLight.Graphics;
 using RedLight.Input;
+using RedLight.Physics;
 using Serilog;
 
 namespace RedLight.Scene;
@@ -12,7 +13,7 @@ public interface RLScene
     ShaderManager ShaderManager { get; set; }
     TextureManager TextureManager { get; set; }
     InputManager InputManager { get; set; }
-    List<Transformable<RLModel>> ObjectModels { get; set; }
+    List<Entity<Transformable<RLModel>>> ObjectModels { get; set; }
 
 
     void OnLoad();

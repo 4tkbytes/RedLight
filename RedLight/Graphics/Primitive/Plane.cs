@@ -35,13 +35,13 @@ namespace RedLight.Graphics.Primitive
                 textureManager,
                 "plane"
             )
-            .AttachShader(shaderManager.Get("basic"))
-            .MakeTransformable()
+            .AttachShader(shaderManager.Get("basic")).MakeTransformable()
             )
         {
             this.graphics = graphics;
             this.textureManager = textureManager;
             this.shaderManager = shaderManager;
+            ApplyGravity = false;
 
             List<Vertex> vertices = new List<Vertex>();
             List<uint> indices = new List<uint>();
