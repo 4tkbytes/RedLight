@@ -86,6 +86,8 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
             useDebugCamera = !useDebugCamera;
             Log.Debug("Debug Camera is set to {A}", useDebugCamera);
         }
+
+        player.Intersects(plane);
         
         if (useDebugCamera)
         {
@@ -98,8 +100,6 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         {
             player.Update(PressedKeys, (float)deltaTime);
             plane.Update((float)deltaTime);
-            
-            player.DontMoveIfColliding(plane);
         }
     }
     

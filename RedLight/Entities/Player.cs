@@ -59,7 +59,7 @@ public class Player: Entity<Transformable<RLModel>>
         SyncModelTransform();
     }
 
-    private void HandleMovement(HashSet<Silk.NET.Input.Key> pressedKeys, float deltaTime)
+    private void HandleMovement(HashSet<Key> pressedKeys, float deltaTime)
     {
         Vector3D<float> direction = Vector3D<float>.Zero;
 
@@ -67,17 +67,17 @@ public class Player: Entity<Transformable<RLModel>>
         var right = Vector3D.Normalize(Vector3D.Cross(Camera.Front, Camera.Up));
         var up = Camera.Up;
 
-        if (pressedKeys.Contains(Silk.NET.Input.Key.W))
+        if (pressedKeys.Contains(Key.W) && !ObjectCollisionSides.Contains(CollisionSide.Front))
             direction += forward;
-        if (pressedKeys.Contains(Silk.NET.Input.Key.S))
+        if (pressedKeys.Contains(Key.S) && !ObjectCollisionSides.Contains(CollisionSide.Back))
             direction -= forward;
-        if (pressedKeys.Contains(Silk.NET.Input.Key.A))
+        if (pressedKeys.Contains(Key.A) && !ObjectCollisionSides.Contains(CollisionSide.Left))
             direction -= right;
-        if (pressedKeys.Contains(Silk.NET.Input.Key.D))
+        if (pressedKeys.Contains(Key.D) && !ObjectCollisionSides.Contains(CollisionSide.Right))
             direction += right;
-        if (pressedKeys.Contains(Silk.NET.Input.Key.Space))
+        if (pressedKeys.Contains(Key.Space) && !ObjectCollisionSides.Contains(CollisionSide.Up))
             direction += up;
-        if (pressedKeys.Contains(Silk.NET.Input.Key.ShiftLeft))
+        if (pressedKeys.Contains(Key.ShiftLeft) && !ObjectCollisionSides.Contains(CollisionSide.Down))
             direction -= up;
 
         if (direction != Vector3D<float>.Zero)
