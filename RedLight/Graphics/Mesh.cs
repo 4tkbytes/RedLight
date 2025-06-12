@@ -10,11 +10,11 @@ namespace RedLight.Graphics;
 [StructLayout(LayoutKind.Sequential)]
 public struct Vertex
 {
-    public Vector3D<float> Position;
-    public Vector3D<float> Normal;
-    public Vector2D<float> TexCoords;
-    public Vector3D<float> Tangent;
-    public Vector3D<float> BitTangent;
+    public Vector3 Position;
+    public Vector3 Normal;
+    public Vector2 TexCoords;
+    public Vector3 Tangent;
+    public Vector3 BitTangent;
     [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
     public int[] BoneIDs;
     [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]

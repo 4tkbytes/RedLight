@@ -1,7 +1,6 @@
 ﻿using RedLight.Core;
 using Serilog;
 using Silk.NET.Input;
-using Silk.NET.Windowing;
 
 namespace RedLight.Input;
 

@@ -1,7 +1,7 @@
-﻿using RedLight.Entities;
+﻿using System.Numerics;
+using RedLight.Entities;
 using RedLight.UI;
 using Serilog;
-using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 
 namespace RedLight.Graphics;
@@ -246,7 +246,7 @@ public class RLGraphics
     /// </summary>
     /// <param name="type">string</param>
     /// <param name="vector">Vector3D</param>
-    public void LogVector(string type, Vector3D<float> vector)
+    public void LogVector(string type, Vector3 vector)
     {
         Log.Verbose("{A}: {X}, {Y}, {Z}", type, vector.X, vector.Y, vector.Z);
     }
@@ -256,7 +256,7 @@ public class RLGraphics
     /// </summary>
     /// <param name="type">string</param>
     /// <param name="matrix">Matrix4X4</param>
-    public void LogMatrix4(string type, Matrix4X4<float> matrix)
+    public void LogMatrix4(string type, Matrix4x4 matrix)
     {
         Log.Verbose("{A}: \n {B} {C} {D} {E}\n {F} {G} {H} {I} \n {J} {K} {L} {M} \n {N} {O} {P} {Q}\n",
             type,
@@ -321,7 +321,7 @@ public class RLGraphics
     /// <param name="screenSize"><see cref="Vector2D"/></param>
     /// <param name="model"><see cref="Transformable{RLModel}"/></param>
     /// <returns></returns>
-    public Player MakePlayer(Vector2D<int> screenSize, Transformable<RLModel> model)
+    public Player MakePlayer(Vector2 screenSize, Transformable<RLModel> model)
     {
         var camera = new Camera(screenSize);
         return new Player(camera, model);

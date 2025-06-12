@@ -10,6 +10,11 @@ public static class RLUtils
         return new Vector3(vector3D.X, vector3D.Y, vector3D.Z);
     }
 
+    public static Vector2 SilkVector2DToNumericsVector2(Vector2D<int> vector2D)
+    {
+        return new Vector2(vector2D.X, vector2D.Y);
+    }
+
     public static Vector3D<float> NumericsVector3ToSilkVector3D (Vector3 vector3)
     {
         return new Vector3D<float>(vector3.X, vector3.Y, vector3.Z);

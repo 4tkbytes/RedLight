@@ -1,4 +1,3 @@
-using RedLight.Entities;
 using RedLight.Graphics;
 using RedLight.Input;
 using Serilog;

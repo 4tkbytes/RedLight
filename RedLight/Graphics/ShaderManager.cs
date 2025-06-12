@@ -1,5 +1,4 @@
 using Serilog;
-using Silk.NET.OpenGL;
 
 namespace RedLight.Graphics;
 

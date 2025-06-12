@@ -1,11 +1,9 @@
 ﻿using ImGuiNET;
-using Microsoft.CodeAnalysis;
 using RedLight.Core;
 using RedLight.Graphics;
 using RedLight.Input;
 using RedLight.Scene;
 using Serilog;
-using Silk.NET.Maths;
 using Silk.NET.OpenGL.Extensions.ImGui;
 using System.Numerics;
 using RedLight.Utils;
@@ -93,7 +91,7 @@ public class RLImGui
                 bool locked = scaleLockStates.TryGetValue(entity.Target.Target.Name, out var l) ? l : false;
 
                 // Decompose model matrix
-                Matrix4X4.Decompose(entity.ModelMatrix, out var sc, out var rot, out var pos);
+                Matrix4x4.Decompose(entity.ModelMatrix, out var sc, out var rot, out var pos);
                 var position = new Vector3(pos.X, pos.Y, pos.Z);
                 var scale = new Vector3(sc.X, sc.Y, sc.Z);
                 var eulerAngles = entity.eulerAngles;
@@ -176,8 +174,8 @@ public class RLImGui
                 if (hitboxChanged)
                 {
                     entity.SetHitboxDefault(
-                        new Vector3D<float>(minVec.X, minVec.Y, minVec.Z),
-                        new Vector3D<float>(maxVec.X, maxVec.Y, maxVec.Z)
+                        new Vector3(minVec.X, minVec.Y, minVec.Z),
+                        new Vector3(maxVec.X, maxVec.Y, maxVec.Z)
                     );
                     entity.UpdateBoundingBox();
                 }
@@ -187,19 +185,19 @@ public class RLImGui
                 {
                     entity.eulerAngles = eulerAngles;
                     entity.Reset();
-                    entity.SetScale(new Vector3D<float>(scale.X, scale.Y, scale.Z));
-                    entity.SetPosition(new Vector3D<float>(position.X, position.Y, position.Z));
+                    entity.SetScale(new Vector3(scale.X, scale.Y, scale.Z));
+                    entity.SetPosition(new Vector3(position.X, position.Y, position.Z));
 
                     var rotationX = Quaternion.CreateFromAxisAngle(Vector3.UnitX, entity.eulerAngles.X * MathF.PI / 180f);
                     var rotationY = Quaternion.CreateFromAxisAngle(Vector3.UnitY, entity.eulerAngles.Y * MathF.PI / 180f);
                     var rotationZ = Quaternion.CreateFromAxisAngle(Vector3.UnitZ, entity.eulerAngles.Z * MathF.PI / 180f);
 
                     var finalRotation = rotationX * rotationY * rotationZ;
-                    var rotMatrix = Matrix4X4.CreateFromQuaternion(new Quaternion<float>(
+                    var rotMatrix = Matrix4x4.CreateFromQuaternion(new Quaternion(
                         finalRotation.X, finalRotation.Y, finalRotation.Z, finalRotation.W));
 
-                    var scaleMatrix = Matrix4X4.CreateScale(scale.X, scale.Y, scale.Z);
-                    var translationMatrix = Matrix4X4.CreateTranslation(position.X, position.Y, position.Z);
+                    var scaleMatrix = Matrix4x4.CreateScale(scale.X, scale.Y, scale.Z);
+                    var translationMatrix = Matrix4x4.CreateTranslation(position.X, position.Y, position.Z);
                     var modelMatrix = scaleMatrix * rotMatrix * translationMatrix;
 
                     entity.SetModel(modelMatrix);
@@ -214,7 +212,7 @@ public class RLImGui
         {
             var cameraPos = new Vector3(camera.Position.X, camera.Position.Y, camera.Position.Z);
             if (ImGui.SliderFloat3("Camera Position", ref cameraPos, -20f, 20f))
-                camera.SetPosition(new Vector3D<float>(cameraPos.X, cameraPos.Y, cameraPos.Z));
+                camera.SetPosition(new Vector3(cameraPos.X, cameraPos.Y, cameraPos.Z));
 
             float cameraSpeed = camera.Speed;
             if (ImGui.SliderFloat("Camera Speed", ref cameraSpeed, 0.1f, 10.0f))
@@ -236,7 +234,7 @@ public class RLImGui
             }
             if (orientationChanged)
             {
-                Vector3D<float> direction = new Vector3D<float>();
+                Vector3 direction = new Vector3();
                 direction.X = float.Cos(float.DegreesToRadians(yaw)) * float.Cos(float.DegreesToRadians(pitch));
                 direction.Y = float.Sin(float.DegreesToRadians(pitch));
                 direction.Z = float.Sin(float.DegreesToRadians(yaw)) * float.Cos(float.DegreesToRadians(pitch));
@@ -253,8 +251,8 @@ public class RLImGui
 
             if (ImGui.Button("Reset Camera"))
             {
-                camera.SetPosition(new Vector3D<float>(0, 0, 3));
-                camera.SetFront(new Vector3D<float>(0, 0, -1));
+                camera.SetPosition(new Vector3(0, 0, 3));
+                camera.SetFront(new Vector3(0, 0, -1));
                 camera.Yaw = 0;
                 camera.Pitch = 0;
             }

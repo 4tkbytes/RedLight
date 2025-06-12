@@ -1,8 +1,8 @@
-﻿﻿using RedLight.Graphics;
+﻿using System.Numerics;
+using RedLight.Graphics;
 using Serilog;
-using Silk.NET.Input;
-using Silk.NET.Maths;
 using Silk.NET.OpenGL;
+using System.Numerics;
 
 namespace RedLight.Entities;
 
@@ -20,15 +20,15 @@ public abstract class Entity<T> : Transformable<T>
     
     // general physics shenanigans
     public const float Gravity = 9.81f;
-    public Vector3D<float> Velocity { get; set; } = Vector3D<float>.Zero;
+    public Vector3 Velocity { get; set; } = Vector3.Zero;
     public bool ApplyGravity { get; set; }
     public float Mass { get; set; } = 1f;   // default value is 1f gotta create a func to change it
 
     // bounding box
-    public Vector3D<float> BoundingBoxMin { get; set; }
-    public Vector3D<float> BoundingBoxMax { get; set; }
-    public Vector3D<float> DefaultBoundingBoxMin { get; set; }
-    public Vector3D<float> DefaultBoundingBoxMax { get; set; }
+    public Vector3 BoundingBoxMin { get; set; }
+    public Vector3 BoundingBoxMax { get; set; }
+    public Vector3 DefaultBoundingBoxMin { get; set; }
+    public Vector3 DefaultBoundingBoxMax { get; set; }
 
     // hitbox changing
     public bool IsHitboxShown { get; private set; }
@@ -48,7 +48,7 @@ public abstract class Entity<T> : Transformable<T>
     {
         ApplyGravity = applyGravity;
 
-        Vector3D<float> position = Vector3D<float>.Zero;
+        Vector3 position = Vector3.Zero;
         if (transformable is Transformable<RLModel> tModel)
             position = tModel.Position;
         else if (transformable is Transformable<Mesh> tMesh)
@@ -56,8 +56,8 @@ public abstract class Entity<T> : Transformable<T>
         else if (transformable is Transformable<object> tObj)
             position = tObj.Position;
 
-        DefaultBoundingBoxMin = new Vector3D<float>(-0.5f, 0.0f, -0.5f);
-        DefaultBoundingBoxMax = new Vector3D<float>(0.5f, 2.0f, 0.5f);
+        DefaultBoundingBoxMin = new Vector3(-0.5f, 0.0f, -0.5f);
+        DefaultBoundingBoxMax = new Vector3(0.5f, 2.0f, 0.5f);
 
         BoundingBoxMin = position + DefaultBoundingBoxMin;
         BoundingBoxMax = position + DefaultBoundingBoxMax;
@@ -93,7 +93,7 @@ public abstract class Entity<T> : Transformable<T>
     /// </summary>
     public void UpdateBoundingBox()
     {
-        Vector3D<float> currentPosition = Vector3D<float>.Zero;
+        Vector3 currentPosition = Vector3.Zero;
         if (Target is Transformable<RLModel> tModel)
             currentPosition = tModel.Position;
         else if (Target is Transformable<Mesh> tMesh)
@@ -131,7 +131,7 @@ public abstract class Entity<T> : Transformable<T>
     /// </summary>
     /// <param name="hitboxMin"><see cref="Vector3D"/></param>
     /// <param name="hitboxMax"><see cref="Vector3D"/></param>
-    public void SetHitboxDefault(Vector3D<float> hitboxMin, Vector3D<float> hitboxMax)
+    public void SetHitboxDefault(Vector3 hitboxMin, Vector3 hitboxMax)
     {
         DefaultBoundingBoxMin = hitboxMin;
         DefaultBoundingBoxMax = hitboxMax;
@@ -154,15 +154,15 @@ public abstract class Entity<T> : Transformable<T>
         if (Target is Transformable<RLModel> tModel)
         {
             var model = tModel.Target;
-            DefaultBoundingBoxMin = new Vector3D<float>(-1.0f, -1.0f, -1.0f);
-            DefaultBoundingBoxMax = new Vector3D<float>(1.0f, 1.0f, 1.0f);
+            DefaultBoundingBoxMin = new Vector3(-1.0f, -1.0f, -1.0f);
+            DefaultBoundingBoxMax = new Vector3(1.0f, 1.0f, 1.0f);
             
             var scale = tModel.Scale;
             DefaultBoundingBoxMin *= scale;
             DefaultBoundingBoxMax *= scale;
 
-            DefaultBoundingBoxMin -= new Vector3D<float>(padding, padding, padding);
-            DefaultBoundingBoxMax += new Vector3D<float>(padding, padding, padding);
+            DefaultBoundingBoxMin -= new Vector3(padding, padding, padding);
+            DefaultBoundingBoxMax += new Vector3(padding, padding, padding);
 
             UpdateBoundingBox();
 
@@ -192,7 +192,7 @@ public abstract class Entity<T> : Transformable<T>
         var gl = graphics.OpenGL;
 
         // Get current entity position and update bounding box
-        Vector3D<float> currentPosition = Vector3D<float>.Zero;
+        Vector3 currentPosition = Vector3.Zero;
         if (Target is Transformable<RLModel> tModel)
         {
             currentPosition = tModel.Position;
@@ -292,7 +292,7 @@ public abstract class Entity<T> : Transformable<T>
         unsafe
         {
             // Model matrix (identity since we're using world coordinates)
-            var modelMatrix = Matrix4X4<float>.Identity;
+            var modelMatrix = Matrix4x4.Identity;
             float* modelPtr = (float*)&modelMatrix;
             int modelLoc = gl.GetUniformLocation(shaderBundle.program.ProgramHandle, "model");
             if (modelLoc != -1)

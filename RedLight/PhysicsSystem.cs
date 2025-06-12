@@ -6,14 +6,13 @@ using BepuUtilities;
 using BepuUtilities.Memory;
 using RedLight.Entities;
 using RedLight.Graphics;
-using RedLight.Utils;
 using Serilog;
-using Silk.NET.Maths;
 using System.Numerics;
 
 namespace RedLight;
 public class PhysicsSystem
 {
+    
     // bepu shii
     public Simulation Simulation { get; private set; }
     private BufferPool bufferPool;
@@ -41,12 +40,15 @@ public class PhysicsSystem
         Log.Debug("Initialised PhysicsSystem with a thread count of {threadCount}", threadCount);
     }
 
-    public void AddEntity(Entity<Transformable<RLModel>> entity)
+    public void AddEntity(Entity<Transformable<RLModel>> entity, bool silent = true)
     {
-        Log.Debug("Adding entity {EntityType} to physics system", entity.GetType().Name);
-        Log.Debug("Entity position: {Position}, Scale: {Scale}", entity.Position, entity.Scale);
-        Log.Debug("Entity bounding box: Min={Min}, Max={Max}", entity.BoundingBoxMin, entity.BoundingBoxMax);
-
+        if (!silent)
+        {
+            Log.Debug("Adding entity {EntityType} to physics system", entity.GetType().Name);
+            Log.Debug("Entity position: {Position}, Scale: {Scale}", entity.Position, entity.Scale);
+            Log.Debug("Entity bounding box: Min={Min}, Max={Max}", entity.BoundingBoxMin, entity.BoundingBoxMax);
+        }
+        
         // create a box shape based on entity
         var min = entity.DefaultBoundingBoxMin;
         var max = entity.DefaultBoundingBoxMax;
@@ -74,8 +76,11 @@ public class PhysicsSystem
 
         // store the handle
         bodyHandles[entity] = bodyHandle;
-        Log.Debug("Is Dynamic? {IsDynamic}", entity.ApplyGravity);
-        Log.Debug("Entity added to physics system successfully");
+        if (!silent)
+        {
+            Log.Debug("Is Dynamic? {IsDynamic}", entity.ApplyGravity);
+            Log.Debug("Entity added to physics system successfully");
+        }
 
     }
 
@@ -98,7 +103,7 @@ public class PhysicsSystem
         }
     }
 
-    public void Update(float deltaTime)
+    public void Update(float deltaTime, bool silent = true)
     {
         Log.Verbose("Physics system updating with deltaTime: {DeltaTime}", deltaTime);
         // run the simulation
@@ -110,7 +115,7 @@ public class PhysicsSystem
             var bodyRef = Simulation.Bodies.GetBodyReference(bodyHandle);
 
             // Debug info to understand body state
-            Log.Debug("[Physics] Entity: {EntityName}, Awake: {Awake}, Velocity: {Velocity}, Position: {Position}",
+            if (!silent) Log.Debug("[Physics] Entity: {EntityName}, Awake: {Awake}, Velocity: {Velocity}, Position: {Position}",
                 entity.Target.Target.Name,
                 bodyRef.Awake,
                 bodyRef.Velocity.Linear,
@@ -118,13 +123,13 @@ public class PhysicsSystem
 
             // Always update position regardless of Awake status
             var pose = bodyRef.Pose;
-            var position = new Vector3D<float>(pose.Position.X, pose.Position.Y, pose.Position.Z);
+            var position = new Vector3(pose.Position.X, pose.Position.Y, pose.Position.Z);
             entity.SetPosition(position);
 
             // Update velocity if it's dynamic
             if (entity.ApplyGravity)
             {
-                entity.Velocity = new Vector3D<float>(
+                entity.Velocity = new Vector3(
                     bodyRef.Velocity.Linear.X,
                     bodyRef.Velocity.Linear.Y,
                     bodyRef.Velocity.Linear.Z);
@@ -142,18 +147,15 @@ public class PhysicsSystem
         silent = false;
         if (bodyHandles.TryGetValue(entity, out var handle))
         {
-            // Debug the impulse being applied
             if (!silent) Log.Debug("[Physics] Applying impulse {Impulse} to entity {EntityName}",
                 impulse, entity.Target.Target.Name);
 
-            // Get the current body state
             var bodyRef = Simulation.Bodies.GetBodyReference(handle);
             if (!silent) Log.Debug("[Physics] Current velocity before impulse: {Velocity}", bodyRef.Velocity.Linear);
 
-            // Apply the impulse
+            // apply impulse
             bodyRef.ApplyLinearImpulse(impulse);
 
-            // Verify the new velocity
             if (!silent) Log.Debug("[Physics] New velocity after impulse: {Velocity}", bodyRef.Velocity.Linear);
         }
         else
@@ -190,7 +192,7 @@ public struct NarrowPhaseCallbacks : INarrowPhaseCallbacks
     {
         pairMaterial = new PairMaterialProperties
         {
-            FrictionCoefficient = 0.5f,
+            FrictionCoefficient = 10.0f,
             MaximumRecoveryVelocity = 2f,
             SpringSettings = new SpringSettings(30, 1)
         };

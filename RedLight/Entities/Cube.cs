@@ -4,13 +4,13 @@ namespace RedLight.Graphics.Primitive;
 
 public class Cube : SimpleShape
 {
-    public Cube(RLGraphics graphics, TextureManager textureManager, ShaderManager shaderManager)
-    : this(graphics, textureManager, shaderManager, "cube")
+    public Cube(RLGraphics graphics, TextureManager textureManager, ShaderManager shaderManager, bool applyGravity = true)
+    : this(graphics, textureManager, shaderManager, "cube", applyGravity)
     {
 
     }
 
-    public Cube(RLGraphics graphics, TextureManager textureManager, ShaderManager shaderManager, string name) : base(
+    public Cube(RLGraphics graphics, TextureManager textureManager, ShaderManager shaderManager, string name, bool applyGravity = true) : base(
             new RLModel(
                 graphics,
                 RLFiles.GetResourcePath("RedLight.Resources.Models.Basic.cube.model"),
@@ -20,9 +20,4 @@ public class Cube : SimpleShape
                 .MakeTransformable()
             )
     { }
-
-    public void dummy()
-    {
-        
-    }
 }

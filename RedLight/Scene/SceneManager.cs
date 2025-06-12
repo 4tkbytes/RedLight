@@ -1,9 +1,7 @@
-using RedLight.Core;
 using RedLight.Graphics;
 using RedLight.Input;
 using RedLight.Utils;
 using Serilog;
-using Silk.NET.OpenGL;
 using ShaderType = RedLight.Graphics.ShaderType;
 
 namespace RedLight.Scene;

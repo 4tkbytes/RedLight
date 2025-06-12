@@ -1,7 +1,6 @@
 ﻿using RedLight.Graphics;
 using Serilog;
-﻿using Silk.NET.Input;
-using Silk.NET.Maths;
+using Silk.NET.Input;
 using System.Numerics;
 
 namespace RedLight.Entities;
@@ -19,13 +18,13 @@ public class Player: Entity<Transformable<RLModel>>
     /// <see cref="PlayerCameraPOV"/>
     public PlayerCameraPOV CameraToggle = PlayerCameraPOV.ThirdPerson;
 
-    public Vector3D<float> Position { get; set; }
-    public Vector3D<float> Rotation { get; set; }
-    public Vector3D<float> Scale { get; set; }
+    public Vector3 Position { get; set; }
+    public Vector3 Rotation { get; set; }
+    public Vector3 Scale { get; set; }
 
     public float MoveSpeed { get; set; } = 2.5f;
 
-    private Vector3D<float> lastModelPosition;
+    private Vector3 lastModelPosition;
 
     public Player(Camera camera, Transformable<RLModel> model, bool autoMapHitbox = true) : base(model)
     {
@@ -41,12 +40,12 @@ public class Player: Entity<Transformable<RLModel>>
         ApplyGravity = true;
     }
 
-    public Player(Vector2D<int> screenSize, Transformable<RLModel> model) : this(new Camera(screenSize), model) { }
+    public Player(Vector2 screenSize, Transformable<RLModel> model) : this(new Camera(screenSize), model) { }
 
     /// <summary>
     /// Updates player logic
     /// </summary>
-    public void Update(HashSet<Silk.NET.Input.Key> pressedKeys, float deltaTime)
+    public void Update(HashSet<Silk.NET.Input.Key> pressedKeys, float deltaTime, bool silent = true)
     {
         var prevPos = Position;
 
@@ -58,13 +57,13 @@ public class Player: Entity<Transformable<RLModel>>
         {
             // Update position from physics engine
             var pose = PhysicsSystem.Simulation.Bodies.GetBodyReference(bodyHandle).Pose;
-            Position = new Vector3D<float>(pose.Position.X, pose.Position.Y, pose.Position.Z);
+            Position = new Vector3(pose.Position.X, pose.Position.Y, pose.Position.Z);
 
             // Get velocity for other effects if needed
             var velocity = PhysicsSystem.Simulation.Bodies.GetBodyReference(bodyHandle).Velocity;
-            Velocity = new Vector3D<float>(velocity.Linear.X, velocity.Linear.Y, velocity.Linear.Z);
+            Velocity = new Vector3(velocity.Linear.X, velocity.Linear.Y, velocity.Linear.Z);
 
-            Log.Debug("[Player] Position updated from physics: {Position}", Position);
+            if (!silent) Log.Debug("[Player] Position updated from physics: {Position}", Position);
         }
 
         if (prevPos != Position)
@@ -77,11 +76,11 @@ public class Player: Entity<Transformable<RLModel>>
 
     private void HandleMovement(HashSet<Key> pressedKeys, float deltaTime)
     {
-        Vector3D<float> direction = Vector3D<float>.Zero;
+        Vector3 direction = Vector3.Zero;
 
         // Calculate direction based on camera orientation
-        var forward = Vector3D.Normalize(new Vector3D<float>(Camera.Front.X, 0, Camera.Front.Z));
-        var right = Vector3D.Normalize(Vector3D.Cross(Camera.Front, Camera.Up));
+        var forward = Vector3.Normalize(new Vector3(Camera.Front.X, 0, Camera.Front.Z));
+        var right = Vector3.Normalize(Vector3.Cross(Camera.Front, Camera.Up));
         var up = Camera.Up;
 
         if (pressedKeys.Contains(Key.W))
@@ -97,9 +96,9 @@ public class Player: Entity<Transformable<RLModel>>
         if (pressedKeys.Contains(Key.ShiftLeft))
             direction -= up;
 
-        if (direction != Vector3D<float>.Zero)
+        if (direction != Vector3.Zero)
         {
-            direction = Vector3D.Normalize(direction);
+            direction = Vector3.Normalize(direction);
 
             if (PhysicsSystem != null && PhysicsSystem.TryGetBodyHandle(this, out var bodyHandle))
             {
@@ -152,8 +151,8 @@ public class Player: Entity<Transformable<RLModel>>
             bodyRef.Awake = true;
 
             // Sync our representation
-            Position = new Vector3D<float>(0, 1, 0);
-            Velocity = Vector3D<float>.Zero;
+            Position = new Vector3(0, 1, 0);
+            Velocity = Vector3.Zero;
 
             Log.Information("[Player] Physics state reset");
         }
@@ -192,13 +191,13 @@ public class Player: Entity<Transformable<RLModel>>
         {
             // third person
             float thirdPersonDistance = 5.0f;
-            Vector3D<float> cameraOffset = new Vector3D<float>(0, 2, 0);
+            Vector3 cameraOffset = new Vector3(0, 2, 0);
             Camera.Position = Position - Camera.Front * thirdPersonDistance + cameraOffset;
 
             var prevPos = Position;
             if (Position != lastModelPosition)
             {
-                Rotation = new Vector3D<float>(Rotation.X, -float.DegreesToRadians(Camera.Yaw), Rotation.Z);
+                Rotation = new Vector3(Rotation.X, -float.DegreesToRadians(Camera.Yaw), Rotation.Z);
                 lastModelPosition = Position;
             }
 
@@ -218,11 +217,11 @@ public class Player: Entity<Transformable<RLModel>>
     /// </summary>
     private void SyncModelTransform()
     {
-        var scaleMatrix = Matrix4X4.CreateScale(Scale.X, Scale.Y, Scale.Z);
-        var rotationMatrix = Matrix4X4.CreateRotationX(Rotation.X) 
-            * Matrix4X4.CreateRotationY(Rotation.Y) 
-            * Matrix4X4.CreateRotationZ(Rotation.Z);
-        var translationMatrix = Matrix4X4.CreateTranslation(Position.X, Position.Y, Position.Z);
+        var scaleMatrix = Matrix4x4.CreateScale(Scale.X, Scale.Y, Scale.Z);
+        var rotationMatrix = Matrix4x4.CreateRotationX(Rotation.X) 
+            * Matrix4x4.CreateRotationY(Rotation.Y) 
+            * Matrix4x4.CreateRotationZ(Rotation.Z);
+        var translationMatrix = Matrix4x4.CreateTranslation(Position.X, Position.Y, Position.Z);
         var modelMatrix = scaleMatrix * rotationMatrix * translationMatrix;
         Target.SetModel(modelMatrix);
         Log.Verbose("[Player] Model transform updated. Position: {Position}, Rotation: {Rotation}, Scale: {Scale}", Position, Rotation, Scale);

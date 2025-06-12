@@ -1,7 +1,6 @@
 ﻿using System.Numerics;
 using RedLight.Utils;
 using Silk.NET.Assimp;
-using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 using Serilog;
 
@@ -262,7 +261,7 @@ public class RLModel
             Vertex vertex = new Vertex();
             vertex.BoneIDs = new int[RLConstants.MAX_BONE_INFLUENCE];
             vertex.Weights = new float[RLConstants.MAX_BONE_INFLUENCE];
-            Vector3D<float> vector = new();
+            Vector3 vector = new();
             vector.X = mesh->MVertices[i].X;
             vector.Y = mesh->MVertices[i].Y;
             vector.Z = mesh->MVertices[i].Z;
@@ -278,7 +277,7 @@ public class RLModel
             // texture coordinates
             if (mesh->MTextureCoords[0] != null)
             {
-                Vector2D<float> vec = new();
+                Vector2 vec = new();
                 vec.X = mesh->MTextureCoords[0][i].X;
                 // lol glb texture fix was just flipping the v coord
                 vec.Y = 1.0f - mesh->MTextureCoords[0][i].Y;
@@ -301,7 +300,7 @@ public class RLModel
                 }
             }
             else
-                vertex.TexCoords = new Vector2D<float>(0.0f, 0.0f);
+                vertex.TexCoords = new Vector2(0.0f, 0.0f);
 
             vertices.Add(vertex);
         }

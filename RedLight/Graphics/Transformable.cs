@@ -1,5 +1,4 @@
 using System.Numerics;
-using Silk.NET.Maths;
 using Serilog;
 using RedLight.Entities;
 
@@ -14,10 +13,10 @@ public abstract class Transformable<T>
 {
     private T target;
     private bool defaultSet;
-    private Matrix4X4<float> modelDefault = Matrix4X4<float>.Identity;
+    private Matrix4x4 modelDefault = Matrix4x4.Identity;
     
     public Vector3 eulerAngles = new Vector3(0, 0, 0);
-    public Matrix4X4<float> ModelMatrix { get; private set; } = Matrix4X4<float>.Identity;
+    public Matrix4x4 ModelMatrix { get; private set; } = Matrix4x4.Identity;
 
     /// <summary>
     /// The target, specifically what you put in when you initialised a Transformable, or it
@@ -39,9 +38,9 @@ public abstract class Transformable<T>
     /// </summary>
     /// <param name="translation"><see cref="Vector3D"/></param>
     /// <returns><see cref="Transformable{T}"/></returns>
-    public Transformable<T> Translate(Vector3D<float> translation)
+    public Transformable<T> Translate(Vector3 translation)
     {
-        ModelMatrix = Matrix4X4.Multiply(Matrix4X4.CreateTranslation(translation), ModelMatrix);
+        ModelMatrix = Matrix4x4.Multiply(Matrix4x4.CreateTranslation(translation), ModelMatrix);
         Log.Verbose("Translated mesh");
         return this;
     }
@@ -52,11 +51,11 @@ public abstract class Transformable<T>
     /// <param name="radians">float</param>
     /// <param name="axis"><see cref="Vector3D"/></param>
     /// <returns><see cref="Transformable{T}"/></returns>
-    public Transformable<T> Rotate(float radians, Vector3D<float> axis)
+    public Transformable<T> Rotate(float radians, Vector3 axis)
     {
-        var normAxis = Vector3D.Normalize(axis);
-        var rotation = Matrix4X4.CreateFromAxisAngle(normAxis, radians);
-        ModelMatrix = Matrix4X4.Multiply(rotation, ModelMatrix);
+        var normAxis = Vector3.Normalize(axis);
+        var rotation = Matrix4x4.CreateFromAxisAngle(normAxis, radians);
+        ModelMatrix = Matrix4x4.Multiply(ModelMatrix, rotation);
         Log.Verbose("Rotated mesh");
         return this;
     }
@@ -66,17 +65,17 @@ public abstract class Transformable<T>
     /// </summary>
     /// <param name="scale"><see cref="Vector3D"/></param>
     /// <returns><see cref="Transformable{T}"/></returns>
-    public Transformable<T> SetScale(Vector3D<float> scale)
+    public Transformable<T> SetScale(Vector3 scale)
     {
-        ModelMatrix = Matrix4X4.Multiply(Matrix4X4.CreateScale(scale), ModelMatrix);
+        ModelMatrix = Matrix4x4.Multiply(Matrix4x4.CreateScale(scale), ModelMatrix);
         Log.Verbose("Scaled mesh");
         return this;
     }
     
-    public Transformable<T> SetPosition(Vector3D<float> position)
+    public Transformable<T> SetPosition(Vector3 position)
     {
         // Create a new model matrix preserving rotation and scale, but with new position
-        Matrix4X4<float> newModel = ModelMatrix;
+        Matrix4x4 newModel = ModelMatrix;
     
         // Update only the translation components
         newModel.M41 = position.X;
@@ -95,7 +94,7 @@ public abstract class Transformable<T>
     /// <returns><see cref="Transformable{T}"/></returns>
     public Transformable<T> AbsoluteReset()
     {
-        ModelMatrix = Matrix4X4<float>.Identity;
+        ModelMatrix = Matrix4x4.Identity;
         defaultSet = false;
         Log.Verbose("Absolute reset the mesh model");
         return this;
@@ -108,7 +107,7 @@ public abstract class Transformable<T>
     /// <returns><see cref="Transformable{T}"/></returns>
     public Transformable<T> AbsoluteReset(float scalar)
     {
-        ModelMatrix = Matrix4X4<float>.Identity * scalar;
+        ModelMatrix = Matrix4x4.Identity * scalar;
         defaultSet = false;
         Log.Verbose("Absolute reset mesh model");
         return this;
@@ -166,9 +165,9 @@ public abstract class Transformable<T>
     /// <summary>
     /// Sets the model matrix
     /// </summary>
-    /// <param name="model"><see cref="Matrix4X4"/></param>
+    /// <param name="model"><see cref="Matrix4x4"/></param>
     /// <returns><see cref="Transformable{T}"/></returns>
-    public Transformable<T> SetModel(Matrix4X4<float> model)
+    public Transformable<T> SetModel(Matrix4x4 model)
     {
         ModelMatrix = model;
         return this;
@@ -184,25 +183,25 @@ public abstract class Transformable<T>
         return new ConcreteEntity<Transformable<T>>(this);
     }
 
-    public Vector3D<float> Position
+    public Vector3 Position
     {
         // ez
-        get => new Vector3D<float>(ModelMatrix.M41, ModelMatrix.M42, ModelMatrix.M43);
+        get => new Vector3(ModelMatrix.M41, ModelMatrix.M42, ModelMatrix.M43);
     }
 
-    public Vector3D<float> Scale
+    public Vector3 Scale
     {
         // this is so confusing holy shit
         get
         {
-            var scaleX = new Vector3D<float>(ModelMatrix.M11, ModelMatrix.M12, ModelMatrix.M13).Length;
-            var scaleY = new Vector3D<float>(ModelMatrix.M21, ModelMatrix.M22, ModelMatrix.M23).Length;
-            var scaleZ = new Vector3D<float>(ModelMatrix.M31, ModelMatrix.M32, ModelMatrix.M33).Length;
-            return new Vector3D<float>(scaleX, scaleY, scaleZ);
+            var scaleX = new Vector3(ModelMatrix.M11, ModelMatrix.M12, ModelMatrix.M13).Length();
+            var scaleY = new Vector3(ModelMatrix.M21, ModelMatrix.M22, ModelMatrix.M23).Length();
+            var scaleZ = new Vector3(ModelMatrix.M31, ModelMatrix.M32, ModelMatrix.M33).Length();
+            return new Vector3(scaleX, scaleY, scaleZ);
         }
     }
 
-    public Vector3D<float> Rotation
+    public Vector3 Rotation
     {
         // this is so confusing holy shit
         get
@@ -234,7 +233,7 @@ public abstract class Transformable<T>
                 y = MathF.Asin(sy);
                 z = 0;
             }
-            return new Vector3D<float>(x, y, z);
+            return new Vector3(x, y, z);
         }
     }
 }

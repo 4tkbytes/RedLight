@@ -1,16 +1,14 @@
 ﻿using RedLight;
 using RedLight.Entities;
 using RedLight.Graphics;
-using RedLight.Graphics.Primitive;
 using RedLight.Input;
 using RedLight.Scene;
 using RedLight.UI;
 using RedLight.Utils;
 using Serilog;
-using Silk.NET.Assimp;
 using Silk.NET.Input;
-using Silk.NET.Maths;
 using System.Numerics;
+using RedLight.Graphics.Primitive;
 using Camera = RedLight.Graphics.Camera;
 using Plane = RedLight.Graphics.Primitive.Plane;
 
@@ -49,24 +47,27 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         // Initialize physics system
         PhysicsSystem = new PhysicsSystem();
 
-        plane = new Plane(Graphics, TextureManager, ShaderManager, 20f, 20f).Default();
+        plane = new Plane(Graphics, 20f, 20f).Default();
 
         controller = new RLImGui(Graphics, Engine.Window);
         Engine.InitialiseLogger(controller.Console);
 
-        var size = Engine.Window.Window.Size;
+        var size = Engine.Window.Size;
         camera = new Camera(size);
 
         var maxwell = Graphics.CreateModel("RedLight.Resources.Models.Maxwell.maxwell_the_cat.glb", "maxwell")
-            .Rotate(float.DegreesToRadians(-90.0f), Vector3D<float>.UnitX)
-            .SetScale(new Vector3D<float>(0.05f, 0.05f, 0.05f));
+            .Rotate(float.DegreesToRadians(-90.0f), Vector3.UnitX)
+            .SetScale(new Vector3(0.05f, 0.05f, 0.05f));
 
+        var cube = new Cube(Graphics, TextureManager, ShaderManager, "collision_cube", false);
+        cube.Translate(new Vector3(1));
         playerCamera = new Camera(size);
         debugCamera = new Camera(size);
 
         player = Graphics.MakePlayer(playerCamera, maxwell);
         player.SetPOV(PlayerCameraPOV.ThirdPerson);
 
+        ObjectModels.Add(cube);
         ObjectModels.Add(plane);
         ObjectModels.Add(player);
 
@@ -109,11 +110,6 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         {
             player.Update(PressedKeys, (float)deltaTime);
             plane.Update((float)deltaTime);
-        }
-
-        if (counter == 10)
-        {
-            
         }
     }
 

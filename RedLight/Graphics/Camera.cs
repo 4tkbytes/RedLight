@@ -9,11 +9,11 @@ namespace RedLight.Graphics;
 public class Camera
 {
     // changable variables
-    public Matrix4X4<float> View { get; set; } = Matrix4X4<float>.Identity;
-    public Matrix4X4<float> Projection { get; private set; } = Matrix4X4<float>.Identity;
-    public Vector3D<float> Position { get; set; }
-    public Vector3D<float> Front { get; private set; }
-    public Vector3D<float> Up { get; private set; }
+    public Matrix4x4 View { get; set; } = Matrix4x4.Identity;
+    public Matrix4x4 Projection { get; private set; } = Matrix4x4.Identity;
+    public Vector3 Position { get; set; }
+    public Vector3 Front { get; private set; }
+    public Vector3 Up { get; private set; }
     public float Yaw { get; set; }
     public float Pitch { get; set; }
 
@@ -22,21 +22,21 @@ public class Camera
     public float Sensitivity { get; private set; } = 0.1f;
 
     // internal variables
-    private Vector3D<float> cameraTarget;
+    private Vector3 cameraTarget;
     private float lastX = 0;
     private float lastY = 0;
     private bool firstMouse = true;
 
-    public Camera(Vector3D<float> cameraPosition, Vector3D<float> cameraFront, Vector3D<float> cameraUp,
+    public Camera(Vector3 cameraPosition, Vector3 cameraFront, Vector3 cameraUp,
         float fov, float aspect, float near, float far)
     {
         Position = cameraPosition;
-        Front = Vector3D.Normalize(cameraFront);
-        Up = Vector3D.Normalize(cameraUp);
-        Projection = Matrix4X4.Add(Projection, Matrix4X4.CreatePerspectiveFieldOfView(fov, aspect, near, far));
+        Front = Vector3.Normalize(cameraFront);
+        Up = Vector3.Normalize(cameraUp);
+        Projection = Matrix4x4.Add(Projection, Matrix4x4.CreatePerspectiveFieldOfView(fov, aspect, near, far));
 
         cameraTarget = Position + Front;
-        View = Matrix4X4.CreateLookAt(
+        View = Matrix4x4.CreateLookAt(
             Position,
             cameraTarget,
             Up
@@ -44,10 +44,10 @@ public class Camera
         Log.Verbose("Created new Camera class");
     }
 
-    public Camera(Vector2D<int> screenSize)
-        : this(new Vector3D<float>(0, 0, 3),
-            new Vector3D<float>(0, 0, -1),
-            new Vector3D<float>(0, 1, 0),
+    public Camera(Vector2 screenSize)
+        : this(new Vector3(0, 0, 3),
+            new Vector3(0, 0, -1),
+            new Vector3(0, 1, 0),
             float.DegreesToRadians(90.0f),
             (float)screenSize.X / screenSize.Y,
             0.1f,
@@ -57,7 +57,7 @@ public class Camera
 
     public Camera UpdateCamera(bool shutup = true)
     {
-        cameraTarget = Position + Vector3D.Normalize(Front);
+        cameraTarget = Position + Vector3.Normalize(Front);
         LookAt(Position, cameraTarget, Up);
         
         if (!shutup)
@@ -65,9 +65,9 @@ public class Camera
         return this;
     }
 
-    public Camera LookAt(Vector3D<float> position, Vector3D<float> cameraTarget, Vector3D<float> cameraUpVector, bool shutup = true)
+    public Camera LookAt(Vector3 position, Vector3 cameraTarget, Vector3 cameraUpVector, bool shutup = true)
     {
-        View = Matrix4X4.CreateLookAt(
+        View = Matrix4x4.CreateLookAt(
             position,
             cameraTarget,
             cameraUpVector
@@ -107,7 +107,7 @@ public class Camera
         if (camera.Pitch < -89.0f)
             camera.Pitch = -89.0f;
 
-        Vector3D<float> direction = new();
+        Vector3 direction = new();
         direction.X = float.Cos(float.DegreesToRadians(camera.Yaw)) * float.Cos(float.DegreesToRadians(camera.Pitch));
         direction.Y = float.Sin(float.DegreesToRadians(camera.Pitch));
         direction.Z = float.Sin(float.DegreesToRadians(camera.Yaw)) * float.Cos(float.DegreesToRadians(camera.Pitch));
@@ -137,25 +137,25 @@ public class Camera
     public Camera KeyMap(HashSet<Key> PressedKeys, Player player)
     {
         // Get movement direction based on camera orientation
-        Vector3D<float> direction = Vector3D<float>.Zero;
+        Vector3 direction = Vector3.Zero;
 
         if (PressedKeys.Contains(Key.W))
             direction += Front;
         if (PressedKeys.Contains(Key.S))
             direction -= Front;
         if (PressedKeys.Contains(Key.A))
-            direction -= Vector3D.Normalize(Vector3D.Cross(Front, Up));
+            direction -= Vector3.Normalize(Vector3.Cross(Front, Up));
         if (PressedKeys.Contains(Key.D))
-            direction += Vector3D.Normalize(Vector3D.Cross(Front, Up));
+            direction += Vector3.Normalize(Vector3.Cross(Front, Up));
         if (PressedKeys.Contains(Key.Space))
             direction += Up;
         if (PressedKeys.Contains(Key.ShiftLeft))
             direction -= Up;
 
         // Normalize direction if it's not zero
-        if (direction != Vector3D<float>.Zero)
+        if (direction != Vector3.Zero)
         {
-            direction = Vector3D.Normalize(direction);
+            direction = Vector3.Normalize(direction);
 
             // If physics system is available, apply movement through physics
             if (player.PhysicsSystem != null)
@@ -188,9 +188,9 @@ public class Camera
         return this;
     }
 
-    public Camera SetFront(Vector3D<float> direction)
+    public Camera SetFront(Vector3 direction)
     {
-        Front = Vector3D.Normalize<float>(direction);
+        Front = Vector3.Normalize(direction);
         return this;
     }
 
@@ -220,13 +220,13 @@ public class Camera
 
     public Camera MoveLeft()
     {
-        Position -= Vector3D.Normalize(Vector3D.Cross(Front, Up)) * Speed;
+        Position -= Vector3.Normalize(Vector3.Cross(Front, Up)) * Speed;
         return this;
     }
 
     public Camera MoveRight()
     {
-        Position += Vector3D.Normalize(Vector3D.Cross(Front, Up)) * Speed;
+        Position += Vector3.Normalize(Vector3.Cross(Front, Up)) * Speed;
         return this;
     }
 
@@ -256,19 +256,19 @@ public class Camera
 
     public Camera MoveLeft(float speed)
     {
-        var right = Vector3D.Normalize(Vector3D.Cross(Front, Up));
+        var right = Vector3.Normalize(Vector3.Cross(Front, Up));
         Position -= right * speed;
         return this;
     }
 
     public Camera MoveRight(float speed)
     {
-        var right = Vector3D.Normalize(Vector3D.Cross(Front, Up));
+        var right = Vector3.Normalize(Vector3.Cross(Front, Up));
         Position += right * speed;
         return this;
     }
 
-    public Camera SetPosition(Vector3D<float> pos)
+    public Camera SetPosition(Vector3 pos)
     {
         Log.Verbose("Position set [{A}] -> [{B}]", Position, pos);
         Position = pos;
