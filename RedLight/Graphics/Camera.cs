@@ -138,6 +138,7 @@ public class Camera
     
     public Camera KeyMap(HashSet<Key> PressedKeys, Player player)
     {
+
         if (PressedKeys.Contains(Key.W) && !player.ObjectCollisionSides.Contains(CollisionSide.Front))
             MoveForward();
         if (PressedKeys.Contains(Key.S) && !player.ObjectCollisionSides.Contains(CollisionSide.Back))

@@ -17,6 +17,7 @@ public class Cube : SimpleShape
                 textureManager)
                 .AttachShader(shaderManager.Get("basic"))
                 .AttachTexture(textureManager.Get("no-texture"))
+                .MakeTransformable()
             )
     { }
 

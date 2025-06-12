@@ -9,7 +9,6 @@ using Serilog;
 using Silk.NET.Input;
 using Silk.NET.Maths;
 using System.Numerics;
-using RedLight.Physics;
 using Camera = RedLight.Graphics.Camera;
 using Plane = RedLight.Graphics.Primitive.Plane;
 
@@ -58,68 +57,29 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         
         player = Graphics.MakePlayer(playerCamera, maxwell);
         player.SetPOV(PlayerCameraPOV.ThirdPerson);
-
-        var cube = new Cube(Graphics, TextureManager, ShaderManager, "test_cube");
-        cube.Target.AttachTexture(new RLTexture(Graphics, "RedLight.Resources.Textures.thing.png"));
-        cube.Translate(new Vector3D<float>(1f));
         
-        Graphics.AddModels(ObjectModels, controller, plane);
-        Graphics.AddModels(ObjectModels, controller, player);
-        Graphics.AddModels(ObjectModels, controller, cube);
-        shitfuck.Add(plane);
+        Graphics.AddModels(ObjectModels, controller, plane.Target);
+        Graphics.AddModels(ObjectModels, controller, player.Target);
     }
 
-    List<Entity<RLModel>> shitfuck = new();
-    // public void OnUpdate(double deltaTime)
-    // {
-    //     camera = camera.SetSpeed(cameraSpeed * (float)deltaTime);
-    //
-    //     if (InputManager.isCaptured)
-    //         camera.KeyMap(PressedKeys, player);
-    //
-    //     if (PressedKeys.Contains(Key.F2))
-    //     {
-    //         player.ToggleHitbox();
-    //         plane.ToggleHitbox();
-    //     }
-    //     if (PressedKeys.Contains(Key.F5))
-    //     {
-    //         // first person doesnt work for shit we gotta work on that
-    //         
-    //         // player.ToggleCamera();
-    //         // Log.Debug("Camera POV has been toggled to {A}", player.CameraToggle);
-    //     }
-    //     if (PressedKeys.Contains(Key.F6))
-    //     {
-    //         useDebugCamera = !useDebugCamera;
-    //         Log.Debug("Debug Camera is set to {A}", useDebugCamera);
-    //     }
-    //     
-    //     if (useDebugCamera)
-    //     {
-    //         debugCamera = debugCamera.SetSpeed(cameraSpeed * (float)deltaTime);
-    //         if (InputManager.isCaptured)
-    //             debugCamera.KeyMap(PressedKeys);
-    //     }
-    //     
-    //     if (!useDebugCamera)
-    //     {
-    //         player.Update(PressedKeys, (float)deltaTime);
-    //         plane.Update((float)deltaTime);
-    //
-    //         player.CheckCollisionAndResolve(shitfuck, false);
-    //     }
-    // }
-    
     public void OnUpdate(double deltaTime)
     {
-        // Update non-player entities first
-        plane.Update((float)deltaTime);
-        
+        camera = camera.SetSpeed(cameraSpeed * (float)deltaTime);
+
+        if (InputManager.isCaptured)
+            camera.KeyMap(PressedKeys);
+
         if (PressedKeys.Contains(Key.F2))
         {
             player.ToggleHitbox();
             plane.ToggleHitbox();
+        }
+        if (PressedKeys.Contains(Key.F5))
+        {
+            // first person doesnt work for shit we gotta work on that
+            
+            // player.ToggleCamera();
+            // Log.Debug("Camera POV has been toggled to {A}", player.CameraToggle);
         }
         if (PressedKeys.Contains(Key.F6))
         {
@@ -127,24 +87,19 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
             Log.Debug("Debug Camera is set to {A}", useDebugCamera);
         }
 
+        player.Intersects(plane);
+        
+        if (useDebugCamera)
+        {
+            debugCamera = debugCamera.SetSpeed(cameraSpeed * (float)deltaTime);
+            if (InputManager.isCaptured)
+                debugCamera.KeyMap(PressedKeys);
+        }
+        
         if (!useDebugCamera)
         {
-            // First, check for collisions with existing position
-            player.CheckCollisionAndResolve(shitfuck, false);
-
-            // Then handle input (using collision sides from previous check)
-            var oldPosition = player.Position;
-        
-            // Update player with the current collision information
             player.Update(PressedKeys, (float)deltaTime);
-        
-            // Check collisions again after movement
-            player.CheckCollisionAndResolve(shitfuck, false);
-        }
-        else
-        {
-            // Debug camera movement
-            debugCamera.KeyMap(PressedKeys);
+            plane.Update((float)deltaTime);
         }
     }
     
