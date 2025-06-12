@@ -4,7 +4,7 @@ using Silk.NET.Input;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 
-namespace RedLight.Physics;
+namespace RedLight.Entities;
 
 // fuck you, you are such a pain in the ass -tk
 /// <summary>
@@ -22,6 +22,7 @@ public abstract class Entity<T> : Transformable<T>
     public const float Gravity = 9.81f;
     public Vector3D<float> Velocity { get; set; } = Vector3D<float>.Zero;
     public bool ApplyGravity { get; set; }
+    public float Mass { get; set; } = 1f;   // default value is 1f gotta create a func to change it
 
     // bounding box
     public Vector3D<float> BoundingBoxMin { get; set; }
@@ -39,10 +40,14 @@ public abstract class Entity<T> : Transformable<T>
     public HashSet<CollisionSide> ObjectCollisionSides { get; set; } = new();
     public bool IsColliding { get; private set; }
 
+    // bepu physics
+    public PhysicsSystem PhysicsSystem;
+    private HashSet<string> _registeredEntityNames = new();
+
     public Entity(T transformable, bool applyGravity = true) : base(transformable)
     {
         ApplyGravity = applyGravity;
-        
+
         Vector3D<float> position = Vector3D<float>.Zero;
         if (transformable is Transformable<RLModel> tModel)
             position = tModel.Position;
@@ -59,26 +64,30 @@ public abstract class Entity<T> : Transformable<T>
     }
 
     /// <summary>
+    /// Initialises the physics system
+    /// </summary>
+    public virtual void InitPhysics(PhysicsSystem physics)
+    {
+        PhysicsSystem = physics;
+        if (this is Entity<Transformable<RLModel>> modelEntity)
+        {
+            PhysicsSystem.AddEntity(modelEntity);
+        }
+    }
+
+    /// <summary>
     /// Updates the physics state of the entity.
     /// </summary>
     /// <param name="deltaTime">Time elapsed since last update (in seconds).</param>
     public void UpdatePhysics(float deltaTime)
     {
-        ObjectCollisionSides.Clear();
-        
-        if (ApplyGravity)
-        {
-            Log.Debug("[Player] Applying gravity");
-            Velocity = new Vector3D<float>(Velocity.X, Velocity.Y - Gravity * deltaTime, Velocity.Z);
-        }
+        // no more of the old function. out with the old in with the new
+        // it is managed by BepuPhysics already
 
-        Log.Debug("[Player] Translating");
-        Translate(Velocity * deltaTime);
-        
-        Log.Debug("[Player] Updating Bounding Box");
+        // idk why it is here just keep it there for testing
         UpdateBoundingBox();
     }
-    
+
     /// <summary>
     /// Updates the bounding box of the hitbox of the entity. 
     /// </summary>
@@ -104,61 +113,17 @@ public abstract class Entity<T> : Transformable<T>
     /// </summary>
     public bool Intersects(Entity<T> otherEntity, bool silent = true)
     {
-        ObjectCollisionSides.Clear();
-        IsColliding = false;
+        // BepuPhysics now handles collision detection
+        // This is kept for backward compatibility
+        UpdateBoundingBox();
+        otherEntity.UpdateBoundingBox();
 
         bool xOverlap = BoundingBoxMin.X <= otherEntity.BoundingBoxMax.X && BoundingBoxMax.X >= otherEntity.BoundingBoxMin.X;
         bool yOverlap = BoundingBoxMin.Y <= otherEntity.BoundingBoxMax.Y && BoundingBoxMax.Y >= otherEntity.BoundingBoxMin.Y;
         bool zOverlap = BoundingBoxMin.Z <= otherEntity.BoundingBoxMax.Z && BoundingBoxMax.Z >= otherEntity.BoundingBoxMin.Z;
 
-        if (xOverlap && yOverlap && zOverlap)
-        {
-            // Check which sides are colliding
-            if (BoundingBoxMax.X >= otherEntity.BoundingBoxMin.X && BoundingBoxMin.X < otherEntity.BoundingBoxMin.X)
-            {
-                if (!silent)
-                    Log.Debug("Colliding on the right");
-                ObjectCollisionSides.Add(CollisionSide.Right);
-            }
-            if (BoundingBoxMin.X <= otherEntity.BoundingBoxMax.X && BoundingBoxMax.X > otherEntity.BoundingBoxMax.X)
-            {
-                if (!silent)
-                    Log.Debug("Colliding on the left");
-                ObjectCollisionSides.Add(CollisionSide.Left);
-            }
-
-            if (BoundingBoxMax.Y >= otherEntity.BoundingBoxMin.Y && BoundingBoxMin.Y < otherEntity.BoundingBoxMin.Y)
-            {
-                if (!silent)
-                    Log.Debug("Colliding on the up");
-                ObjectCollisionSides.Add(CollisionSide.Up);
-            }
-            if (BoundingBoxMin.Y <= otherEntity.BoundingBoxMax.Y && BoundingBoxMax.Y > otherEntity.BoundingBoxMax.Y)
-            {
-                if (!silent)
-                    Log.Debug("Colliding on the down");
-                ObjectCollisionSides.Add(CollisionSide.Down);
-            }
-
-            if (BoundingBoxMax.Z >= otherEntity.BoundingBoxMin.Z && BoundingBoxMin.Z < otherEntity.BoundingBoxMin.Z)
-            {
-                if (!silent)
-                    Log.Debug("Colliding on the front");
-                ObjectCollisionSides.Add(CollisionSide.Front);
-            }
-            if (BoundingBoxMin.Z <= otherEntity.BoundingBoxMax.Z && BoundingBoxMax.Z > otherEntity.BoundingBoxMax.Z)
-            {
-                if (!silent)
-                    Log.Debug("Colliding on the back");
-                ObjectCollisionSides.Add(CollisionSide.Back);
-            }
-
-            IsColliding = true;
-            return true;
-        }
-
-        IsColliding = false;
-        return false;
+        IsColliding = xOverlap && yOverlap && zOverlap;
+        return IsColliding;
     }
 
     /// <summary>
@@ -170,8 +135,15 @@ public abstract class Entity<T> : Transformable<T>
     {
         DefaultBoundingBoxMin = hitboxMin;
         DefaultBoundingBoxMax = hitboxMax;
+
+        // If we're already connected to physics, update the collider
+        if (PhysicsSystem != null && this is Entity<Transformable<RLModel>> modelEntity)
+        {
+            PhysicsSystem.RemoveEntity(modelEntity);
+            PhysicsSystem.AddEntity(modelEntity);
+        }
     }
-    
+
     /// <summary>
     /// Automatically calculates and sets the hitbox dimensions based on the model's actual vertices.
     /// </summary>
@@ -193,6 +165,13 @@ public abstract class Entity<T> : Transformable<T>
             DefaultBoundingBoxMax += new Vector3D<float>(padding, padding, padding);
 
             UpdateBoundingBox();
+
+            // If we're already connected to physics, update the collider
+            if (PhysicsSystem != null && this is Entity<Transformable<RLModel>> modelEntity)
+            {
+                PhysicsSystem.RemoveEntity(modelEntity);
+                PhysicsSystem.AddEntity(modelEntity);
+            }
 
             Log.Debug("Auto-mapped hitbox for model: Min={Min}, Max={Max}", DefaultBoundingBoxMin, DefaultBoundingBoxMax);
         }

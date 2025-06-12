@@ -1,12 +1,13 @@
 ﻿using RedLight;
+using RedLight.Entities;
 using RedLight.Graphics;
 using RedLight.Graphics.Primitive;
 using RedLight.Input;
-using RedLight.Physics;
 using RedLight.Scene;
 using RedLight.UI;
 using RedLight.Utils;
 using Serilog;
+using Silk.NET.Assimp;
 using Silk.NET.Input;
 using Silk.NET.Maths;
 using System.Numerics;
@@ -24,9 +25,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     public InputManager InputManager { get; set; }
     public RLEngine Engine { get; set; }
     public HashSet<Key> PressedKeys { get; set; } = new();
-    // Make ObjectModels private to avoid interface implementation
-    private List<Entity<Transformable<RLModel>>> ObjectModels { get; set; } = new();
-    List<Entity<Transformable<RLModel>>> RLScene.ObjectModels { get => ObjectModels; set => ObjectModels = value; }
+    public PhysicsSystem PhysicsSystem { get; set; }
 
     private Camera camera;
     private RLImGui controller;
@@ -38,10 +37,17 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     private Camera debugCamera;
     private bool useDebugCamera = false;
 
+    private List<Entity<Transformable<RLModel>>> ObjectModels = new();
+
+    private int counter = 0;
+
     public void OnLoad()
     {
         Graphics.Enable();
         Graphics.EnableDebugErrorCallback();
+
+        // Initialize physics system
+        PhysicsSystem = new PhysicsSystem();
 
         plane = new Plane(Graphics, TextureManager, ShaderManager, 20f, 20f).Default();
 
@@ -61,12 +67,19 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         player = Graphics.MakePlayer(playerCamera, maxwell);
         player.SetPOV(PlayerCameraPOV.ThirdPerson);
 
-        Graphics.AddModels(ObjectModels, controller, plane);
-        Graphics.AddModels(ObjectModels, controller, player);
+        ObjectModels.Add(plane);
+        ObjectModels.Add(player);
+
+        // Initialize physics for all entities
+        foreach (var entity in ObjectModels)
+        {
+            entity.InitPhysics(PhysicsSystem);
+        }
     }
 
     public void OnUpdate(double deltaTime)
     {
+        counter += 1;
         camera = camera.SetSpeed(cameraSpeed * (float)deltaTime);
 
         if (InputManager.isCaptured)
@@ -76,21 +89,14 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         {
             player.ToggleHitbox();
             plane.ToggleHitbox();
-        }
-        if (PressedKeys.Contains(Key.F5))
-        {
-            // first person doesnt work for shit we gotta work on that
-
-            // player.ToggleCamera();
-            // Log.Debug("Camera POV has been toggled to {A}", player.CameraToggle);
-        }
+        }        
         if (PressedKeys.Contains(Key.F6))
         {
             useDebugCamera = !useDebugCamera;
             Log.Debug("Debug Camera is set to {A}", useDebugCamera);
         }
 
-        player.Intersects(plane);
+        PhysicsSystem.Update((float)deltaTime);
 
         if (useDebugCamera)
         {
@@ -103,6 +109,11 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         {
             player.Update(PressedKeys, (float)deltaTime);
             plane.Update((float)deltaTime);
+        }
+
+        if (counter == 10)
+        {
+            
         }
     }
 
@@ -141,6 +152,10 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         if (key == Key.Escape)
         {
             Engine.Window.Window.Close();
+        }
+        if (key == Key.R)
+        {
+            player.ResetPhysics();
         }
 
         InputManager.ChangeCaptureToggle(key);

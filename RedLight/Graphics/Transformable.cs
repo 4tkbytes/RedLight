@@ -1,8 +1,7 @@
 using System.Numerics;
 using Silk.NET.Maths;
-using RedLight.Utils;
 using Serilog;
-using RedLight.Physics;
+using RedLight.Entities;
 
 namespace RedLight.Graphics;
 

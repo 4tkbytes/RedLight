@@ -1,8 +1,6 @@
 ﻿using System.Numerics;
-using RedLight.Graphics.Primitive;
-using RedLight.Physics;
+using RedLight.Entities;
 using Serilog;
-using Serilog.Core;
 using Silk.NET.Input;
 using Silk.NET.Maths;
 
@@ -135,24 +133,52 @@ public class Camera
 
         return this;
     }
-    
+
     public Camera KeyMap(HashSet<Key> PressedKeys, Player player)
     {
+        // Get movement direction based on camera orientation
+        Vector3D<float> direction = Vector3D<float>.Zero;
 
-        if (PressedKeys.Contains(Key.W) && !player.ObjectCollisionSides.Contains(CollisionSide.Front))
-            MoveForward();
-        if (PressedKeys.Contains(Key.S) && !player.ObjectCollisionSides.Contains(CollisionSide.Back))
-            MoveBack();
-        if (PressedKeys.Contains(Key.A) && !player.ObjectCollisionSides.Contains(CollisionSide.Left))
-            MoveLeft();
-        if (PressedKeys.Contains(Key.D) && !player.ObjectCollisionSides.Contains(CollisionSide.Right))
-            MoveRight();
-        if (PressedKeys.Contains(Key.ShiftLeft) && !player.ObjectCollisionSides.Contains(CollisionSide.Down))
-            MoveDown();
-        if (PressedKeys.Contains(Key.Space) && !player.ObjectCollisionSides.Contains(CollisionSide.Up))
-            MoveUp();
+        if (PressedKeys.Contains(Key.W))
+            direction += Front;
+        if (PressedKeys.Contains(Key.S))
+            direction -= Front;
+        if (PressedKeys.Contains(Key.A))
+            direction -= Vector3D.Normalize(Vector3D.Cross(Front, Up));
+        if (PressedKeys.Contains(Key.D))
+            direction += Vector3D.Normalize(Vector3D.Cross(Front, Up));
+        if (PressedKeys.Contains(Key.Space))
+            direction += Up;
+        if (PressedKeys.Contains(Key.ShiftLeft))
+            direction -= Up;
+
+        // Normalize direction if it's not zero
+        if (direction != Vector3D<float>.Zero)
+        {
+            direction = Vector3D.Normalize(direction);
+
+            // If physics system is available, apply movement through physics
+            if (player.PhysicsSystem != null)
+            {
+                // Convert to System.Numerics.Vector3 for BepuPhysics
+                var impulse = new System.Numerics.Vector3(
+                    direction.X * player.MoveSpeed,
+                    direction.Y * player.MoveSpeed,
+                    direction.Z * player.MoveSpeed);
+
+                // Apply movement through physics
+                player.PhysicsSystem.ApplyImpulse(player, impulse);
+
+                // Camera position will be updated by Player.UpdateCameraPosition()
+            }
+            else
+            {
+                // Direct movement as fallback
+                Position += direction * Speed;
+            }
+        }
+
         UpdateCamera();
-
         return this;
     }
 

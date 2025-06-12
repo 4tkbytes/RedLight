@@ -1,5 +1,4 @@
 ﻿using System.Numerics;
-using RedLight.Physics;
 using RedLight.Utils;
 
 namespace RedLight.Graphics.Primitive;

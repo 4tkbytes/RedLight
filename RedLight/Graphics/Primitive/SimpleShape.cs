@@ -1,7 +1,6 @@
-﻿using RedLight.Physics;
+﻿namespace RedLight.Graphics.Primitive;
 
-namespace RedLight.Graphics.Primitive;
-
+using RedLight.Entities;
 using Silk.NET.Maths;
 using System.Numerics;
 

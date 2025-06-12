@@ -1,5 +1,4 @@
 using RedLight.Graphics;
-using RedLight.Physics;
 using RedLight.Utils;
 using Silk.NET.Maths;
 using System.Collections.Generic;

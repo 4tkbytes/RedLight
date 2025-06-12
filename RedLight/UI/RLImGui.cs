@@ -1,19 +1,16 @@
 ﻿using ImGuiNET;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using RedLight.Core;
 using RedLight.Graphics;
 using RedLight.Input;
 using RedLight.Scene;
 using Serilog;
 using Silk.NET.Maths;
-using Silk.NET.OpenGL;
 using Silk.NET.OpenGL.Extensions.ImGui;
 using System.Numerics;
-using System.Reflection;
 using RedLight.Utils;
 using Serilog.Core;
-using RedLight.Physics;
+using RedLight.Entities;
 
 namespace RedLight.UI;
 
@@ -421,8 +418,8 @@ public class RLImGui
                 if (parts.Length < 2)
                 {
                     AddLog("Available model commands: ");
-                    AddLog("  - add");
-                    AddLog("  - delete");
+                    AddLog("  - add [BROKEN]");
+                    AddLog("  - delete [BROKEN]");
                     AddLog("  - texture");
                     return;
                 }
@@ -431,10 +428,10 @@ public class RLImGui
                 switch (subCommand)
                 {
                     case "add":
-                        HandleModelCreate(parts);
+                        Log.Information("Function is not available for now, its a bit messed up. Sorry ~(>_<。)＼");
                         break;
                     case "delete":
-                        HandleModelDelete(parts);
+                        Log.Information("Function is not available for now, its a bit messed up. Sorry ~(>_<。)＼");
                         break;
                     case "texture":
                         if (parts.Length >= 3)
@@ -457,8 +454,8 @@ public class RLImGui
                     default:
                         AddLog($"Unknown model subcommand: {subCommand}");
                         AddLog("Available model commands: ");
-                        AddLog("  - add");
-                        AddLog("  - delete");
+                        AddLog("  - add [BROKEN]");
+                        AddLog("  - delete [BROKEN]");
                         AddLog("  - texture");
                         break;
                 }
@@ -468,14 +465,14 @@ public class RLImGui
                 if (parts.Length < 2)
                 {
                     AddLog("Available scene commands: ");
-                    AddLog("  - create");
+                    AddLog("  - create [BROKEN]");
                     AddLog("  - switch");
                     AddLog("  - delete");
-                    AddLog("  - export");
-                    AddLog("  - import");
-                    AddLog("  - compile");
-                    AddLog("  - save");
-                    AddLog("  - saveas");
+                    AddLog("  - export [BROKEN]");
+                    AddLog("  - import [BROKEN]");
+                    AddLog("  - compile [BROKEN]");
+                    AddLog("  - save [BROKEN]");
+                    AddLog("  - saveas [BROKEN]");
                     AddLog("  - list");
                     return;
                 }
@@ -526,36 +523,38 @@ public class RLImGui
                 }
             } else if (trimmedCmd == "maxwell")
             {
-                maxwellSpin = !maxwellSpin;
-                maxwellModel = null;
-                var objectModels = sceneManager.GetCurrentScene().ObjectModels;
-                foreach (var model in objectModels)
-                {
-                    if (model.Target.Target.Name == "maxwell")
-                    {
-                        maxwellModel = model.Target;
-                        break;
-                    }
-                }
-                if (maxwellModel == null)
-                {
-                    AddLog("[ERR] Maxwell_the_cat model not found :(");
-                    maxwellSpin = false;
-                    return;
-                }
+                // to be fixed
 
-                // create lock
-                maxwellModel.SetDefault();
-                if (maxwellSpin)
-                {
-                    maxwellModel.Reset();
-                    AddLog("o i i a i o i i a i");
+                //maxwellSpin = !maxwellSpin;
+                //maxwellModel = null;
+                //var objectModels = sceneManager.GetCurrentScene().WorldModels;
+                //foreach (var model in objectModels)
+                //{
+                //    if (model.Target.Target.Name == "maxwell")
+                //    {
+                //        maxwellModel = model.Target;
+                //        break;
+                //    }
+                //}
+                //if (maxwellModel == null)
+                //{
+                //    AddLog("[ERR] Maxwell_the_cat model not found :(");
+                //    maxwellSpin = false;
+                //    return;
+                //}
 
-                }
-                else
-                {
-                    AddLog("maxwell stopped");
-                }
+                //// create lock
+                //maxwellModel.SetDefault();
+                //if (maxwellSpin)
+                //{
+                //    maxwellModel.Reset();
+                //    AddLog("o i i a i o i i a i");
+
+                //}
+                //else
+                //{
+                //    AddLog("maxwell stopped");
+                //}
             } else if (trimmedCmd.StartsWith("texture", StringComparison.OrdinalIgnoreCase))
             {
                 var parts = trimmedCmd.Split(" ", StringSplitOptions.RemoveEmptyEntries);
@@ -840,69 +839,70 @@ public class RLImGui
         AddLog($"Dumped {dumped} textures to '{modelDir}'");
     }
 
-    private void HandleModelCreate(string[] parts)
-    {
-        if (parts.Length < 3)
-        {
-            AddLog("Usage: model add <resource_path> [model_name]");
-            return;
-        }
+    //private void HandleModelCreate(string[] parts)
+    //{
+    //    if (parts.Length < 3)
+    //    {
+    //        AddLog("Usage: model add <resource_path> [model_name]");
+    //        return;
+    //    }
 
-        var resourcePath = parts[2];
-        var modelName = parts.Length > 3 ? parts[3] : Path.GetFileNameWithoutExtension(resourcePath);
+    //    var resourcePath = parts[2];
+    //    var modelName = parts.Length > 3 ? parts[3] : Path.GetFileNameWithoutExtension(resourcePath);
 
-        try
-        {
-            AddLog($"Creating model from: {resourcePath}");
-            var model = graphics.CreateModel(resourcePath, modelName).MakeEntity();
+    //    try
+    //    {
+    //        AddLog($"Creating model from: {resourcePath}");
+    //        var model = graphics.CreateModel(resourcePath, modelName).MakeEntity();
             
-            sceneManager.GetCurrentScene().ObjectModels.Add(model);
-            ImGuiRenderingObjects.Add(model);
-            AddLog($"Model '{modelName}' added to scene and UI controls");
-        }
-        catch (Exception ex)
-        {
-            AddLog($"[ERR] Failed to create model: {ex.Message}");
-        }
-    }
+    //        sceneManager.GetCurrentScene().WorldModels.Add(model);
+    //        ImGuiRenderingObjects.Add(model);
+    //        AddLog($"Model '{modelName}' added to scene and UI controls");
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        AddLog($"[ERR] Failed to create model: {ex.Message}");
+    //    }
+    //}
     
-    private void HandleModelDelete(string[] parts)
-    {
-        var scene = sceneManager.GetCurrentScene();
+    // Currently broken
+    //private void HandleModelDelete(string[] parts)
+    //{
+    //    var scene = sceneManager.GetCurrentScene();
         
-        if (parts.Length < 3)
-        {
-            AddLog("Usage: model delete <model_name>");
-            return;
-        }
+    //    if (parts.Length < 3)
+    //    {
+    //        AddLog("Usage: model delete <model_name>");
+    //        return;
+    //    }
 
-        var modelName = parts[2];
-        bool modelFound = false;
+    //    var modelName = parts[2];
+    //    bool modelFound = false;
 
-        // Find and remove from ImGui rendering objects
-        for (int i = ImGuiRenderingObjects.Count - 1; i >= 0; i--)
-        {
-            if (ImGuiRenderingObjects[i].Target.Target.Name.Equals(modelName, StringComparison.OrdinalIgnoreCase))
-            {
-                ImGuiRenderingObjects.RemoveAt(i);
-                modelFound = true;
-            }
-        }
+    //    // Find and remove from ImGui rendering objects
+    //    for (int i = ImGuiRenderingObjects.Count - 1; i >= 0; i--)
+    //    {
+    //        if (ImGuiRenderingObjects[i].Target.Target.Name.Equals(modelName, StringComparison.OrdinalIgnoreCase))
+    //        {
+    //            ImGuiRenderingObjects.RemoveAt(i);
+    //            modelFound = true;
+    //        }
+    //    }
 
-        for (int i = scene.ObjectModels.Count - 1; i >= 0; i--)
-        {
-            if (scene.ObjectModels[i].Target.Target.Name.Equals(modelName, StringComparison.OrdinalIgnoreCase))
-            {
-                scene.ObjectModels.RemoveAt(i);
-                modelFound = true;
-            }
-        }
+    //    for (int i = scene.WorldModels.Count - 1; i >= 0; i--)
+    //    {
+    //        if (scene.WorldModels[i].Target.Target.Name.Equals(modelName, StringComparison.OrdinalIgnoreCase))
+    //        {
+    //            scene.WorldModels.RemoveAt(i);
+    //            modelFound = true;
+    //        }
+    //    }
 
-        if (modelFound)
-            AddLog($"Model '{modelName}' deleted");
-        else
-            AddLog($"[WRN] Model '{modelName}' not found");
-    }
+    //    if (modelFound)
+    //        AddLog($"Model '{modelName}' deleted");
+    //    else
+    //        AddLog($"[WRN] Model '{modelName}' not found");
+    //}
     
     private void HandleModelTextureOverride(string[] parts)
     {

@@ -17,28 +17,8 @@ using ShaderType = RedLight.Graphics.ShaderType;
 namespace RedLight;
 
 /// <summary>
-/// The entry point to the RedLight Game Engine. 
+/// The entry point to the RedLight Game Engine. TODO: Create better docs
 /// </summary>
-/// <remarks>
-/// The <see cref="RLEngine"/> class serves as the main entry point for initializing and running the
-/// application. It manages the window, graphics backend, and scenes, and provides logging capabilities.
-/// Use the <see cref="Run"/> method to start the engine's main loop.
-/// </remarks>
-/// <example>
-/// <code>
-/// // Initialise scenes
-/// var scene1 = new TestingScene1();
-/// // Create engine instance
-/// var engine = new RLEngine(1280, 720, "RedLight Game Engine Editor", scene1, args);
-/// // Create scene manager
-/// var sceneManager = engine.CreateSceneManager();
-/// // Add scenes to scene manager
-/// sceneManager.Add("loading", loadingScene, loadingScene, loadingScene);
-/// sceneManager.Add("testing_scene_1", scene1);
-/// // Run
-/// engine.Run();
-/// </code>
-/// </example>
 public class RLEngine
 {
     /// <summary>
@@ -112,6 +92,14 @@ public class RLEngine
 
             if (startingScene != null)
             {
+                Log.Debug("Starting scene initialisation: {Scene}", startingScene.GetType);
+
+                if (startingScene.PhysicsSystem == null)
+                {
+                    Log.Debug("Creating initial physics system for starting scene");
+                    startingScene.PhysicsSystem = new PhysicsSystem();
+                }
+
                 SceneManager.SwitchScene(startingScene);
                 Log.Debug("Scene is switching to {A}", startingScene);
             }

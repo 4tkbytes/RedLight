@@ -1,18 +1,8 @@
-﻿using System.Drawing;
-using System.Numerics;
-using ImGuiNET;
-using RedLight.Core;
-using RedLight.Graphics.Primitive;
-using RedLight.Input;
-using RedLight.Physics;
+﻿using RedLight.Entities;
 using RedLight.UI;
-using RedLight.Utils;
 using Serilog;
-using Silk.NET.Input;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;
-using Silk.NET.OpenGL.Extensions.ImGui;
-using Silk.NET.Windowing;
 
 namespace RedLight.Graphics;
 

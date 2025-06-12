@@ -27,7 +27,7 @@ public class SceneManager
         get
         {
             if (_instance == null)
-                throw new InvalidOperationException("SceneManager is not initialized. Call Initialize first.");
+                throw new InvalidOperationException("SceneManager is not initialised. Call SceneManager.Initialise() first.");
             return _instance;
         }
     }
@@ -160,7 +160,13 @@ public class SceneManager
         {
             Log.Error("InputManager is null");
         }
-        
+        if (currentScene.PhysicsSystem == null)
+        {
+            Log.Debug("Creating new physics system for scene");
+            currentScene.PhysicsSystem = new PhysicsSystem();
+            Log.Debug("Physics system created and assigned to scene: {IsNull}", currentScene.PhysicsSystem == null);
+        }
+
         // default no texture path
         currentScene.TextureManager.TryAdd(
             "no-texture",

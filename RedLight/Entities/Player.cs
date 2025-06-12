@@ -1,11 +1,10 @@
-﻿﻿using Silk.NET.Input;
-using Silk.NET.Maths;
-using System;
-using System.Collections.Generic;
+﻿using RedLight.Graphics;
 using Serilog;
-using RedLight.Physics;
+﻿using Silk.NET.Input;
+using Silk.NET.Maths;
+using System.Numerics;
 
-namespace RedLight.Graphics.Primitive;
+namespace RedLight.Entities;
 
 public class Player: Entity<Transformable<RLModel>>
 {
@@ -28,7 +27,7 @@ public class Player: Entity<Transformable<RLModel>>
 
     private Vector3D<float> lastModelPosition;
 
-    public Player(Camera camera, Transformable<RLModel> model, bool autoMapHitbox = true): base(model)
+    public Player(Camera camera, Transformable<RLModel> model, bool autoMapHitbox = true) : base(model)
     {
         Camera = camera;
         Target = model;
@@ -50,15 +49,29 @@ public class Player: Entity<Transformable<RLModel>>
     public void Update(HashSet<Silk.NET.Input.Key> pressedKeys, float deltaTime)
     {
         var prevPos = Position;
+
+        // Apply movement forces via physics
         HandleMovement(pressedKeys, deltaTime);
+
+        // IMPORTANT: Get updated position from physics system
+        if (PhysicsSystem != null && PhysicsSystem.TryGetBodyHandle(this, out var bodyHandle))
+        {
+            // Update position from physics engine
+            var pose = PhysicsSystem.Simulation.Bodies.GetBodyReference(bodyHandle).Pose;
+            Position = new Vector3D<float>(pose.Position.X, pose.Position.Y, pose.Position.Z);
+
+            // Get velocity for other effects if needed
+            var velocity = PhysicsSystem.Simulation.Bodies.GetBodyReference(bodyHandle).Velocity;
+            Velocity = new Vector3D<float>(velocity.Linear.X, velocity.Linear.Y, velocity.Linear.Z);
+
+            Log.Debug("[Player] Position updated from physics: {Position}", Position);
+        }
+
         if (prevPos != Position)
             Log.Verbose("[Player] Position changed: {Prev} -> {Current}", prevPos, Position);
 
         UpdateCameraPosition();
-        UpdatePhysics(deltaTime);
-        Log.Debug("Colliding with down, Velocity");
-        Velocity = new Vector3D<float>(Velocity.X, 0f, Velocity.Z);
-
+        UpdateBoundingBox();
         SyncModelTransform();
     }
 
@@ -66,30 +79,84 @@ public class Player: Entity<Transformable<RLModel>>
     {
         Vector3D<float> direction = Vector3D<float>.Zero;
 
+        // Calculate direction based on camera orientation
         var forward = Vector3D.Normalize(new Vector3D<float>(Camera.Front.X, 0, Camera.Front.Z));
         var right = Vector3D.Normalize(Vector3D.Cross(Camera.Front, Camera.Up));
         var up = Camera.Up;
 
-        if (pressedKeys.Contains(Key.W) && !ObjectCollisionSides.Contains(CollisionSide.Front))
+        if (pressedKeys.Contains(Key.W))
             direction += forward;
-        if (pressedKeys.Contains(Key.S) && !ObjectCollisionSides.Contains(CollisionSide.Back))
+        if (pressedKeys.Contains(Key.S))
             direction -= forward;
-        if (pressedKeys.Contains(Key.A) && !ObjectCollisionSides.Contains(CollisionSide.Left))
+        if (pressedKeys.Contains(Key.A))
             direction -= right;
-        if (pressedKeys.Contains(Key.D) && !ObjectCollisionSides.Contains(CollisionSide.Right))
+        if (pressedKeys.Contains(Key.D))
             direction += right;
-        if (pressedKeys.Contains(Key.Space) && !ObjectCollisionSides.Contains(CollisionSide.Up))
+        if (pressedKeys.Contains(Key.Space))
             direction += up;
-        if (pressedKeys.Contains(Key.ShiftLeft) && !ObjectCollisionSides.Contains(CollisionSide.Down))
+        if (pressedKeys.Contains(Key.ShiftLeft))
             direction -= up;
 
         if (direction != Vector3D<float>.Zero)
+        {
             direction = Vector3D.Normalize(direction);
 
-        if (direction != Vector3D<float>.Zero)
-            Log.Verbose("[Player] Moving direction: {Direction}, speed: {Speed}, deltaTime: {DeltaTime}", direction, MoveSpeed, deltaTime);
+            if (PhysicsSystem != null && PhysicsSystem.TryGetBodyHandle(this, out var bodyHandle))
+            {
+                // Check current velocity before applying impulse
+                var bodyRef = PhysicsSystem.Simulation.Bodies.GetBodyReference(bodyHandle);
+                var currentVel = bodyRef.Velocity.Linear;
 
-        Position += direction * MoveSpeed * deltaTime;
+                // Use a lower force multiplier with deltaTime scaling
+                float forceMultiplier = 5.0f * deltaTime;
+                var impulse = new Vector3(direction.X, direction.Y, direction.Z) * MoveSpeed * forceMultiplier;
+
+                // Apply force rather than directly setting velocity
+                PhysicsSystem.ApplyImpulse(this, impulse);
+
+                // Check if body needs to be awakened
+                if (!bodyRef.Awake)
+                {
+                    Log.Debug("[Player] Waking up physics body");
+                    bodyRef.Awake = true;
+                }
+
+                Log.Debug("[Player] Applied impulse {Impulse}, Current velocity: {Velocity}, Position: {Position}",
+                    impulse, currentVel, bodyRef.Pose.Position);
+            }
+            else
+            {
+                // Fallback if physics not initialized
+                Position += direction * MoveSpeed * deltaTime;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Resets the player's physics state for debugging
+    /// </summary>
+    public void ResetPhysics()
+    {
+        if (PhysicsSystem != null && PhysicsSystem.TryGetBodyHandle(this, out var bodyHandle))
+        {
+            var bodyRef = PhysicsSystem.Simulation.Bodies.GetBodyReference(bodyHandle);
+
+            // Reset velocity
+            bodyRef.Velocity.Linear = new Vector3(0, 0, 0);
+            bodyRef.Velocity.Angular = new Vector3(0, 0, 0);
+
+            // Reset position to a known good value (slightly above ground)
+            bodyRef.Pose.Position = new Vector3(0, 1, 0);
+
+            // Ensure body is awake
+            bodyRef.Awake = true;
+
+            // Sync our representation
+            Position = new Vector3D<float>(0, 1, 0);
+            Velocity = Vector3D<float>.Zero;
+
+            Log.Information("[Player] Physics state reset");
+        }
     }
 
     /// <summary>
