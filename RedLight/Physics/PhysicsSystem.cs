@@ -10,6 +10,9 @@ using Serilog;
 using System.Numerics;
 
 namespace RedLight;
+
+public delegate void CollisionEventHandler(Entity entityA, Entity entityB, Vector3 contactPoint, Vector3 normal);
+
 public class PhysicsSystem
 {
     
@@ -19,10 +22,17 @@ public class PhysicsSystem
     private ThreadDispatcher? threadDispatcher;
 
     // maps the entity to a physics body handle
-    private Dictionary<Entity<Transformable<RLModel>>, BodyHandle> bodyHandles = new();
+    private Dictionary<Entity, BodyHandle> bodyHandles = new();
+    // reverse mapping from body handle to entity for collision events
+    internal Dictionary<BodyHandle, Entity> handleToEntity = new();
 
     // hashset used for debugging
     private HashSet<string> _registeredEntityNames = new();
+    
+    // collision events
+    public event CollisionEventHandler? OnCollisionEnter;
+    public event CollisionEventHandler? OnCollisionStay;
+    public event CollisionEventHandler? OnCollisionExit;
 
     public PhysicsSystem(int threadCount = 1)
     {
@@ -34,13 +44,13 @@ public class PhysicsSystem
 
         Simulation = Simulation.Create(
             bufferPool,
-            new NarrowPhaseCallbacks(),
+            new NarrowPhaseCallbacks(this),
             new PoseIntegratorCallbacks(new Vector3(0, -9.81f, 0)),
             new SolveDescription(4, 1));
         Log.Debug("Initialised PhysicsSystem with a thread count of {threadCount}", threadCount);
     }
 
-    public void AddEntity(Entity<Transformable<RLModel>> entity, bool silent = true)
+    public void AddEntity(Entity entity, bool silent = true)
     {
         if (!silent)
         {
@@ -84,23 +94,17 @@ public class PhysicsSystem
         }
         else
         {
-            // For non-gravity objects, check if they're meant to be completely static
-            if (entity.ApplyGravity == true)
-            {
-                // Truly static/immovable body - use CreateStatic instead of CreateKinematic
-                bodyHandle = Simulation.Bodies.Add(BodyDescription.CreateKinematic(pose, shapeIndex, 0.01f));
-                if (!silent)
-                    Log.Debug("Added static immovable entity: {EntityName}", entity.Target?.Target?.Name);
-            }
-            else
-            {
-                // Regular kinematic body (can be moved programmatically but not by physics)
-                bodyHandle = Simulation.Bodies.Add(BodyDescription.CreateKinematic(pose, shapeIndex, 0.01f));
-            }
+            // For non-gravity objects, create kinematic body
+            bodyHandle = Simulation.Bodies.Add(BodyDescription.CreateKinematic(pose, shapeIndex, 0.01f));
+            if (!silent)
+                Log.Debug("Added kinematic entity: {EntityName}", entity.Model?.Name);
         }
 
         // store the handle
         bodyHandles[entity] = bodyHandle;
+        handleToEntity[bodyHandle] = entity;
+        entity.PhysicsSystem = this;
+        
         if (!silent)
         {
             Log.Debug("Is Dynamic? {IsDynamic}", entity.ApplyGravity);
@@ -108,12 +112,14 @@ public class PhysicsSystem
         }
     }
 
-    public void RemoveEntity(Entity<Transformable<RLModel>> entity)
+    public void RemoveEntity(Entity entity)
     {
         if (bodyHandles.TryGetValue(entity, out var bodyHandle))
         {
             Simulation.Bodies.Remove(bodyHandle);
             bodyHandles.Remove(entity);
+            handleToEntity.Remove(bodyHandle);
+            entity.PhysicsSystem = null;
             Log.Debug("Removed entity {Type} from physics system", entity.GetType());
         }
     }
@@ -138,21 +144,13 @@ public class PhysicsSystem
         {
             var bodyRef = Simulation.Bodies.GetBodyReference(bodyHandle);
 
-            // Debug info to understand body state
-            if (!silent) Log.Debug("[Physics] Entity: {EntityName}, Awake: {Awake}, Velocity: {Velocity}, Position: {Position}",
-                entity.Target.Target.Name,
-                bodyRef.Awake,
-                bodyRef.Velocity.Linear,
-                bodyRef.Pose.Position);
-
-            // Always update position regardless of Awake status
-            var pose = bodyRef.Pose;
-            var position = new Vector3(pose.Position.X, pose.Position.Y, pose.Position.Z);
-            entity.SetPosition(position);
-
-            // Update velocity if it's dynamic
-            if (entity.ApplyGravity)
+            if (entity.ApplyGravity && bodyRef.Awake)
             {
+                var pose = bodyRef.Pose;
+                var position = new Vector3(pose.Position.X, pose.Position.Y, pose.Position.Z);
+                entity.SetPosition(position);
+
+                // Update velocity
                 entity.Velocity = new Vector3(
                     bodyRef.Velocity.Linear.X,
                     bodyRef.Velocity.Linear.Y,
@@ -161,18 +159,17 @@ public class PhysicsSystem
         }
     }
 
-    public bool TryGetBodyHandle(Entity<Transformable<RLModel>> entity, out BodyHandle handle)
+    public bool TryGetBodyHandle(Entity entity, out BodyHandle handle)
     {
         return bodyHandles.TryGetValue(entity, out handle);
     }
 
-    public void ApplyImpulse(Entity<Transformable<RLModel>> entity, Vector3 impulse, bool silent = true)
+    public void ApplyImpulse(Entity entity, Vector3 impulse, bool silent = true)
     {
-        silent = false;
         if (bodyHandles.TryGetValue(entity, out var handle))
         {
             if (!silent) Log.Debug("[Physics] Applying impulse {Impulse} to entity {EntityName}",
-                impulse, entity.Target.Target.Name);
+                impulse, entity.Model.Name);
 
             var bodyRef = Simulation.Bodies.GetBodyReference(handle);
             if (!silent) Log.Debug("[Physics] Current velocity before impulse: {Velocity}", bodyRef.Velocity.Linear);
@@ -188,6 +185,19 @@ public class PhysicsSystem
         }
     }
 
+    internal void TriggerCollisionEvent(Entity entityA, Entity entityB, Vector3 contactPoint, Vector3 normal, bool silent = true)
+    {
+        // Update entity collision state
+        entityA.IsColliding = true;
+        entityB.IsColliding = true;
+        
+        // Trigger collision events
+        OnCollisionEnter?.Invoke(entityA, entityB, contactPoint, normal);
+        
+        if (!silent) Log.Debug("[Collision] {EntityA} collided with {EntityB} at {ContactPoint}", 
+            entityA.GetType().Name, entityB.GetType().Name, contactPoint);
+    }
+
     public void Dispose()
     {
         Simulation.Dispose();
@@ -199,6 +209,13 @@ public class PhysicsSystem
 
 public struct NarrowPhaseCallbacks : INarrowPhaseCallbacks
 {
+    private PhysicsSystem physicsSystem;
+    
+    public NarrowPhaseCallbacks(PhysicsSystem system)
+    {
+        physicsSystem = system;
+    }
+
     public void Initialize(Simulation simulation) { }
 
     public bool AllowContactGeneration(int workerIndex, CollidableReference a, CollidableReference b, ref float maximumExpansion)
@@ -214,12 +231,33 @@ public struct NarrowPhaseCallbacks : INarrowPhaseCallbacks
     public bool ConfigureContactManifold<TManifold>(int workerIndex, CollidablePair pair, ref TManifold manifold, out PairMaterialProperties pairMaterial)
         where TManifold : unmanaged, IContactManifold<TManifold>
     {
+        // Set material properties for collision response
         pairMaterial = new PairMaterialProperties
         {
-            FrictionCoefficient = 1.0f,
-            MaximumRecoveryVelocity = 4.0f,
-            SpringSettings = new SpringSettings(30f, 1f)
+            FrictionCoefficient = 0.8f,  // Low friction for smooth movement
+            MaximumRecoveryVelocity = 1.0f,
+            SpringSettings = new SpringSettings(20f, 1.0f)  // Softer springs
         };
+
+        // Trigger collision event if physics system is available
+        if (physicsSystem != null)
+        {
+            // Try to get entities from body handles
+            var bodyA = pair.A.BodyHandle;
+            var bodyB = pair.B.BodyHandle;
+            
+            if (physicsSystem.handleToEntity.TryGetValue(bodyA, out var entityA) && 
+                physicsSystem.handleToEntity.TryGetValue(bodyB, out var entityB))
+            {
+                // Simplified collision event - we'll get contact details from the physics system
+                Vector3 contactPoint = Vector3.Zero;
+                Vector3 normal = Vector3.UnitY;
+
+                // Trigger collision event
+                physicsSystem.TriggerCollisionEvent(entityA, entityB, contactPoint, normal);
+            }
+        }
+
         return true;
     }
 

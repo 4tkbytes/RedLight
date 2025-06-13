@@ -104,17 +104,17 @@ public class RLGraphics
     }
 
     /// <summary>
-    /// Updates the projection model of a RLModel
+    /// Updates the projection model of an Entity
     /// </summary>
     /// <param name="camera">Camera</param>
-    /// <param name="Tmodel"></param>
-    public void UpdateProjection(Camera camera, Transformable<RLModel> Tmodel)
+    /// <param name="entity">Entity</param>
+    public void UpdateProjection(Camera camera, Entity entity)
     {
         unsafe
         {
             var local = camera.Projection;
             float* ptr = (float*)&local;
-            foreach (var mesh in Tmodel.Target.Meshes)
+            foreach (var mesh in entity.Model.Meshes)
             {
                 int loc = OpenGL.GetUniformLocation(mesh.program, "projection");
                 OpenGL.UniformMatrix4(loc, 1, false, ptr);
@@ -123,17 +123,17 @@ public class RLGraphics
     }
 
     /// <summary>
-    /// Updates the view of a RLModel
+    /// Updates the view of an Entity
     /// </summary>
     /// <param name="camera">Camera</param>
-    /// <param name="Tmodel"></param>
-    public void UpdateView(Camera camera, Transformable<RLModel> Tmodel)
+    /// <param name="entity">Entity</param>
+    public void UpdateView(Camera camera, Entity entity)
     {
         unsafe
         {
             var local = camera.View;
             float* ptr = (float*)&local;
-            foreach (var mesh in Tmodel.Target.Meshes)
+            foreach (var mesh in entity.Model.Meshes)
             {
                 int loc = OpenGL.GetUniformLocation(mesh.program, "view");
                 OpenGL.UniformMatrix4(loc, 1, false, ptr);
@@ -142,16 +142,16 @@ public class RLGraphics
     }
 
     /// <summary>
-    /// Updates the model's positioning and other stuff
+    /// Updates the entity's positioning and other stuff
     /// </summary>
-    /// <param name="Tmodel"></param>
-    public void UpdateModel(Transformable<RLModel> Tmodel)
+    /// <param name="entity">Entity</param>
+    public void UpdateModel(Entity entity)
     {
         unsafe
         {
-            foreach (var mesh in Tmodel.Target.Meshes)
+            foreach (var mesh in entity.Model.Meshes)
             {
-                var local = Tmodel.ModelMatrix;
+                var local = entity.ModelMatrix;
                 float* ptr = (float*)&local;
                 int loc = OpenGL.GetUniformLocation(mesh.program, "model");
                 OpenGL.UniformMatrix4(loc, 1, false, ptr);
@@ -160,74 +160,15 @@ public class RLGraphics
     }
 
     /// <summary>
-    /// Updates the projection of a mesh
+    /// Updates the model, view and projection all in one of an Entity. 
     /// </summary>
-    /// <param name="camera"></param>
-    /// <param name="Tmesh"></param>
-    public void UpdateProjection(Camera camera, Transformable<Mesh> Tmesh)
+    /// <param name="camera">Camera</param>
+    /// <param name="entity">Entity</param>
+    public void Update(Camera camera, Entity entity)
     {
-        unsafe
-        {
-            var local = camera.Projection;
-            float* ptr = (float*)&local;
-            int loc = OpenGL.GetUniformLocation(Tmesh.Target.program, "projection");
-            OpenGL.UniformMatrix4(loc, 1, false, ptr);
-        }
-    }
-    
-    /// <summary>
-    /// Updates the view of a mesh
-    /// </summary>
-    /// <param name="camera"></param>
-    /// <param name="Tmesh"></param>
-    public void UpdateView(Camera camera, Transformable<Mesh> Tmesh)
-    {
-        unsafe
-        {
-            var local = camera.View;
-            float* ptr = (float*)&local;
-            int loc = OpenGL.GetUniformLocation(Tmesh.Target.program, "view");
-            OpenGL.UniformMatrix4(loc, 1, false, ptr);
-        }
-    }
-
-    /// <summary>
-    /// Updates the model of a mesh
-    /// </summary>
-    /// <param name="Tmesh"></param>
-    public void UpdateModel(Transformable<Mesh> Tmesh)
-    {
-        unsafe
-        {
-            var local = Tmesh.ModelMatrix;
-            float* ptr = (float*)&local;
-            int loc = OpenGL.GetUniformLocation(Tmesh.Target.program, "model");
-            OpenGL.UniformMatrix4(loc, 1, false, ptr);
-        }
-    }
-
-    /// <summary>
-    /// Updates the model, view and projection all in one of a Transformable Model. 
-    /// </summary>
-    /// <param name="camera"></param>
-    /// <param name="Tmodel"></param>
-    public void Update(Camera camera, Transformable<RLModel> Tmodel)
-    {
-        UpdateModel(Tmodel);
-        UpdateView(camera, Tmodel);
-        UpdateProjection(camera, Tmodel);
-    }
-    
-    /// <summary>
-    /// Updates the model, view and projection all in one of a Transformable Mesh. 
-    /// </summary>
-    /// <param name="camera"></param>
-    /// <param name="Tmesh"></param>
-    public void Update(Camera camera, Transformable<Mesh> Tmesh)
-    {
-        UpdateModel(Tmesh);
-        UpdateView(camera, Tmesh);
-        UpdateProjection(camera, Tmesh);
+        UpdateModel(entity);
+        UpdateView(camera, entity);
+        UpdateProjection(camera, entity);
     }
 
     /// <summary>
@@ -267,28 +208,12 @@ public class RLGraphics
     }
 
     /// <summary>
-    /// Enables the mesh's shader program. 
+    /// Enables the entity's shader program. 
     /// </summary>
-    /// <param name="mesh"></param>
-    public void Use(Transformable<Mesh> mesh)
+    /// <param name="entity">Entity</param>
+    public void Use(Entity entity)
     {
-        if (mesh.Target.program == 0)
-        {
-            Log.Error("[RLGraphics] Attempted to use invalid shader program (0)!");
-            return;
-        }
-        if (!ShutUp)
-            Log.Verbose("[RLGraphics] Using program: {Program}", mesh.Target.program);
-        OpenGL.UseProgram(mesh.Target.program);
-    }
-
-    /// <summary>
-    /// Enables the model's shader program. 
-    /// </summary>
-    /// <param name="model"></param>
-    public void Use(Transformable<RLModel> model)
-    {
-        var prog = model.Target.Meshes.First().program;
+        var prog = entity.Model.Meshes.First().program;
         if (prog == 0)
         {
             Log.Error("[RLGraphics] Attempted to use invalid shader program (0)!");
@@ -300,12 +225,10 @@ public class RLGraphics
     }
 
     /// <summary>
-    /// Creates a new model in an easier way. It creates a new RLModel from the resouceName, then attaches the "basic"
+    /// Creates a new model in an easier way. It creates a new RLModel from the resourceName, then attaches the "basic"
     /// shader and makes it Transformable. 
     /// </summary>
     /// <param name="resourceName">string</param>
-    /// <param name="textureManager">TextureManager</param>
-    /// <param name="shaderManager">ShaderManager</param>
     /// <param name="name">string</param>
     /// <returns>Transformable RLModel</returns>
     public Transformable<RLModel> CreateModel(string resourceName, string name)
@@ -318,9 +241,9 @@ public class RLGraphics
     /// <summary>
     /// Converts a model into a player. This overload creates a new camera on your behalf. 
     /// </summary>
-    /// <param name="screenSize"><see cref="Vector2D"/></param>
+    /// <param name="screenSize"><see cref="Vector2"/></param>
     /// <param name="model"><see cref="Transformable{RLModel}"/></param>
-    /// <returns></returns>
+    /// <returns>Player</returns>
     public Player MakePlayer(Vector2 screenSize, Transformable<RLModel> model)
     {
         var camera = new Camera(screenSize);
@@ -359,25 +282,25 @@ public class RLGraphics
     }
 
     /// <summary>
-    /// Draws the model using OpenGL. 
+    /// Draws the entity using OpenGL. 
     /// </summary>
-    /// <param name="model">Transformable RLModel</param>
-    public void Draw(Transformable<RLModel> model)
+    /// <param name="entity">Entity</param>
+    public void Draw(Entity entity)
     {
-        model.Target.Draw();
+        entity.Model.Draw();
         CheckGLErrors();
     }
 
     /// <summary>
-    /// This function adds models to both list, specifically the ObjectModels list and the ImGui list
+    /// This function adds entities to both list, specifically the ObjectModels list and the ImGui list
     /// in the case that it is required. It halves the amount of commands used and makes it simpler. 
     /// </summary>
-    /// <param name="models"><see cref="List{Entity{Transformable{RLModel}}}"/></param>
+    /// <param name="entities"><see cref="List{Entity}"/></param>
     /// <param name="imGui"><see cref="RLImGui"/></param>
-    /// <param name="model"><see cref="Transformable{RLModel}"/></param>
-    public void AddModels(List<Entity<Transformable<RLModel>>> models, RLImGui imGui, Entity<Transformable<RLModel>> model)
+    /// <param name="entity"><see cref="Entity"/></param>
+    public void AddModels(List<Entity> entities, Entity entity)
     {
-        models.Add(model);
-        imGui.AddModels(model);
+        entities.Add(entity);
+        // imgui is broken so sad
     }
 }

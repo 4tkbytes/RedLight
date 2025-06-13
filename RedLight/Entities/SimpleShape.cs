@@ -1,13 +1,16 @@
-﻿namespace RedLight.Graphics.Primitive;
-
 using RedLight.Entities;
-using Silk.NET.Maths;
-using System.Numerics;
+using RedLight.Graphics;
 
-//// <summary>
-/// Abstract class for any simple shapes like cubes and other objects
+namespace RedLight.Graphics.Primitive;
+
+/// <summary>
+/// Base class for simple geometric shapes like cubes, spheres, planes, etc.
+/// Provides a simplified API without nested generic types.
 /// </summary>
-public abstract class SimpleShape : Entity<Transformable<RLModel>>
+public abstract class SimpleShape : Entity
 {
-    protected SimpleShape(Transformable<RLModel> transformable) : base(transformable) { }
+    protected SimpleShape(RLModel model, bool applyGravity = true) 
+        : base(model, applyGravity) 
+    {
+    }
 }

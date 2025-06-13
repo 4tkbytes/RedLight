@@ -87,34 +87,6 @@ public class RLModel
         return new ConcreteTransformable<RLModel>(this);
     }
 
-    public void CalculateLocalAABB(out Vector3 min, out Vector3 max, bool silent = true)
-    {        
-        if (Meshes == null || !Meshes.Any())
-        {
-            min = Vector3.Zero;
-            max = Vector3.Zero;
-            return;
-        }
-
-        min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
-        max = new Vector3(float.MinValue, float.MinValue, float.MinValue);
-
-        foreach (var mesh in Meshes)
-        {
-            foreach (var vertex in mesh.Vertices)
-            {
-                min.X = Math.Min(min.X, vertex.Position.X);
-                min.Y = Math.Min(min.Y, vertex.Position.Y);
-                min.Z = Math.Min(min.Z, vertex.Position.Z);
-
-                max.X = Math.Max(max.X, vertex.Position.X);
-                max.Y = Math.Max(max.Y, vertex.Position.Y);
-                max.Z = Math.Max(max.Z, vertex.Position.Z);
-                if (!silent) Log.Debug("Min: {MIN}, Max: {MAX}", min, max);
-            }
-        }
-    }
-
     private unsafe void LoadModel(string path)
     {
         var scene = _assimp.ImportFile(path, (uint)PostProcessSteps.Triangulate);

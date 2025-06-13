@@ -36,7 +36,7 @@ public abstract class Transformable<T>
     /// <summary>
     /// Translate the target by a Vector3D float. 
     /// </summary>
-    /// <param name="translation"><see cref="Vector3D"/></param>
+    /// <param name="translation"><see cref="Vector3"/></param>
     /// <returns><see cref="Transformable{T}"/></returns>
     public Transformable<T> Translate(Vector3 translation)
     {
@@ -46,10 +46,10 @@ public abstract class Transformable<T>
     }
 
     /// <summary>
-    /// Rotates the target by a radians and its axis (typically Vector3D's UnitX, UnitY or UnitZ).
+    /// Rotates the target by a radians and its axis (typically Vector3's UnitX, UnitY or UnitZ).
     /// </summary>
     /// <param name="radians">float</param>
-    /// <param name="axis"><see cref="Vector3D"/></param>
+    /// <param name="axis"><see cref="Vector3"/></param>
     /// <returns><see cref="Transformable{T}"/></returns>
     public Transformable<T> Rotate(float radians, Vector3 axis)
     {
@@ -63,7 +63,7 @@ public abstract class Transformable<T>
     /// <summary>
     /// Changes the scale of the model. Takes an input of scale and multiplies the model matrix by the scale. 
     /// </summary>
-    /// <param name="scale"><see cref="Vector3D"/></param>
+    /// <param name="scale"><see cref="Vector3"/></param>
     /// <returns><see cref="Transformable{T}"/></returns>
     public Transformable<T> SetScale(Vector3 scale)
     {
@@ -174,24 +174,21 @@ public abstract class Transformable<T>
     }
 
     /// <summary>
-    /// This function converts a <see cref="Transformable{T}"/> into an <see cref="Entity{T}"/> to unlock
-    /// physics and collisions. 
+    /// Extension method to make an RLModel transformable
     /// </summary>
     /// <returns></returns>
-    public ConcreteEntity<Transformable<T>> MakeEntity()
+    public static ConcreteTransformable<T> MakeTransformable(T target)
     {
-        return new ConcreteEntity<Transformable<T>>(this);
+        return new ConcreteTransformable<T>(target);
     }
 
     public Vector3 Position
     {
-        // ez
         get => new Vector3(ModelMatrix.M41, ModelMatrix.M42, ModelMatrix.M43);
     }
 
     public Vector3 Scale
     {
-        // this is so confusing holy shit
         get
         {
             var scaleX = new Vector3(ModelMatrix.M11, ModelMatrix.M12, ModelMatrix.M13).Length();
@@ -203,7 +200,6 @@ public abstract class Transformable<T>
 
     public Vector3 Rotation
     {
-        // this is so confusing holy shit
         get
         {
             var scale = Scale;
@@ -245,4 +241,18 @@ public abstract class Transformable<T>
 public class ConcreteTransformable<T> : Transformable<T>
 {
     public ConcreteTransformable(T target) : base(target) { }
+}
+
+/// <summary>
+/// Extension methods for making objects transformable
+/// </summary>
+public static class TransformableExtensions
+{
+    /// <summary>
+    /// Extension method to make an RLModel transformable
+    /// </summary>
+    public static ConcreteTransformable<RLModel> MakeTransformable(this RLModel model)
+    {
+        return new ConcreteTransformable<RLModel>(model);
+    }
 }

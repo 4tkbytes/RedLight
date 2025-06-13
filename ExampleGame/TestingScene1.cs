@@ -3,7 +3,6 @@ using RedLight.Entities;
 using RedLight.Graphics;
 using RedLight.Input;
 using RedLight.Scene;
-using RedLight.UI;
 using RedLight.Utils;
 using Serilog;
 using Silk.NET.Input;
@@ -26,7 +25,6 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     public PhysicsSystem PhysicsSystem { get; set; }
 
     private Camera camera;
-    private RLImGui controller;
     private float cameraSpeed = 2.5f;
 
     private Player player;
@@ -35,48 +33,50 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     private Camera debugCamera;
     private bool useDebugCamera = false;
 
-    private List<Entity<Transformable<RLModel>>> ObjectModels = new();
+    private List<Entity> ObjectModels = new();
 
     private int counter = 0;
 
     public void OnLoad()
     {
         Graphics.Enable();
-        Graphics.EnableDebugErrorCallback();
-
-        // Initialize physics system
+        Graphics.EnableDebugErrorCallback(); 
+        
         PhysicsSystem = new PhysicsSystem();
 
-        plane = new Plane(Graphics, 50f, 20f).Default();
-
-        controller = new RLImGui(Graphics, Engine.Window);
-        Engine.InitialiseLogger(controller.Console);
+        plane = new Plane(Graphics, 50f, 20f);
+        plane.Translate(new Vector3(0, -0.5f, 0)); // Position slightly below ground level
+        plane.Model.AttachTexture(TextureManager.Get("no-texture"));
 
         var size = Engine.Window.Size;
         camera = new Camera(size);
 
         var maxwell = Graphics.CreateModel("RedLight.Resources.Models.Maxwell.maxwell_the_cat.glb", "maxwell")
-            .Rotate(float.DegreesToRadians(-90.0f), Vector3.UnitX)
-            .SetScale(new Vector3(0.05f, 0.05f, 0.05f));
-
-        var cube = new Cube(Graphics, TextureManager, ShaderManager, "collision_cube", false);
-        cube.Target.Translate(new Vector3(2f, 0f, 2f));        
+            .SetScale(new Vector3(0.05f));
 
         playerCamera = new Camera(size);
         debugCamera = new Camera(size);
-
         player = Graphics.MakePlayer(playerCamera, maxwell);
         player.SetPOV(PlayerCameraPOV.ThirdPerson);
 
-        ObjectModels.Add(cube);
+        var cube = new Cube(Graphics, "colliding_cube");
+        var cube2 = new Cube(Graphics, "stuck_cube", false);
+
         ObjectModels.Add(plane);
         ObjectModels.Add(player);
+        ObjectModels.Add(cube);
+        ObjectModels.Add(cube2);
 
-        // Initialize physics for all entities
         foreach (var entity in ObjectModels)
         {
-            entity.InitPhysics(PhysicsSystem);
+            entity.PhysicsSystem = PhysicsSystem;
+            PhysicsSystem.AddEntity(entity);
         }
+        
+        player.ResetPhysics();
+
+        // Subscribe to collision events
+        PhysicsSystem.OnCollisionEnter += OnCollisionEnter;
     }
 
     public void OnUpdate(double deltaTime)
@@ -85,15 +85,16 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         camera = camera.SetSpeed(cameraSpeed * (float)deltaTime);
 
         if (InputManager.isCaptured)
-            camera.KeyMap(PressedKeys);
-
+            camera.KeyMap(PressedKeys); 
+            
         if (PressedKeys.Contains(Key.F2))
         {
             foreach (var entity in ObjectModels)
             {
                 entity.ToggleHitbox();
             }
-        }        
+        }
+        
         if (PressedKeys.Contains(Key.F6))
         {
             useDebugCamera = !useDebugCamera;
@@ -107,24 +108,21 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
             debugCamera = debugCamera.SetSpeed(cameraSpeed * (float)deltaTime);
             if (InputManager.isCaptured)
                 debugCamera.KeyMap(PressedKeys);
-            foreach (var entity in ObjectModels)
-            {
-                // for updating the entities even after debug camera
-                entity.Update((float) deltaTime, isUsingDebugCamera: useDebugCamera);
-            }
         }
 
         if (!useDebugCamera)
         {
+            if (counter % 30 == 0)
+            {
+                Log.Debug("[Player Camera] {CameraYaw}", player.Camera.Yaw);
+                Log.Debug("[Player Rotation] {CameraRot}", player.Rotation);
+            }
+            
             foreach (var entity in ObjectModels)
             {
                 if (entity is Player)
                 {
                     player.Update((float)deltaTime, PressedKeys);
-                }
-                else
-                {
-                    entity.Update((float)deltaTime);
                 }
             }
         }
@@ -140,9 +138,9 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
             Camera activeCamera = useDebugCamera ? debugCamera : player.Camera;
             foreach (var model in ObjectModels)
             {
-                Graphics.Use(model.Target);
-                Graphics.Update(activeCamera, model.Target);
-                Graphics.Draw(model.Target);
+                Graphics.Use(model);
+                Graphics.Update(activeCamera, model);
+                Graphics.Draw(model);
             }
 
             if (player.IsHitboxShown)
@@ -163,22 +161,27 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
             }
         }
         Graphics.End();
-
-        controller.Render(deltaTime, useDebugCamera ? debugCamera : player.Camera);
     }
 
     public void OnKeyDown(IKeyboard keyboard, Key key, int keyCode)
     {
         PressedKeys.Add(key);
-        if (key == Key.Escape)
+        
+        switch (key)
         {
-            Engine.Window.Window.Close();
+            case Key.R:
+                player.ResetPhysics();
+                break;
+            case Key.Escape:
+                Engine.Window.Window.Close();
+                break;
+            case Key.Keypad1:
+                Engine.InitialiseLogger(1);
+                break;
+            case Key.Keypad2:
+                Engine.InitialiseLogger(2);
+                break;
         }
-        if (key == Key.R)
-        {
-            player.ResetPhysics();
-        }
-
         InputManager.ChangeCaptureToggle(key);
     }
 
@@ -197,6 +200,49 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
                 debugCamera.FreeMove(mousePosition);
             else
                 player.Camera.FreeMove(mousePosition);
+        }
+    }
+
+    private void OnCollisionEnter(Entity entityA, Entity entityB, Vector3 contactPoint, Vector3 normal)
+    {
+        // change this for debug
+        bool silent = true;
+        
+        if (!silent) Log.Debug("[Collision Event] {EntityA} collided with {EntityB} at position {ContactPoint} with normal {Normal}",
+            entityA.GetType().Name, entityB.GetType().Name, contactPoint, normal);
+
+        // Add specific collision responses
+        if (entityA is Player playerA)
+        {
+            HandlePlayerCollision(playerA, entityB, contactPoint, normal);
+        }
+        else if (entityB is Player playerB)
+        {
+            HandlePlayerCollision(playerB, entityA, contactPoint, normal);
+        }
+
+        // Make both entities show their hitboxes when they collide
+        entityA.ShowHitbox();
+        entityB.ShowHitbox();
+    }
+
+    private void HandlePlayerCollision(Player player, Entity otherEntity, Vector3 contactPoint, Vector3 normal)
+    {
+        // change ts for debug
+        bool silent = true;
+        
+        if (!silent) Log.Information("[Player Collision] Player collided with {OtherEntity}", otherEntity.GetType().Name);
+
+        // example: bouncy
+        if (PhysicsSystem.TryGetBodyHandle(player, out var playerHandle))
+        {
+            var bodyRef = PhysicsSystem.Simulation.Bodies.GetBodyReference(playerHandle);
+
+            // change the val at the end
+            Vector3 bounceForce = normal * 0.0f;
+            PhysicsSystem.ApplyImpulse(player, bounceForce);
+
+            if (!silent) Log.Debug("[Player Collision] Applied bounce force: {BounceForce}", bounceForce);
         }
     }
 }
