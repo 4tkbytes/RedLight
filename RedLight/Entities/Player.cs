@@ -37,6 +37,9 @@ public class Player: Entity<Transformable<RLModel>>
         if (autoMapHitbox)
             AutoMapHitboxToModel();
         Log.Debug("[Player] Created with initial position: {Position}, rotation: {Rotation}, scale: {Scale}", Position, Rotation, Scale);
+        // apply sum correction for the maxwell model, will have more models to be added. 
+        ApplyHitboxCorrection();
+
         ApplyGravity = true;
     }
 
@@ -45,12 +48,17 @@ public class Player: Entity<Transformable<RLModel>>
     /// <summary>
     /// Updates player logic
     /// </summary>
-    public void Update(HashSet<Silk.NET.Input.Key> pressedKeys, float deltaTime, bool silent = true)
+    public override void Update(float deltaTime, HashSet<Key> pressedKeys, bool isUsingDebugCamera = false, bool silent = true)
     {
+        if (pressedKeys == null && isUsingDebugCamera == false)
+        {
+            throw new ArgumentNullException("PressedKeys should not be null if the class is a player");
+        }
         var prevPos = Position;
 
-        // Apply movement forces via physics
-        HandleMovement(pressedKeys, deltaTime);
+        // apply movement
+        if (!isUsingDebugCamera)
+            HandleMovement(pressedKeys, deltaTime);
 
         // IMPORTANT: Get updated position from physics system
         if (PhysicsSystem != null && PhysicsSystem.TryGetBodyHandle(this, out var bodyHandle))
@@ -128,6 +136,43 @@ public class Player: Entity<Transformable<RLModel>>
                 // Fallback if physics not initialized
                 Position += direction * MoveSpeed * deltaTime;
             }
+        }
+    }
+
+    private void ApplyHitboxCorrection()
+    {
+        if (Target?.Target?.Name == "maxwell")
+        {
+            // Values determined by examining the maxwell model's actual dimensions
+            float heightCorrection = -0.5f; // Lower the hitbox to ground level
+            Vector3 centerCorrection = new Vector3(0, heightCorrection, 0);
+
+            // Apply corrections to default bounding box
+            Vector3 size = DefaultBoundingBoxMax - DefaultBoundingBoxMin;
+            Vector3 center = (DefaultBoundingBoxMin + DefaultBoundingBoxMax) * 0.5f;
+
+            // Center horizontally, adjust height
+            center += centerCorrection;
+
+            // Reduce height by 50% and adjust other dimensions as needed
+            size.Y *= 0.5f;
+
+            // Recalculate bounds from center and size
+            DefaultBoundingBoxMin = center - size * 0.5f;
+            DefaultBoundingBoxMax = center + size * 0.5f;
+
+            Log.Debug("[Player] Applied hitbox correction for maxwell model: Min={Min}, Max={Max}",
+                DefaultBoundingBoxMin, DefaultBoundingBoxMax);
+
+            // Update physics if already initialized
+            if (PhysicsSystem != null && PhysicsSystem.TryGetBodyHandle(this, out var _))
+            {
+                PhysicsSystem.RemoveEntity(this);
+                PhysicsSystem.AddEntity(this);
+            }
+
+            // Update current bounding box with new defaults
+            UpdateBoundingBox();
         }
     }
 

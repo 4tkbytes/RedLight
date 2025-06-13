@@ -59,15 +59,16 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
             .Rotate(float.DegreesToRadians(-90.0f), Vector3.UnitX)
             .SetScale(new Vector3(0.05f, 0.05f, 0.05f));
 
-        var cube = new Cube(Graphics, TextureManager, ShaderManager, "collision_cube", false);
-        cube.Translate(new Vector3(1));
+        //var cube = new Cube(Graphics, TextureManager, ShaderManager, "collision_cube", false);
+        //cube.Translate(new Vector3(3f));
+        
         playerCamera = new Camera(size);
         debugCamera = new Camera(size);
 
         player = Graphics.MakePlayer(playerCamera, maxwell);
         player.SetPOV(PlayerCameraPOV.ThirdPerson);
 
-        ObjectModels.Add(cube);
+        //ObjectModels.Add(cube);
         ObjectModels.Add(plane);
         ObjectModels.Add(player);
 
@@ -88,8 +89,10 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 
         if (PressedKeys.Contains(Key.F2))
         {
-            player.ToggleHitbox();
-            plane.ToggleHitbox();
+            foreach (var entity in ObjectModels)
+            {
+                entity.ToggleHitbox();
+            }
         }        
         if (PressedKeys.Contains(Key.F6))
         {
@@ -104,12 +107,26 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
             debugCamera = debugCamera.SetSpeed(cameraSpeed * (float)deltaTime);
             if (InputManager.isCaptured)
                 debugCamera.KeyMap(PressedKeys);
+            foreach (var entity in ObjectModels)
+            {
+                // for updating the entities even after debug camera
+                entity.Update((float) deltaTime, isUsingDebugCamera: useDebugCamera);
+            }
         }
 
         if (!useDebugCamera)
         {
-            player.Update(PressedKeys, (float)deltaTime);
-            plane.Update((float)deltaTime);
+            foreach (var entity in ObjectModels)
+            {
+                if (entity is Player)
+                {
+                    player.Update((float)deltaTime, PressedKeys);
+                }
+                else
+                {
+                    entity.Update((float)deltaTime);
+                }
+            }
         }
     }
 
@@ -130,11 +147,19 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 
             if (player.IsHitboxShown)
             {
-                player.DrawBoundingBox(Graphics, ShaderManager.Get("hitbox"), activeCamera);
+                player.DrawBoundingBox(Graphics, activeCamera);
             }
             if (plane.IsHitboxShown)
             {
-                plane.DrawBoundingBox(Graphics, ShaderManager.Get("hitbox"), activeCamera);
+                plane.DrawBoundingBox(Graphics, activeCamera);
+            }
+
+            foreach (var model in ObjectModels)
+            {
+                if (model.IsHitboxShown)
+                {
+                    model.DrawBoundingBox(Graphics, activeCamera);
+                }
             }
         }
         Graphics.End();

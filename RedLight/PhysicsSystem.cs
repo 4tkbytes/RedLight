@@ -48,7 +48,7 @@ public class PhysicsSystem
             Log.Debug("Entity position: {Position}, Scale: {Scale}", entity.Position, entity.Scale);
             Log.Debug("Entity bounding box: Min={Min}, Max={Max}", entity.BoundingBoxMin, entity.BoundingBoxMax);
         }
-        
+
         // create a box shape based on entity
         var min = entity.DefaultBoundingBoxMin;
         var max = entity.DefaultBoundingBoxMax;
@@ -63,15 +63,40 @@ public class PhysicsSystem
         var pose = new RigidPose(new Vector3(position.X, position.Y, position.Z));
 
         BodyHandle bodyHandle;
+        // Determine if this is a player, a static object, or a regular dynamic object
         if (entity.ApplyGravity)
         {
-            // dynamic body
-            var inertia = boxShape.ComputeInertia(entity.Mass);
-            bodyHandle = Simulation.Bodies.Add(BodyDescription.CreateDynamic(pose, inertia, shapeIndex, 0.01f));
-        } else
+            if (entity is Player)
+            {
+                // Special handling for the player - use slightly higher mass for better collision response
+                var inertia = boxShape.ComputeInertia(entity.Mass * 2.0f);
+                bodyHandle = Simulation.Bodies.Add(BodyDescription.CreateDynamic(pose, inertia, shapeIndex, 0.2f));
+
+                if (!silent)
+                    Log.Debug("Added player entity with increased mass for better collision response");
+            }
+            else
+            {
+                // Regular dynamic body
+                var inertia = boxShape.ComputeInertia(entity.Mass);
+                bodyHandle = Simulation.Bodies.Add(BodyDescription.CreateDynamic(pose, inertia, shapeIndex, 0.01f));
+            }
+        }
+        else
         {
-            // static/kinematic body
-            bodyHandle = Simulation.Bodies.Add(BodyDescription.CreateKinematic(pose, shapeIndex, 0.01f));
+            // For non-gravity objects, check if they're meant to be completely static
+            if (entity.ApplyGravity == true)
+            {
+                // Truly static/immovable body - use CreateStatic instead of CreateKinematic
+                bodyHandle = Simulation.Bodies.Add(BodyDescription.CreateKinematic(pose, shapeIndex, 0.01f));
+                if (!silent)
+                    Log.Debug("Added static immovable entity: {EntityName}", entity.Target?.Target?.Name);
+            }
+            else
+            {
+                // Regular kinematic body (can be moved programmatically but not by physics)
+                bodyHandle = Simulation.Bodies.Add(BodyDescription.CreateKinematic(pose, shapeIndex, 0.01f));
+            }
         }
 
         // store the handle
@@ -81,7 +106,6 @@ public class PhysicsSystem
             Log.Debug("Is Dynamic? {IsDynamic}", entity.ApplyGravity);
             Log.Debug("Entity added to physics system successfully");
         }
-
     }
 
     public void RemoveEntity(Entity<Transformable<RLModel>> entity)
@@ -192,9 +216,9 @@ public struct NarrowPhaseCallbacks : INarrowPhaseCallbacks
     {
         pairMaterial = new PairMaterialProperties
         {
-            FrictionCoefficient = 10.0f,
-            MaximumRecoveryVelocity = 2f,
-            SpringSettings = new SpringSettings(30, 1)
+            FrictionCoefficient = 1.0f,
+            MaximumRecoveryVelocity = 4.0f,
+            SpringSettings = new SpringSettings(30f, 1f)
         };
         return true;
     }

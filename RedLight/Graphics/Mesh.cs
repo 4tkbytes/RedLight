@@ -27,7 +27,7 @@ public class Mesh
     private uint vbo;
     private uint ebo;
     public uint program;
-    private List<Vertex> vertices;
+    public List<Vertex> Vertices { get; private set; }
     private List<RLTexture> textures;
     private RLGraphics graphics;
     private uint[] indices;
@@ -40,7 +40,7 @@ public class Mesh
     {
         this.graphics = graphics;
         this.indices = indices;
-        this.vertices = vertices;
+        this.Vertices = vertices;
         var gl = graphics.OpenGL;
         vao = gl.GenVertexArray();
         vbo = gl.GenBuffer();

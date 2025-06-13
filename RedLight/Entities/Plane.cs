@@ -94,13 +94,5 @@ namespace RedLight.Graphics.Primitive
             Target.Translate(new Vector3(0, -1, 0));
             return this;
         }
-
-        /// <summary>
-        /// Updates the bounding box's position (for <see cref="Plane"/> class)
-        /// </summary>
-        public void Update(float deltaTime)
-        {
-            UpdatePhysics(deltaTime);
-        }
     }
 }
