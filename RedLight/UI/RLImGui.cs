@@ -173,11 +173,7 @@ public class RLImGui
                     hitboxChanged = true;
                 if (hitboxChanged)
                 {
-                    entity.SetHitboxDefault(
-                        new Vector3(minVec.X, minVec.Y, minVec.Z),
-                        new Vector3(maxVec.X, maxVec.Y, maxVec.Z)
-                    );
-                    entity.UpdateBoundingBox();
+                    
                 }
 
                 // Apply changes

@@ -36,7 +36,7 @@ public class PhysicsSystem
             bufferPool,
             new NarrowPhaseCallbacks(),
             new PoseIntegratorCallbacks(new Vector3(0, -9.81f, 0)),
-            new SolveDescription(4, 1)); // Updated to use SolveDescription instead of ThreadDispatcher
+            new SolveDescription(4, 1));
         Log.Debug("Initialised PhysicsSystem with a thread count of {threadCount}", threadCount);
     }
 

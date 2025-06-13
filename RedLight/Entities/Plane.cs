@@ -78,11 +78,6 @@ namespace RedLight.Graphics.Primitive
             Target.Target.Meshes.Add(planeMesh);
             Target.Target.AttachShader(ShaderManager.Instance.Get("basic"));
             Target.Target.AttachTexture(TextureManager.Instance.Get("no-texture"));
-            
-            SetHitboxDefault(
-                new Vector3(-10f, -0.1f, -10f), 
-                new Vector3(10f, 0.1f, 10f)
-            );
         }
 
         /// <summary>

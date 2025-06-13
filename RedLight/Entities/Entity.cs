@@ -77,153 +77,14 @@ public abstract class Entity<T> : Transformable<T>
 
     public virtual void Update(float deltaTime, HashSet<Silk.NET.Input.Key> pressedKeys = null, bool isUsingDebugCamera = false, bool silent = true)
     {
-        UpdateBoundingBox();
+        
     }
 
-    /// <summary>
-    /// Updates the bounding box of the hitbox of the entity. 
-    /// </summary>
-    public void UpdateBoundingBox()
-    {
-        Vector3 currentPosition = Vector3.Zero;
-        if (Target is Transformable<RLModel> tModel)
-            currentPosition = tModel.Position;
-        else if (Target is Transformable<Mesh> tMesh)
-            currentPosition = tMesh.Position;
-        else if (Target is Transformable<object> tObj)
-            currentPosition = tObj.Position;
+    
 
-        BoundingBoxMin = currentPosition + DefaultBoundingBoxMin;
-        BoundingBoxMax = currentPosition + DefaultBoundingBoxMax;
-    }
+    
 
-    /// <summary>
-    /// Checks for collision with another entity using the AABB collision method.
-    /// 
-    /// <see href="https://developer.mozilla.org/en-US/docs/Games/Techniques/3D_collision_detection">
-    /// Mozilla 3D Game Dev Documentation about how AABB works</see>
-    /// </summary>
-    public bool Intersects(Entity<T> otherEntity, bool silent = true)
-    {
-        // BepuPhysics now handles collision detection
-        // This is kept for backward compatibility
-        UpdateBoundingBox();
-        otherEntity.UpdateBoundingBox();
-
-        bool xOverlap = BoundingBoxMin.X <= otherEntity.BoundingBoxMax.X && BoundingBoxMax.X >= otherEntity.BoundingBoxMin.X;
-        bool yOverlap = BoundingBoxMin.Y <= otherEntity.BoundingBoxMax.Y && BoundingBoxMax.Y >= otherEntity.BoundingBoxMin.Y;
-        bool zOverlap = BoundingBoxMin.Z <= otherEntity.BoundingBoxMax.Z && BoundingBoxMax.Z >= otherEntity.BoundingBoxMin.Z;
-
-        IsColliding = xOverlap && yOverlap && zOverlap;
-        return IsColliding;
-    }
-
-    /// <summary>
-    /// Sets a hitbox default. It can be edited by the hitboxMin and hitboxMax. 
-    /// </summary>
-    /// <param name="hitboxMin"><see cref="Vector3D"/></param>
-    /// <param name="hitboxMax"><see cref="Vector3D"/></param>
-    public void SetHitboxDefault(Vector3 hitboxMin, Vector3 hitboxMax)
-    {
-        DefaultBoundingBoxMin = hitboxMin;
-        DefaultBoundingBoxMax = hitboxMax;
-
-        // If we're already connected to physics, update the collider
-        if (PhysicsSystem != null && this is Entity<Transformable<RLModel>> modelEntity)
-        {
-            PhysicsSystem.RemoveEntity(modelEntity);
-            PhysicsSystem.AddEntity(modelEntity);
-        }
-    }
-
-    /// <summary>
-    /// Automatically calculates and sets the hitbox dimensions based on the model's actual vertices.
-    /// </summary>
-    /// <param name="padding">Optional padding to add around the calculated bounds (default: 0.1f)</param>
-    /// <returns>This entity instance for method chaining</returns>
-    public Entity<T> AutoMapHitboxToModel(float padding = 0.1f)
-    {
-        if (Target is Transformable<RLModel> tModel)
-        {
-            var rlModel = tModel.Target;
-            if (rlModel == null)
-            {
-                Log.Error("[AutoMapHitboxToModel] Target RLModel is null.");
-                return this;
-            }
-            
-            rlModel.CalculateLocalAABB(out Vector3 modelLocalMin, out Vector3 modelLocalMax);
-
-            Log.Debug("[AutoMapHitboxToModel] Model '{Name}': Initial LocalAABB Min: {Min}, Max: {Max}", 
-                rlModel.Name ?? "Unnamed", modelLocalMin, modelLocalMax);
-
-            // sanity check
-            if (modelLocalMin.X > modelLocalMax.X) { Log.Warning("[AutoMapHitboxToModel] Inverted X-axis in model AABB. Swapping."); var temp = modelLocalMin.X; modelLocalMin.X = modelLocalMax.X; modelLocalMax.X = temp; }
-            if (modelLocalMin.Y > modelLocalMax.Y) { Log.Warning("[AutoMapHitboxToModel] Inverted Y-axis in model AABB. Swapping."); var temp = modelLocalMin.Y; modelLocalMin.Y = modelLocalMax.Y; modelLocalMax.Y = temp; }
-            if (modelLocalMin.Z > modelLocalMax.Z) { Log.Warning("[AutoMapHitboxToModel] Inverted Z-axis in model AABB. Swapping."); var temp = modelLocalMin.Z; modelLocalMin.Z = modelLocalMax.Z; modelLocalMax.Z = temp; }
-            
-            var scale = tModel.Scale;
-            
-            Log.Debug("[AutoMapHitboxToModel] Model '{Name}': Corrected LocalAABB Min: {Min}, Max: {Max}, Applied Scale: {ScaleVal}", 
-                rlModel.Name ?? "Unnamed", modelLocalMin, modelLocalMax, scale);
-            
-            Vector3 scaledMin = modelLocalMin * scale;
-            Vector3 scaledMax = modelLocalMax * scale;
-            
-            DefaultBoundingBoxMin = scaledMin - new Vector3(padding);
-            DefaultBoundingBoxMax = scaledMax + new Vector3(padding);
-
-            Log.Debug("[AutoMapHitboxToModel] Model '{Name}': Calculated DefaultBoundingBoxMin: {DefMin}, DefaultBoundingBoxMax: {DefMax} (after scaling and padding)", 
-                rlModel.Name ?? "Unnamed", DefaultBoundingBoxMin, DefaultBoundingBoxMax);
-
-            Vector3 dimensions = DefaultBoundingBoxMax - DefaultBoundingBoxMin;
-            bool wasClamped = false;
-            float minDimension = 0.001f; // A very small positive dimension to avoid zero/negative
-
-            if (dimensions.X <= minDimension)
-            {
-                Log.Warning("[AutoMapHitboxToModel] Model '{Name}': X-Dimension ({DimX}) is too small or non-positive. Clamping.", rlModel.Name ?? "Unnamed", dimensions.X);
-                DefaultBoundingBoxMax = new Vector3(DefaultBoundingBoxMin.X + minDimension, DefaultBoundingBoxMax.Y, DefaultBoundingBoxMax.Z);
-                wasClamped = true;
-            }
-            if (dimensions.Y <= minDimension)
-            {
-                Log.Warning("[AutoMapHitboxToModel] Model '{Name}': Y-Dimension ({DimY}) is too small or non-positive. Clamping.", rlModel.Name ?? "Unnamed", dimensions.Y);
-                DefaultBoundingBoxMax = new Vector3(DefaultBoundingBoxMax.X, DefaultBoundingBoxMin.Y + minDimension, DefaultBoundingBoxMax.Z);
-                wasClamped = true;
-            }
-            if (dimensions.Z <= minDimension)
-            {
-                Log.Warning("[AutoMapHitboxToModel] Model '{Name}': Z-Dimension ({DimZ}) is too small or non-positive. Clamping.", rlModel.Name ?? "Unnamed", dimensions.Z);
-                DefaultBoundingBoxMax = new Vector3(DefaultBoundingBoxMax.X, DefaultBoundingBoxMax.Y, DefaultBoundingBoxMin.Z + minDimension);
-                wasClamped = true;
-            }
-            
-            if(wasClamped)
-            {
-                Log.Debug("[AutoMapHitboxToModel] Model '{Name}': Clamped DefaultBoundingBoxMin: {DefMin}, DefaultBoundingBoxMax: {DefMax}", 
-                    rlModel.Name ?? "Unnamed", DefaultBoundingBoxMin, DefaultBoundingBoxMax);
-            }
-
-            UpdateBoundingBox(); // Update current BoundingBoxMin/Max based on new defaults
-            
-            if (PhysicsSystem != null && this is Entity<Transformable<RLModel>> modelEntity)
-            {
-                Log.Debug("[AutoMapHitboxToModel] Model '{Name}': Physics system present, attempting to update entity.", rlModel.Name ?? "Unnamed");
-                PhysicsSystem.RemoveEntity(modelEntity); // It's important this works correctly
-                PhysicsSystem.AddEntity(modelEntity);   // Re-add with new shape definition
-            }
-
-            Log.Debug(
-                "Auto-mapped hitbox for model: DefaultMin={Min}, DefaultMax={Max} (using actual model AABB, scaled, and padded)",
-                DefaultBoundingBoxMin, DefaultBoundingBoxMax);
-        }
-        else
-        {
-            Log.Error("Cannot auto-map hitbox: unsupported Target type {Type}", Target?.GetType().Name);
-        }
-        return this;
-    }
+    
     
     /// <summary>
     /// Draws the bounding box edges in red using OpenGL lines with proper camera transformations.
@@ -406,6 +267,8 @@ public abstract class Entity<T> : Transformable<T>
 
         graphics.CheckGLErrors();
     }
+
+    
 }
 
 /// <summary>
@@ -435,4 +298,32 @@ public enum CollisionSide
     Down = 5,
     Front = 1,
     Back = 6
+}
+
+/// <summary>
+/// Configuration class for model hitboxes
+/// </summary>
+public class HitboxConfig
+{
+    /// <summary>Width of hitbox in X dimension</summary>
+    public float Width { get; set; } = 1.0f;
+
+    /// <summary>Height of hitbox in Y dimension</summary>
+    public float Height { get; set; } = 1.0f;
+
+    /// <summary>Length of hitbox in Z dimension</summary>
+    public float Length { get; set; } = 1.0f;
+
+    /// <summary>
+    /// Portion of the hitbox below the model's center point (0.0-1.0)
+    /// 0.5 = half below/half above
+    /// 1.0 = bottom at ground level
+    /// 0.0 = bottom at center level
+    /// </summary>
+    public float GroundOffset { get; set; } = 0.5f;
+
+    /// <summary>
+    /// Offset from the model's center in each dimension
+    /// </summary>
+    public Vector3 CenterOffset { get; set; } = Vector3.Zero;
 }

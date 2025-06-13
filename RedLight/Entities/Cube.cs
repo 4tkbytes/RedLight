@@ -21,6 +21,5 @@ public class Cube : SimpleShape
             .MakeTransformable()
     )
     {
-        AutoMapHitboxToModel();
     }
 }

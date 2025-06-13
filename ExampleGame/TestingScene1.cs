@@ -47,7 +47,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         // Initialize physics system
         PhysicsSystem = new PhysicsSystem();
 
-        plane = new Plane(Graphics, 20f, 20f).Default();
+        plane = new Plane(Graphics, 50f, 20f).Default();
 
         controller = new RLImGui(Graphics, Engine.Window);
         Engine.InitialiseLogger(controller.Console);
@@ -59,16 +59,16 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
             .Rotate(float.DegreesToRadians(-90.0f), Vector3.UnitX)
             .SetScale(new Vector3(0.05f, 0.05f, 0.05f));
 
-        //var cube = new Cube(Graphics, TextureManager, ShaderManager, "collision_cube", false);
-        //cube.Translate(new Vector3(3f));
-        
+        var cube = new Cube(Graphics, TextureManager, ShaderManager, "collision_cube", false);
+        cube.Target.Translate(new Vector3(2f, 0f, 2f));        
+
         playerCamera = new Camera(size);
         debugCamera = new Camera(size);
 
         player = Graphics.MakePlayer(playerCamera, maxwell);
         player.SetPOV(PlayerCameraPOV.ThirdPerson);
 
-        //ObjectModels.Add(cube);
+        ObjectModels.Add(cube);
         ObjectModels.Add(plane);
         ObjectModels.Add(player);
 
