@@ -2,6 +2,7 @@
 using Serilog;
 using Silk.NET.Input;
 using System.Numerics;
+using BepuUtilities;
 
 namespace RedLight.Entities;
 
@@ -10,7 +11,7 @@ public class Player: Entity
     public Camera Camera { get; set; }
     
     /// <summary>
-    /// Camera toggle changes between first and third person POV's. 
+    /// <para>Camera toggle changes between first and third person POV's.</para>
     /// 1 = First Person
     /// 3 = Third Person
     /// Default = Third Person
@@ -35,6 +36,7 @@ public class Player: Entity
             Position, Rotation, Scale);
         Log.Debug("[Player] Hitbox: Min={Min}, Max={Max}", DefaultBoundingBoxMin, DefaultBoundingBoxMax);
 
+        SetDefault(saveRotation: true, saveScale: true);
         ApplyGravity = true;
     }
 
@@ -194,10 +196,10 @@ public class Player: Entity
             Velocity = Vector3.Zero;
             // targetYawRotation = 0f; // Reset target rotation
             
-            // Reset model matrix with no rotation
-            var resetMatrix = Matrix4x4.CreateScale(Scale) * Matrix4x4.CreateTranslation(Position);
+            var resetMatrix = Matrix4x4.CreateScale(Scale) * Matrix4x4.CreateTranslation(Position) * Matrix4x4.CreateRotationX(Rotation.X) * Matrix4x4.CreateRotationZ(Rotation.Z);
             SetModel(resetMatrix);
 
+            // Reset();
             Log.Information("[Player] Physics state and rotation reset");
         }
     }
@@ -239,32 +241,39 @@ public class Player: Entity
             Camera.Position = Position - Camera.Front * thirdPersonDistance + cameraOffset;
 
             var prevPos = Position;
-            // to be fixed later
-            
-            // if (Position != lastModelPosition)
-            // {
-            //     if (
-            //         Rotation.Z < float.DegreesToRadians(-180f) 
-            //         || Rotation.Z > float.DegreesToRadians(180f) 
-            //         || Rotation.X < float.DegreesToRadians(-180f) 
-            //         || Rotation.X > float.DegreesToRadians(180f)
-            //         )
-            //     {
-            //         Rotation = new Vector3(0);
-            //     }
-            //     // Rotation = new Vector3(Rotation.X, Rotation.Y, -float.DegreesToRadians(Camera.Yaw));
-            //     SetRotationX(float.DegreesToRadians(-90f));
-            //     SetRotationZ(-float.DegreesToRadians(Camera.Yaw));
-            // }
-            
+            Log.Debug("Camera.Yaw = {CamYaw}", Camera.Yaw);
+            Log.Debug("Player Rotation = {PlayerRot}", Rotation);
+            if (Position != lastModelPosition)
+            {
+                Rotation = new Vector3(Rotation.X, -float.DegreesToRadians(Camera.Yaw), Rotation.Z);
+                lastModelPosition = Position;
+            }
+        
             if (prevPos != Position)
                 Log.Verbose("[Player] Player's position changed: {Prev} -> {Current}", prevPos, Position);
 
             Log.Verbose("[Player] Camera set to third person at {Position}", Camera.Position);
-            // Log.Verbose("[Player] Target rotation: {TargetYaw} radians ({TargetYawDegrees} degrees)", 
-            //     targetYawRotation, float.RadiansToDegrees(targetYawRotation));
         }
         Camera.UpdateCamera();
+    }
+
+    /// <summary>
+    /// Normalizes an angle in degrees to be between -180 and 180 degrees
+    /// </summary>
+    /// <param name="angle">Angle in degrees</param>
+    /// <returns>Normalized angle between -180 and 180 degrees</returns>
+    private float NormalizeAngle(float angle)
+    {
+        // Normalize to 0-360 range first
+        angle = angle % 360f;
+
+        // Convert to -180 to 180 range
+        if (angle > 180f)
+            angle -= 360f;
+        else if (angle < -180f)
+            angle += 360f;
+        
+        return angle;
     }
     
     /// <summary>

@@ -52,12 +52,14 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         camera = new Camera(size);
 
         var maxwell = Graphics.CreateModel("RedLight.Resources.Models.Maxwell.maxwell_the_cat.glb", "maxwell")
-            .SetScale(new Vector3(0.05f));
+            .SetScale(new Vector3(0.2f))
+            .Rotate(float.DegreesToRadians(-90.0f), Vector3.UnitX);
 
         playerCamera = new Camera(size);
         debugCamera = new Camera(size);
         player = Graphics.MakePlayer(playerCamera, maxwell);
         player.SetPOV(PlayerCameraPOV.ThirdPerson);
+        player.SetRotationX(float.DegreesToRadians(-90.0f));
 
         var cube = new Cube(Graphics, "colliding_cube");
         var cube2 = new Cube(Graphics, "stuck_cube", false);

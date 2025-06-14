@@ -11,21 +11,20 @@ namespace RedLight.Entities;
 /// </summary>
 public abstract class Entity
 {
-    // Core model reference
     private RLModel _model;
     
-    // Transformation properties
     private Matrix4x4 _modelMatrix = Matrix4x4.Identity;
     private bool _defaultSet;
     private Matrix4x4 _modelDefault = Matrix4x4.Identity;
+
+    private Vector3 _positionDefault;
+    private Vector3 _rotationDefault;
+    private Vector3 _scaleDefault;
     
-    // Physics properties
-    public const float Gravity = 9.81f;
     public Vector3 Velocity { get; set; } = Vector3.Zero;
     public bool ApplyGravity { get; set; } = true;
     public float Mass { get; set; } = 1f;
 
-    // Collision properties
     public Vector3 BoundingBoxMin { get; set; }
     public Vector3 BoundingBoxMax { get; set; }
     public Vector3 DefaultBoundingBoxMin { get; set; }
@@ -120,7 +119,11 @@ public abstract class Entity
             }
             return new Vector3(x, y, z);
         }
-        set => SetRotation(value);
+        set
+        {
+            DefaultRotation = value;
+            SetRotation(value);
+        }
     }
 
     protected Entity(RLModel model, bool applyGravity = true)
@@ -214,7 +217,7 @@ public abstract class Entity
     }
 
     /// <summary>
-    /// Save the current state as default
+    /// Save the current model matrix as default
     /// </summary>
     public Entity SetDefault()
     {
@@ -223,7 +226,20 @@ public abstract class Entity
         Log.Verbose("Set default state for entity");
         return this;
     }
-
+    
+    // todo: create docs for this
+    public Entity SetDefault(bool savePosition = false, bool saveRotation = false, bool saveScale = false)
+    {
+        if (savePosition) _positionDefault = Position;
+        if (saveRotation) _rotationDefault = Rotation;
+        if (saveScale) _scaleDefault = Scale;
+        _defaultSet = true;
+        Log.Verbose("Set default state for entity {Type}", GetType().Name);
+        Log.Verbose("Saved Position: {PosSave}, Rotation: {RotSave}, Scale: {ScaleSave}", savePosition, saveRotation,
+            saveScale);
+        return this;
+    }
+    
     /// <summary>
     /// Reset to the previously saved default state
     /// </summary>
@@ -237,7 +253,16 @@ public abstract class Entity
         }
         else
         {
-            ModelMatrix = _modelDefault;
+            if (_positionDefault != null || _rotationDefault != null || _scaleDefault != null)
+            {
+                if (_positionDefault != null) Position = _positionDefault;
+                if (_rotationDefault != null) Rotation = _rotationDefault;
+                if (_scaleDefault != null) Scale = _scaleDefault;
+            }
+            else
+            {
+                ModelMatrix = _modelDefault;
+            }
             UpdateBoundingBox();
             if (!silent)
                 Log.Verbose("Reset entity to default state");
@@ -541,6 +566,12 @@ public abstract class Entity
     /// </summary>
     public void ToggleHitbox() => IsHitboxShown = !IsHitboxShown;
     
+    /// <summary>
+    /// Checks if a defualt lock is set
+    /// </summary>
+    public bool IsDefaultSet() => _defaultSet;
+
+    
     public Vector3 RotationDegrees
     {
         get
@@ -554,6 +585,8 @@ public abstract class Entity
         }
         set => SetRotationDegrees(value);
     }
+
+    public Vector3 DefaultRotation { get; set; }
 }
 
 /// <summary>
