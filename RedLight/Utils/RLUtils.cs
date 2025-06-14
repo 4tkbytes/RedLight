@@ -1,4 +1,5 @@
-﻿using Silk.NET.Maths;
+﻿using System.Drawing;
+using Silk.NET.Maths;
 using System.Numerics;
 
 namespace RedLight.Utils;
@@ -18,5 +19,10 @@ public static class RLUtils
     public static Vector3D<float> NumericsVector3ToSilkVector3D (Vector3 vector3)
     {
         return new Vector3D<float>(vector3.X, vector3.Y, vector3.Z);
+    }
+
+    public static Color Vector3ToColor(Vector3 vector3D)
+    {
+        return Color.FromArgb((int)(vector3D.X * 255), (int)(vector3D.Y * 255), (int)(vector3D.Z * 255));
     }
 }

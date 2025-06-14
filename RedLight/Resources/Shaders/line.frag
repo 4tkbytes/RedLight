@@ -1,3 +1,4 @@
+// fragment shader used to render lines for hitboxes
 #version 330 core
 out vec4 FragColor;
 

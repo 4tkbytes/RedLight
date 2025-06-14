@@ -23,7 +23,7 @@ public class RLTexture
     /// you are able to change it to your liking. 
     /// </summary>
     /// <param name="graphics"></param>
-    /// <param name="directory"></param>
+    /// <param name="directory">Something like RLFiles.GetResourcePath("RedLight.Resources.Textures.no-texture.png")</param>
     /// <param name="type"></param>
     public RLTexture(RLGraphics graphics, string directory, RLTextureType type = RLTextureType.Diffuse)
     {

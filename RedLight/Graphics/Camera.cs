@@ -129,6 +129,10 @@ public class Camera
             MoveDown();
         if (PressedKeys.Contains(Key.Space))
             MoveUp();
+        if (PressedKeys.Contains(Key.Equal))
+            Speed += 0.5f;
+        if (PressedKeys.Contains(Key.Minus))
+            Speed -= 0.5f;
         UpdateCamera();
 
         return this;

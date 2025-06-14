@@ -1,3 +1,4 @@
+// vertex shader used to render lines for hitboxes
 #version 330 core
 layout(location = 0) in vec3 aPos;
 

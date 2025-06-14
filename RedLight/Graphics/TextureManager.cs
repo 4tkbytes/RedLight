@@ -33,8 +33,8 @@ public class TextureManager
     /// This function attempts to add a texture to its dictionary. If the texture exists, it will Log a warning and
     /// not add. If it does exist, it will add the texture to its ID to the dictionary. 
     /// </summary>
-    /// <param name="id"></param>
-    /// <param name="rlTexture"></param>
+    /// <param name="id">The name of the texture</param>
+    /// <param name="rlTexture">The texture</param>
     public void TryAdd(string id, RLTexture rlTexture)
     {
         if (textures.ContainsKey(id))

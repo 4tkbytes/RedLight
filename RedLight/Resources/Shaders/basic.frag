@@ -1,3 +1,4 @@
+// most general and basic vertex shader used as the default
 #version 330 core
 
 in vec2 frag_texCoords;

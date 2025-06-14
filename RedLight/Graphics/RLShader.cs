@@ -116,6 +116,48 @@ public class RLShaderProgram
     {
         graphics.OpenGL.DeleteProgram(ProgramHandle);
     }
+
+    public void SetUniform<T>(string name, T value)
+    {
+        var gl = graphics.OpenGL;
+        int location = gl.GetUniformLocation(ProgramHandle, name);
+        if (location == -1)
+        {
+            Log.Warning("Uniform {UniformName} not found in shader program.", name);
+            return;
+        }
+
+        switch (value)
+        {
+            case int i:
+                gl.Uniform1(location, i);
+                break;
+            case float f:
+                gl.Uniform1(location, f);
+                break;
+            case System.Numerics.Vector2 v2:
+                gl.Uniform2(location, v2.X, v2.Y);
+                break;
+            case System.Numerics.Vector3 v3:
+                gl.Uniform3(location, v3.X, v3.Y, v3.Z);
+                break;
+            case System.Numerics.Vector4 v4:
+                gl.Uniform4(location, v4.X, v4.Y, v4.Z, v4.W);
+                break;
+            case System.Numerics.Matrix4x4 m4:
+                unsafe
+                {
+                    float* ptr = &m4.M11;
+                    gl.UniformMatrix4(location, 1, false, ptr);
+                }
+                break;
+            case bool b:
+                gl.Uniform1(location, b ? 1 : 0);
+                break;
+            default:
+                throw new NotSupportedException($"Uniform type {typeof(T)} is not supported.");
+        }
+    }
 }
 
 /// <summary>

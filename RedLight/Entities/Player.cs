@@ -23,6 +23,7 @@ public class Player: Entity
 
     private Vector3 lastModelPosition;
     private bool isMoving = false;
+    bool IsSprinting = false;
 
     public Player(Camera camera, Transformable<RLModel> model, HitboxConfig hitboxConfig = null) : base(model.Target)
     {
@@ -46,6 +47,7 @@ public class Player: Entity
         }
 
         ApplyHitboxConfig();
+
     
         Log.Debug("[Player] Created with initial position: {Position}, rotation: {Rotation}, scale: {Scale}",
             Position, Rotation, Scale);
@@ -112,12 +114,20 @@ public class Player: Entity
         if (pressedKeys.Contains(Key.Space))
             shouldJump = true;
         if (pressedKeys.Contains(Key.ShiftLeft))
-            direction -= Camera.Up; // Keep this for flying/creative mode
+            IsSprinting = true;
+        if (!pressedKeys.Contains(Key.ShiftLeft))
+            IsSprinting = false;
 
         var horizontalDirection = new Vector3(direction.X, 0, direction.Z);
         isMoving = horizontalDirection.Length() > 0.01f;
+        
+        float currentActualSpeed = MoveSpeed;
+        if (IsSprinting && isMoving)
+        {
+            currentActualSpeed *= 2f;
+        }
 
-        if (direction != Vector3.Zero || shouldJump)
+        if (isMoving || shouldJump)
         {
             if (PhysicsSystem != null && PhysicsSystem.TryGetBodyHandle(this, out var bodyHandle))
             {
@@ -125,17 +135,16 @@ public class Player: Entity
                 var currentVel = bodyRef.Velocity.Linear;
 
                 // Handle horizontal movement
-                if (direction != Vector3.Zero)
+                if (isMoving)
                 {
                     if (!silent) Log.Debug("[Player] Movement direction detected: {Direction}", direction);
                     direction = Vector3.Normalize(direction);
 
                     // Use velocity-based movement for smoother control
-                    float maxSpeed = MoveSpeed;
                     var targetVelocity = new Vector3(
-                        direction.X * maxSpeed,
+                        direction.X * currentActualSpeed,
                         currentVel.Y, // Preserve Y velocity for gravity
-                        direction.Z * maxSpeed
+                        direction.Z * currentActualSpeed
                     );
 
                     // Apply velocity change for horizontal movement
@@ -177,7 +186,7 @@ public class Player: Entity
                 // Fallback movement (without physics)
                 if (direction != Vector3.Zero)
                 {
-                    SetPosition(Position + direction * MoveSpeed * deltaTime);
+                    SetPosition(Position + direction * currentActualSpeed * deltaTime);
                 }
             }
         }

@@ -13,7 +13,4 @@ public static class RLConstants
         RLFiles.GetResourceAsString("RedLight.Resources.Shaders.basic.frag");
 
     public static readonly int MAX_BONE_INFLUENCE = 4;
-
-    public static readonly RLGraphics.Colour RL_COLOUR_CORNFLOWER_BLUE =
-        new RLGraphics.Colour { r = 100f / 256, g = 146f / 256, b = 237f / 256, a = 1f };
 }
