@@ -1,106 +1,105 @@
 using RedLight.Utils;
+using RedLight.Graphics;
 using System.Numerics;
+using System.Collections.Generic;
+using RedLight.Entities;
 
-namespace RedLight.Graphics.Primitive
+namespace RedLight.Graphics.Primitive;
+
+/// <summary>
+/// A simple plane entity with direct access to transformation methods.
+/// Example of the simplified API: plane.Translate(), plane.Model, etc.
+/// </summary>
+public class Plane : SimpleShape
 {
     /// <summary>
-    /// A flat plane. Thats it. 
+    /// Creates a flat plane that you can use to present models or any other purposes.
     /// </summary>
-    public class Plane : SimpleShape
+    /// <param name="graphics">The <see cref="RLGraphics"/> instance used for rendering.</param>
+    /// <param name="width">Width of the plane.</param>
+    /// <param name="height">Height of the plane.</param>
+    /// <param name="tilesX">Number of texture tiles in X direction.</param>
+    /// <param name="tilesZ">Number of texture tiles in Z direction.</param>
+    public Plane(RLGraphics graphics, float width = 10f, float height = 10f, int tilesX = 0, int tilesZ = 0) 
+        : base(
+            new RLModel(graphics, RLFiles.GetResourcePath("RedLight.Resources.Models.Basic.plane.model"), TextureManager.Instance, "plane")
+                .AttachShader(ShaderManager.Instance.Get("basic")),
+            null,
+            false)
     {
-        /// <summary>
-        /// Creates a flat plane that you can use to present models or any other purposes.
-        /// </summary>
-        /// <param name="graphics">The <see cref="RLGraphics"/> instance used for rendering.</param>
-        /// <param name="textureManager">The <see cref="TextureManager"/> for handling textures.</param>
-        /// <param name="shaderManager">The <see cref="ShaderManager"/> for shader programs.</param>
-        /// <param name="width">Width of the plane.</param>
-        /// <param name="height">Height of the plane.</param>
-        /// <param name="tilesX">Number of texture tiles in X direction.</param>
-        /// <param name="tilesZ">Number of texture tiles in Z direction.</param>
-        public Plane(RLGraphics graphics,
-            float width = 10f, float height = 10f, int tilesX = 10, int tilesZ = 10) : base(
-            // Pass the transformable and color to SimpleShape
-            new RLModel(
-                graphics,
-                RLFiles.GetResourcePath("RedLight.Resources.Models.Basic.plane.model"),
-                TextureManager.Instance,
-                "plane"
-            )
-            .AttachShader(ShaderManager.Instance.Get("basic")).MakeTransformable()
-            )
+        if (tilesX == 0 || tilesZ == 0)
         {
-            ApplyGravity = false;
+            tilesX = (int)width;
+            tilesZ = (int)height;
+        }
+        
+        // Configure hitbox for plane using HitboxConfig
+        HitboxConfig = HitboxConfig.ForPlane(width, height, 0.1f);
+        
+        // Apply the hitbox configuration
+        ApplyHitboxConfig();
 
-            List<Vertex> vertices = new List<Vertex>();
-            List<uint> indices = new List<uint>();
+        // Create custom plane geometry
+        CreatePlaneGeometry(graphics, width, height, tilesX, tilesZ);
+    }
 
-            // Create vertices
-            for (int z = 0; z <= 1; z++)
+    private void CreatePlaneGeometry(RLGraphics graphics, float width, float height, int tilesX, int tilesZ)
+    {
+        List<Vertex> vertices = new List<Vertex>();
+        List<uint> indices = new List<uint>();
+
+        // Create vertices
+        for (int z = 0; z <= 1; z++)
+        {
+            for (int x = 0; x <= 1; x++)
             {
-                for (int x = 0; x <= 1; x++)
-                {
-                    Vertex vertex = new Vertex();
+                Vertex vertex = new Vertex();
 
-                    // Position (-0.5 to 0.5 scaled by width/height)
-                    vertex.Position = new Vector3(
-                        (x - 0.5f) * width,
-                        0.0f,
-                        (z - 0.5f) * height
-                    );
+                // Position (-0.5 to 0.5 scaled by width/height)
+                vertex.Position = new Vector3(
+                    (x - 0.5f) * width,
+                    0.0f,
+                    (z - 0.5f) * height
+                );
 
-                    // Normal (pointing up)
-                    vertex.Normal = new Vector3(0.0f, 1.0f, 0.0f);
+                // Normal (pointing up)
+                vertex.Normal = new Vector3(0.0f, 1.0f, 0.0f);
 
-                    // Texture coordinates (scaled by tiling factor)
-                    vertex.TexCoords = new Vector2(
-                        x * tilesX,
-                        z * tilesZ
-                    );
+                // Texture coordinates (scaled by tiling factor)
+                vertex.TexCoords = new Vector2(
+                    x * tilesX,
+                    z * tilesZ
+                );
 
-                    vertices.Add(vertex);
-                }
+                vertices.Add(vertex);
             }
-
-            // Create indices for a quad (2 triangles)
-            indices.Add(0);
-            indices.Add(2);
-            indices.Add(1);
-            indices.Add(1);
-            indices.Add(2);
-            indices.Add(3);
-
-            Mesh planeMesh = new Mesh(graphics, vertices, indices.ToArray());
-            var shader = ShaderManager.Instance.Get("basic");
-            planeMesh.AttachShader(shader.vertexShader, shader.fragmentShader);
-
-            Target.Target.Meshes.Clear();
-            Target.Target.Meshes.Add(planeMesh);
-            Target.Target.AttachShader(ShaderManager.Instance.Get("basic"));
-            Target.Target.AttachTexture(TextureManager.Instance.Get("no-texture"));
-            
-            SetHitboxDefault(
-                new Vector3(-10f, -0.1f, -10f), 
-                new Vector3(10f, 0.1f, 10f)
-            );
         }
 
-        /// <summary>
-        /// This function just translate the Model to a default location. This location is (0, -0.5f, 0). 
-        /// </summary>
-        /// <returns><see cref="Plane"/></returns>
-        public Plane Default()
-        {
-            Target.Translate(new Vector3(0, -1, 0));
-            return this;
-        }
+        // Create indices for a quad (2 triangles)
+        indices.Add(0);
+        indices.Add(2);
+        indices.Add(1);
+        indices.Add(1);
+        indices.Add(2);
+        indices.Add(3);
 
-        /// <summary>
-        /// Updates the bounding box's position (for <see cref="Plane"/> class)
-        /// </summary>
-        public void Update(float deltaTime)
-        {
-            UpdatePhysics(deltaTime);
-        }
+        Mesh planeMesh = new Mesh(graphics, vertices, indices.ToArray());
+        var shader = ShaderManager.Instance.Get("basic");
+        planeMesh.AttachShader(shader.vertexShader, shader.fragmentShader);
+
+        Model.Meshes.Clear();
+        Model.Meshes.Add(planeMesh);
+        Model.AttachShader(ShaderManager.Instance.Get("basic"));
+        Model.AttachTexture(TextureManager.Instance.Get("no-texture"));
+    }
+
+    /// <summary>
+    /// This function just translates the plane to a default location. This location is (0, -1, 0). 
+    /// </summary>
+    /// <returns><see cref="Plane"/></returns>
+    public Plane Default()
+    {
+        Translate(new Vector3(0, -1, 0));
+        return this;
     }
 }

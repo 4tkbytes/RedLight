@@ -1,212 +1,353 @@
-﻿using System.Numerics;
+using System.Numerics;
 using RedLight.Graphics;
 using Serilog;
 using Silk.NET.OpenGL;
-using System.Numerics;
 
 namespace RedLight.Entities;
 
-// fuck you, you are such a pain in the ass -tk
 /// <summary>
-/// This class converts any Transformable Model into an Entity, which can unlock
-/// any physics based logic, such as collisions and hitboxes. 
+/// Base class for all entities in the game world.
+/// Provides physics, collision detection, and transformation capabilities.
 /// </summary>
-/// <typeparam name="T"><see cref="Transformable{T}"/></typeparam>
-public abstract class Entity<T> : Transformable<T>
+public abstract class Entity
 {
-    // hitbox shaders
-    private uint vbo = 0;
-    private uint vao = 0;
+    private RLModel _model;
     
-    // general physics shenanigans
-    public const float Gravity = 9.81f;
-    public Vector3 Velocity { get; set; } = Vector3.Zero;
-    public bool ApplyGravity { get; set; }
-    public float Mass { get; set; } = 1f;   // default value is 1f gotta create a func to change it
+    private Matrix4x4 _modelMatrix = Matrix4x4.Identity;
+    private bool _defaultSet;
+    private Matrix4x4 _modelDefault = Matrix4x4.Identity;
 
-    // bounding box
+    protected Vector3 _positionDefault;
+    protected Vector3 _rotationDefault;
+    protected Vector3 _scaleDefault;
+    
+    public Vector3 Velocity { get; set; } = Vector3.Zero;
+    public bool ApplyGravity { get; set; } = true;
+    public float Mass { get; set; } = 1f;
+
     public Vector3 BoundingBoxMin { get; set; }
     public Vector3 BoundingBoxMax { get; set; }
     public Vector3 DefaultBoundingBoxMin { get; set; }
     public Vector3 DefaultBoundingBoxMax { get; set; }
-
-    // hitbox changing
-    public bool IsHitboxShown { get; private set; }
-    public void ShowHitbox() => IsHitboxShown = true;
-    public void HideHitbox() => IsHitboxShown = false;
-    public void ToggleHitbox() => IsHitboxShown = !IsHitboxShown;
-    
-    // collisions
+    public HitboxConfig HitboxConfig { get; protected set; } = new();
     public HashSet<CollisionSide> ObjectCollisionSides { get; set; } = new();
-    public bool IsColliding { get; private set; }
+    public bool IsColliding { get; internal set; }
 
-    // bepu physics
+    private uint vbo = 0;
+    private uint vao = 0;
+    public bool IsHitboxShown { get; private set; }
+    
+    // Physics system reference
     public PhysicsSystem PhysicsSystem;
     private HashSet<string> _registeredEntityNames = new();
 
-    public Entity(T transformable, bool applyGravity = true) : base(transformable)
+    /// <summary>
+    /// Direct access to the underlying RLModel
+    /// </summary>
+    public RLModel Model
     {
-        ApplyGravity = applyGravity;
-
-        Vector3 position = Vector3.Zero;
-        if (transformable is Transformable<RLModel> tModel)
-            position = tModel.Position;
-        else if (transformable is Transformable<Mesh> tMesh)
-            position = tMesh.Position;
-        else if (transformable is Transformable<object> tObj)
-            position = tObj.Position;
-
-        DefaultBoundingBoxMin = new Vector3(-0.5f, 0.0f, -0.5f);
-        DefaultBoundingBoxMax = new Vector3(0.5f, 2.0f, 0.5f);
-
-        BoundingBoxMin = position + DefaultBoundingBoxMin;
-        BoundingBoxMax = position + DefaultBoundingBoxMax;
+        get => _model;
+        protected set => _model = value;
     }
 
     /// <summary>
-    /// Initialises the physics system
+    /// The transformation matrix for this entity
     /// </summary>
-    public virtual void InitPhysics(PhysicsSystem physics)
+    public Matrix4x4 ModelMatrix
     {
-        PhysicsSystem = physics;
-        if (this is Entity<Transformable<RLModel>> modelEntity)
+        get => _modelMatrix;
+        private set => _modelMatrix = value;
+    }
+
+    /// <summary>
+    /// Current position of the entity
+    /// </summary>
+    public Vector3 Position
+    {
+        get => new Vector3(ModelMatrix.M41, ModelMatrix.M42, ModelMatrix.M43);
+        set => SetPosition(value);
+    }
+
+    /// <summary>
+    /// Current scale of the entity
+    /// </summary>
+    public Vector3 Scale
+    {
+        get
         {
-            PhysicsSystem.AddEntity(modelEntity);
+            var scaleX = new Vector3(ModelMatrix.M11, ModelMatrix.M12, ModelMatrix.M13).Length();
+            var scaleY = new Vector3(ModelMatrix.M21, ModelMatrix.M22, ModelMatrix.M23).Length();
+            var scaleZ = new Vector3(ModelMatrix.M31, ModelMatrix.M32, ModelMatrix.M33).Length();
+            return new Vector3(scaleX, scaleY, scaleZ);
+        }
+        set => SetScale(value);
+    }
+
+    /// <summary>
+    /// Current rotation of the entity (Euler angles)
+    /// </summary>
+    public Vector3 Rotation
+    {
+        get
+        {
+            var scale = Scale;
+            var m11 = ModelMatrix.M11 / scale.X;
+            var m12 = ModelMatrix.M12 / scale.X;
+            var m13 = ModelMatrix.M13 / scale.X;
+            var m21 = ModelMatrix.M21 / scale.Y;
+            var m22 = ModelMatrix.M22 / scale.Y;
+            var m23 = ModelMatrix.M23 / scale.Y;
+            var m31 = ModelMatrix.M31 / scale.Z;
+            var m32 = ModelMatrix.M32 / scale.Z;
+            var m33 = ModelMatrix.M33 / scale.Z;
+
+            float sy = -m13;
+            float cy = MathF.Sqrt(1 - sy * sy);
+
+            float x, y, z;
+            if (cy > 1e-6)
+            {
+                x = MathF.Atan2(m23, m33);
+                y = MathF.Asin(sy);
+                z = MathF.Atan2(m12, m11);
+            }
+            else
+            {
+                x = MathF.Atan2(-m32, m22);
+                y = MathF.Asin(sy);
+                z = 0;
+            }
+            return new Vector3(x, y, z);
+        }
+        set
+        {
+            DefaultRotation = value;
+            SetRotation(value);
         }
     }
 
-    /// <summary>
-    /// Updates the physics state of the entity.
-    /// </summary>
-    /// <param name="deltaTime">Time elapsed since last update (in seconds).</param>
-    public void UpdatePhysics(float deltaTime)
+    protected Entity(RLModel model, bool applyGravity = true)
     {
-        // no more of the old function. out with the old in with the new
-        // it is managed by BepuPhysics already
-
-        // idk why it is here just keep it there for testing
-        UpdateBoundingBox();
-    }
-
-    /// <summary>
-    /// Updates the bounding box of the hitbox of the entity. 
-    /// </summary>
-    public void UpdateBoundingBox()
-    {
-        Vector3 currentPosition = Vector3.Zero;
-        if (Target is Transformable<RLModel> tModel)
-            currentPosition = tModel.Position;
-        else if (Target is Transformable<Mesh> tMesh)
-            currentPosition = tMesh.Position;
-        else if (Target is Transformable<object> tObj)
-            currentPosition = tObj.Position;
-
+        _model = model;
+        ApplyGravity = applyGravity;
+        
+        // Set default bounding box
+        DefaultBoundingBoxMin = new Vector3(-0.5f, 0.0f, -0.5f);
+        DefaultBoundingBoxMax = new Vector3(0.5f, 1.0f, 0.5f);
+        
+        // Initialize bounding box based on current position
+        var currentPosition = Position;
         BoundingBoxMin = currentPosition + DefaultBoundingBoxMin;
         BoundingBoxMax = currentPosition + DefaultBoundingBoxMax;
     }
 
+
     /// <summary>
-    /// Checks for collision with another entity using the AABB collision method.
-    /// 
-    /// <see href="https://developer.mozilla.org/en-US/docs/Games/Techniques/3D_collision_detection">
-    /// Mozilla 3D Game Dev Documentation about how AABB works</see>
+    /// Translate the entity by the specified vector
     /// </summary>
-    public bool Intersects(Entity<T> otherEntity, bool silent = true)
+    public Entity Translate(Vector3 translation)
     {
-        // BepuPhysics now handles collision detection
-        // This is kept for backward compatibility
+        ModelMatrix = Matrix4x4.Multiply(Matrix4x4.CreateTranslation(translation), ModelMatrix);
         UpdateBoundingBox();
-        otherEntity.UpdateBoundingBox();
-
-        bool xOverlap = BoundingBoxMin.X <= otherEntity.BoundingBoxMax.X && BoundingBoxMax.X >= otherEntity.BoundingBoxMin.X;
-        bool yOverlap = BoundingBoxMin.Y <= otherEntity.BoundingBoxMax.Y && BoundingBoxMax.Y >= otherEntity.BoundingBoxMin.Y;
-        bool zOverlap = BoundingBoxMin.Z <= otherEntity.BoundingBoxMax.Z && BoundingBoxMax.Z >= otherEntity.BoundingBoxMin.Z;
-
-        IsColliding = xOverlap && yOverlap && zOverlap;
-        return IsColliding;
+        Log.Verbose("Translated entity by {Translation}", translation);
+        return this;
     }
 
     /// <summary>
-    /// Sets a hitbox default. It can be edited by the hitboxMin and hitboxMax. 
+    /// Rotate the entity by the specified angle around the given axis
     /// </summary>
-    /// <param name="hitboxMin"><see cref="Vector3D"/></param>
-    /// <param name="hitboxMax"><see cref="Vector3D"/></param>
-    public void SetHitboxDefault(Vector3 hitboxMin, Vector3 hitboxMax)
+    public Entity Rotate(float radians, Vector3 axis)
     {
-        DefaultBoundingBoxMin = hitboxMin;
-        DefaultBoundingBoxMax = hitboxMax;
-
-        // If we're already connected to physics, update the collider
-        if (PhysicsSystem != null && this is Entity<Transformable<RLModel>> modelEntity)
-        {
-            PhysicsSystem.RemoveEntity(modelEntity);
-            PhysicsSystem.AddEntity(modelEntity);
-        }
+        var normAxis = Vector3.Normalize(axis);
+        var rotation = Matrix4x4.CreateFromAxisAngle(normAxis, radians);
+        ModelMatrix = Matrix4x4.Multiply(ModelMatrix, rotation);
+        Log.Verbose("Rotated entity by {Radians} radians around {Axis}", radians, axis);
+        return this;
     }
 
     /// <summary>
-    /// Automatically calculates and sets the hitbox dimensions based on the model's actual vertices.
+    /// Set the scale of the entity
     /// </summary>
-    /// <param name="padding">Optional padding to add around the calculated bounds (default: 0.1f)</param>
-    /// <returns>This entity instance for method chaining</returns>
-    public Entity<T> AutoMapHitboxToModel(float padding = 0.1f)
+    public Entity SetScale(Vector3 scale)
     {
-        if (Target is Transformable<RLModel> tModel)
+        ModelMatrix = Matrix4x4.Multiply(Matrix4x4.CreateScale(scale), ModelMatrix);
+        Log.Verbose("Set entity scale to {Scale}", scale);
+        return this;
+    }
+
+    /// <summary>
+    /// Set the position of the entity
+    /// </summary>
+    public Entity SetPosition(Vector3 position)
+    {
+        // Create a new model matrix preserving rotation and scale, but with new position
+        Matrix4x4 newModel = ModelMatrix;
+        
+        // Update only the translation components
+        newModel.M41 = position.X;
+        newModel.M42 = position.Y;
+        newModel.M43 = position.Z;
+        
+        ModelMatrix = newModel;
+        UpdateBoundingBox();
+        Log.Verbose("Set entity position to {Position}", position);
+        return this;
+    }
+
+    /// <summary>
+    /// Set the model matrix directly
+    /// </summary>
+    public Entity SetModel(Matrix4x4 model)
+    {
+        ModelMatrix = model;
+        UpdateBoundingBox();
+        return this;
+    }
+
+    /// <summary>
+    /// Reset to absolute identity matrix
+    /// </summary>
+    public Entity AbsoluteReset()
+    {
+        ModelMatrix = Matrix4x4.Identity;
+        _defaultSet = false;
+        UpdateBoundingBox();
+        Log.Verbose("Absolute reset entity model");
+        return this;
+    }
+
+    /// <summary>
+    /// Save the current model matrix as default
+    /// </summary>
+    public Entity SetDefault()
+    {
+        _modelDefault = ModelMatrix;
+        _defaultSet = true;
+        Log.Verbose("Set default state for entity");
+        return this;
+    }
+    
+    // todo: create docs for this
+    public Entity SetDefault(bool savePosition = false, bool saveRotation = false, bool saveScale = false)
+    {
+        if (savePosition) _positionDefault = Position;
+        if (saveRotation) _rotationDefault = Rotation;
+        if (saveScale) _scaleDefault = Scale;
+        _defaultSet = true;
+        Log.Verbose("Set default state for entity {Type}", GetType().Name);
+        Log.Verbose("Saved Position: {PosSave}, Rotation: {RotSave}, Scale: {ScaleSave}", savePosition, saveRotation,
+            saveScale);
+        return this;
+    }
+    
+    /// <summary>
+    /// Reset to the previously saved default state
+    /// </summary>
+    public Entity Reset(bool silent = true)
+    {
+        if (!_defaultSet)
         {
-            var model = tModel.Target;
-            DefaultBoundingBoxMin = new Vector3(-1.0f, -1.0f, -1.0f);
-            DefaultBoundingBoxMax = new Vector3(1.0f, 1.0f, 1.0f);
-            
-            var scale = tModel.Scale;
-            DefaultBoundingBoxMin *= scale;
-            DefaultBoundingBoxMax *= scale;
-
-            DefaultBoundingBoxMin -= new Vector3(padding, padding, padding);
-            DefaultBoundingBoxMax += new Vector3(padding, padding, padding);
-
-            UpdateBoundingBox();
-
-            // If we're already connected to physics, update the collider
-            if (PhysicsSystem != null && this is Entity<Transformable<RLModel>> modelEntity)
-            {
-                PhysicsSystem.RemoveEntity(modelEntity);
-                PhysicsSystem.AddEntity(modelEntity);
-            }
-
-            Log.Debug("Auto-mapped hitbox for model: Min={Min}, Max={Max}", DefaultBoundingBoxMin, DefaultBoundingBoxMax);
+            if (!silent)
+                Log.Warning("Unable to reset as a lock state has not been created, resetting absolute");
+            AbsoluteReset();
         }
         else
         {
-            Log.Error("Cannot auto-map hitbox: unsupported Target type {Type}", Target?.GetType().Name);
+            if (_positionDefault != null || _rotationDefault != null || _scaleDefault != null)
+            {
+                if (_positionDefault != null) Position = _positionDefault;
+                if (_rotationDefault != null) Rotation = _rotationDefault;
+                if (_scaleDefault != null) Scale = _scaleDefault;
+            }
+            else
+            {
+                ModelMatrix = _modelDefault;
+            }
+            UpdateBoundingBox();
+            if (!silent)
+                Log.Verbose("Reset entity to default state");
         }
         return this;
     }
     
     /// <summary>
+    /// Update the bounding box based on current position
+    /// </summary>
+    private void UpdateBoundingBox()
+    {
+        var currentPosition = Position;
+        BoundingBoxMin = currentPosition + DefaultBoundingBoxMin;
+        BoundingBoxMax = currentPosition + DefaultBoundingBoxMax;
+    }
+    
+    /// <summary>
+    /// Set the rotation of the entity (Euler angles in radians) while preserving position and scale
+    /// </summary>
+    public Entity SetRotation(Vector3 rotation)
+    {
+        // Decompose current matrix
+        var currentPosition = Position;
+        var currentScale = Scale;
+    
+        // Rebuild matrix with new rotation
+        var translationMatrix = Matrix4x4.CreateTranslation(currentPosition);
+        var rotationMatrix = Matrix4x4.CreateFromYawPitchRoll(rotation.Y, rotation.X, rotation.Z);
+        var scaleMatrix = Matrix4x4.CreateScale(currentScale);
+    
+        // Combine transformations: Scale * Rotation * Translation
+        ModelMatrix = scaleMatrix * rotationMatrix * translationMatrix;
+    
+        UpdateBoundingBox();
+        Log.Verbose("Set entity rotation to {Rotation}", rotation);
+        return this;
+    }
+    
+    /// <summary>
+    /// Set the rotation of the entity using degrees
+    /// </summary>
+    public Entity SetRotationDegrees(Vector3 rotationDegrees)
+    {
+        var rotationRadians = new Vector3(
+            float.DegreesToRadians(rotationDegrees.X),
+            float.DegreesToRadians(rotationDegrees.Y),
+            float.DegreesToRadians(rotationDegrees.Z)
+        );
+        return SetRotation(rotationRadians);
+    }
+    
+    protected void ApplyHitboxConfig()
+    {
+        DefaultBoundingBoxMin = HitboxConfig.CalculateMin();
+        DefaultBoundingBoxMax = HitboxConfig.CalculateMax();
+        
+        Log.Debug("Applied hitbox config for {EntityType}: Min={Min}, Max={Max}", 
+            GetType().Name, DefaultBoundingBoxMin, DefaultBoundingBoxMax);
+    }
+    
+    public void SetHitboxConfig(HitboxConfig config)
+    {
+        HitboxConfig = config;
+        ApplyHitboxConfig();
+    }
+    
+     /// <summary>
     /// Draws the bounding box edges in red using OpenGL lines with proper camera transformations.
     /// </summary>
-    public void DrawBoundingBox(RLGraphics graphics, RLShaderBundle shaderBundle, Camera camera)
+    public void DrawBoundingBox(RLGraphics graphics, Camera camera)
     {
+        var shaderBundle = ShaderManager.Instance.Get("hitbox");
+        
         if (!IsHitboxShown) return;
         
         var gl = graphics.OpenGL;
 
-        // Get current entity position and update bounding box
-        Vector3 currentPosition = Vector3.Zero;
-        if (Target is Transformable<RLModel> tModel)
-        {
-            currentPosition = tModel.Position;
-        }
-        else if (Target is Transformable<object> tObj)
-        {
-            currentPosition = tObj.Position;
-        }
+        var currentPosition = Position;
 
         // Add this diagnostic log:
         if (float.IsNaN(currentPosition.X) || float.IsNaN(currentPosition.Y) || float.IsNaN(currentPosition.Z))
         {
             // Identify which entity is causing this, you might want to add a Name property to Entity or check its type
-            Log.Error($"Entity.DrawBoundingBox: currentPosition contains NaN. Position: {currentPosition}. Target type: {Target?.GetType().FullName}");
+            Log.Error($"Entity.DrawBoundingBox: currentPosition contains NaN. Position: {currentPosition}. Target type: {GetType().FullName}");
         }
 
         // Calculate bounding box based on current position
@@ -361,33 +502,116 @@ public abstract class Entity<T> : Transformable<T>
 
         graphics.CheckGLErrors();
     }
+     
+    /// <summary>
+    /// Set rotation around X axis (pitch) in radians
+    /// </summary>
+    public Entity SetRotationX(float radians)
+    {
+        var currentRotation = Rotation;
+        return SetRotation(new Vector3(radians, currentRotation.Y, currentRotation.Z));
+    }
+
+    /// <summary>
+    /// Set rotation around Y axis (yaw) in radians
+    /// </summary>
+    public Entity SetRotationY(float radians)
+    {
+        var currentRotation = Rotation;
+        return SetRotation(new Vector3(currentRotation.X, radians, currentRotation.Z));
+    }
+
+    /// <summary>
+    /// Set rotation around Z axis (roll) in radians
+    /// </summary>
+    public Entity SetRotationZ(float radians)
+    {
+        var currentRotation = Rotation;
+        return SetRotation(new Vector3(currentRotation.X, currentRotation.Y, radians));
+    }
+
+    /// <summary>
+    /// Set scale on X axis only
+    /// </summary>
+    public Entity SetScaleX(float scaleX)
+    {
+        var currentScale = Scale;
+        return SetScale(new Vector3(scaleX, currentScale.Y, currentScale.Z));
+    }
+
+    /// <summary>
+    /// Set scale on Y axis only
+    /// </summary>
+    public Entity SetScaleY(float scaleY)
+    {
+        var currentScale = Scale;
+        return SetScale(new Vector3(currentScale.X, scaleY, currentScale.Z));
+    }
+
+    /// <summary>
+    /// Set scale on Z axis only
+    /// </summary>
+    public Entity SetScaleZ(float scaleZ)
+    {
+        var currentScale = Scale;
+        return SetScale(new Vector3(currentScale.X, currentScale.Y, scaleZ));
+    }
+
+    /// <summary>
+    /// Set uniform scale (all axes the same)
+    /// </summary>
+    public Entity SetUniformScale(float uniformScale)
+    {
+        return SetScale(new Vector3(uniformScale, uniformScale, uniformScale));
+    }
+
+    /// <summary>
+    /// Show the hitbox visualization
+    /// </summary>
+    public void ShowHitbox() => IsHitboxShown = true;
+
+    /// <summary>
+    /// Hide the hitbox visualization
+    /// </summary>
+    public void HideHitbox() => IsHitboxShown = false;
+
+    /// <summary>
+    /// Toggle hitbox visibility
+    /// </summary>
+    public void ToggleHitbox() => IsHitboxShown = !IsHitboxShown;
+    
+    /// <summary>
+    /// Checks if a defualt lock is set
+    /// </summary>
+    public bool IsDefaultSet() => _defaultSet;
+    
+    public Vector3 RotationDegrees
+    {
+        get
+        {
+            var rotationRadians = Rotation;
+            return new Vector3(
+                float.RadiansToDegrees(rotationRadians.X),
+                float.RadiansToDegrees(rotationRadians.Y),
+                float.RadiansToDegrees(rotationRadians.Z)
+            );
+        }
+        set => SetRotationDegrees(value);
+    }
+
+    public Vector3 DefaultRotation { get; set; }
 }
 
 /// <summary>
-/// This class is used to conveniently overcomplicate everything. Due to the default <see cref="Entity{T}"/> class 
-/// being an abstract, we need to store the Entities virtual functions.
-/// <para>
-/// This class is used to solve the issue (CS0144). 
-/// Despite being inconvenient and annoying, this is the only way (afaik) that you can
-/// create a new Entity class.
-/// </para>
-/// </summary>
-/// <typeparam name="T"><see cref="Transformable{T}"/></typeparam>
-public class ConcreteEntity<T> : Entity<T>
-{
-    public ConcreteEntity(T Target) : base(Target) { }
-}
-
-/// <summary>
-/// Enum representing which side is being collided. Numerical values are taken inspiration from
-/// dice. If you forgot, look for a 3D model of a die. 
+/// Collision sides enumeration
 /// </summary>
 public enum CollisionSide
 {
-    Left = 3,
-    Right = 4,
-    Up = 2,
-    Down = 5,
-    Front = 1,
-    Back = 6
+    None,
+    Top,
+    Bottom,
+    Left,
+    Right,
+    Front,
+    Back
 }

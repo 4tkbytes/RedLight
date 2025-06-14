@@ -10,6 +10,9 @@ using Serilog;
 using System.Numerics;
 
 namespace RedLight;
+
+public delegate void CollisionEventHandler(Entity entityA, Entity entityB, Vector3 contactPoint, Vector3 normal);
+
 public class PhysicsSystem
 {
     
@@ -19,10 +22,17 @@ public class PhysicsSystem
     private ThreadDispatcher? threadDispatcher;
 
     // maps the entity to a physics body handle
-    private Dictionary<Entity<Transformable<RLModel>>, BodyHandle> bodyHandles = new();
+    private Dictionary<Entity, BodyHandle> bodyHandles = new();
+    // reverse mapping from body handle to entity for collision events
+    internal Dictionary<BodyHandle, Entity> handleToEntity = new();
 
     // hashset used for debugging
     private HashSet<string> _registeredEntityNames = new();
+    
+    // collision events
+    public event CollisionEventHandler? OnCollisionEnter;
+    public event CollisionEventHandler? OnCollisionStay;
+    public event CollisionEventHandler? OnCollisionExit;
 
     public PhysicsSystem(int threadCount = 1)
     {
@@ -34,13 +44,13 @@ public class PhysicsSystem
 
         Simulation = Simulation.Create(
             bufferPool,
-            new NarrowPhaseCallbacks(),
+            new NarrowPhaseCallbacks(this),
             new PoseIntegratorCallbacks(new Vector3(0, -9.81f, 0)),
-            new SolveDescription(4, 1)); // Updated to use SolveDescription instead of ThreadDispatcher
+            new SolveDescription(4, 1));
         Log.Debug("Initialised PhysicsSystem with a thread count of {threadCount}", threadCount);
     }
 
-    public void AddEntity(Entity<Transformable<RLModel>> entity, bool silent = true)
+    public void AddEntity(Entity entity, bool silent = true)
     {
         if (!silent)
         {
@@ -48,48 +58,78 @@ public class PhysicsSystem
             Log.Debug("Entity position: {Position}, Scale: {Scale}", entity.Position, entity.Scale);
             Log.Debug("Entity bounding box: Min={Min}, Max={Max}", entity.BoundingBoxMin, entity.BoundingBoxMax);
         }
-        
+
         // create a box shape based on entity
         var min = entity.DefaultBoundingBoxMin;
         var max = entity.DefaultBoundingBoxMax;
         var size = new Vector3(max.X - min.X, max.Y - min.Y, max.Z - min.Z);
 
+        // Ensure size is not zero or negative
+        size = Vector3.Max(size, new Vector3(0.01f, 0.01f, 0.01f));
+
         // create the shape
         var boxShape = new Box(size.X, size.Y, size.Z);
         var shapeIndex = Simulation.Shapes.Add(boxShape);
 
-        // create the body
-        var position = entity.Position;
-        var pose = new RigidPose(new Vector3(position.X, position.Y, position.Z));
+        // Calculate the physics body position including the hitbox offset
+        var entityPosition = entity.Position;
+        var hitboxCenter = (min + max) * 0.5f; // Center of the hitbox
+        var physicsPosition = entityPosition + hitboxCenter; // Offset the physics body position
+
+        var pose = new RigidPose(new Vector3(physicsPosition.X, physicsPosition.Y, physicsPosition.Z));
 
         BodyHandle bodyHandle;
+        
         if (entity.ApplyGravity)
         {
-            // dynamic body
-            var inertia = boxShape.ComputeInertia(entity.Mass);
-            bodyHandle = Simulation.Bodies.Add(BodyDescription.CreateDynamic(pose, inertia, shapeIndex, 0.01f));
-        } else
+            if (entity is Player)
+            {
+                var inertia = boxShape.ComputeInertia(entity.Mass * 2.0f);
+                bodyHandle = Simulation.Bodies.Add(BodyDescription.CreateDynamic(pose, inertia, shapeIndex, 0.2f));
+
+                if (!silent)
+                    Log.Debug("Added player entity at physics position: {PhysicsPos} (offset from entity pos: {EntityPos})", 
+                        physicsPosition, entityPosition);
+            }
+            else
+            {
+                var inertia = boxShape.ComputeInertia(entity.Mass);
+                bodyHandle = Simulation.Bodies.Add(BodyDescription.CreateDynamic(pose, inertia, shapeIndex, 0.01f));
+                
+                if (!silent)
+                    Log.Debug("Added dynamic entity: {EntityName} at physics position: {PhysicsPos}", 
+                        entity.Model?.Name, physicsPosition);
+            }
+        }
+        else
         {
-            // static/kinematic body
             bodyHandle = Simulation.Bodies.Add(BodyDescription.CreateKinematic(pose, shapeIndex, 0.01f));
+            
+            if (!silent)
+                Log.Debug("Added kinematic entity: {EntityName} at physics position: {PhysicsPos}", 
+                    entity.Model?.Name, physicsPosition);
         }
 
         // store the handle
         bodyHandles[entity] = bodyHandle;
+        handleToEntity[bodyHandle] = entity;
+        entity.PhysicsSystem = this;
+        
         if (!silent)
         {
-            Log.Debug("Is Dynamic? {IsDynamic}", entity.ApplyGravity);
+            Log.Debug("Hitbox center offset: {HitboxCenter}", hitboxCenter);
             Log.Debug("Entity added to physics system successfully");
         }
-
     }
-
-    public void RemoveEntity(Entity<Transformable<RLModel>> entity)
+    
+    public void RemoveEntity(Entity entity)
     {
         if (bodyHandles.TryGetValue(entity, out var bodyHandle))
         {
             Simulation.Bodies.Remove(bodyHandle);
             bodyHandles.Remove(entity);
+            handleToEntity.Remove(bodyHandle);
+            entity.PhysicsSystem = null;
             Log.Debug("Removed entity {Type} from physics system", entity.GetType());
         }
     }
@@ -116,15 +156,25 @@ public class PhysicsSystem
 
             // Debug info to understand body state
             if (!silent) Log.Debug("[Physics] Entity: {EntityName}, Awake: {Awake}, Velocity: {Velocity}, Position: {Position}",
-                entity.Target.Target.Name,
+                entity.Model?.Name,
                 bodyRef.Awake,
                 bodyRef.Velocity.Linear,
                 bodyRef.Pose.Position);
 
-            // Always update position regardless of Awake status
+            // Get the physics body position
             var pose = bodyRef.Pose;
-            var position = new Vector3(pose.Position.X, pose.Position.Y, pose.Position.Z);
-            entity.SetPosition(position);
+            var physicsPosition = new Vector3(pose.Position.X, pose.Position.Y, pose.Position.Z);
+        
+            // Calculate the hitbox offset that was applied when creating the body
+            var min = entity.DefaultBoundingBoxMin;
+            var max = entity.DefaultBoundingBoxMax;
+            var hitboxCenter = (min + max) * 0.5f;
+        
+            // Calculate the entity position by subtracting the hitbox offset
+            var entityPosition = physicsPosition - hitboxCenter;
+        
+            // Update the entity's position
+            entity.SetPosition(entityPosition);
 
             // Update velocity if it's dynamic
             if (entity.ApplyGravity)
@@ -137,18 +187,17 @@ public class PhysicsSystem
         }
     }
 
-    public bool TryGetBodyHandle(Entity<Transformable<RLModel>> entity, out BodyHandle handle)
+    public bool TryGetBodyHandle(Entity entity, out BodyHandle handle)
     {
         return bodyHandles.TryGetValue(entity, out handle);
     }
 
-    public void ApplyImpulse(Entity<Transformable<RLModel>> entity, Vector3 impulse, bool silent = true)
+    public void ApplyImpulse(Entity entity, Vector3 impulse, bool silent = true)
     {
-        silent = false;
         if (bodyHandles.TryGetValue(entity, out var handle))
         {
             if (!silent) Log.Debug("[Physics] Applying impulse {Impulse} to entity {EntityName}",
-                impulse, entity.Target.Target.Name);
+                impulse, entity.Model.Name);
 
             var bodyRef = Simulation.Bodies.GetBodyReference(handle);
             if (!silent) Log.Debug("[Physics] Current velocity before impulse: {Velocity}", bodyRef.Velocity.Linear);
@@ -164,6 +213,19 @@ public class PhysicsSystem
         }
     }
 
+    internal void TriggerCollisionEvent(Entity entityA, Entity entityB, Vector3 contactPoint, Vector3 normal, bool silent = true)
+    {
+        // Update entity collision state
+        entityA.IsColliding = true;
+        entityB.IsColliding = true;
+        
+        // Trigger collision events
+        OnCollisionEnter?.Invoke(entityA, entityB, contactPoint, normal);
+        
+        if (!silent) Log.Debug("[Collision] {EntityA} collided with {EntityB} at {ContactPoint}", 
+            entityA.GetType().Name, entityB.GetType().Name, contactPoint);
+    }
+
     public void Dispose()
     {
         Simulation.Dispose();
@@ -175,6 +237,13 @@ public class PhysicsSystem
 
 public struct NarrowPhaseCallbacks : INarrowPhaseCallbacks
 {
+    private PhysicsSystem physicsSystem;
+    
+    public NarrowPhaseCallbacks(PhysicsSystem system)
+    {
+        physicsSystem = system;
+    }
+
     public void Initialize(Simulation simulation) { }
 
     public bool AllowContactGeneration(int workerIndex, CollidableReference a, CollidableReference b, ref float maximumExpansion)
@@ -190,12 +259,33 @@ public struct NarrowPhaseCallbacks : INarrowPhaseCallbacks
     public bool ConfigureContactManifold<TManifold>(int workerIndex, CollidablePair pair, ref TManifold manifold, out PairMaterialProperties pairMaterial)
         where TManifold : unmanaged, IContactManifold<TManifold>
     {
+        // Set material properties for collision response
         pairMaterial = new PairMaterialProperties
         {
-            FrictionCoefficient = 10.0f,
-            MaximumRecoveryVelocity = 2f,
-            SpringSettings = new SpringSettings(30, 1)
+            FrictionCoefficient = 0.8f,  // Low friction for smooth movement
+            MaximumRecoveryVelocity = 1.0f,
+            SpringSettings = new SpringSettings(20f, 1.0f)  // Softer springs
         };
+
+        // Trigger collision event if physics system is available
+        if (physicsSystem != null)
+        {
+            // Try to get entities from body handles
+            var bodyA = pair.A.BodyHandle;
+            var bodyB = pair.B.BodyHandle;
+            
+            if (physicsSystem.handleToEntity.TryGetValue(bodyA, out var entityA) && 
+                physicsSystem.handleToEntity.TryGetValue(bodyB, out var entityB))
+            {
+                // Simplified collision event - we'll get contact details from the physics system
+                Vector3 contactPoint = Vector3.Zero;
+                Vector3 normal = Vector3.UnitY;
+
+                // Trigger collision event
+                physicsSystem.TriggerCollisionEvent(entityA, entityB, contactPoint, normal);
+            }
+        }
+
         return true;
     }
 

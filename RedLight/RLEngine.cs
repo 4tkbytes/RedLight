@@ -29,10 +29,7 @@ public class RLEngine
     /// Wrapper class containing different graphics backend APIs
     /// </summary>
     public RLGraphics Graphics { get; private set; }
-    public RLImGui ImGui { get; set; }
-
-    public SceneManager SceneManager { private get; set; }
-
+    
     /// <summary>
     /// Log strength used by Serilog. By default, the log strength is 0 (normal) however
     /// you are able to change it with program arguments.
@@ -55,7 +52,7 @@ public class RLEngine
     public RLEngine(int width, int height, string title, RLScene startingScene, string[] args)
     {
         ParseArguments(args);
-        InitialiseLogger();
+        InitialiseLogger(logStrength);
 
         WindowOptions options = WindowOptions.Default;
         options.Title = title;
@@ -85,7 +82,7 @@ public class RLEngine
             Graphics.OpenGL = Window.Window.CreateOpenGL();
             Log.Information("Backend: OpenGL");
 
-            var input = SceneManager.input.CreateInput();
+            var input = SceneManager.Instance.input.CreateInput();
             Log.Debug("Input context created");
 
             SetupFullscreenToggle(input.input);
@@ -100,7 +97,7 @@ public class RLEngine
                     startingScene.PhysicsSystem = new PhysicsSystem();
                 }
 
-                SceneManager.SwitchScene(startingScene);
+                SceneManager.Instance.SwitchScene(startingScene);
                 Log.Debug("Scene is switching to {A}", startingScene);
             }
             else
@@ -217,7 +214,7 @@ public class RLEngine
         }
     }
 
-    public void InitialiseLogger(ConsoleLog console = null)
+    public void InitialiseLogger(int value, ConsoleLog console = null)
     {
         var loggerConfig = new LoggerConfiguration()
             .WriteTo.Console()
@@ -231,9 +228,9 @@ public class RLEngine
             loggerConfig.WriteTo.ImGuiConsole(console);
         }
 
-        if (logStrength == 1)
+        if (value == 1)
             loggerConfig.MinimumLevel.Debug();
-        if (logStrength == 2)
+        if (value == 2)
             loggerConfig.MinimumLevel.Verbose();
 
         Log.Logger = loggerConfig.CreateLogger();
@@ -255,8 +252,7 @@ public class RLEngine
         var textureManager = TextureManager.Instance;
         InputManager.Initialise(Window);
         SceneManager.Initialise(this);
-        SceneManager = SceneManager.Instance;
-        return SceneManager;
+        return SceneManager.Instance;
     }
 
     public void Run()

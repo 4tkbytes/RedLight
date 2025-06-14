@@ -67,6 +67,10 @@ public class RLModel
         Log.Debug($"Loaded {Meshes.Count} mesh(es) from model.");
     }
 
+    public RLModel(RLGraphics graphics, string path, string name) : this(graphics, path, TextureManager.Instance, name)
+    {
+    }
+
     /// <summary>
     /// Initializes a new instance of the RLModel class.
     /// Uses an empty string as the model name.

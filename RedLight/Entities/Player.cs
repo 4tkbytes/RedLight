@@ -2,15 +2,16 @@
 using Serilog;
 using Silk.NET.Input;
 using System.Numerics;
+using BepuUtilities;
 
 namespace RedLight.Entities;
 
-public class Player: Entity<Transformable<RLModel>>
+public class Player: Entity
 {
     public Camera Camera { get; set; }
     
     /// <summary>
-    /// Camera toggle changes between first and third person POV's. 
+    /// <para>Camera toggle changes between first and third person POV's.</para>
     /// 1 = First Person
     /// 3 = Third Person
     /// Default = Third Person
@@ -18,25 +19,39 @@ public class Player: Entity<Transformable<RLModel>>
     /// <see cref="PlayerCameraPOV"/>
     public PlayerCameraPOV CameraToggle = PlayerCameraPOV.ThirdPerson;
 
-    public Vector3 Position { get; set; }
-    public Vector3 Rotation { get; set; }
-    public Vector3 Scale { get; set; }
-
     public float MoveSpeed { get; set; } = 2.5f;
 
     private Vector3 lastModelPosition;
+    private bool isMoving = false;
 
-    public Player(Camera camera, Transformable<RLModel> model, bool autoMapHitbox = true) : base(model)
+    public Player(Camera camera, Transformable<RLModel> model, HitboxConfig hitboxConfig = null) : base(model.Target)
     {
         Camera = camera;
-        Target = model;
-        Position = model.Position;
-        Rotation = model.Rotation;
-        Scale = model.Scale;
+    
+        SetModel(model.ModelMatrix);
         lastModelPosition = Position;
-        if (autoMapHitbox)
-            AutoMapHitboxToModel();
-        Log.Debug("[Player] Created with initial position: {Position}, rotation: {Rotation}, scale: {Scale}", Position, Rotation, Scale);
+    
+        if (hitboxConfig == null)
+        {
+            HitboxConfig = HitboxConfig.ForPlayer(
+                width: -0.5f,
+                height: -0.5f,
+                length: -0.5f,
+                groundOffset: 0.5f
+            );
+        }
+        else
+        {
+            HitboxConfig = hitboxConfig;
+        }
+
+        ApplyHitboxConfig();
+    
+        Log.Debug("[Player] Created with initial position: {Position}, rotation: {Rotation}, scale: {Scale}",
+            Position, Rotation, Scale);
+        Log.Debug("[Player] Hitbox: Min={Min}, Max={Max}", DefaultBoundingBoxMin, DefaultBoundingBoxMax);
+
+        SetDefault(saveRotation: true, saveScale: true);
         ApplyGravity = true;
     }
 
@@ -45,19 +60,24 @@ public class Player: Entity<Transformable<RLModel>>
     /// <summary>
     /// Updates player logic
     /// </summary>
-    public void Update(HashSet<Silk.NET.Input.Key> pressedKeys, float deltaTime, bool silent = true)
+    public void Update(float deltaTime, HashSet<Key> pressedKeys, bool isUsingDebugCamera = false, bool silent = true)
     {
+        if (pressedKeys == null && isUsingDebugCamera == false)
+        {
+            throw new ArgumentNullException("PressedKeys should not be null if the class is a player");
+        }
         var prevPos = Position;
 
-        // Apply movement forces via physics
-        HandleMovement(pressedKeys, deltaTime);
+        // apply movement - removed silent parameter
+        if (!isUsingDebugCamera)
+            HandleMovement(pressedKeys, deltaTime, silent);
 
         // IMPORTANT: Get updated position from physics system
         if (PhysicsSystem != null && PhysicsSystem.TryGetBodyHandle(this, out var bodyHandle))
         {
             // Update position from physics engine
             var pose = PhysicsSystem.Simulation.Bodies.GetBodyReference(bodyHandle).Pose;
-            Position = new Vector3(pose.Position.X, pose.Position.Y, pose.Position.Z);
+            SetPosition(new Vector3(pose.Position.X, pose.Position.Y, pose.Position.Z));
 
             // Get velocity for other effects if needed
             var velocity = PhysicsSystem.Simulation.Bodies.GetBodyReference(bodyHandle).Velocity;
@@ -70,18 +90,16 @@ public class Player: Entity<Transformable<RLModel>>
             Log.Verbose("[Player] Position changed: {Prev} -> {Current}", prevPos, Position);
 
         UpdateCameraPosition();
-        UpdateBoundingBox();
-        SyncModelTransform();
     }
-
-    private void HandleMovement(HashSet<Key> pressedKeys, float deltaTime)
+    
+    private void HandleMovement(HashSet<Key> pressedKeys, float deltaTime, bool silent = true)
     {
         Vector3 direction = Vector3.Zero;
+        bool shouldJump = false;
 
         // Calculate direction based on camera orientation
         var forward = Vector3.Normalize(new Vector3(Camera.Front.X, 0, Camera.Front.Z));
         var right = Vector3.Normalize(Vector3.Cross(Camera.Front, Camera.Up));
-        var up = Camera.Up;
 
         if (pressedKeys.Contains(Key.W))
             direction += forward;
@@ -92,45 +110,120 @@ public class Player: Entity<Transformable<RLModel>>
         if (pressedKeys.Contains(Key.D))
             direction += right;
         if (pressedKeys.Contains(Key.Space))
-            direction += up;
+            shouldJump = true;
         if (pressedKeys.Contains(Key.ShiftLeft))
-            direction -= up;
+            direction -= Camera.Up; // Keep this for flying/creative mode
 
-        if (direction != Vector3.Zero)
+        var horizontalDirection = new Vector3(direction.X, 0, direction.Z);
+        isMoving = horizontalDirection.Length() > 0.01f;
+
+        if (direction != Vector3.Zero || shouldJump)
         {
-            direction = Vector3.Normalize(direction);
-
             if (PhysicsSystem != null && PhysicsSystem.TryGetBodyHandle(this, out var bodyHandle))
             {
-                // Check current velocity before applying impulse
                 var bodyRef = PhysicsSystem.Simulation.Bodies.GetBodyReference(bodyHandle);
                 var currentVel = bodyRef.Velocity.Linear;
 
-                // Use a lower force multiplier with deltaTime scaling
-                float forceMultiplier = 5.0f * deltaTime;
-                var impulse = new Vector3(direction.X, direction.Y, direction.Z) * MoveSpeed * forceMultiplier;
-
-                // Apply force rather than directly setting velocity
-                PhysicsSystem.ApplyImpulse(this, impulse);
-
-                // Check if body needs to be awakened
-                if (!bodyRef.Awake)
+                // Handle horizontal movement
+                if (direction != Vector3.Zero)
                 {
-                    Log.Debug("[Player] Waking up physics body");
-                    bodyRef.Awake = true;
+                    if (!silent) Log.Debug("[Player] Movement direction detected: {Direction}", direction);
+                    direction = Vector3.Normalize(direction);
+
+                    // Use velocity-based movement for smoother control
+                    float maxSpeed = MoveSpeed;
+                    var targetVelocity = new Vector3(
+                        direction.X * maxSpeed,
+                        currentVel.Y, // Preserve Y velocity for gravity
+                        direction.Z * maxSpeed
+                    );
+
+                    // Apply velocity change for horizontal movement
+                    var velocityChange = new Vector3(
+                        (targetVelocity.X - currentVel.X) * 0.3f,
+                        0, // Don't modify Y velocity here
+                        (targetVelocity.Z - currentVel.Z) * 0.3f
+                    );
+
+                    bodyRef.Velocity.Linear = new Vector3(
+                        currentVel.X + velocityChange.X,
+                        currentVel.Y, // Keep Y velocity unchanged
+                        currentVel.Z + velocityChange.Z
+                    );
+
+                    if (!silent) Log.Debug("[Player] Applied horizontal movement: {VelocityChange}", velocityChange);
                 }
 
-                Log.Debug("[Player] Applied impulse {Impulse}, Current velocity: {Velocity}, Position: {Position}",
-                    impulse, currentVel, bodyRef.Pose.Position);
+                // Handle jumping
+                if (shouldJump && IsGrounded())
+                {
+                    float jumpForce = 8.0f; // Adjust this value to control jump height
+                    bodyRef.Velocity.Linear = new Vector3(
+                        currentVel.X,
+                        jumpForce, // Set upward velocity for jump
+                        currentVel.Z
+                    );
+
+                    if (!silent) Log.Debug("[Player] Jump applied with force: {JumpForce}", jumpForce);
+                }
+
+                if (!bodyRef.Awake)
+                {
+                    bodyRef.Awake = true;
+                }
             }
             else
             {
-                // Fallback if physics not initialized
-                Position += direction * MoveSpeed * deltaTime;
+                // Fallback movement (without physics)
+                if (direction != Vector3.Zero)
+                {
+                    SetPosition(Position + direction * MoveSpeed * deltaTime);
+                }
             }
         }
-    }
+        else
+        {
+            // Apply horizontal damping when not moving to reduce sliding
+            if (PhysicsSystem != null && PhysicsSystem.TryGetBodyHandle(this, out var bodyHandle))
+            {
+                var bodyRef = PhysicsSystem.Simulation.Bodies.GetBodyReference(bodyHandle);
+                var currentVel = bodyRef.Velocity.Linear;
+                
+                var horizontalVel = new Vector3(currentVel.X, 0, currentVel.Z);
+                if (horizontalVel.Length() > 0.1f)
+                {
+                    var dampingFactor = 0.1f;
+                    var newHorizontalVel = horizontalVel * dampingFactor;
+                    
+                    bodyRef.Velocity.Linear = new Vector3(
+                        newHorizontalVel.X,
+                        currentVel.Y, // Preserve Y velocity
+                        newHorizontalVel.Z
+                    );
 
+                    if (!silent) Log.Debug("[Player] Applied sliding damping, new velocity: {NewVelocity}", bodyRef.Velocity.Linear);
+                }
+            }
+            
+            isMoving = false;
+        }
+    }
+    
+    private bool IsGrounded()
+    {
+        if (PhysicsSystem == null || !PhysicsSystem.TryGetBodyHandle(this, out var bodyHandle))
+            return false;
+
+        var bodyRef = PhysicsSystem.Simulation.Bodies.GetBodyReference(bodyHandle);
+        var currentVel = bodyRef.Velocity.Linear;
+    
+        // Simple ground check: if Y velocity is very small and player is not falling fast
+        // You might want to implement a more sophisticated ground detection using raycasting
+        bool isGrounded = Math.Abs(currentVel.Y) < 0.5f && Position.Y <= 1.0f; // Adjust threshold as needed
+    
+        return isGrounded;
+    }
+    
     /// <summary>
     /// Resets the player's physics state for debugging
     /// </summary>
@@ -150,11 +243,16 @@ public class Player: Entity<Transformable<RLModel>>
             // Ensure body is awake
             bodyRef.Awake = true;
 
-            // Sync our representation
-            Position = new Vector3(0, 1, 0);
+            // Sync our representation and reset rotation
+            SetPosition(new Vector3(0, 1, 0));
             Velocity = Vector3.Zero;
+            // targetYawRotation = 0f; // Reset target rotation
+            
+            var resetMatrix = Matrix4x4.CreateScale(Scale) * Matrix4x4.CreateTranslation(Position) * Matrix4x4.CreateRotationX(Rotation.X) * Matrix4x4.CreateRotationZ(Rotation.Z);
+            SetModel(resetMatrix);
 
-            Log.Information("[Player] Physics state reset");
+            // Reset();
+            Log.Information("[Player] Physics state and rotation reset");
         }
     }
 
@@ -175,7 +273,7 @@ public class Player: Entity<Transformable<RLModel>>
         Log.Debug("[Player] Camera POV toggled: {Prev} -> {Current}", prevPOV, CameraToggle);
         UpdateCameraPosition();
     }
-
+    
     /// <summary>
     /// Updates the camera's position based on the current perspective.
     /// </summary>
@@ -195,47 +293,75 @@ public class Player: Entity<Transformable<RLModel>>
             Camera.Position = Position - Camera.Front * thirdPersonDistance + cameraOffset;
 
             var prevPos = Position;
-            if (Position != lastModelPosition)
+            
+            // Only update rotation when player is actually moving
+            if (Position != lastModelPosition && isMoving)
             {
-                Rotation = new Vector3(Rotation.X, -float.DegreesToRadians(Camera.Yaw), Rotation.Z);
+                // Normalize the camera yaw to be between -180 and 180 degrees
+                float normalizedYaw = NormalizeAngle(Camera.Yaw);
+                
+                // Convert to radians for the Y rotation (yaw)
+                float targetYRotation = -float.DegreesToRadians(normalizedYaw);
+                
+                // Keep X and Z rotations stable - don't let them flip
+                float currentXRotation = Rotation.X;
+                float currentZRotation = Rotation.Z;
+                
+                // Normalize current rotations to prevent accumulation
+                currentXRotation = NormalizeRadians(currentXRotation);
+                currentZRotation = NormalizeRadians(currentZRotation);
+                
+                SetRotation(new Vector3(_rotationDefault.X, targetYRotation, _rotationDefault.Z));
+                
                 lastModelPosition = Position;
             }
-
+        
             if (prevPos != Position)
                 Log.Verbose("[Player] Player's position changed: {Prev} -> {Current}", prevPos, Position);
 
-            SyncModelTransform();
-
             Log.Verbose("[Player] Camera set to third person at {Position}", Camera.Position);
-            Log.Verbose("[Player] Player's rotation set to {Rotation}", Rotation);
         }
         Camera.UpdateCamera();
     }
 
     /// <summary>
-    /// Syncs the model's transform with the player's position, rotation, and scale.
+    /// Normalizes an angle in degrees to be between -180 and 180 degrees
     /// </summary>
-    private void SyncModelTransform()
+    /// <param name="angle">Angle in degrees</param>
+    /// <returns>Normalized angle between -180 and 180 degrees</returns>
+    private float NormalizeAngle(float angle)
     {
-        var scaleMatrix = Matrix4x4.CreateScale(Scale.X, Scale.Y, Scale.Z);
-        var rotationMatrix = Matrix4x4.CreateRotationX(Rotation.X) 
-            * Matrix4x4.CreateRotationY(Rotation.Y) 
-            * Matrix4x4.CreateRotationZ(Rotation.Z);
-        var translationMatrix = Matrix4x4.CreateTranslation(Position.X, Position.Y, Position.Z);
-        var modelMatrix = scaleMatrix * rotationMatrix * translationMatrix;
-        Target.SetModel(modelMatrix);
-        Log.Verbose("[Player] Model transform updated. Position: {Position}, Rotation: {Rotation}, Scale: {Scale}", Position, Rotation, Scale);
+        // Normalize to 0-360 range first
+        angle = angle % 360f;
+
+        // Convert to -180 to 180 range
+        if (angle > 180f)
+            angle -= 360f;
+        else if (angle < -180f)
+            angle += 360f;
+        
+        return angle;
     }
 
     /// <summary>
-    /// Example free roam method (can be expanded).
+    /// Normalizes an angle in radians to be between -π and π
     /// </summary>
-    public void FreeRoam()
+    /// <param name="angle">Angle in radians</param>
+    /// <returns>Normalized angle between -π and π radians</returns>
+    private float NormalizeRadians(float angle)
     {
-        Log.Debug("[Player] FreeRoam called.");
-        // Implement free roam logic if needed
+        // Normalize to 0-2π range first
+        angle = angle % (2f * MathF.PI);
+        
+        // Convert to -π to π range
+        if (angle > MathF.PI)
+            angle -= 2f * MathF.PI;
+        else if (angle < -MathF.PI)
+            angle += 2f * MathF.PI;
+            
+        return angle;
     }
-
+    
     /// <summary>
     /// Sets the point of view of the players camera. 
     /// </summary>
@@ -247,14 +373,14 @@ public class Player: Entity<Transformable<RLModel>>
 
     /// <summary>
     /// Sets the point of view of the players camera. This function overload uses an int, which is then
-    /// type casted into the PlayerCameraPOV. It is recommended to use the <see cref="SetPOV(RedLight.Graphics.Primitive.PlayerCameraPOV)"/>
+    /// type casted into the PlayerCameraPOV. It is recommended to use the <see cref="SetPOV(PlayerCameraPOV)"/>
     /// function to avoid any exceptions. 
     /// </summary>
     /// <param name="cameraPOV"><see cref="int"/> 1 for first person or 3 for third person </param>
     /// <exception cref="Exception"></exception>
     public void SetPOV(int cameraPOV)
     {
-        if (cameraPOV != 1 || cameraPOV != 3)
+        if (cameraPOV != 1 && cameraPOV != 3)
             throw new Exception("Camera POV value is not valid (1|3)");
         CameraToggle = (PlayerCameraPOV)cameraPOV;
     }
