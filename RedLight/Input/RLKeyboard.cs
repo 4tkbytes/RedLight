@@ -8,14 +8,9 @@ public interface RLKeyboard
 
     void OnKeyDown(IKeyboard keyboard, Key key, int keyCode)
     {
-        if (PressedKeys == null)
-            PressedKeys = new HashSet<Key>();
-
-        PressedKeys.Add(key);
     }
 
     void OnKeyUp(IKeyboard keyboard, Key key, int keyCode)
     {
-        PressedKeys.Remove(key);
     }
 }

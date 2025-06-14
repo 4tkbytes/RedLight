@@ -77,7 +77,6 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         }
         
         player.ResetPhysics();
-
     }
 
     public void OnUpdate(double deltaTime)

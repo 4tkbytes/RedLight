@@ -181,14 +181,14 @@ public class SceneManager
             new RLShader(currentScene.Graphics, ShaderType.Vertex, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.line.vert")),
             new RLShader(currentScene.Graphics, ShaderType.Fragment, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.line.frag")));
 
+        Log.Debug("Subscribing to keyboard events");
+        input.SubscribeToInputs(currentKeyboard, currentMouse);
+        
         Log.Debug("Loading current scene");
         currentScene.Load();
         
         currentScene.OnLoad();
         Log.Debug("Scene fully initialized");
-
-        input.SubscribeToInputs(currentKeyboard, currentMouse);
-        Log.Debug("Subscribing to keyboard events");
     }
 
     private void FPSCounter()

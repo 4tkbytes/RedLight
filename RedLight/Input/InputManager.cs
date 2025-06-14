@@ -54,7 +54,19 @@ public class InputManager
         {
             foreach (var kb in input.Keyboards)
             {
+                kb.KeyDown += (keyboard, key, arg3) =>
+                {
+                    if (keyboardManager.PressedKeys == null)
+                        keyboardManager.PressedKeys = new HashSet<Key>();
+
+                    keyboardManager.PressedKeys.Add(key);
+                };
                 kb.KeyDown += keyboardManager.OnKeyDown;
+                
+                kb.KeyUp += (keyboard, key, arg3) =>
+                {
+                    keyboardManager.PressedKeys.Remove(key);
+                };
                 kb.KeyUp += keyboardManager.OnKeyUp;
             }
         }
@@ -67,6 +79,10 @@ public class InputManager
         {
             foreach (var mouse in input.Mice)
             {
+                mouse.MouseMove += (mouse1, vector2) =>
+                {
+                    IsCaptured(mouse);
+                };
                 mouse.MouseMove += mouseManager.OnMouseMove;
             }
         }
@@ -89,8 +105,8 @@ public class InputManager
         {
             foreach (var kb in input.Keyboards)
             {
-                kb.KeyDown += keyboardManager.OnKeyDown;
-                kb.KeyUp += keyboardManager.OnKeyUp;
+                kb.KeyDown -= keyboardManager.OnKeyDown;
+                kb.KeyUp -= keyboardManager.OnKeyUp;
             }
         }
 
@@ -98,7 +114,7 @@ public class InputManager
         {
             foreach (var mouse in input.Mice)
             {
-                mouse.MouseMove += mouseManager.OnMouseMove;
+                mouse.MouseMove -= mouseManager.OnMouseMove;
             }
         }
 

@@ -2,7 +2,6 @@
 using Serilog;
 using Silk.NET.Input;
 using System.Numerics;
-using BepuUtilities;
 
 namespace RedLight.Entities;
 

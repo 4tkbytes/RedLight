@@ -39,7 +39,7 @@ public class RLEngine
     /// 2 = Verbose
     /// Default = Normal
     /// </summary>
-    private int logStrength = 0;
+    private int logStrength;
 
     private Vector2D<int> windowedSize;
     private Vector2D<int> windowedPosition;
@@ -96,9 +96,9 @@ public class RLEngine
                     Log.Debug("Creating initial physics system for starting scene");
                     startingScene.PhysicsSystem = new PhysicsSystem();
                 }
-
-                SceneManager.Instance.SwitchScene(startingScene);
+                
                 Log.Debug("Scene is switching to {A}", startingScene);
+                SceneManager.Instance.SwitchScene(startingScene);
             }
             else
             {
