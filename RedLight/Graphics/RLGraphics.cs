@@ -65,9 +65,10 @@ public class RLGraphics
     public void EnableDebugErrorCallback()
     {
 #if DEBUG
+        string silly = "\u30fe\u0028\u2267\u25bd\u2266\u002a\u0029\u006f";
         Log.Information("This build is Debug, therefore OpenGL Debug Error callback will be enabled.");
         Log.Information("Expect performance decreases, however it will be way more easier to play around with!");
-        Log.Information("Enjoy and have fun ヾ(≧▽≦*)o");
+        Log.Information("Enjoy and have fun {kaomoji}", silly);
 
         OpenGL.Enable(GLEnum.DebugOutput);
         OpenGL.Enable(GLEnum.DebugOutputSynchronous);
@@ -82,7 +83,7 @@ public class RLGraphics
 #else
         Log.Information("OpenGL Debug Error Callback can only work under a Debug build, therefore it will not work.");
         Log.Information("Instead, expect to see standard OpenGL errors (if there are any)!");
-        Log.Information("Enjoy and have fun (づ￣ 3￣)づ");
+        Log.Information("Enjoy and have fun \u0028\u3065\uffe3\u0020\u0033\uffe3\u0029\u3065");
 #endif
     }
 
@@ -259,6 +260,11 @@ public class RLGraphics
     public Player MakePlayer(Camera camera, Transformable<RLModel> model)
     {
         return new Player(camera, model);
+    }
+
+    public Player MakePlayer(Camera camera, Transformable<RLModel> model, HitboxConfig hitbox)
+    {
+        return new Player(camera, model, hitbox);
     }
 
     /// <summary>

@@ -64,40 +64,50 @@ public class PhysicsSystem
         var max = entity.DefaultBoundingBoxMax;
         var size = new Vector3(max.X - min.X, max.Y - min.Y, max.Z - min.Z);
 
+        // Ensure size is not zero or negative
+        size = Vector3.Max(size, new Vector3(0.01f, 0.01f, 0.01f));
+
         // create the shape
         var boxShape = new Box(size.X, size.Y, size.Z);
         var shapeIndex = Simulation.Shapes.Add(boxShape);
 
-        // create the body
-        var position = entity.Position;
-        var pose = new RigidPose(new Vector3(position.X, position.Y, position.Z));
+        // Calculate the physics body position including the hitbox offset
+        var entityPosition = entity.Position;
+        var hitboxCenter = (min + max) * 0.5f; // Center of the hitbox
+        var physicsPosition = entityPosition + hitboxCenter; // Offset the physics body position
+
+        var pose = new RigidPose(new Vector3(physicsPosition.X, physicsPosition.Y, physicsPosition.Z));
 
         BodyHandle bodyHandle;
-        // Determine if this is a player, a static object, or a regular dynamic object
+        
         if (entity.ApplyGravity)
         {
             if (entity is Player)
             {
-                // Special handling for the player - use slightly higher mass for better collision response
                 var inertia = boxShape.ComputeInertia(entity.Mass * 2.0f);
                 bodyHandle = Simulation.Bodies.Add(BodyDescription.CreateDynamic(pose, inertia, shapeIndex, 0.2f));
 
                 if (!silent)
-                    Log.Debug("Added player entity with increased mass for better collision response");
+                    Log.Debug("Added player entity at physics position: {PhysicsPos} (offset from entity pos: {EntityPos})", 
+                        physicsPosition, entityPosition);
             }
             else
             {
-                // Regular dynamic body
                 var inertia = boxShape.ComputeInertia(entity.Mass);
                 bodyHandle = Simulation.Bodies.Add(BodyDescription.CreateDynamic(pose, inertia, shapeIndex, 0.01f));
+                
+                if (!silent)
+                    Log.Debug("Added dynamic entity: {EntityName} at physics position: {PhysicsPos}", 
+                        entity.Model?.Name, physicsPosition);
             }
         }
         else
         {
-            // For non-gravity objects, create kinematic body
             bodyHandle = Simulation.Bodies.Add(BodyDescription.CreateKinematic(pose, shapeIndex, 0.01f));
+            
             if (!silent)
-                Log.Debug("Added kinematic entity: {EntityName}", entity.Model?.Name);
+                Log.Debug("Added kinematic entity: {EntityName} at physics position: {PhysicsPos}", 
+                    entity.Model?.Name, physicsPosition);
         }
 
         // store the handle
@@ -107,11 +117,11 @@ public class PhysicsSystem
         
         if (!silent)
         {
-            Log.Debug("Is Dynamic? {IsDynamic}", entity.ApplyGravity);
+            Log.Debug("Hitbox center offset: {HitboxCenter}", hitboxCenter);
             Log.Debug("Entity added to physics system successfully");
         }
     }
-
+    
     public void RemoveEntity(Entity entity)
     {
         if (bodyHandles.TryGetValue(entity, out var bodyHandle))
@@ -144,13 +154,31 @@ public class PhysicsSystem
         {
             var bodyRef = Simulation.Bodies.GetBodyReference(bodyHandle);
 
-            if (entity.ApplyGravity && bodyRef.Awake)
-            {
-                var pose = bodyRef.Pose;
-                var position = new Vector3(pose.Position.X, pose.Position.Y, pose.Position.Z);
-                entity.SetPosition(position);
+            // Debug info to understand body state
+            if (!silent) Log.Debug("[Physics] Entity: {EntityName}, Awake: {Awake}, Velocity: {Velocity}, Position: {Position}",
+                entity.Model?.Name,
+                bodyRef.Awake,
+                bodyRef.Velocity.Linear,
+                bodyRef.Pose.Position);
 
-                // Update velocity
+            // Get the physics body position
+            var pose = bodyRef.Pose;
+            var physicsPosition = new Vector3(pose.Position.X, pose.Position.Y, pose.Position.Z);
+        
+            // Calculate the hitbox offset that was applied when creating the body
+            var min = entity.DefaultBoundingBoxMin;
+            var max = entity.DefaultBoundingBoxMax;
+            var hitboxCenter = (min + max) * 0.5f;
+        
+            // Calculate the entity position by subtracting the hitbox offset
+            var entityPosition = physicsPosition - hitboxCenter;
+        
+            // Update the entity's position
+            entity.SetPosition(entityPosition);
+
+            // Update velocity if it's dynamic
+            if (entity.ApplyGravity)
+            {
                 entity.Velocity = new Vector3(
                     bodyRef.Velocity.Linear.X,
                     bodyRef.Velocity.Linear.Y,

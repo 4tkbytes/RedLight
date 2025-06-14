@@ -27,17 +27,17 @@ public class Player: Entity
     public Player(Camera camera, Transformable<RLModel> model, HitboxConfig hitboxConfig = null) : base(model.Target)
     {
         Camera = camera;
-        
+    
         SetModel(model.ModelMatrix);
         lastModelPosition = Position;
-        
+    
         if (hitboxConfig == null)
         {
             HitboxConfig = HitboxConfig.ForPlayer(
-                width: 1 * Scale.X,
-                height: 1 * Scale.Y,
-                length: 1 * Scale.Z,
-                groundOffset: 0f
+                width: -0.5f,
+                height: -0.5f,
+                length: -0.5f,
+                groundOffset: 0.5f
             );
         }
         else
@@ -46,7 +46,7 @@ public class Player: Entity
         }
 
         ApplyHitboxConfig();
-        
+    
         Log.Debug("[Player] Created with initial position: {Position}, rotation: {Rotation}, scale: {Scale}",
             Position, Rotation, Scale);
         Log.Debug("[Player] Hitbox: Min={Min}, Max={Max}", DefaultBoundingBoxMin, DefaultBoundingBoxMax);
@@ -91,15 +91,15 @@ public class Player: Entity
 
         UpdateCameraPosition();
     }
-
+    
     private void HandleMovement(HashSet<Key> pressedKeys, float deltaTime, bool silent = true)
     {
         Vector3 direction = Vector3.Zero;
+        bool shouldJump = false;
 
         // Calculate direction based on camera orientation
         var forward = Vector3.Normalize(new Vector3(Camera.Front.X, 0, Camera.Front.Z));
         var right = Vector3.Normalize(Vector3.Cross(Camera.Front, Camera.Up));
-        var up = Camera.Up;
 
         if (pressedKeys.Contains(Key.W))
             direction += forward;
@@ -110,52 +110,75 @@ public class Player: Entity
         if (pressedKeys.Contains(Key.D))
             direction += right;
         if (pressedKeys.Contains(Key.Space))
-            direction += up;
+            shouldJump = true;
         if (pressedKeys.Contains(Key.ShiftLeft))
-            direction -= up;
+            direction -= Camera.Up; // Keep this for flying/creative mode
 
         var horizontalDirection = new Vector3(direction.X, 0, direction.Z);
         isMoving = horizontalDirection.Length() > 0.01f;
-        
-        if (direction != Vector3.Zero)
-        {
-            if (!silent) Log.Debug("[Player] Movement direction detected: {Direction}", direction);
-            direction = Vector3.Normalize(direction);
 
+        if (direction != Vector3.Zero || shouldJump)
+        {
             if (PhysicsSystem != null && PhysicsSystem.TryGetBodyHandle(this, out var bodyHandle))
             {
                 var bodyRef = PhysicsSystem.Simulation.Bodies.GetBodyReference(bodyHandle);
                 var currentVel = bodyRef.Velocity.Linear;
 
-                // Use velocity-based movement instead of impulse for smoother control
-                float maxSpeed = MoveSpeed;
-                var targetVelocity = new Vector3(
-                    direction.X * maxSpeed,
-                    currentVel.Y, // Preserve Y velocity for gravity
-                    direction.Z * maxSpeed
-                );
+                // Handle horizontal movement
+                if (direction != Vector3.Zero)
+                {
+                    if (!silent) Log.Debug("[Player] Movement direction detected: {Direction}", direction);
+                    direction = Vector3.Normalize(direction);
 
-                // Apply stronger damping for better control
-                var velocityChange = new Vector3(
-                    (targetVelocity.X - currentVel.X) * 0.3f, // Increased from 0.1f for more responsive control
-                    0, // Don't modify Y velocity directly
-                    (targetVelocity.Z - currentVel.Z) * 0.3f
-                );
+                    // Use velocity-based movement for smoother control
+                    float maxSpeed = MoveSpeed;
+                    var targetVelocity = new Vector3(
+                        direction.X * maxSpeed,
+                        currentVel.Y, // Preserve Y velocity for gravity
+                        direction.Z * maxSpeed
+                    );
 
-                bodyRef.Velocity.Linear = currentVel + velocityChange;
+                    // Apply velocity change for horizontal movement
+                    var velocityChange = new Vector3(
+                        (targetVelocity.X - currentVel.X) * 0.3f,
+                        0, // Don't modify Y velocity here
+                        (targetVelocity.Z - currentVel.Z) * 0.3f
+                    );
+
+                    bodyRef.Velocity.Linear = new Vector3(
+                        currentVel.X + velocityChange.X,
+                        currentVel.Y, // Keep Y velocity unchanged
+                        currentVel.Z + velocityChange.Z
+                    );
+
+                    if (!silent) Log.Debug("[Player] Applied horizontal movement: {VelocityChange}", velocityChange);
+                }
+
+                // Handle jumping
+                if (shouldJump && IsGrounded())
+                {
+                    float jumpForce = 8.0f; // Adjust this value to control jump height
+                    bodyRef.Velocity.Linear = new Vector3(
+                        currentVel.X,
+                        jumpForce, // Set upward velocity for jump
+                        currentVel.Z
+                    );
+
+                    if (!silent) Log.Debug("[Player] Jump applied with force: {JumpForce}", jumpForce);
+                }
 
                 if (!bodyRef.Awake)
                 {
                     bodyRef.Awake = true;
                 }
-
-                if (!silent) Log.Debug("[Player] Applied velocity change: {VelocityChange}, New velocity: {NewVelocity}", 
-                    velocityChange, bodyRef.Velocity.Linear);
             }
             else
             {
-                // Fallback movement
-                SetPosition(Position + direction * MoveSpeed * deltaTime);
+                // Fallback movement (without physics)
+                if (direction != Vector3.Zero)
+                {
+                    SetPosition(Position + direction * MoveSpeed * deltaTime);
+                }
             }
         }
         else
@@ -167,9 +190,9 @@ public class Player: Entity
                 var currentVel = bodyRef.Velocity.Linear;
                 
                 var horizontalVel = new Vector3(currentVel.X, 0, currentVel.Z);
-                if (horizontalVel.Length() > 0.1f) // Only apply damping if there's significant horizontal movement
+                if (horizontalVel.Length() > 0.1f)
                 {
-                    var dampingFactor = 0.85f; // Adjust this value (0.0 = instant stop, 1.0 = no damping)
+                    var dampingFactor = 0.1f;
                     var newHorizontalVel = horizontalVel * dampingFactor;
                     
                     bodyRef.Velocity.Linear = new Vector3(
@@ -177,7 +200,7 @@ public class Player: Entity
                         currentVel.Y, // Preserve Y velocity
                         newHorizontalVel.Z
                     );
-                    
+
                     if (!silent) Log.Debug("[Player] Applied sliding damping, new velocity: {NewVelocity}", bodyRef.Velocity.Linear);
                 }
             }
@@ -185,7 +208,22 @@ public class Player: Entity
             isMoving = false;
         }
     }
+    
+    private bool IsGrounded()
+    {
+        if (PhysicsSystem == null || !PhysicsSystem.TryGetBodyHandle(this, out var bodyHandle))
+            return false;
 
+        var bodyRef = PhysicsSystem.Simulation.Bodies.GetBodyReference(bodyHandle);
+        var currentVel = bodyRef.Velocity.Linear;
+    
+        // Simple ground check: if Y velocity is very small and player is not falling fast
+        // You might want to implement a more sophisticated ground detection using raycasting
+        bool isGrounded = Math.Abs(currentVel.Y) < 0.5f && Position.Y <= 1.0f; // Adjust threshold as needed
+    
+        return isGrounded;
+    }
+    
     /// <summary>
     /// Resets the player's physics state for debugging
     /// </summary>

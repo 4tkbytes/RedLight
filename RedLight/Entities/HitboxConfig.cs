@@ -60,14 +60,14 @@ public class HitboxConfig
     /// <summary>
     /// Create a hitbox config for a player character
     /// </summary>
-    public static HitboxConfig ForPlayer(float width = 0.2f, float height = 0.4f, float length = 0.2f, float groundOffset = 1.0f)
+    public static HitboxConfig ForPlayer(float width = 0.2f, float height = 0.2f, float length = 0.2f, float groundOffset = 1.0f)
     {
         return new HitboxConfig
         {
             Width = width,
             Height = height,
             Length = length,
-            GroundOffset = groundOffset // Player touching ground
+            GroundOffset = groundOffset
         };
     }
 

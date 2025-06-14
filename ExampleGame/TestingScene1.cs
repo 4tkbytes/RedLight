@@ -56,11 +56,15 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 
         playerCamera = new Camera(size);
         debugCamera = new Camera(size);
-        player = Graphics.MakePlayer(playerCamera, maxwell);
+
+        var playerHitbox = HitboxConfig.ForPlayer();
+        player = Graphics.MakePlayer(playerCamera, maxwell, playerHitbox);
         player.SetPOV(PlayerCameraPOV.ThirdPerson);
         player.SetRotationX(float.DegreesToRadians(-90.0f));
+        player.MoveSpeed = 5f;
 
         var cube = new Cube(Graphics, "colliding_cube");
+        cube.Translate(new Vector3(3f, 10f, 0f));
         var cube2 = new Cube(Graphics, "stuck_cube", applyGravity:false);
 
         ObjectModels.Add(plane);
@@ -76,7 +80,6 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         
         player.ResetPhysics();
 
-        PhysicsSystem.OnCollisionEnter += OnCollisionEnter;
     }
 
     public void OnUpdate(double deltaTime)
@@ -112,17 +115,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 
         if (!useDebugCamera)
         {
-            // fps logging for each 30 frames
-            if (counter % 30 == 0)
-            { }
-            
-            foreach (var entity in ObjectModels)
-            {
-                if (entity is Player)
-                {
-                    player.Update((float)deltaTime, PressedKeys);
-                }
-            }
+            player.Update((float)deltaTime, PressedKeys);
         }
     }
 
@@ -198,49 +191,6 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
                 debugCamera.FreeMove(mousePosition);
             else
                 player.Camera.FreeMove(mousePosition);
-        }
-    }
-
-    private void OnCollisionEnter(Entity entityA, Entity entityB, Vector3 contactPoint, Vector3 normal)
-    {
-        // change this for debug
-        bool silent = true;
-        
-        if (!silent) Log.Debug("[Collision Event] {EntityA} collided with {EntityB} at position {ContactPoint} with normal {Normal}",
-            entityA.GetType().Name, entityB.GetType().Name, contactPoint, normal);
-
-        // Add specific collision responses
-        if (entityA is Player playerA)
-        {
-            HandlePlayerCollision(playerA, entityB, contactPoint, normal);
-        }
-        else if (entityB is Player playerB)
-        {
-            HandlePlayerCollision(playerB, entityA, contactPoint, normal);
-        }
-
-        // Make both entities show their hitboxes when they collide
-        entityA.ShowHitbox();
-        entityB.ShowHitbox();
-    }
-
-    private void HandlePlayerCollision(Player player, Entity otherEntity, Vector3 contactPoint, Vector3 normal)
-    {
-        // change ts for debug
-        bool silent = true;
-        
-        if (!silent) Log.Information("[Player Collision] Player collided with {OtherEntity}", otherEntity.GetType().Name);
-
-        // example: bouncy
-        if (PhysicsSystem.TryGetBodyHandle(player, out var playerHandle))
-        {
-            var bodyRef = PhysicsSystem.Simulation.Bodies.GetBodyReference(playerHandle);
-
-            // change the val at the end
-            Vector3 bounceForce = normal * 0.0f;
-            PhysicsSystem.ApplyImpulse(player, bounceForce);
-
-            if (!silent) Log.Debug("[Player Collision] Applied bounce force: {BounceForce}", bounceForce);
         }
     }
 }

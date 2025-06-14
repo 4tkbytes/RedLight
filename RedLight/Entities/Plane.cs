@@ -20,13 +20,19 @@ public class Plane : SimpleShape
     /// <param name="height">Height of the plane.</param>
     /// <param name="tilesX">Number of texture tiles in X direction.</param>
     /// <param name="tilesZ">Number of texture tiles in Z direction.</param>
-    public Plane(RLGraphics graphics, float width = 10f, float height = 10f, int tilesX = 10, int tilesZ = 10) 
+    public Plane(RLGraphics graphics, float width = 10f, float height = 10f, int tilesX = 0, int tilesZ = 0) 
         : base(
             new RLModel(graphics, RLFiles.GetResourcePath("RedLight.Resources.Models.Basic.plane.model"), TextureManager.Instance, "plane")
                 .AttachShader(ShaderManager.Instance.Get("basic")),
             null,
             false)
     {
+        if (tilesX == 0 || tilesZ == 0)
+        {
+            tilesX = (int)width;
+            tilesZ = (int)height;
+        }
+        
         // Configure hitbox for plane using HitboxConfig
         HitboxConfig = HitboxConfig.ForPlane(width, height, 0.1f);
         
