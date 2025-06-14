@@ -1,4 +1,5 @@
-﻿using RedLight;
+﻿using System.Drawing;
+using RedLight;
 using RedLight.Entities;
 using RedLight.Graphics;
 using RedLight.Input;
@@ -24,9 +25,6 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     public HashSet<Key> PressedKeys { get; set; } = new();
     public PhysicsSystem PhysicsSystem { get; set; }
 
-    private Camera camera;
-    private float cameraSpeed = 2.5f;
-
     private Player player;
     private Plane plane;
     private Camera playerCamera;
@@ -40,15 +38,15 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     public void OnLoad()
     {
         Graphics.Enable();
-        Graphics.EnableDebugErrorCallback(); 
-        
-        PhysicsSystem = new PhysicsSystem();
+        Graphics.EnableDebugErrorCallback();
+
+        TextureManager.Add("stone",
+            new RLTexture(Graphics, RLFiles.GetResourcePath("ExampleGame.Resources.Textures.576.jpg")));
 
         plane = new Plane(Graphics, 50f, 20f).Default();
-        plane.Model.AttachTexture(TextureManager.Get("no-texture"));
+        plane.Model.AttachTexture(TextureManager.Get("stone"));
 
         var size = Engine.Window.Size;
-        camera = new Camera(size);
 
         var maxwell = Graphics.CreateModel("RedLight.Resources.Models.Maxwell.maxwell_the_cat.glb", "maxwell")
             .SetScale(new Vector3(0.05f))
@@ -85,10 +83,6 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     public void OnUpdate(double deltaTime)
     {
         counter += 1;
-        camera = camera.SetSpeed(cameraSpeed * (float)deltaTime);
-
-        if (InputManager.isCaptured)
-            camera.KeyMap(PressedKeys); 
             
         if (PressedKeys.Contains(Key.F2))
         {
@@ -108,7 +102,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 
         if (useDebugCamera)
         {
-            debugCamera = debugCamera.SetSpeed(cameraSpeed * (float)deltaTime);
+            debugCamera = debugCamera.SetSpeed(debugCamera.Speed * (float)deltaTime);
             if (InputManager.isCaptured)
                 debugCamera.KeyMap(PressedKeys);
         }
@@ -124,7 +118,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         Graphics.Begin();
         {
             Graphics.Clear();
-            Graphics.ClearColour(RLConstants.RL_COLOUR_CORNFLOWER_BLUE);
+            Graphics.ClearColour(Color.CornflowerBlue);
 
             Camera activeCamera = useDebugCamera ? debugCamera : player.Camera;
             foreach (var model in ObjectModels)

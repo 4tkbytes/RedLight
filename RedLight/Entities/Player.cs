@@ -91,6 +91,13 @@ public class Player: Entity
         if (prevPos != Position)
             Log.Verbose("[Player] Position changed: {Prev} -> {Current}", prevPos, Position);
 
+        if (Position.Y < -60)
+        {
+            Log.Warning(
+                "Looks like you went too far down. Don't worry, I'll reset it for you. No need to thank me, heh~");
+            ResetPhysics();
+        }
+        
         UpdateCameraPosition();
     }
     

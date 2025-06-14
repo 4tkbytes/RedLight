@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Drawing;
+using System.Numerics;
 using RedLight.Entities;
 using RedLight.UI;
 using Serilog;
@@ -20,32 +21,6 @@ public class RLGraphics
     /// to improve performance and decrease the load/info from the logger. 
     /// </summary>
     public bool ShutUp { get; set; } = true;
-
-    /// <summary>
-    /// Struct containing colour. There's probably better alternatives with better support but this works for me. 
-    /// </summary>
-    public struct Colour
-    {
-        /// <summary>
-        /// red
-        /// </summary>
-        public float r;
-        
-        /// <summary>
-        /// green
-        /// </summary>
-        public float g;
-        
-        /// <summary>
-        /// blue
-        /// </summary>
-        public float b;
-        
-        /// <summary>
-        /// alpha
-        /// </summary>
-        public float a;
-    }
 
     /// <summary>
     /// Enabled OpenGL's Depth Text, culls the back faces and internal faces from textures. 
@@ -99,9 +74,9 @@ public class RLGraphics
     /// Clears the screen with a colour
     /// </summary>
     /// <param name="colour">Graphics.Colour</param>
-    public void ClearColour(Colour colour)
+    public void ClearColour(Color colour)
     {
-        OpenGL.ClearColor(colour.r, colour.g, colour.b, colour.a);
+        OpenGL.ClearColor((float) colour.R/256, (float) colour.G/256, (float) colour.B/256, (float) colour.A/256);
     }
 
     /// <summary>
