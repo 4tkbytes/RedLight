@@ -1,4 +1,5 @@
-﻿using RedLight;
+﻿using System.Drawing;
+using RedLight;
 using RedLight.Entities;
 using RedLight.Graphics;
 using RedLight.Input;
@@ -44,8 +45,11 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         
         PhysicsSystem = new PhysicsSystem();
 
+        TextureManager.TryAdd("stone",
+            new RLTexture(Graphics, RLFiles.GetResourcePath("ExampleGame.Resources.Textures.576.jpg")));
+
         plane = new Plane(Graphics, 50f, 20f).Default();
-        plane.Model.AttachTexture(TextureManager.Get("no-texture"));
+        plane.Model.AttachTexture(TextureManager.Get("stone"));
 
         var size = Engine.Window.Size;
         camera = new Camera(size);
@@ -124,7 +128,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         Graphics.Begin();
         {
             Graphics.Clear();
-            Graphics.ClearColour(RLConstants.RL_COLOUR_CORNFLOWER_BLUE);
+            Graphics.ClearColour(Color.CornflowerBlue);
 
             Camera activeCamera = useDebugCamera ? debugCamera : player.Camera;
             foreach (var model in ObjectModels)
