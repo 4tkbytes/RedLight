@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Drawing;
+using System.Numerics;
 using RedLight.Utils;
 using Silk.NET.Assimp;
 using Silk.NET.OpenGL;
@@ -38,6 +39,7 @@ public class RLModel
     /// </summary>
     public String Name { get; private set; }
     private bool shaderAttached;
+    private Color _modelTint = Color.White;
 
     /// <summary>
     /// Initialises a new instance of the RLModel class with a specified name.
@@ -114,8 +116,38 @@ public class RLModel
     {
         if (!shaderAttached)
             Log.Error("No shader found for mesh [{A}]. Did you forget to attach it?", Name);
+        
+        if (_modelTint != Color.White)
+        {
+            Vector4 normalizedColor = new Vector4(
+                _modelTint.R / 255.0f, _modelTint.G / 255.0f,
+                _modelTint.B / 255.0f, _modelTint.A / 255.0f
+            );
+
+            foreach (var mesh in Meshes)
+            {
+                if (mesh.program != 0)
+                {
+                    _gl.UseProgram(mesh.program);
+                    int colorLocation = _gl.GetUniformLocation(mesh.program, "uModelColor");
+                    if (colorLocation != -1)
+                    {
+                        _gl.Uniform4(colorLocation, normalizedColor);
+                    }
+                }
+            }
+        }
+        
         foreach (var mesh in Meshes)
         {
+            if (mesh.program != 0)
+                _gl.UseProgram(mesh.program);
+            else if (shaderAttached)
+            {
+                Log.Warning($"Mesh '{mesh.Name}' in model '{Name}' has no shader program, but model's shaderAttached is true. Skipping draw for this mesh.");
+                continue;
+            }
+            
             mesh.Draw();
         }
     }
@@ -250,6 +282,57 @@ public class RLModel
     public RLModel AttachTexture(RLTexture texture)
     {
         return AttachTexture(texture, false);
+    }
+    
+    public RLModel SetColour(Color colour)
+    {
+        _modelTint = colour;
+
+        if (!shaderAttached)
+        {
+            Log.Warning($"Cannot apply color to model '{Name}': No shader is attached. Call AttachShader() first and then SetColour() again.");
+            // Store the color, it will be applied if AttachShader is called later and it re-calls SetColour.
+            return this;
+        }
+
+        // Convert System.Drawing.Color to a Vector4 (normalized RGBA)
+        Vector4 normalizedColor = new Vector4(
+            colour.R / 255.0f,
+            colour.G / 255.0f,
+            colour.B / 255.0f,
+            colour.A / 255.0f
+        );
+
+        foreach (var mesh in Meshes)
+        {
+            if (mesh.program == 0)
+            {
+                Log.Warning($"Mesh '{mesh.Name}' in model '{Name}' does not have a shader program. Cannot set color for this mesh.");
+                continue;
+            }
+
+            _gl.UseProgram(mesh.program); // Activate the mesh's shader program
+
+            // The shader should have a uniform like "vec4 uModelColor;"
+            int colorLocation = _gl.GetUniformLocation(mesh.program, "uModelColor");
+
+            if (colorLocation != -1)
+            {
+                _gl.Uniform4(colorLocation, normalizedColor.X, normalizedColor.Y, normalizedColor.Z, normalizedColor.W);
+                if (!graphics.ShutUp)
+                    Log.Verbose($"Set color for mesh '{mesh.Name}' in model '{Name}' to R:{normalizedColor.X} G:{normalizedColor.Y} B:{normalizedColor.Z} A:{normalizedColor.W}");
+            }
+            else
+            {
+                // Log a warning if the uniform is not found.
+                // This might happen frequently if shaders don't support uModelColor, so consider logging level or frequency.
+                Log.Warning($"Uniform 'uModelColor' not found in shader for mesh '{mesh.Name}' (program ID {mesh.program}) in model '{Name}'. Color will not be applied to this mesh.");
+            }
+        }
+        // It's generally good practice to unbind the program if you're done with it,
+        // but Draw() will bind programs as needed.
+        // _gl.UseProgram(0); 
+        return this;
     }
 
     private unsafe Mesh ProcessMesh(Silk.NET.Assimp.Mesh* mesh, Silk.NET.Assimp.Scene* scene)

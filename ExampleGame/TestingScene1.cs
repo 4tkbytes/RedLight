@@ -82,26 +82,12 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     public void OnUpdate(double deltaTime)
     {
         counter += 1;
-            
-        if (PressedKeys.Contains(Key.F2))
-        {
-            foreach (var entity in ObjectModels)
-            {
-                entity.ToggleHitbox();
-            }
-        }
-        
-        if (PressedKeys.Contains(Key.F6))
-        {
-            useDebugCamera = !useDebugCamera;
-            Log.Debug("Debug Camera is set to {A}", useDebugCamera);
-        }
 
         PhysicsSystem.Update((float)deltaTime);
 
         if (useDebugCamera)
         {
-            debugCamera = debugCamera.SetSpeed(debugCamera.Speed * (float)deltaTime);
+            debugCamera.SetSpeed(debugCamera.Speed * (float)deltaTime);
             if (InputManager.isCaptured)
                 debugCamera.KeyMap(PressedKeys);
         }
@@ -149,24 +135,32 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 
     public void OnKeyDown(IKeyboard keyboard, Key key, int keyCode)
     {
-        PressedKeys.Add(key);
-        
-        switch (key)
+        bool isNewKeyPress = PressedKeys.Add(key);
+
+        if (isNewKeyPress)
         {
-            case Key.R:
-                player.ResetPhysics();
-                break;
-            case Key.Escape:
-                Engine.Window.Window.Close();
-                break;
-            case Key.Keypad1:
-                Engine.InitialiseLogger(1);
-                break;
-            case Key.Keypad2:
-                Engine.InitialiseLogger(2);
-                break;
+            switch (key)
+            {
+                case Key.R:
+                    player.ResetPhysics();
+                    break;
+                case Key.Escape:
+                    Engine.Window.Window.Close();
+                    break;
+                case Key.Keypad1:
+                    Engine.InitialiseLogger(1);
+                    break;
+                case Key.Keypad2:
+                    Engine.InitialiseLogger(2);
+                    break;
+                case Key.F6:
+                    useDebugCamera = !useDebugCamera;
+                    Log.Debug("Debug Camera is set to {A}", useDebugCamera);
+                    break;
+                    
+            }
+            InputManager.ChangeCaptureToggle(key);
         }
-        InputManager.ChangeCaptureToggle(key);
     }
 
     public void OnKeyUp(IKeyboard keyboard, Key key, int keyCode)
