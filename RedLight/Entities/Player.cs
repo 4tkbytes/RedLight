@@ -24,17 +24,29 @@ public class Player: Entity
     private Vector3 lastModelPosition;
     private bool isMoving = false;
 
-    public Player(Camera camera, Transformable<RLModel> model) : base(model.Target)
+    public Player(Camera camera, Transformable<RLModel> model, HitboxConfig hitboxConfig = null) : base(model.Target)
     {
         Camera = camera;
         
-        // Set initial transform from the model
         SetModel(model.ModelMatrix);
         lastModelPosition = Position;
         
-        DefaultBoundingBoxMin = new Vector3(-1 * Scale.X, -1 * Scale.Y, -1 * Scale.Z);
-        DefaultBoundingBoxMax = new Vector3(1 * Scale.X, 1 * Scale.Y, 1 * Scale.Z);
+        if (hitboxConfig == null)
+        {
+            HitboxConfig = HitboxConfig.ForPlayer(
+                width: 1 * Scale.X,
+                height: 1 * Scale.Y,
+                length: 1 * Scale.Z,
+                groundOffset: 0f
+            );
+        }
+        else
+        {
+            HitboxConfig = hitboxConfig;
+        }
 
+        ApplyHitboxConfig();
+        
         Log.Debug("[Player] Created with initial position: {Position}, rotation: {Rotation}, scale: {Scale}",
             Position, Rotation, Scale);
         Log.Debug("[Player] Hitbox: Min={Min}, Max={Max}", DefaultBoundingBoxMin, DefaultBoundingBoxMax);

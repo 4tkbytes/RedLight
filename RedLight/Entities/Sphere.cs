@@ -15,6 +15,7 @@ public class Sphere : SimpleShape
             new RLModel(graphics, RLFiles.GetResourcePath("RedLight.Resources.Models.Basic.sphere.model"), textureManager, name)
                 .AttachShader(shaderManager.Get("basic"))
                 .AttachTexture(textureManager.Get("no-texture")),
+            null,
             applyGravity)
     {
     }

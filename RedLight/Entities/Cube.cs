@@ -1,3 +1,4 @@
+using RedLight.Entities;
 using RedLight.Utils;
 using RedLight.Graphics;
 
@@ -21,5 +22,11 @@ public class Cube : SimpleShape
                 .AttachTexture(TextureManager.Instance.Get("no-texture")),
             applyGravity)
     {
+        HitboxConfig = HitboxConfig.ForCube(
+            size: 1.0f,
+            groundOffset: 0.5f
+        );
+        
+        ApplyHitboxConfig();
     }
 }

@@ -2,6 +2,7 @@ using RedLight.Utils;
 using RedLight.Graphics;
 using System.Numerics;
 using System.Collections.Generic;
+using RedLight.Entities;
 
 namespace RedLight.Graphics.Primitive;
 
@@ -23,18 +24,14 @@ public class Plane : SimpleShape
         : base(
             new RLModel(graphics, RLFiles.GetResourcePath("RedLight.Resources.Models.Basic.plane.model"), TextureManager.Instance, "plane")
                 .AttachShader(ShaderManager.Instance.Get("basic")),
-            false) // planes don't apply gravity by default
+            null,
+            false)
     {
-        // Set bounding box to match actual plane dimensions
-        // Plane extends from -width/2 to +width/2 in X, and -height/2 to +height/2 in Z
-        // Y is kept minimal since it's a flat plane (small thickness for collision detection)
-        DefaultBoundingBoxMin = new Vector3(-width / 2f, -0.1f, -height / 2f);
-        DefaultBoundingBoxMax = new Vector3(width / 2f, 0.1f, height / 2f);
-
-        // Update the actual bounding box based on current position
-        var currentPosition = Position;
-        BoundingBoxMin = currentPosition + DefaultBoundingBoxMin;
-        BoundingBoxMax = currentPosition + DefaultBoundingBoxMax;
+        // Configure hitbox for plane using HitboxConfig
+        HitboxConfig = HitboxConfig.ForPlane(width, height, 0.1f);
+        
+        // Apply the hitbox configuration
+        ApplyHitboxConfig();
 
         // Create custom plane geometry
         CreatePlaneGeometry(graphics, width, height, tilesX, tilesZ);

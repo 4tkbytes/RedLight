@@ -61,7 +61,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         player.SetRotationX(float.DegreesToRadians(-90.0f));
 
         var cube = new Cube(Graphics, "colliding_cube");
-        var cube2 = new Cube(Graphics, "stuck_cube", false);
+        var cube2 = new Cube(Graphics, "stuck_cube", applyGravity:false);
 
         ObjectModels.Add(plane);
         ObjectModels.Add(player);

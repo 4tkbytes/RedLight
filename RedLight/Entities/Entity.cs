@@ -29,10 +29,10 @@ public abstract class Entity
     public Vector3 BoundingBoxMax { get; set; }
     public Vector3 DefaultBoundingBoxMin { get; set; }
     public Vector3 DefaultBoundingBoxMax { get; set; }
+    public HitboxConfig HitboxConfig { get; protected set; } = new();
     public HashSet<CollisionSide> ObjectCollisionSides { get; set; } = new();
     public bool IsColliding { get; internal set; }
 
-    // Hitbox visualization
     private uint vbo = 0;
     private uint vao = 0;
     public bool IsHitboxShown { get; private set; }
@@ -315,41 +315,20 @@ public abstract class Entity
         return SetRotation(rotationRadians);
     }
     
-    protected void CalculateBoundingBoxFromModel()
+    protected void ApplyHitboxConfig()
     {
-        if (Model?.Meshes == null || Model.Meshes.Count == 0)
-            return;
-
-        Vector3 min = new Vector3(float.MaxValue);
-        Vector3 max = new Vector3(float.MinValue);
-
-        foreach (var mesh in Model.Meshes)
-        {
-            if (mesh.Vertices != null)
-            {
-                foreach (var vertex in mesh.Vertices)
-                {
-                    var pos = vertex.Position;
-                
-                    // Apply scale to the vertex positions
-                    pos *= Scale;
-                
-                    min = Vector3.Min(min, pos);
-                    max = Vector3.Max(max, pos);
-                }
-            }
-        }
-
-        if (min != new Vector3(float.MaxValue) && max != new Vector3(float.MinValue))
-        {
-            DefaultBoundingBoxMin = min;
-            DefaultBoundingBoxMax = max;
+        DefaultBoundingBoxMin = HitboxConfig.CalculateMin();
+        DefaultBoundingBoxMax = HitboxConfig.CalculateMax();
         
-            Log.Debug("Calculated bounding box for {EntityType}: Min={Min}, Max={Max}", 
-                GetType().Name, DefaultBoundingBoxMin, DefaultBoundingBoxMax);
-        }
+        Log.Debug("Applied hitbox config for {EntityType}: Min={Min}, Max={Max}", 
+            GetType().Name, DefaultBoundingBoxMin, DefaultBoundingBoxMax);
     }
-
+    
+    public void SetHitboxConfig(HitboxConfig config)
+    {
+        HitboxConfig = config;
+        ApplyHitboxConfig();
+    }
     
      /// <summary>
     /// Draws the bounding box edges in red using OpenGL lines with proper camera transformations.
@@ -605,7 +584,6 @@ public abstract class Entity
     /// Checks if a defualt lock is set
     /// </summary>
     public bool IsDefaultSet() => _defaultSet;
-
     
     public Vector3 RotationDegrees
     {
