@@ -38,6 +38,8 @@ public class RLModel
     /// </summary>
     public String Name { get; private set; }
     private bool shaderAttached;
+    
+    public RLShaderBundle Shader { get; set; }
 
     /// <summary>
     /// Initialises a new instance of the RLModel class with a specified name.
@@ -198,14 +200,20 @@ public class RLModel
     /// </summary>
     /// <param name="shaderBundle">The shader bundle to attach.</param>
     /// <returns>This model instance for method chaining.</returns>
-    public RLModel AttachShader(RLShaderBundle shaderBundle)
+    public RLModel AttachShader(RLShaderBundle shader)
     {
+        Shader = shader;
+    
+        // IMPORTANT: Update all mesh programs to use the new shader
         foreach (var mesh in Meshes)
         {
-            mesh.AttachShader(shaderBundle.vertexShader, shaderBundle.fragmentShader);
+            mesh.program = shader.Program.ProgramHandle;
+            Log.Debug("Updated mesh program to {ProgramHandle} for shader {ShaderName}", 
+                mesh.program, shader.Name);
         }
 
         shaderAttached = true;
+
         return this;
     }
 

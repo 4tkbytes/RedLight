@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using System.Numerics;
 using RedLight.Entities;
+using RedLight.Lighting;
 using RedLight.UI;
 using Serilog;
 using Silk.NET.OpenGL;
@@ -138,20 +139,151 @@ public class RLGraphics
     /// <summary>
     /// Updates the model, view and projection all in one of an Entity. 
     /// </summary>
-    /// <param name="camera">Camera</param>
-    /// <param name="entity">Entity</param>
-    public void Update(Camera camera, Entity entity)
+    public void Update(Camera camera, Entity entity, bool applyLighting = true)
     {
         UpdateModel(entity);
         UpdateView(camera, entity);
         UpdateProjection(camera, entity);
+    
+        // Apply lighting to each mesh if the entity is using a lit shader
+        if (applyLighting)
+        {
+            foreach (var mesh in entity.Model.Meshes)
+            {
+                // Check if this mesh is using a lit shader program
+                // You might need to store shader information differently
+                // For now, let's apply lighting to all meshes
+                ApplyLightingToMesh(mesh.program, camera.Position);
+            }
+        }
+    }
+    
+    public void UpdateAlt(Camera camera, Entity entity)
+    {
+        // Use the entity's shader program handle, not the mesh program
+        var shaderProgram = entity.Model.Shader.Program;
+    
+        // Set transformation matrices
+        shaderProgram.SetUniform("model", entity.ModelMatrix);
+        shaderProgram.SetUniform("view", camera.View);
+        shaderProgram.SetUniform("projection", camera.Projection);
+
+        // Apply lighting if this is the lit shader
+        if (entity.Model.Shader.Name == "lit")
+        {
+            RedLight.Lighting.LightManager.Instance.ApplyLighting(shaderProgram, camera.Position);
+        }
+    }
+    
+    /// <summary>
+    /// Applies lighting uniforms to a specific mesh program
+    /// </summary>
+    /// <param name="program">OpenGL program handle</param>
+    /// <param name="viewPosition">Camera position</param>
+    private void ApplyLightingToMesh(uint program, Vector3 viewPosition, bool silent = true)
+    {
+        // Get the current program to restore it later
+        OpenGL.GetInteger(GetPName.CurrentProgram, out int currentProgram);
+        
+        // Use the mesh program
+        OpenGL.UseProgram(program);
+        
+        var directionalLight = LightManager.Instance.GetDirectionalLight();
+        var pointLights = LightManager.Instance.GetPointLights();
+        var firstPointLight = pointLights.FirstOrDefault();
+
+        // Set much brighter ambient lighting and ALWAYS log (not just verbose)
+        var ambientColor = new Vector3(0.3f, 0.3f, 0.4f);
+        var ambientStrength = 0.5f;
+        SetUniform(program, "ambientColor", ambientColor);
+        SetUniform(program, "ambientStrength", ambientStrength);
+        SetUniform(program, "viewPos", viewPosition);
+        
+        // ALWAYS log these for debugging (remove Log.Verbose, use Log.Debug)
+        if (!silent) Log.Debug("=== APPLYING LIGHTING TO PROGRAM {Program} ===", program);
+        if (!silent) Log.Debug("  Ambient: Color={AmbientColor}, Strength={AmbientStrength}", ambientColor, ambientStrength);
+        if (!silent) Log.Debug("  View Position: {ViewPos}", viewPosition);
+
+        // Set directional light (sun)
+        if (directionalLight != null)
+        {
+            SetUniform(program, "directionalLight_direction", directionalLight.Direction);
+            SetUniform(program, "directionalLight_color", directionalLight.Colour);
+            SetUniform(program, "directionalLight_intensity", directionalLight.Intensity);
+            if (!silent) Log.Debug("  Directional Light: Direction={Direction}, Color={Color}, Intensity={Intensity}", 
+                directionalLight.Direction, directionalLight.Colour, directionalLight.Intensity);
+        }
+        else
+        {
+            SetUniform(program, "directionalLight_intensity", 0.0f);
+            if (!silent) Log.Debug("  No directional light found - setting intensity to 0");
+        }
+
+        // Set point light (lamp)
+        if (firstPointLight != null)
+        {
+            SetUniform(program, "pointLight_position", firstPointLight.Position);
+            SetUniform(program, "pointLight_color", firstPointLight.Colour);
+            SetUniform(program, "pointLight_intensity", firstPointLight.Intensity);
+            SetUniform(program, "pointLight_constant", firstPointLight.Constant);
+            SetUniform(program, "pointLight_linear", firstPointLight.Linear);
+            SetUniform(program, "pointLight_quadratic", firstPointLight.Quadratic);
+            if (!silent) Log.Debug("  Point Light: Position={Position}, Color={Color}, Intensity={Intensity}", 
+                firstPointLight.Position, firstPointLight.Colour, firstPointLight.Intensity);
+            if (!silent) Log.Debug("  Point Light Attenuation: Constant={Constant}, Linear={Linear}, Quadratic={Quadratic}", 
+                firstPointLight.Constant, firstPointLight.Linear, firstPointLight.Quadratic);
+        }
+        else
+        {
+            SetUniform(program, "pointLight_intensity", 0.0f);
+            if (!silent) Log.Debug("  No point light found - setting intensity to 0");
+        }
+        
+        if (!silent) Log.Debug("=== FINISHED APPLYING LIGHTING ===");
+        
+        // Restore the previous program
+        OpenGL.UseProgram((uint)currentProgram);
+    }
+    
+    /// <summary>
+    /// Helper method to set Vector3 uniforms directly on a program
+    /// </summary>
+    private void SetUniform(uint program, string name, Vector3 value)
+    {
+        int location = OpenGL.GetUniformLocation(program, name);
+        if (location != -1)
+        {
+            OpenGL.Uniform3(location, value.X, value.Y, value.Z);
+            Log.Verbose("    Set uniform '{UniformName}' = {Value}", name, value);
+        }
+        else
+        {
+            Log.Warning("Uniform '{UniformName}' not found in program {Program}", name, program);
+        }
+    }
+    
+    /// <summary>
+    /// Helper method to set uniforms directly on a program
+    /// </summary>
+    private void SetUniform(uint program, string name, float value)
+    {
+        int location = OpenGL.GetUniformLocation(program, name);
+        if (location != -1)
+        {
+            OpenGL.Uniform1(location, value);
+            Log.Verbose("    Set uniform '{UniformName}' = {Value}", name, value);
+        }
+        else
+        {
+            Log.Warning("Uniform '{UniformName}' not found in program {Program}", name, program);
+        }
     }
 
     /// <summary>
     /// Checks if there are any OpenGL errors. Best to use straight after an OpenGL function as it will check
     /// the latest error and log it. 
     /// </summary>
-    public void CheckGLErrors()
+    public void CheckGlErrors()
     {
         var err = OpenGL.GetError();
         if (err != 0)
@@ -181,6 +313,22 @@ public class RLGraphics
             matrix.M21, matrix.M22, matrix.M23, matrix.M24,
             matrix.M31, matrix.M32, matrix.M33, matrix.M34,
             matrix.M41, matrix.M42, matrix.M43, matrix.M44);
+    }
+    
+    /// <summary>
+    /// Debug method to check what uniforms are available in a shader program
+    /// </summary>
+    public void CheckUniformsInProgram(uint program)
+    {
+        var gl = OpenGL;
+        gl.GetProgram(program, ProgramPropertyARB.ActiveUniforms, out int uniformCount);
+    
+        Log.Debug("    Active uniforms ({Count}):", uniformCount);
+        for (uint i = 0; i < uniformCount; i++)
+        {
+            string name = gl.GetActiveUniform(program, i, out _, out _);
+            Log.Debug("      - {UniformName}", name);
+        }
     }
 
     /// <summary>
@@ -269,7 +417,7 @@ public class RLGraphics
     public void Draw(Entity entity)
     {
         entity.Model.Draw();
-        CheckGLErrors();
+        CheckGlErrors();
     }
 
     /// <summary>

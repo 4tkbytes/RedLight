@@ -180,6 +180,12 @@ public class SceneManager
         currentScene.ShaderManager.TryAdd("hitbox",
             new RLShader(currentScene.Graphics, ShaderType.Vertex, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.line.vert")),
             new RLShader(currentScene.Graphics, ShaderType.Fragment, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.line.frag")));
+        
+        // lighting shader
+        currentScene.ShaderManager.TryAdd("lit",
+            new RLShader(currentScene.Graphics, ShaderType.Vertex, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.lit.vert")),
+            new RLShader(currentScene.Graphics, ShaderType.Fragment, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.lit.frag")));
+
 
         Log.Debug("Loading current scene");
         currentScene.Load();

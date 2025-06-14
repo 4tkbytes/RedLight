@@ -37,6 +37,8 @@ public abstract class Entity
     private uint vao = 0;
     public bool IsHitboxShown { get; private set; }
     
+    public string Name { get; set; }
+    
     // Physics system reference
     public PhysicsSystem PhysicsSystem;
     private HashSet<string> _registeredEntityNames = new();
@@ -129,6 +131,7 @@ public abstract class Entity
     protected Entity(RLModel model, bool applyGravity = true)
     {
         _model = model;
+        Name = model.Name;
         ApplyGravity = applyGravity;
         
         // Set default bounding box
@@ -382,23 +385,23 @@ public abstract class Entity
             vao = gl.GenVertexArray();
             if (!graphics.ShutUp)
                 Log.Debug("any errors after gen vao?");
-            graphics.CheckGLErrors();
+            graphics.CheckGlErrors();
             
             vbo = gl.GenBuffer();
             if (!graphics.ShutUp)
                 Log.Debug("any errors after gen vbo?");
-            graphics.CheckGLErrors();
+            graphics.CheckGlErrors();
         }
 
         gl.BindVertexArray(vao);
         if (!graphics.ShutUp)
             Log.Debug("any errors after bind vertex array?");
-        graphics.CheckGLErrors();
+        graphics.CheckGlErrors();
         
         gl.BindBuffer(BufferTargetARB.ArrayBuffer, vbo);
         if (!graphics.ShutUp)
             Log.Debug("any errors after bind buffer?");
-        graphics.CheckGLErrors();
+        graphics.CheckGlErrors();
 
         unsafe
         {
@@ -408,26 +411,26 @@ public abstract class Entity
                     BufferUsageARB.StreamDraw);
                 if (!graphics.ShutUp)
                     Log.Debug("any errors after buffer data?");
-                graphics.CheckGLErrors();
+                graphics.CheckGlErrors();
             }
         }
 
         gl.EnableVertexAttribArray(0); 
         if (!graphics.ShutUp)
             Log.Debug("any errors after enable vertex attrib array");
-        graphics.CheckGLErrors();
+        graphics.CheckGlErrors();
         unsafe
         {
             gl.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), (void*)0);
             if (!graphics.ShutUp)
                 Log.Debug("any errors after vertex attrib pointer?");
-            graphics.CheckGLErrors();
+            graphics.CheckGlErrors();
         }
 
-        gl.UseProgram(shaderBundle.program.ProgramHandle); 
+        gl.UseProgram(shaderBundle.Program.ProgramHandle); 
         if (!graphics.ShutUp)
             Log.Debug("any errors after use program?");
-        graphics.CheckGLErrors();
+        graphics.CheckGlErrors();
 
         // Set transformation matrices
         unsafe
@@ -435,41 +438,41 @@ public abstract class Entity
             // Model matrix (identity since we're using world coordinates)
             var modelMatrix = Matrix4x4.Identity;
             float* modelPtr = (float*)&modelMatrix;
-            int modelLoc = gl.GetUniformLocation(shaderBundle.program.ProgramHandle, "model");
+            int modelLoc = gl.GetUniformLocation(shaderBundle.Program.ProgramHandle, "model");
             if (modelLoc != -1)
                 gl.UniformMatrix4(modelLoc, 1, false, modelPtr);
             if (!graphics.ShutUp)
                 Log.Debug("any errors after model matrix?");
-            graphics.CheckGLErrors();
+            graphics.CheckGlErrors();
             
             // View matrix
             var viewMatrix = camera.View;
             float* viewPtr = (float*)&viewMatrix;
-            int viewLoc = gl.GetUniformLocation(shaderBundle.program.ProgramHandle, "view");
+            int viewLoc = gl.GetUniformLocation(shaderBundle.Program.ProgramHandle, "view");
             if (viewLoc != -1)
                 gl.UniformMatrix4(viewLoc, 1, false, viewPtr);
             if (!graphics.ShutUp)
                 Log.Debug("any errors after view matrix?");
-            graphics.CheckGLErrors();
+            graphics.CheckGlErrors();
             
             // Projection matrix
             var projMatrix = camera.Projection;
             float* projPtr = (float*)&projMatrix;
-            int projLoc = gl.GetUniformLocation(shaderBundle.program.ProgramHandle, "projection");
+            int projLoc = gl.GetUniformLocation(shaderBundle.Program.ProgramHandle, "projection");
             if (projLoc != -1)
                 gl.UniformMatrix4(projLoc, 1, false, projPtr);
             if (!graphics.ShutUp)
                 Log.Debug("any errors after proj matrix?");
-            graphics.CheckGLErrors();
+            graphics.CheckGlErrors();
         }
 
         // Set the color uniform (red for hitbox)
-        int colorLoc = gl.GetUniformLocation(shaderBundle.program.ProgramHandle, "uColor");
+        int colorLoc = gl.GetUniformLocation(shaderBundle.Program.ProgramHandle, "uColor");
         if (colorLoc != -1) // This check prevents error if uColor is not found
             gl.Uniform4(colorLoc, 1.0f, 0.0f, 0.0f, 1.0f);
         if (!graphics.ShutUp)
             Log.Debug("any errors after setting colour uniform?");
-        graphics.CheckGLErrors();
+        graphics.CheckGlErrors();
 
         // Set line width for thicker lines
         gl.LineWidth(1.0f);
@@ -477,7 +480,7 @@ public abstract class Entity
         if (!graphics.ShutUp)
             Log.Debug("any errors after setting line width?");
         
-        graphics.CheckGLErrors();
+        graphics.CheckGlErrors();
 
         // Draw the wireframe using line segments
         unsafe
@@ -487,20 +490,20 @@ public abstract class Entity
                 gl.DrawElements(PrimitiveType.Lines, (uint)lineIndices.Length, DrawElementsType.UnsignedInt, indices);
                 if (!graphics.ShutUp)
                     Log.Debug("any errors after drawing line?");
-                graphics.CheckGLErrors();
+                graphics.CheckGlErrors();
             }
         }
 
         gl.BindVertexArray(0);
         if (!graphics.ShutUp)
             Log.Debug("any errors after unbinding vao?");
-        graphics.CheckGLErrors();
+        graphics.CheckGlErrors();
         gl.BindBuffer(BufferTargetARB.ArrayBuffer, 0);
         if (!graphics.ShutUp)
             Log.Debug("any errors after unbinding vbo?");
-        graphics.CheckGLErrors();
+        graphics.CheckGlErrors();
 
-        graphics.CheckGLErrors();
+        graphics.CheckGlErrors();
     }
      
     /// <summary>

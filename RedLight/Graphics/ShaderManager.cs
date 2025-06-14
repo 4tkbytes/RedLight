@@ -4,9 +4,10 @@ namespace RedLight.Graphics;
 
 public struct RLShaderBundle
 {
-    public RLShader vertexShader;
-    public RLShader fragmentShader;
-    public RLShaderProgram program;
+    public string Name;
+    public RLShader VertexShader;
+    public RLShader FragmentShader;
+    public RLShaderProgram Program;
 }
 
 public class ShaderManager
@@ -33,9 +34,10 @@ public class ShaderManager
         var program = new RLShaderProgram(vertexShader.graphics, vertexShader, fragmentShader);
         shaders.Add(id, new RLShaderBundle
         {
-            vertexShader = vertexShader,
-            fragmentShader = fragmentShader,
-            program = program
+            VertexShader = vertexShader,
+            FragmentShader = fragmentShader,
+            Program = program,
+            Name = id
         });
     }
 
@@ -48,7 +50,7 @@ public class ShaderManager
         if (!shaders.ContainsKey(id))
         {
             Log.Warning($"ID [{id}] does not exist, returning null");
-            return new RLShaderBundle { vertexShader = null, fragmentShader = null, program = null };
+            return new RLShaderBundle { VertexShader = null, FragmentShader = null, Program = null };
         }
 
         return shaders[id];
@@ -63,5 +65,10 @@ public class ShaderManager
         if (!shaders.ContainsKey(id))
             throw new Exception($"ID [{id}] does not exist");
         return shaders[id];
+    }
+
+    public List<string> GetAll()
+    {
+        return shaders.Keys.ToList();
     }
 }
