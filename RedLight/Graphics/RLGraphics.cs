@@ -160,18 +160,29 @@ public class RLGraphics
     
     public void UpdateAlt(Camera camera, Entity entity)
     {
-        // Use the entity's shader program handle, not the mesh program
+        if (entity.Model?.Shader.Program == null)
+        {
+            Log.Error("Cannot update entity {EntityName} - no shader program", entity.Name ?? "Unknown");
+            return;
+        }
+
         var shaderProgram = entity.Model.Shader.Program;
-    
+
         // Set transformation matrices
         shaderProgram.SetUniform("model", entity.ModelMatrix);
         shaderProgram.SetUniform("view", camera.View);
         shaderProgram.SetUniform("projection", camera.Projection);
 
-        // Apply lighting if this is the lit shader
+        // CRITICAL: Apply lighting if this is the lit shader
         if (entity.Model.Shader.Name == "lit")
         {
             RedLight.Lighting.LightManager.Instance.ApplyLighting(shaderProgram, camera.Position);
+            Log.Verbose("Applied lighting to entity {EntityName}", entity.Name ?? "Unknown");
+        }
+        else
+        {
+            Log.Verbose("Entity {EntityName} uses {ShaderName} shader - no lighting applied", 
+                entity.Name ?? "Unknown", entity.Model.Shader.Name);
         }
     }
     

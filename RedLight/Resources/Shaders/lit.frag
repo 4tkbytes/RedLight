@@ -30,19 +30,21 @@ vec3 calculateDirectionalLight(vec3 normal, vec3 viewDir)
 {
     vec3 lightDir = normalize(-directionalLight_direction);
     float diff = max(dot(normal, lightDir), 0.0);
-    return directionalLight_color * diff * directionalLight_intensity;
+
+    vec3 diffuse = directionalLight_color * diff * directionalLight_intensity;
+    return diffuse;
 }
 
 vec3 calculatePointLight(vec3 normal, vec3 viewDir)
 {
-    if (pointLight_intensity <= 0.0) return vec3(0.0);
-
     vec3 lightDir = normalize(pointLight_position - frag_worldPos);
+    float diff = max(dot(normal, lightDir), 0.0);
+
     float distance = length(pointLight_position - frag_worldPos);
     float attenuation = 1.0 / (pointLight_constant + pointLight_linear * distance + pointLight_quadratic * (distance * distance));
 
-    float diff = max(dot(normal, lightDir), 0.0);
-    return pointLight_color * diff * pointLight_intensity * attenuation;
+    vec3 diffuse = pointLight_color * diff * pointLight_intensity * attenuation;
+    return diffuse;
 }
 
 void main()
@@ -51,12 +53,16 @@ void main()
     vec3 normal = normalize(frag_normal);
     vec3 viewDir = normalize(viewPos - frag_worldPos);
 
-    // VERY SIMPLE lighting - if this doesn't work, there's a deeper problem
-    vec3 ambient = vec3(0.2, 0.2, 0.2); // Fixed ambient light
+    // Ambient
+    vec3 ambient = ambientColor * ambientStrength;
+
+    // Directional light
     vec3 directional = calculateDirectionalLight(normal, viewDir);
+
+    // Point light
     vec3 point = calculatePointLight(normal, viewDir);
 
-    // Simple combination
+    // Combine all lighting
     vec3 result = (ambient + directional + point) * color;
 
     FragColor = vec4(result, 1.0);

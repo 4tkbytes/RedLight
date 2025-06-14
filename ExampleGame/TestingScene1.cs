@@ -212,18 +212,45 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
                 Log.Debug("Active camera position: {Position}", activeCamera.Position);
             }
             
+            // Replace your rendering loop with this version that has more debug info:
+
             foreach (var model in ObjectModels)
             {
                 Graphics.Use(model);
-                
+
                 // Debug: Check if Update method is applying lighting
                 if (counter % 120 == 0)
                 {
                     Log.Debug("Rendering entity {Name} with shader {ShaderName}", 
                         model.Name ?? "Unknown", model.Model.Shader.Name);
+
+                    // Check if lighting is being applied
+                    if (model.Model.Shader.Name == "lit")
+                    {
+                        Log.Debug("Entity {Name} should receive lighting", model.Name ?? "Unknown");
+
+                        // Manually apply lighting here to test
+                        var lights = LightManager.Instance.GetLights();
+                        Log.Debug("Available lights for entity {Name}: {Count}", model.Name ?? "Unknown", lights.Count);
+            
+                        // DEBUG: Show what UpdateAlt is about to do
+                        Log.Debug("About to call UpdateAlt - current lights in LightManager:");
+                        foreach (var light in lights)
+                        {
+                            Log.Debug("  Light: Type={Type}, Intensity={Intensity}, Color={Color}", 
+                                light.Type, light.Intensity, light.Colour);
+                        }
+                    }
                 }
-                
+
                 Graphics.UpdateAlt(activeCamera, model);
+    
+                // DEBUG: After UpdateAlt, check if our manual uniform is still there
+                if (counter % 120 == 0 && model.Name == "plane")
+                {
+                    Log.Debug("After UpdateAlt for {Name}", model.Name ?? "Unknown");
+                }
+    
                 Graphics.Draw(model);
             }
 
@@ -307,27 +334,119 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
                     Log.Debug("Debug Camera is set to {A}", useDebugCamera);
                     break;
                 
-                case Key.Number1: // Directional only
-                    LightingTests.TestDirectionalOnly();
+                case Key.Number1: // Test BRIGHT directional only
+                    Log.Debug("=== TESTING BRIGHT DIRECTIONAL ONLY ===");
+                    LightManager.Instance.Clear();
+                    
+                    var brightSun = new RLLight
+                    {
+                        Type = LightType.Directional,
+                        Direction = new Vector3(0f, -1.0f, 0f), // Straight down
+                        Colour = new Vector3(2.0f, 2.0f, 2.0f), // SUPER BRIGHT WHITE
+                        Intensity = 3.0f // VERY HIGH
+                    };
+                    LightManager.Instance.Add(brightSun);
+                    
+                    Log.Debug("Added SUPER BRIGHT directional light");
                     break;
-                case Key.Number2: // Point light only
-                    LightingTests.TestPointLightOnly(player);
+
+                case Key.Number2: // Test NO lights (should be very dark)
+                    Log.Debug("=== TESTING NO LIGHTS (DARKNESS) ===");
+                    LightManager.Instance.Clear();
+                    Log.Debug("Cleared all lights - scene should be very dark");
                     break;
-                case Key.Number3: // Colored lights
-                    LightingTests.TestColoredLights();
+
+                case Key.Number3: // Test bright point light only
+                    Log.Debug("=== TESTING BRIGHT POINT LIGHT ONLY ===");
+                    LightManager.Instance.Clear();
+                    
+                    var brightLamp = new RLLight
+                    {
+                        Type = LightType.Point,
+                        Position = player.Position + new Vector3(0, 5.0f, 0), // High above player
+                        Colour = new Vector3(3.0f, 2.5f, 2.0f), // SUPER BRIGHT WARM
+                        Intensity = 5.0f, // VERY HIGH
+                        Constant = 1.0f,
+                        Linear = 0.02f, // Very low falloff
+                        Quadratic = 0.001f, // Very low falloff
+                        Range = 50.0f // Large range
+                    };
+                    LightManager.Instance.Add(brightLamp);
+                    
+                    Log.Debug("Added SUPER BRIGHT point light above player");
                     break;
-                case Key.Number4: // Dynamic follow light
-                    LightingTests.TestDynamicFollowLight(playerLamp, player);
+
+                case Key.Number4: // Test default setup but BRIGHTER
+                    Log.Debug("=== TESTING BRIGHT DEFAULT SETUP ===");
+                    LightManager.Instance.Clear();
+                    
+                    // Bright sun
+                    var sun = new RLLight
+                    {
+                        Type = LightType.Directional,
+                        Direction = new Vector3(-0.2f, -1.0f, -0.3f),
+                        Colour = new Vector3(1.5f, 1.5f, 1.5f), // Brighter white
+                        Intensity = 2.0f // Higher intensity
+                    };
+                    LightManager.Instance.Add(sun);
+                    
+                    // Bright lamp
+                    playerLamp = new RLLight
+                    {
+                        Type = LightType.Point,
+                        Position = player.Position + new Vector3(0, 2.0f, 0),
+                        Colour = new Vector3(2.0f, 1.8f, 1.5f), // Brighter warm
+                        Intensity = 3.0f, // Higher intensity
+                        Constant = 1.0f,
+                        Linear = 0.05f,
+                        Quadratic = 0.01f,
+                        Range = 20.0f
+                    };
+                    LightManager.Instance.Add(playerLamp);
+                    
+                    Log.Debug("Added BRIGHT sun + lamp combo");
                     break;
-                case Key.Number5: // Multiple point lights
-                    LightingTests.TestMultiplePointLights();
+
+                case Key.F5: // Debug shader status
+                    DebugShaderStatus();
                     break;
-                case Key.Number6: // Realistic daylight
-                    LightingTests.TestRealisticDaylight();
+                
+                case Key.Number9: // Force bright shader test
+                    Log.Debug("=== FORCE BRIGHT SHADER TEST ===");
+    
+                    // Manually set shader uniforms for the first entity
+                    var firstEntity = ObjectModels.FirstOrDefault();
+                    if (firstEntity?.Model?.Shader.Program != null)
+                    {
+                        var program = firstEntity.Model.Shader.Program;
+        
+                        // Force set super bright ambient light directly on shader
+                        program.SetUniform("ambientColor", new Vector3(2.0f, 2.0f, 2.0f));
+                        program.SetUniform("ambientStrength", 1.0f);
+        
+                        Log.Debug("Manually set super bright ambient on first entity");
+                    }
                     break;
-                case Key.Number0: // Reset to default
-                    OnLoad(); // Reload the scene with default lighting
-                    Log.Debug("Reset to default lighting");
+                
+                case Key.Number8: // Test bypassing lighting system entirely
+                    Log.Debug("=== BYPASSING LIGHTING SYSTEM TEST ===");
+    
+                    // Apply super bright uniforms to ALL entities AFTER UpdateAlt
+                    foreach (var entity in ObjectModels)
+                    {
+                        if (entity.Model?.Shader.Program != null && entity.Model.Shader.Name == "lit")
+                        {
+                            var program = entity.Model.Shader.Program;
+            
+                            // Set super bright values
+                            program.SetUniform("ambientColor", new Vector3(1.5f, 1.5f, 1.5f));
+                            program.SetUniform("ambientStrength", 1.0f);
+                            program.SetUniform("directionalLight_intensity", 0.0f); // Disable directional
+                            program.SetUniform("pointLight_intensity", 0.0f); // Disable point
+            
+                            Log.Debug("Set bright ambient on entity {Name}", entity.Name ?? "Unknown");
+                        }
+                    }
                     break;
                 
             }
@@ -350,6 +469,29 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
                 debugCamera.FreeMove(mousePosition);
             else
                 player.Camera.FreeMove(mousePosition);
+        }
+    }
+    
+    private void DebugShaderStatus()
+    {
+        Log.Debug("=== CURRENT LIGHTING DEBUG ===");
+    
+        var lights = LightManager.Instance.GetLights();
+        Log.Debug("Total lights: {Count}", lights.Count);
+    
+        foreach (var light in lights)
+        {
+            Log.Debug("Light: Type={Type}, Intensity={Intensity}, Color={Color}, Position={Position}, Direction={Direction}", 
+                light.Type, light.Intensity, light.Colour, light.Position, light.Direction);
+        }
+    
+        // Check if entities are using lit shader
+        foreach (var entity in ObjectModels)
+        {
+            Log.Debug("Entity {Name}: Shader={ShaderName}, Program={Program}", 
+                entity.Name ?? "Unknown", 
+                entity.Model.Shader.Name,
+                entity.Model.Shader.Program.ProgramHandle);
         }
     }
 }

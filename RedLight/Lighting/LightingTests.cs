@@ -1,13 +1,10 @@
 ﻿using System.Numerics;
 using RedLight.Entities;
+using RedLight.Lighting;
 using Serilog;
 
-namespace RedLight.Lighting;
+namespace ExampleGame;
 
-/// <summary>
-/// Purely here for novelty + testing lights, this class allows you to test out the lighting
-/// </summary>
-/// <seealso cref="Lighting"/>
 public static class LightingTests
 {
     public static void TestDirectionalOnly()
