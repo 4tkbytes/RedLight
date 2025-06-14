@@ -99,7 +99,6 @@ public class Player: Entity
         if (pressedKeys.Contains(Key.ShiftLeft))
             direction -= up;
 
-        // Check if player is moving horizontally
         var horizontalDirection = new Vector3(direction.X, 0, direction.Z);
         isMoving = horizontalDirection.Length() > 0.01f;
         
@@ -221,7 +220,7 @@ public class Player: Entity
         Log.Debug("[Player] Camera POV toggled: {Prev} -> {Current}", prevPOV, CameraToggle);
         UpdateCameraPosition();
     }
-
+    
     /// <summary>
     /// Updates the camera's position based on the current perspective.
     /// </summary>
@@ -241,11 +240,26 @@ public class Player: Entity
             Camera.Position = Position - Camera.Front * thirdPersonDistance + cameraOffset;
 
             var prevPos = Position;
-            Log.Debug("Camera.Yaw = {CamYaw}", Camera.Yaw);
-            Log.Debug("Player Rotation = {PlayerRot}", Rotation);
-            if (Position != lastModelPosition)
+            
+            // Only update rotation when player is actually moving
+            if (Position != lastModelPosition && isMoving)
             {
-                Rotation = new Vector3(Rotation.X, -float.DegreesToRadians(Camera.Yaw), Rotation.Z);
+                // Normalize the camera yaw to be between -180 and 180 degrees
+                float normalizedYaw = NormalizeAngle(Camera.Yaw);
+                
+                // Convert to radians for the Y rotation (yaw)
+                float targetYRotation = -float.DegreesToRadians(normalizedYaw);
+                
+                // Keep X and Z rotations stable - don't let them flip
+                float currentXRotation = Rotation.X;
+                float currentZRotation = Rotation.Z;
+                
+                // Normalize current rotations to prevent accumulation
+                currentXRotation = NormalizeRadians(currentXRotation);
+                currentZRotation = NormalizeRadians(currentZRotation);
+                
+                SetRotation(new Vector3(_rotationDefault.X, targetYRotation, _rotationDefault.Z));
+                
                 lastModelPosition = Position;
             }
         
@@ -273,6 +287,25 @@ public class Player: Entity
         else if (angle < -180f)
             angle += 360f;
         
+        return angle;
+    }
+
+    /// <summary>
+    /// Normalizes an angle in radians to be between -π and π
+    /// </summary>
+    /// <param name="angle">Angle in radians</param>
+    /// <returns>Normalized angle between -π and π radians</returns>
+    private float NormalizeRadians(float angle)
+    {
+        // Normalize to 0-2π range first
+        angle = angle % (2f * MathF.PI);
+        
+        // Convert to -π to π range
+        if (angle > MathF.PI)
+            angle -= 2f * MathF.PI;
+        else if (angle < -MathF.PI)
+            angle += 2f * MathF.PI;
+            
         return angle;
     }
     

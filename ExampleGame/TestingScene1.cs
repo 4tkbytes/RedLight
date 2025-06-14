@@ -44,15 +44,14 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         
         PhysicsSystem = new PhysicsSystem();
 
-        plane = new Plane(Graphics, 50f, 20f);
-        plane.Translate(new Vector3(0, -0.5f, 0)); // Position slightly below ground level
+        plane = new Plane(Graphics, 50f, 20f).Default();
         plane.Model.AttachTexture(TextureManager.Get("no-texture"));
 
         var size = Engine.Window.Size;
         camera = new Camera(size);
 
         var maxwell = Graphics.CreateModel("RedLight.Resources.Models.Maxwell.maxwell_the_cat.glb", "maxwell")
-            .SetScale(new Vector3(0.2f))
+            .SetScale(new Vector3(0.05f))
             .Rotate(float.DegreesToRadians(-90.0f), Vector3.UnitX);
 
         playerCamera = new Camera(size);
@@ -77,7 +76,6 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         
         player.ResetPhysics();
 
-        // Subscribe to collision events
         PhysicsSystem.OnCollisionEnter += OnCollisionEnter;
     }
 

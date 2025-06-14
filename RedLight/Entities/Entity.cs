@@ -17,9 +17,9 @@ public abstract class Entity
     private bool _defaultSet;
     private Matrix4x4 _modelDefault = Matrix4x4.Identity;
 
-    private Vector3 _positionDefault;
-    private Vector3 _rotationDefault;
-    private Vector3 _scaleDefault;
+    protected Vector3 _positionDefault;
+    protected Vector3 _rotationDefault;
+    protected Vector3 _scaleDefault;
     
     public Vector3 Velocity { get; set; } = Vector3.Zero;
     public bool ApplyGravity { get; set; } = true;
