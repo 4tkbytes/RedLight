@@ -112,11 +112,9 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 
         if (!useDebugCamera)
         {
+            // fps logging for each 30 frames
             if (counter % 30 == 0)
-            {
-                Log.Debug("[Player Camera] {CameraYaw}", player.Camera.Yaw);
-                Log.Debug("[Player Rotation] {CameraRot}", player.Rotation);
-            }
+            { }
             
             foreach (var entity in ObjectModels)
             {

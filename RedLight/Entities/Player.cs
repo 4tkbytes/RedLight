@@ -31,6 +31,9 @@ public class Player: Entity
         // Set initial transform from the model
         SetModel(model.ModelMatrix);
         lastModelPosition = Position;
+        
+        DefaultBoundingBoxMin = new Vector3(-1 * Scale.X, -1 * Scale.Y, -1 * Scale.Z);
+        DefaultBoundingBoxMax = new Vector3(1 * Scale.X, 1 * Scale.Y, 1 * Scale.Z);
 
         Log.Debug("[Player] Created with initial position: {Position}, rotation: {Rotation}, scale: {Scale}",
             Position, Rotation, Scale);

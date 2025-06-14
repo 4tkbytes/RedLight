@@ -314,6 +314,41 @@ public abstract class Entity
         );
         return SetRotation(rotationRadians);
     }
+    
+    protected void CalculateBoundingBoxFromModel()
+    {
+        if (Model?.Meshes == null || Model.Meshes.Count == 0)
+            return;
+
+        Vector3 min = new Vector3(float.MaxValue);
+        Vector3 max = new Vector3(float.MinValue);
+
+        foreach (var mesh in Model.Meshes)
+        {
+            if (mesh.Vertices != null)
+            {
+                foreach (var vertex in mesh.Vertices)
+                {
+                    var pos = vertex.Position;
+                
+                    // Apply scale to the vertex positions
+                    pos *= Scale;
+                
+                    min = Vector3.Min(min, pos);
+                    max = Vector3.Max(max, pos);
+                }
+            }
+        }
+
+        if (min != new Vector3(float.MaxValue) && max != new Vector3(float.MinValue))
+        {
+            DefaultBoundingBoxMin = min;
+            DefaultBoundingBoxMax = max;
+        
+            Log.Debug("Calculated bounding box for {EntityType}: Min={Min}, Max={Max}", 
+                GetType().Name, DefaultBoundingBoxMin, DefaultBoundingBoxMax);
+        }
+    }
 
     
      /// <summary>
