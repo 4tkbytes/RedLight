@@ -234,7 +234,7 @@ public class RLModel
     {
         foreach (var mesh in Meshes)
         {
-            mesh.AttachShader(shaderBundle.vertexShader, shaderBundle.fragmentShader);
+            mesh.AttachShader(shaderBundle.VertexShader, shaderBundle.FragmentShader);
         }
 
         shaderAttached = true;

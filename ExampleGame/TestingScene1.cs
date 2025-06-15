@@ -29,7 +29,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     private Plane plane;
     private Camera playerCamera;
     private Camera debugCamera;
-    private bool useDebugCamera = false;
+    private bool useDebugCamera;
 
     private List<Entity> ObjectModels = new();
 
@@ -42,7 +42,13 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 
         TextureManager.Add("stone",
             new RLTexture(Graphics, RLFiles.GetResourcePath("ExampleGame.Resources.Textures.576.jpg")));
+        
+        ShaderManager.TryAdd("lit",
+            new RLShader(Graphics, ShaderType.Vertex, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.lit.vert")),
+            new RLShader(Graphics, ShaderType.Fragment, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.lit.frag")));
 
+        ShaderManager.Clone("lit", "lit2");
+        
         plane = new Plane(Graphics, 50f, 20f).Default();
         plane.Model.AttachTexture(TextureManager.Get("stone"));
 
@@ -51,6 +57,8 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         var maxwell = Graphics.CreateModel("RedLight.Resources.Models.Maxwell.maxwell_the_cat.glb", "maxwell")
             .SetScale(new Vector3(0.05f))
             .Rotate(float.DegreesToRadians(-90.0f), Vector3.UnitX);
+        
+        maxwell.Target.AttachShader(ShaderManager.Get("lit"));
 
         playerCamera = new Camera(size);
         debugCamera = new Camera(size);
@@ -62,13 +70,23 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         player.MoveSpeed = 5f;
 
         var cube = new Cube(Graphics, "colliding_cube");
+        cube.Model.AttachShader(ShaderManager.Get("lit"));
         cube.Translate(new Vector3(3f, 10f, 0f));
+        ShaderManager.SetUniform("lit", "lightColor", new Vector3(10f));
+        
         var cube2 = new Cube(Graphics, "stuck_cube", applyGravity:false);
+        cube2.Translate(new Vector3(0f, -0.5f, 0f));    
+        cube2.Model.AttachShader(ShaderManager.Get("lit"));
+        
+        var light_cube = new Cube(Graphics, "light_cube");
+        light_cube.Model.AttachShader(ShaderManager.Get("lit2"));
+        ShaderManager.SetUniform("lit2", "lightColor", new Vector3(100f, 100f, 100f));
 
         ObjectModels.Add(plane);
         ObjectModels.Add(player);
         ObjectModels.Add(cube);
         ObjectModels.Add(cube2);
+        ObjectModels.Add(light_cube);
 
         foreach (var entity in ObjectModels)
         {
@@ -87,9 +105,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 
         if (useDebugCamera)
         {
-            debugCamera.SetSpeed(debugCamera.Speed * (float)deltaTime);
-            if (InputManager.isCaptured)
-                debugCamera.KeyMap(PressedKeys);
+            debugCamera.KeyMap(PressedKeys, (float)deltaTime);
         }
 
         if (!useDebugCamera)
@@ -157,7 +173,9 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
                     useDebugCamera = !useDebugCamera;
                     Log.Debug("Debug Camera is set to {A}", useDebugCamera);
                     break;
-                    
+                case Key.F2:
+                    foreach (var entity in ObjectModels) entity.ToggleHitbox();
+                    break;
             }
             InputManager.ChangeCaptureToggle(key);
         }

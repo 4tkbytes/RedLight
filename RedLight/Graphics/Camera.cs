@@ -18,7 +18,7 @@ public class Camera
     public float Pitch { get; set; }
 
     // constants
-    public float Speed { get; private set; } = 0.05f;
+    public float Speed { get; private set; } = 2.5f;
     public float Sensitivity { get; private set; } = 0.1f;
 
     // internal variables
@@ -129,10 +129,28 @@ public class Camera
             MoveDown();
         if (PressedKeys.Contains(Key.Space))
             MoveUp();
-        if (PressedKeys.Contains(Key.Equal))
-            Speed += 0.5f;
-        if (PressedKeys.Contains(Key.Minus))
-            Speed -= 0.5f;
+        
+        UpdateCamera();
+
+        return this;
+    }
+    
+    public Camera KeyMap(HashSet<Key> PressedKeys, float deltaTime)
+    {
+        Speed *= deltaTime;
+        if (PressedKeys.Contains(Key.W))
+            MoveForward();
+        if (PressedKeys.Contains(Key.S))
+            MoveBack();
+        if (PressedKeys.Contains(Key.A))
+            MoveLeft();
+        if (PressedKeys.Contains(Key.D))
+            MoveRight();
+        if (PressedKeys.Contains(Key.ShiftLeft))
+            MoveDown();
+        if (PressedKeys.Contains(Key.Space))
+            MoveUp();
+        
         UpdateCamera();
 
         return this;
