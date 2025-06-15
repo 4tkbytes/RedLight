@@ -18,7 +18,7 @@ public class Cube : SimpleShape
     public Cube(RLGraphics graphics, string name, bool applyGravity = true) 
         : base(
             new RLModel(graphics, RLFiles.GetResourcePath("RedLight.Resources.Models.Basic.cube.model"), TextureManager.Instance, name)
-                .AttachShader(ShaderManager.Instance.Get("basic"))
+                .AttachShader(ShaderManager.Instance.Get("lit"))
                 .AttachTexture(TextureManager.Instance.Get("no-texture")),
             applyGravity)
     {

@@ -23,7 +23,7 @@ public class Plane : SimpleShape
     public Plane(RLGraphics graphics, float width = 10f, float height = 10f, int tilesX = 0, int tilesZ = 0) 
         : base(
             new RLModel(graphics, RLFiles.GetResourcePath("RedLight.Resources.Models.Basic.plane.model"), TextureManager.Instance, "plane")
-                .AttachShader(ShaderManager.Instance.Get("basic")),
+                .AttachShader(ShaderManager.Instance.Get("lit")),
             null,
             false)
     {
@@ -84,12 +84,12 @@ public class Plane : SimpleShape
         indices.Add(3);
 
         Mesh planeMesh = new Mesh(graphics, vertices, indices.ToArray());
-        var shader = ShaderManager.Instance.Get("basic");
+        var shader = ShaderManager.Instance.Get("lit");
         planeMesh.AttachShader(shader.VertexShader, shader.FragmentShader);
 
         Model.Meshes.Clear();
         Model.Meshes.Add(planeMesh);
-        Model.AttachShader(ShaderManager.Instance.Get("basic"));
+        Model.AttachShader(shader);
         Model.AttachTexture(TextureManager.Instance.Get("no-texture"));
     }
 

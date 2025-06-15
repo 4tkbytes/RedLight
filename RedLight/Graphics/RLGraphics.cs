@@ -210,7 +210,7 @@ public class RLGraphics
     public Transformable<RLModel> CreateModel(string resourceName, string name)
     {
         return new RLModel(this, resourceName, TextureManager.Instance, name)
-            .AttachShader(ShaderManager.Instance.Get("basic"))
+            .AttachShader(ShaderManager.Instance.Get("lit"))
             .MakeTransformable();
     }
 

@@ -171,15 +171,25 @@ public class SceneManager
             new RLTexture(currentScene.Graphics, RLFiles.GetResourcePath(RLConstants.RL_NO_TEXTURE_PATH))
         );
 
-        // basic shader
+        // basic shader, unlit
         currentScene.ShaderManager.TryAdd("basic",
             new RLShader(currentScene.Graphics, ShaderType.Vertex, RLConstants.RL_BASIC_SHADER_VERT),
             new RLShader(currentScene.Graphics, ShaderType.Fragment, RLConstants.RL_BASIC_SHADER_FRAG));
 
         // hitbox shader for rendering hitboxes
         currentScene.ShaderManager.TryAdd("hitbox",
-            new RLShader(currentScene.Graphics, ShaderType.Vertex, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.line.vert")),
-            new RLShader(currentScene.Graphics, ShaderType.Fragment, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.htbox.frag")));
+            new RLShader(currentScene.Graphics, ShaderType.Vertex, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.hitbox.vert")),
+            new RLShader(currentScene.Graphics, ShaderType.Fragment, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.hitbox.frag")));
+        
+        // basic shader with lighting support
+        currentScene.ShaderManager.TryAdd("lit",
+            new RLShader(currentScene.Graphics, ShaderType.Vertex, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.lit.vert")),
+            new RLShader(currentScene.Graphics, ShaderType.Fragment, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.lit.frag")));
+        
+        // lighting cube
+        currentScene.ShaderManager.TryAdd("light_cube",
+            new RLShader(currentScene.Graphics, ShaderType.Vertex, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.light_cube.vert")),
+            new RLShader(currentScene.Graphics, ShaderType.Fragment, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.light_cube.frag")));
 
         Log.Debug("Subscribing to keyboard events");
         input.SubscribeToInputs(currentKeyboard, currentMouse);
