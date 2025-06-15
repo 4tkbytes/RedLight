@@ -32,10 +32,12 @@ public abstract class Entity
     public HitboxConfig HitboxConfig { get; protected set; } = new();
     public HashSet<CollisionSide> ObjectCollisionSides { get; set; } = new();
     public bool IsColliding { get; internal set; }
+    public bool IsHitboxShown { get; private set; }
+
+    public string Name { get; private set; }
 
     private uint vbo = 0;
     private uint vao = 0;
-    public bool IsHitboxShown { get; private set; }
     
     // Physics system reference
     public PhysicsSystem PhysicsSystem;
@@ -130,6 +132,7 @@ public abstract class Entity
     {
         _model = model;
         ApplyGravity = applyGravity;
+        Name = model.Name;
         
         // Set default bounding box
         DefaultBoundingBoxMin = new Vector3(-0.5f, 0.0f, -0.5f);

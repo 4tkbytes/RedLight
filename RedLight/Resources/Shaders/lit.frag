@@ -10,13 +10,15 @@ out vec4 FragColour;
 uniform sampler2D uTexture;
 uniform vec3 lightColor;
 uniform vec3 lightPos;
+uniform vec3 viewPos;
 
-void main() {
+uniform float ambientStrength;
+uniform float specularStrength;
+uniform int shininess;
+
+void main() {    
     // ambient
-    float ambientStrength = 0.1;
     vec3 ambient = ambientStrength * lightColor;
-
-    // get object color from texture
     vec3 objectColor = texture(uTexture, TexCoord).rgb;
 
     // diffuse 
@@ -25,6 +27,12 @@ void main() {
     float diff = max(dot(norm, lightDir), 0.0);
     vec3 diffuse = diff * lightColor;
 
-    vec3 result = (ambient + diffuse) * objectColor;
+    // specular
+    vec3 viewDir = normalize(viewPos - FragPos);
+    vec3 reflectDir = reflect(-lightDir, norm);
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), shininess);
+    vec3 specular = specularStrength * spec * lightColor;
+    
+    vec3 result = (ambient + diffuse + specular) * objectColor;
     FragColour = vec4(result, 1.0);
 }

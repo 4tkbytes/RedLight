@@ -25,4 +25,14 @@ public static class RLUtils
     {
         return Color.FromArgb((int)(vector3D.X * 255), (int)(vector3D.Y * 255), (int)(vector3D.Z * 255));
     }
+
+    public static Vector4 ColorToVector4(Color color)
+    {
+        return new Vector4(color.R, color.G, color.B, color.A);
+    }
+    
+    public static Vector3 ColorToVector3(Color color)
+    {
+        return new Vector3((float) color.R / 255, (float) color.G / 255, (float) color.B / 255);
+    }
 }

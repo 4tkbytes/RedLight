@@ -9,6 +9,7 @@ using Serilog;
 using Silk.NET.Input;
 using System.Numerics;
 using RedLight.Graphics.Primitive;
+using RedLight.Lighting;
 using Silk.NET.OpenGL;
 using Camera = RedLight.Graphics.Camera;
 using Plane = RedLight.Graphics.Primitive.Plane;
@@ -26,6 +27,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     public RLEngine Engine { get; set; }
     public HashSet<Key> PressedKeys { get; set; } = new();
     public PhysicsSystem PhysicsSystem { get; set; }
+    public LightManager LightManager { get; set; }
 
     private Player player;
     private Plane plane;
@@ -44,6 +46,8 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     {
         Graphics.Enable();
         Graphics.EnableDebugErrorCallback();
+        
+        LightManager = new LightManager();
 
         TextureManager.Add("stone",
             new RLTexture(Graphics, RLFiles.GetResourcePath("ExampleGame.Resources.Textures.576.jpg")));
@@ -55,7 +59,6 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         ShaderManager.TryAdd("light_cube",
             new RLShader(Graphics, ShaderType.Vertex, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.light_cube.vert")),
             new RLShader(Graphics, ShaderType.Fragment, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.light_cube.frag")));
-
         
         plane = new Plane(Graphics, 50f, 20f).Default();
         plane.Model.AttachTexture(TextureManager.Get("stone"));
@@ -84,23 +87,24 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         cube2.Translate(new Vector3(0f, -0.5f, 0f));    
         cube2.Model.AttachShader(ShaderManager.Get("lit"));
         
-        lightCube = new Cube(Graphics, "light_cube", false);
+        lightCube = new Cube(Graphics, "light_cube", true);
         lightCube.Model.AttachShader(ShaderManager.Get("light_cube"));
         lightCube.Translate(new Vector3(5f));
+
+        var mainLight = RLLight.CreatePointLight("main", lightCube.Position, Color.White);
+        LightManager.AddLightWithVisual(mainLight, lightCube);
         
         ObjectModels.Add(plane);
         ObjectModels.Add(player);
         ObjectModels.Add(cube);
         ObjectModels.Add(cube2);
+        ObjectModels.Add(lightCube);
 
         foreach (var entity in ObjectModels)
         {
             entity.PhysicsSystem = PhysicsSystem;
             PhysicsSystem.AddEntity(entity);
         }
-        
-        lightCube.PhysicsSystem = PhysicsSystem;
-        PhysicsSystem.AddEntity(lightCube);
         
         player.ResetPhysics();
     }
@@ -110,6 +114,8 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         counter += 1;
 
         PhysicsSystem.Update((float)deltaTime);
+        
+        LightManager.UpdateLightPosition("main", lightCube.Position);
 
         if (useDebugCamera)
         {
@@ -133,17 +139,17 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 
             foreach (var model in ObjectModels)
             {
+                if (model == lightCube) continue;
+            
                 Graphics.Use(model);
-                ShaderManager.SetUniform("lit", "lightPos", lightCube.Position);
-                ShaderManager.SetUniform("lit", "lightColor", new Vector3(1.0f, 1.0f, 1.0f));
-                ShaderManager.SetUniform("lit", "objectColor", new Vector3(1.0f, 0.5f, 0.31f));
-
+                LightManager.ApplyLightsToShader("lit", activeCamera.Position, ShaderManager);
                 Graphics.Update(activeCamera, model);
                 Graphics.Draw(model);
             }
-            
+
+            // Render the light cube separately with its own shader
             Graphics.Use(lightCube);
-            ShaderManager.SetUniform("light_cube", "lightColor", new Vector3(100f));
+            LightManager.ApplyLightCubeShader("main", "light_cube", ShaderManager);
             Graphics.Update(activeCamera, lightCube);
             Graphics.Draw(lightCube);
             
