@@ -34,7 +34,7 @@ public static class RLFiles
 
         // Get the directory of the main executable
         string executableDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly()?.Location)
-                                     ?? throw new InvalidOperationException("Unable to determine executable directory.");
+                                     ?? GetExecutableDirectoryFallback();
 
         // Handle resource names that include project prefix
         string processedName = resourceName;
@@ -66,7 +66,13 @@ public static class RLFiles
 
         return resourcePath;
     }
-    
+
+    private static string GetExecutableDirectoryFallback()
+    {
+        return AppContext.BaseDirectory ??
+               throw new InvalidOperationException("Unable to determine executable directory.");
+    }
+
     /// <summary>
     /// This scene fetches the resource as per its resource name. This function is typically used for shaders
     /// to compile them, however they can be used however they like. 
