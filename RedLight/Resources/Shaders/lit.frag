@@ -1,20 +1,23 @@
 ﻿// lighting for all 3d models
 #version 330 core
 
+in vec2 TexCoord;
 in vec3 Normal;
 in vec3 FragPos;
 
 out vec4 FragColour;
 
-uniform vec3 lightPos;
+uniform sampler2D uTexture;
 uniform vec3 lightColor;
-uniform vec3 objectColor;
+uniform vec3 lightPos;
 
-void main()
-{
+void main() {
     // ambient
     float ambientStrength = 0.1;
     vec3 ambient = ambientStrength * lightColor;
+
+    // get object color from texture
+    vec3 objectColor = texture(uTexture, TexCoord).rgb;
 
     // diffuse 
     vec3 norm = normalize(Normal);

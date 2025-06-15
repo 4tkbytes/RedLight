@@ -48,14 +48,17 @@ public class Mesh
         gl.BindVertexArray(vao);
 
         // Flatten vertices to float array: position (3) + texcoords (2)
-        float[] flatVerts = new float[vertices.Count * 5];
+        float[] flatVerts = new float[vertices.Count * 8];
         for (int i = 0; i < vertices.Count; i++)
         {
-            flatVerts[i * 5 + 0] = vertices[i].Position.X;
-            flatVerts[i * 5 + 1] = vertices[i].Position.Y;
-            flatVerts[i * 5 + 2] = vertices[i].Position.Z;
-            flatVerts[i * 5 + 3] = vertices[i].TexCoords.X;
-            flatVerts[i * 5 + 4] = vertices[i].TexCoords.Y;
+            flatVerts[i * 8 + 0] = vertices[i].Position.X;
+            flatVerts[i * 8 + 1] = vertices[i].Position.Y;
+            flatVerts[i * 8 + 2] = vertices[i].Position.Z;
+            flatVerts[i * 8 + 3] = vertices[i].TexCoords.X;
+            flatVerts[i * 8 + 4] = vertices[i].TexCoords.Y;
+            flatVerts[i * 8 + 5] = vertices[i].Normal.X;
+            flatVerts[i * 8 + 6] = vertices[i].Normal.Y;
+            flatVerts[i * 8 + 7] = vertices[i].Normal.Z;
         }
 
         unsafe
@@ -72,10 +75,13 @@ public class Mesh
             }
             // Attribute 0: position (vec3)
             gl.EnableVertexAttribArray(0);
-            gl.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 5 * sizeof(float), (void*)0);
+            gl.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 8 * sizeof(float), (void*)0);
             // Attribute 1: texcoords (vec2)
             gl.EnableVertexAttribArray(1);
-            gl.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+            gl.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+            // Attribute 2: normals (vec3)
+            gl.EnableVertexAttribArray(2);
+            gl.VertexAttribPointer(2, 3, VertexAttribPointerType.Float, false, 8 * sizeof(float), (void*)(5 * sizeof(float)));
         }
         gl.BindVertexArray(0);
         textures = new List<RLTexture>();
