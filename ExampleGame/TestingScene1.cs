@@ -86,7 +86,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         
         lightCube = new Cube(Graphics, "light_cube");
         lightCube.Model.AttachShader(ShaderManager.Get("light_cube"));
-        lightCube.Translate(new Vector3(0f, 5f, 5f));
+        lightCube.Translate(new Vector3(1.2f, 1.0f, 2.0f));
 
         ObjectModels.Add(plane);
         ObjectModels.Add(player);
@@ -136,14 +136,14 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
                 Graphics.Use(model);
                 ShaderManager.SetUniform("lit", "lightPos", lightCube.Position);
                 ShaderManager.SetUniform("lit", "lightColor", new Vector3(1f, 1f, 1f));
+                ShaderManager.SetUniform("lit", "objectColor", new Vector3(1.0f, 0.5f, 0.31f));
+
                 Graphics.Update(activeCamera, model);
                 Graphics.Draw(model);
             }
             
             Graphics.Use(lightCube);
-            
             ShaderManager.SetUniform("light_cube", "lightColor", new Vector3(100f));
-            
             Graphics.Update(activeCamera, lightCube);
             Graphics.Draw(lightCube);
             
