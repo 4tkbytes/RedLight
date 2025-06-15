@@ -85,7 +85,7 @@ public class Plane : SimpleShape
 
         Mesh planeMesh = new Mesh(graphics, vertices, indices.ToArray());
         var shader = ShaderManager.Instance.Get("basic");
-        planeMesh.AttachShader(shader.vertexShader, shader.fragmentShader);
+        planeMesh.AttachShader(shader.VertexShader, shader.FragmentShader);
 
         Model.Meshes.Clear();
         Model.Meshes.Add(planeMesh);

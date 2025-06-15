@@ -4,9 +4,9 @@ namespace RedLight.Graphics;
 
 public struct RLShaderBundle
 {
-    public RLShader vertexShader;
-    public RLShader fragmentShader;
-    public RLShaderProgram program;
+    public RLShader VertexShader;
+    public RLShader FragmentShader;
+    public RLShaderProgram Program;
 }
 
 public class ShaderManager
@@ -33,9 +33,9 @@ public class ShaderManager
         var program = new RLShaderProgram(vertexShader.graphics, vertexShader, fragmentShader);
         shaders.Add(id, new RLShaderBundle
         {
-            vertexShader = vertexShader,
-            fragmentShader = fragmentShader,
-            program = program
+            VertexShader = vertexShader,
+            FragmentShader = fragmentShader,
+            Program = program
         });
     }
 
@@ -48,10 +48,35 @@ public class ShaderManager
         if (!shaders.ContainsKey(id))
         {
             Log.Warning($"ID [{id}] does not exist, returning null");
-            return new RLShaderBundle { vertexShader = null, fragmentShader = null, program = null };
+            return new RLShaderBundle { VertexShader = null, FragmentShader = null, Program = null };
         }
 
         return shaders[id];
+    }
+
+    /// <summary>
+    /// Clones/Duplicates a shader. 
+    /// </summary>
+    /// <param name="oldId"></param>
+    /// <param name="newId"></param>
+    /// <exception cref="Exception"></exception>
+    public void Clone(string oldId, string newId)
+    {
+        if (!shaders.ContainsKey(oldId))
+            throw new Exception($"ID [{oldId}] does not exist");
+        
+        var vertexShader = shaders[oldId].VertexShader;
+        var fragmentShader = shaders[oldId].FragmentShader;
+        
+        // recompile new program
+        var program = new RLShaderProgram(vertexShader.graphics, vertexShader, fragmentShader);
+        
+        shaders.Add(newId, new RLShaderBundle
+        {
+            VertexShader = vertexShader,
+            FragmentShader = fragmentShader,
+            Program = program
+        });
     }
 
     /// <summary>
@@ -63,5 +88,39 @@ public class ShaderManager
         if (!shaders.ContainsKey(id))
             throw new Exception($"ID [{id}] does not exist");
         return shaders[id];
+    }
+
+    /// <summary>
+    /// A better way of setting a shaders uniform. Instead of going directly into the ShaderBundles program,
+    /// it will search it up for you. 
+    /// </summary>
+    /// <param name="shaderId"></param>
+    /// <param name="name"></param>
+    /// <param name="value"></param>
+    /// <typeparam name="T"></typeparam>
+    public void SetUniform<T>(string shaderId, string name, T value)
+    {
+        Get(shaderId).Program.SetUniform(name, value);
+    }
+    
+    /// <summary>
+    /// Checks if a uniform with the given name exists in the shader program
+    /// </summary>
+    /// <param name="name">The name of the uniform to check</param>
+    /// <returns>True if the uniform exists, false otherwise</returns>
+    public bool HasUniform(string shaderId, string name)
+    {
+        var shader = Get(shaderId);
+        var gl = shader.VertexShader.graphics.OpenGL;
+        try
+        {
+            int location = gl.GetUniformLocation(shader.Program.ProgramHandle, name);
+            return location != -1;
+        }
+        catch (Exception ex)
+        {
+            Log.Warning("Error checking uniform {UniformName}: {Error}", name, ex.Message);
+            return false;
+        }
     }
 }

@@ -58,8 +58,6 @@ public class InputManager
                 {
                     if (keyboardManager.PressedKeys == null)
                         keyboardManager.PressedKeys = new HashSet<Key>();
-
-                    keyboardManager.PressedKeys.Add(key);
                 };
                 kb.KeyDown += keyboardManager.OnKeyDown;
                 

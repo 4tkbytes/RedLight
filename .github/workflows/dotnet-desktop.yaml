@@ -1,14 +1,27 @@
-name: Build, Format, and Publish
+name: Build and Publish Native AOT
 
 on:
   push:
-    branches: [ "*" ]
+    branches: [ '**' ]
   pull_request:
-    branches: [ "*" ]
+    branches: [ '**' ]
+
+env:
+  DOTNET_VERSION: '9.0'
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+        include:
+          - os: windows-latest
+            rid: win-x64
+          - os: ubuntu-latest
+            rid: linux-x64
+          - os: macos-latest
+            rid: osx-x64
 
     steps:
       - name: Checkout repository
@@ -17,31 +30,21 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: '${{ env.DOTNET_VERSION }}.x'
 
       - name: Restore dependencies
         run: dotnet restore
 
-      - name: Format code
-        run: dotnet format
+      - name: Build ExampleGame AOT Binary
+        run: >
+          dotnet publish ExampleGame/ExampleGame.csproj
+          -c Release
+          -r ${{ matrix.rid }}
+          /p:PublishSingleFile=true
+          /p:StripSymbols=true
 
-      - name: Build solution
-        run: dotnet build --configuration Release --no-restore
-
-      - name: Publish Engine Library
-        run: dotnet publish RedLight/RedLight.csproj --configuration Release --output ./publish/engine
-
-      - name: Publish Game Executable
-        run: dotnet publish ExampleGame/ExampleGame.csproj --configuration Release --output ./publish/game
-
-      - name: Upload Engine Library Artifact
+      - name: Upload Game Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: engine-library
-          path: ./publish/engine
-
-      - name: Upload Game Executable Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: game-executable
-          path: ./publish/game
+          name: game-${{ matrix.rid }}
+          path: ExampleGame/bin/Release/net${{ env.DOTNET_VERSION }}/${{ matrix.rid }}/publish/

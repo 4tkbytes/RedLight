@@ -29,4 +29,8 @@
       <ProjectReference Include="..\RedLight\RedLight.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Silk.NET.Windowing.Glfw" Version="2.22.0" />
+    </ItemGroup>
+
 </Project>

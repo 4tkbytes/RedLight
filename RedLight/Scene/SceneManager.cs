@@ -179,7 +179,7 @@ public class SceneManager
         // hitbox shader for rendering hitboxes
         currentScene.ShaderManager.TryAdd("hitbox",
             new RLShader(currentScene.Graphics, ShaderType.Vertex, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.line.vert")),
-            new RLShader(currentScene.Graphics, ShaderType.Fragment, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.line.frag")));
+            new RLShader(currentScene.Graphics, ShaderType.Fragment, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.htbox.frag")));
 
         Log.Debug("Subscribing to keyboard events");
         input.SubscribeToInputs(currentKeyboard, currentMouse);

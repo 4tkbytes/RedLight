@@ -32,10 +32,12 @@ public abstract class Entity
     public HitboxConfig HitboxConfig { get; protected set; } = new();
     public HashSet<CollisionSide> ObjectCollisionSides { get; set; } = new();
     public bool IsColliding { get; internal set; }
+    public bool IsHitboxShown { get; private set; }
+
+    public string Name { get; private set; }
 
     private uint vbo = 0;
     private uint vao = 0;
-    public bool IsHitboxShown { get; private set; }
     
     // Physics system reference
     public PhysicsSystem PhysicsSystem;
@@ -130,6 +132,7 @@ public abstract class Entity
     {
         _model = model;
         ApplyGravity = applyGravity;
+        Name = model.Name;
         
         // Set default bounding box
         DefaultBoundingBoxMin = new Vector3(-0.5f, 0.0f, -0.5f);
@@ -424,7 +427,7 @@ public abstract class Entity
             graphics.CheckGLErrors();
         }
 
-        gl.UseProgram(shaderBundle.program.ProgramHandle); 
+        gl.UseProgram(shaderBundle.Program.ProgramHandle); 
         if (!graphics.ShutUp)
             Log.Debug("any errors after use program?");
         graphics.CheckGLErrors();
@@ -435,7 +438,7 @@ public abstract class Entity
             // Model matrix (identity since we're using world coordinates)
             var modelMatrix = Matrix4x4.Identity;
             float* modelPtr = (float*)&modelMatrix;
-            int modelLoc = gl.GetUniformLocation(shaderBundle.program.ProgramHandle, "model");
+            int modelLoc = gl.GetUniformLocation(shaderBundle.Program.ProgramHandle, "model");
             if (modelLoc != -1)
                 gl.UniformMatrix4(modelLoc, 1, false, modelPtr);
             if (!graphics.ShutUp)
@@ -445,7 +448,7 @@ public abstract class Entity
             // View matrix
             var viewMatrix = camera.View;
             float* viewPtr = (float*)&viewMatrix;
-            int viewLoc = gl.GetUniformLocation(shaderBundle.program.ProgramHandle, "view");
+            int viewLoc = gl.GetUniformLocation(shaderBundle.Program.ProgramHandle, "view");
             if (viewLoc != -1)
                 gl.UniformMatrix4(viewLoc, 1, false, viewPtr);
             if (!graphics.ShutUp)
@@ -455,7 +458,7 @@ public abstract class Entity
             // Projection matrix
             var projMatrix = camera.Projection;
             float* projPtr = (float*)&projMatrix;
-            int projLoc = gl.GetUniformLocation(shaderBundle.program.ProgramHandle, "projection");
+            int projLoc = gl.GetUniformLocation(shaderBundle.Program.ProgramHandle, "projection");
             if (projLoc != -1)
                 gl.UniformMatrix4(projLoc, 1, false, projPtr);
             if (!graphics.ShutUp)
@@ -464,7 +467,7 @@ public abstract class Entity
         }
 
         // Set the color uniform (red for hitbox)
-        int colorLoc = gl.GetUniformLocation(shaderBundle.program.ProgramHandle, "uColor");
+        int colorLoc = gl.GetUniformLocation(shaderBundle.Program.ProgramHandle, "uColor");
         if (colorLoc != -1) // This check prevents error if uColor is not found
             gl.Uniform4(colorLoc, 1.0f, 0.0f, 0.0f, 1.0f);
         if (!graphics.ShutUp)

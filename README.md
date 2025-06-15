@@ -1,5 +1,5 @@
 # RedLight Game Engine
-a game engine made by me (4tkbytes). ~~contains imgui support~~, ~~scene creation~~ and built with dotnet 9.0 and Silk.NET. 
+a game engine made by me (4tkbytes). built with dotnet 9.0 and Silk.NET. its more like a framework as there is no editor as of right now.  
 
 # current backends
 current backends that are supported: 
@@ -24,13 +24,17 @@ dotnet run --project ExampleGame --Log=1
 - [ ] create a proper readme file + documentation
 - [ ] scene creation - Had to change it back because it was broken, will fix later
 - [ ] add some UI (not imgui, proper native)
+  - [ ] native text rendering
+  - [ ] buttons
+  - [ ] user interactions
 - [ ] fix up imgui
 - [ ] add imguizmo and get it working (somehow)
-- [ ] add lighting (basic) like the sun
 - [ ] add networking (if you have the time or are bothered)
 - [x] create a way to make a player. (notes: i made it primitive)
 - [x] add physics : collisions (primitive)
 - [x] add better physics : gravity, other stuff idk || Note: I used Bepu Physics for this
+- [x] add lighting (basic) like the sun
+
 
 # licensing
 i dont care what you do as long as you credit me and the engine
