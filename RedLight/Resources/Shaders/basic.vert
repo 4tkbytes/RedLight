@@ -1,4 +1,5 @@
 // most general and basic vertex shader used as the default
+// unlit textures
 #version 330 core
 layout (location = 0) in vec3 aPos;
 layout (location = 1) in vec2 aTexCoord;

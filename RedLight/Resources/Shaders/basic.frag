@@ -1,4 +1,5 @@
 // most general and basic vertex shader used as the default
+// unlit textures
 #version 330 core
 
 in vec2 frag_texCoords;

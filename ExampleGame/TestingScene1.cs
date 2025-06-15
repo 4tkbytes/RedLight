@@ -9,8 +9,10 @@ using Serilog;
 using Silk.NET.Input;
 using System.Numerics;
 using RedLight.Graphics.Primitive;
+using Silk.NET.OpenGL;
 using Camera = RedLight.Graphics.Camera;
 using Plane = RedLight.Graphics.Primitive.Plane;
+using ShaderType = RedLight.Graphics.ShaderType;
 
 namespace ExampleGame;
 
@@ -30,6 +32,9 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     private Camera playerCamera;
     private Camera debugCamera;
     private bool useDebugCamera;
+    private Cube lightCube;
+
+    private Vector3 lightPosition;
 
     private List<Entity> ObjectModels = new();
 
@@ -46,18 +51,20 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         ShaderManager.TryAdd("lit",
             new RLShader(Graphics, ShaderType.Vertex, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.lit.vert")),
             new RLShader(Graphics, ShaderType.Fragment, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.lit.frag")));
+        
+        ShaderManager.TryAdd("light_cube",
+            new RLShader(Graphics, ShaderType.Vertex, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.light_cube.vert")),
+            new RLShader(Graphics, ShaderType.Fragment, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.light_cube.frag")));
 
-        ShaderManager.Clone("lit", "lit2");
         
         plane = new Plane(Graphics, 50f, 20f).Default();
         plane.Model.AttachTexture(TextureManager.Get("stone"));
-
+        plane.Model.AttachShader(ShaderManager.Get("lit"));
         var size = Engine.Window.Size;
 
         var maxwell = Graphics.CreateModel("RedLight.Resources.Models.Maxwell.maxwell_the_cat.glb", "maxwell")
             .SetScale(new Vector3(0.05f))
             .Rotate(float.DegreesToRadians(-90.0f), Vector3.UnitX);
-        
         maxwell.Target.AttachShader(ShaderManager.Get("lit"));
 
         playerCamera = new Camera(size);
@@ -72,27 +79,28 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         var cube = new Cube(Graphics, "colliding_cube");
         cube.Model.AttachShader(ShaderManager.Get("lit"));
         cube.Translate(new Vector3(3f, 10f, 0f));
-        ShaderManager.SetUniform("lit", "lightColor", new Vector3(10f));
         
         var cube2 = new Cube(Graphics, "stuck_cube", applyGravity:false);
         cube2.Translate(new Vector3(0f, -0.5f, 0f));    
         cube2.Model.AttachShader(ShaderManager.Get("lit"));
         
-        var light_cube = new Cube(Graphics, "light_cube");
-        light_cube.Model.AttachShader(ShaderManager.Get("lit2"));
-        ShaderManager.SetUniform("lit2", "lightColor", new Vector3(100f, 100f, 100f));
+        lightCube = new Cube(Graphics, "light_cube");
+        lightCube.Model.AttachShader(ShaderManager.Get("light_cube"));
+        lightCube.Translate(new Vector3(0f, 5f, 5f));
 
         ObjectModels.Add(plane);
         ObjectModels.Add(player);
         ObjectModels.Add(cube);
         ObjectModels.Add(cube2);
-        ObjectModels.Add(light_cube);
 
         foreach (var entity in ObjectModels)
         {
             entity.PhysicsSystem = PhysicsSystem;
             PhysicsSystem.AddEntity(entity);
         }
+        
+        lightCube.PhysicsSystem = PhysicsSystem;
+        PhysicsSystem.AddEntity(lightCube);
         
         player.ResetPhysics();
     }
@@ -119,16 +127,26 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         Graphics.Begin();
         {
             Graphics.Clear();
-            Graphics.ClearColour(Color.CornflowerBlue);
-
+            Graphics.ClearColour(Color.Black);
+            
             Camera activeCamera = useDebugCamera ? debugCamera : player.Camera;
+
             foreach (var model in ObjectModels)
             {
                 Graphics.Use(model);
+                ShaderManager.SetUniform("lit", "lightPos", lightCube.Position);
+                ShaderManager.SetUniform("lit", "lightColor", new Vector3(1f, 1f, 1f));
                 Graphics.Update(activeCamera, model);
                 Graphics.Draw(model);
             }
-
+            
+            Graphics.Use(lightCube);
+            
+            ShaderManager.SetUniform("light_cube", "lightColor", new Vector3(100f));
+            
+            Graphics.Update(activeCamera, lightCube);
+            Graphics.Draw(lightCube);
+            
             if (player.IsHitboxShown)
             {
                 player.DrawBoundingBox(Graphics, activeCamera);
