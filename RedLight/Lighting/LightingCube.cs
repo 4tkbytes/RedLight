@@ -21,19 +21,22 @@ public class LightingCube
         this.lightManager = lightManager;
         Name = name;
 
-        Cube = new Cube(graphics, $"{name}_cube", false).SetScale(new Vector3(1.5f));
+        var hitbox = HitboxConfig.ForCube(0.1f, 0f);
+        Cube = new Cube(graphics, $"{Name}_cube", false).SetScale(new Vector3(0.5f));
         Cube.Model.AttachShader(ShaderManager.Instance.Get("light_cube"));
+        Cube.SetHitboxConfig(hitbox);
 
         switch (lightType)
         {
             case LightType.Point:
-                Light = RLLight.CreatePointLight($"{name}_light", Cube.Position, colour);
+                Light = RLLight.CreatePointLight($"{Name}_light", Cube.Position, colour);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(lightType), lightType, null);
         }
         
         lightManager.AddLightWithVisual(Light, Cube);
+
     }
     
     public void Render(Camera camera)

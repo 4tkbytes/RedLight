@@ -130,7 +130,7 @@ public class Player: Entity
         float currentActualSpeed = MoveSpeed;
         if (IsSprinting && isMoving)
         {
-            currentActualSpeed *= 2f;
+            currentActualSpeed *= 1.5f;
         }
 
         if (isMoving || shouldJump)
@@ -172,7 +172,7 @@ public class Player: Entity
                 // Handle jumping
                 if (shouldJump && IsGrounded())
                 {
-                    float jumpForce = 8.0f; // Adjust this value to control jump height
+                    float jumpForce = 5.5f; // Adjust this value to control jump height
                     bodyRef.Velocity.Linear = new Vector3(
                         currentVel.X,
                         jumpForce, // Set upward velocity for jump

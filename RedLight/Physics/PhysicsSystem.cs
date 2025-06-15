@@ -33,6 +33,8 @@ public class PhysicsSystem
     public event CollisionEventHandler? OnCollisionEnter;
     public event CollisionEventHandler? OnCollisionStay;
     public event CollisionEventHandler? OnCollisionExit;
+    
+    private NarrowPhaseCallbacks narrowPhaseCallback;
 
     public PhysicsSystem(int threadCount = 1)
     {
@@ -42,9 +44,10 @@ public class PhysicsSystem
         bufferPool = new();
         threadDispatcher = threadCount > 1 ? new ThreadDispatcher(threadCount) : null;
 
+        narrowPhaseCallback = new NarrowPhaseCallbacks(this);
         Simulation = Simulation.Create(
             bufferPool,
-            new NarrowPhaseCallbacks(this),
+            narrowPhaseCallback,
             new PoseIntegratorCallbacks(new Vector3(0, -9.81f, 0)),
             new SolveDescription(4, 1));
         Log.Debug("Initialised PhysicsSystem with a thread count of {threadCount}", threadCount);
@@ -114,6 +117,8 @@ public class PhysicsSystem
         bodyHandles[entity] = bodyHandle;
         handleToEntity[bodyHandle] = entity;
         entity.PhysicsSystem = this;
+
+        narrowPhaseCallback.handleToEntity = handleToEntity;
         
         if (!silent)
         {
@@ -238,6 +243,7 @@ public class PhysicsSystem
 public struct NarrowPhaseCallbacks : INarrowPhaseCallbacks
 {
     private PhysicsSystem physicsSystem;
+    internal Dictionary<BodyHandle, Entity> handleToEntity = new();
     
     public NarrowPhaseCallbacks(PhysicsSystem system)
     {
@@ -259,33 +265,29 @@ public struct NarrowPhaseCallbacks : INarrowPhaseCallbacks
     public bool ConfigureContactManifold<TManifold>(int workerIndex, CollidablePair pair, ref TManifold manifold, out PairMaterialProperties pairMaterial)
         where TManifold : unmanaged, IContactManifold<TManifold>
     {
-        // Set material properties for collision response
+        var bodyA = pair.A.BodyHandle;
+        var bodyB = pair.B.BodyHandle;
+    
+        float frictionA = 1.0f;
+        float frictionB = 1.0f;
+    
+        // Get friction coefficients from entities
+        if (handleToEntity.TryGetValue(bodyA, out var entityA))
+            frictionA = entityA.FrictionCoefficient;
+    
+        if (handleToEntity.TryGetValue(bodyB, out var entityB))
+            frictionB = entityB.FrictionCoefficient;
+    
+        // Use the average friction between the two entities
+        float combinedFriction = (frictionA + frictionB) / 2.0f;
+    
         pairMaterial = new PairMaterialProperties
         {
-            FrictionCoefficient = 0.8f,  // Low friction for smooth movement
+            FrictionCoefficient = combinedFriction,
             MaximumRecoveryVelocity = 1.0f,
-            SpringSettings = new SpringSettings(20f, 1.0f)  // Softer springs
+            SpringSettings = new SpringSettings(20f, 1.0f)
         };
-
-        // Trigger collision event if physics system is available
-        if (physicsSystem != null)
-        {
-            // Try to get entities from body handles
-            var bodyA = pair.A.BodyHandle;
-            var bodyB = pair.B.BodyHandle;
-            
-            if (physicsSystem.handleToEntity.TryGetValue(bodyA, out var entityA) && 
-                physicsSystem.handleToEntity.TryGetValue(bodyB, out var entityB))
-            {
-                // Simplified collision event - we'll get contact details from the physics system
-                Vector3 contactPoint = Vector3.Zero;
-                Vector3 normal = Vector3.UnitY;
-
-                // Trigger collision event
-                physicsSystem.TriggerCollisionEvent(entityA, entityB, contactPoint, normal);
-            }
-        }
-
+    
         return true;
     }
 

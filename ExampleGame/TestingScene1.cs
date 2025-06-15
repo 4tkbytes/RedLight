@@ -33,7 +33,9 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     private Camera playerCamera;
     private Camera debugCamera;
     private bool useDebugCamera;
-    private LightingCube lightCube;
+    
+    // private LightingCube lightCube;
+    private Sun sun;
     
     private List<Entity> ObjectModels = new();
 
@@ -69,18 +71,24 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 
         var cube = new Cube(Graphics, "colliding_cube");
         cube.Translate(new Vector3(3f, 10f, 0f));
+        cube.FrictionCoefficient = 5.0f;
         
         var cube2 = new Cube(Graphics, "stuck_cube", applyGravity:false);
         cube2.Translate(new Vector3(0f, -0.5f, 0f));    
         
-        lightCube = new LightingCube(Graphics, LightManager, "crap", "light_cube", Color.WhiteSmoke, LightType.Point);
-        lightCube.Translate(new Vector3(-3f, 5f, 0f));
+        // lightCube = new LightingCube(Graphics, LightManager, "crap", "light_cube", Color.BurlyWood, LightType.Point);
+        // lightCube.Translate(new Vector3(-3f, 5f, 0f));
+        
+        sun = new Sun(Graphics, LightManager, "sun", new Vector3(0.5f, -1f, 0.3f), Color.NavajoWhite);
+        sun.Translate(new Vector3(0f, 20f, 0f));
+        sun.Light.Intensity = 2.5f;
         
         ObjectModels.Add(plane);
         ObjectModels.Add(player);
         ObjectModels.Add(cube);
-        ObjectModels.Add(cube2);
-        ObjectModels.Add(lightCube.Cube);
+        // ObjectModels.Add(cube2);
+        // ObjectModels.Add(lightCube.Cube);
+        ObjectModels.Add(sun.SunSphere);
 
         foreach (var entity in ObjectModels)
         {
@@ -96,8 +104,10 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         counter += 1;
 
         PhysicsSystem.Update((float)deltaTime);
-        lightCube.Update();
-
+        
+        UpdateDayNightCycle();
+        sun.Update();
+    
         if (useDebugCamera)
         {
             debugCamera.KeyMap(PressedKeys, (float)deltaTime);
@@ -114,15 +124,23 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         Graphics.Begin();
         {
             Graphics.Clear();
-            Graphics.ClearColour(Color.Black);
+            Graphics.ClearColour(Color.CornflowerBlue);
+            
+            // Dynamic background based on sun position
+            float sunHeight = sun.SunSphere.Position.Y;
+            bool isNight = sunHeight < 10f;
+            Color backgroundColor = isNight ? 
+                Color.FromArgb(25, 25, 50) : // Dark night sky
+                Color.FromArgb(135, 206, 235); // Light day sky
+            Graphics.ClearColour(backgroundColor);
             
             Camera activeCamera = useDebugCamera ? debugCamera : player.Camera;
 
             foreach (var model in ObjectModels)
             {
-                if (model == lightCube.Cube)
+                if (model == sun.SunSphere)
                 {
-                    lightCube.Render(activeCamera);
+                    sun.Render(activeCamera);
                     continue;
                 }
 
@@ -190,6 +208,26 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
                 debugCamera.FreeMove(mousePosition);
             else
                 player.Camera.FreeMove(mousePosition);
+        }
+    }
+    
+    private void UpdateDayNightCycle()
+    {
+        // Calculate sun position (moves in an arc across the sky)
+        float sunAngle = (float)(counter * 0.01); // Use counter for consistent movement
+    
+        // Sun position (moves in an arc across the sky)
+        float sunX = MathF.Sin(sunAngle) * 40f;
+        float sunY = MathF.Cos(sunAngle) * 20f + 15f; // Keep it above ground
+        float sunZ = -30f;
+        sun.SunSphere.SetPosition(new Vector3(sunX, sunY, sunZ));
+    
+        // Update directional light direction to point toward center
+        var sunLight = LightManager.GetLight("sun_light");
+        if (sunLight != null)
+        {
+            sunLight.Direction = Vector3.Normalize(-sun.SunSphere.Position); // Point toward origin
+            sunLight.Intensity = MathF.Max(0.2f, (sunY - 5f) / 15f); // Vary intensity based on height
         }
     }
 }

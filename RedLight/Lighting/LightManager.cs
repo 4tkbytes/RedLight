@@ -89,6 +89,14 @@ public class LightManager
             light.Color = color;
         }
     }
+    
+    public void UpdateLightDirection(string name, Vector3 direction)
+    {
+        if (_lights.TryGetValue(name, out var light))
+        {
+            light.Direction = Vector3.Normalize(direction);
+        }
+    }
 
     public void EnableLight(string name, bool enabled = true)
     {

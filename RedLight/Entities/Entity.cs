@@ -24,6 +24,7 @@ public abstract class Entity
     public Vector3 Velocity { get; set; } = Vector3.Zero;
     public bool ApplyGravity { get; set; } = true;
     public float Mass { get; set; } = 1f;
+    public float FrictionCoefficient { get; set; } = 1.0f;
 
     public Vector3 BoundingBoxMin { get; set; }
     public Vector3 BoundingBoxMax { get; set; }
