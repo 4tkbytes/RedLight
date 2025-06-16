@@ -90,7 +90,7 @@ public class Plane : SimpleShape
         Model.Meshes.Clear();
         Model.Meshes.Add(planeMesh);
         Model.AttachShader(shader);
-        Model.AttachTexture(TextureManager.Instance.Get("no-texture"));
+        Model.AttachTexture(TextureManager.Instance.Get("prototype"));
     }
 
     /// <summary>

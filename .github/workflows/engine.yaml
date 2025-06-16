@@ -25,7 +25,7 @@ jobs:
         run: dotnet restore
 
       - name: Build Flagger
-        run: dotnet publish `Flagger/Flagger.csproj` -c Release -o ./publish
+        run: dotnet publish "Flagger/Flagger.csproj" -c Release -o ./publish
 
       - name: Upload Flagger Artifact
         uses: actions/upload-artifact@v4

@@ -33,4 +33,9 @@ public class RLWindow
         Window.Update -= scene.OnUpdate;
         Log.Debug("Unsubscribed from window events");
     }
+
+    public void Quit()
+    {
+        Window.Close();
+    }
 }

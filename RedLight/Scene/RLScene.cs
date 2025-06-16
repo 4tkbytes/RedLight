@@ -15,18 +15,21 @@ public interface RLScene
     PhysicsSystem PhysicsSystem { get; set; }
 
 
-    void OnLoad();
+    void OnLoad(); // this is required
 
     // this function is separate to the OnLoad function at the top
     // it is a "jumpstart" for the silk.net.windowing process
-    void Load()
+    internal void Load()
     {
         Log.Debug("Scene loaded");
     }
 
-    void OnUpdate(double deltaTime);
+    void OnUpdate(double deltaTime); // required as well
 
-    void OnRender(double deltaTime);
+    void OnRender(double deltaTime) // useful for making stuff neat
+    {
+        
+    }
 
 
 }

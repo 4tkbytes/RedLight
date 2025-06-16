@@ -22,4 +22,8 @@
       <None Remove="obj\**" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\RedLight\RedLight.csproj" />
+    </ItemGroup>
+
 </Project>

@@ -24,10 +24,11 @@ public class InputManager
         _instance = new InputManager(window);
     }
 
-    public IInputContext input;
+    public IInputContext Context;
     private RLWindow window;
-    public bool isCaptured { get; private set; } = true;
+    public bool isCaptured { get; set; } = true;
     private bool togglePressed = true;
+    private bool fullscreenTogglePressed = false;
 
     public Dictionary<string, RLKeyboard> Keyboards { get; set; } = new();
     public Dictionary<string, RLMouse> Mice { get; set; } = new();
@@ -41,29 +42,33 @@ public class InputManager
 
     public InputManager CreateInput()
     {
-        input = window.Window.CreateInput();
+        Context = window.Window.CreateInput();
         return this;
     }
 
     public void SubscribeToInputs(RLKeyboard keyboardManager, RLMouse mouseManager)
     {
-        if (input == null)
+        if (Context == null)
             return;
 
         if (keyboardManager != null)
         {
-            foreach (var kb in input.Keyboards)
+            foreach (var kb in Context.Keyboards)
             {
                 kb.KeyDown += (keyboard, key, arg3) =>
                 {
                     if (keyboardManager.PressedKeys == null)
                         keyboardManager.PressedKeys = new HashSet<Key>();
+                    
+                    ChangeFullscreenToggle(key);
                 };
                 kb.KeyDown += keyboardManager.OnKeyDown;
                 
                 kb.KeyUp += (keyboard, key, arg3) =>
                 {
                     keyboardManager.PressedKeys.Remove(key);
+                    
+                    ChangeFullscreenToggleReset(key);
                 };
                 kb.KeyUp += keyboardManager.OnKeyUp;
             }
@@ -75,7 +80,7 @@ public class InputManager
 
         if (mouseManager != null)
         {
-            foreach (var mouse in input.Mice)
+            foreach (var mouse in Context.Mice)
             {
                 mouse.MouseMove += (mouse1, vector2) =>
                 {
@@ -96,12 +101,12 @@ public class InputManager
 
     public void UnsubscribeFromInputs(RLKeyboard keyboardManager, RLMouse mouseManager)
     {
-        if (input == null)
+        if (Context == null)
             return;
 
         if (keyboardManager != null)
         {
-            foreach (var kb in input.Keyboards)
+            foreach (var kb in Context.Keyboards)
             {
                 kb.KeyDown -= keyboardManager.OnKeyDown;
                 kb.KeyUp -= keyboardManager.OnKeyUp;
@@ -110,7 +115,7 @@ public class InputManager
 
         if (mouseManager != null)
         {
-            foreach (var mouse in input.Mice)
+            foreach (var mouse in Context.Mice)
             {
                 mouse.MouseMove -= mouseManager.OnMouseMove;
             }
@@ -128,7 +133,7 @@ public class InputManager
             togglePressed = true;
             isCaptured = !isCaptured;
         
-            foreach (var mouse in input.Mice)
+            foreach (var mouse in Context.Mice)
             {
                 IsCaptured(mouse, isCaptured);
             }
@@ -168,6 +173,30 @@ public class InputManager
         if (key == Key.F1)
         {
             togglePressed = false;
+        }
+    }
+    
+    public void ChangeFullscreenToggle(Key key)
+    {
+        if (key == Key.F11 && !fullscreenTogglePressed)
+        {
+            fullscreenTogglePressed = true;
+            
+            // Get the engine instance through SceneManager
+            var engine = Scene.SceneManager.Instance.GetCurrentScene()?.Engine;
+            if (engine != null)
+            {
+                engine.ToggleFullscreen();
+                Log.Debug("Toggled fullscreen via F11");
+            }
+        }
+    }
+
+    public void ChangeFullscreenToggleReset(Key key)
+    {
+        if (key == Key.F11)
+        {
+            fullscreenTogglePressed = false;
         }
     }
 }

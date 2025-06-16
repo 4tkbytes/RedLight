@@ -47,12 +47,8 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         Graphics.EnableDebugErrorCallback();
         
         LightManager = new LightManager();
-
-        TextureManager.Add("stone",
-            new RLTexture(Graphics, RLFiles.GetResourcePath("ExampleGame.Resources.Textures.576.jpg")));
         
         plane = new Plane(Graphics, 50f, 20f).Default();
-        plane.Model.AttachTexture(TextureManager.Get("stone"));
         plane.Model.AttachShader(ShaderManager.Get("lit"));
         var size = Engine.Window.Size;
 
@@ -74,10 +70,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         cube.FrictionCoefficient = 5.0f;
         
         var cube2 = new Cube(Graphics, "stuck_cube", applyGravity:false);
-        cube2.Translate(new Vector3(0f, -0.5f, 0f));    
-        
-        // lightCube = new LightingCube(Graphics, LightManager, "crap", "light_cube", Color.BurlyWood, LightType.Point);
-        // lightCube.Translate(new Vector3(-3f, 5f, 0f));
+        cube2.Translate(new Vector3(0f, -0.5f, 0f));
         
         sun = new Sun(Graphics, LightManager, "sun", new Vector3(0.5f, -1f, 0.3f), Color.NavajoWhite);
         sun.Translate(new Vector3(0f, 20f, 0f));

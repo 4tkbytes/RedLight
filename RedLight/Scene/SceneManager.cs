@@ -170,6 +170,12 @@ public class SceneManager
             "no-texture",
             new RLTexture(currentScene.Graphics, RLFiles.GetResourcePath(RLConstants.RL_NO_TEXTURE_PATH))
         );
+        
+        // prototyping texture
+        currentScene.TextureManager.TryAdd(
+            "prototype",
+            new RLTexture(currentScene.Graphics, RLFiles.GetResourcePath("RedLight.Resources.Textures.proto.png"))
+        );
 
         // basic shader, unlit
         currentScene.ShaderManager.TryAdd("basic",
