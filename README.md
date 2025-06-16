@@ -27,8 +27,9 @@ dotnet run --project ExampleGame --Log=1
   - [ ] native text rendering
   - [ ] buttons
   - [ ] user interactions
-- [ ] fix up imgui
-- [ ] add imguizmo and get it working (somehow)
+- [ ] fix up imgui (IN PROGRESS)
+- [ ] add imguizmo and get it working (IN PROGRESS)
+- [ ] create an editor (IN PROGRESS, check out [Flagger](Flagger))
 - [ ] add networking (if you have the time or are bothered)
 - [x] create a way to make a player. (notes: i made it primitive)
 - [x] add physics : collisions (primitive)
