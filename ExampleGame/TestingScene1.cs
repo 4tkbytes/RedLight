@@ -145,7 +145,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
                 }
 
                 Graphics.Use(model);
-                LightManager.ApplyLightsToShader("lit", activeCamera.Position, ShaderManager);
+                LightManager.ApplyLightsToShader("lit", activeCamera.Position);
                 Graphics.Update(activeCamera, model);
                 Graphics.Draw(model);
             }

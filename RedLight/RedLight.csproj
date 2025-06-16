@@ -54,6 +54,15 @@
         <Pack>True</Pack>
         <PackagePath>\</PackagePath>
       </None>
+      <None Remove="obj\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="obj\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="obj\**" />
     </ItemGroup>
 
 </Project>

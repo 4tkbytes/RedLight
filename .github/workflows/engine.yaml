@@ -1,0 +1,34 @@
+﻿name: Build and Publish Flagger
+
+on:
+  push:
+    branches: [ '**' ]
+  pull_request:
+    branches: [ '**' ]
+
+env:
+  DOTNET_VERSION: '9.0'
+
+jobs:
+  build-flagger:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '${{ env.DOTNET_VERSION }}.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build Flagger
+        run: dotnet publish `Flagger/Flagger.csproj` -c Release -o ./publish
+
+      - name: Upload Flagger Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: flagger
+          path: ./publish
