@@ -182,6 +182,25 @@ public class RLGraphics
             matrix.M31, matrix.M32, matrix.M33, matrix.M34,
             matrix.M41, matrix.M42, matrix.M43, matrix.M44);
     }
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="graphics"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentNullException">fsdajklfh</exception>
+    /// <exception cref="ApplicationException">jfkldsaj;ljkl</exception>
+    public RLGraphics Stupid(RLGraphics graphics)
+    {
+        if (graphics == null)
+        {
+            throw new ArgumentNullException(nameof(graphics));
+        } else if (graphics.IsRendering == false)
+        {
+            throw new ApplicationException();
+        }
+        return this;
+    }
 
     /// <summary>
     /// Enables the entity's shader program. 

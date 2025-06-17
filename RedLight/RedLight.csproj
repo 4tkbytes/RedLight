@@ -31,6 +31,10 @@
 
     <ItemGroup>
       <PackageReference Include="BepuPhysics" Version="2.4.0" />
+      <PackageReference Include="docfx.console" Version="2.59.4">
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        <PrivateAssets>all</PrivateAssets>
+      </PackageReference>
       <PackageReference Include="Hexa.NET.ImGui" Version="2.2.7" />
       <PackageReference Include="Hexa.NET.ImGuizmo" Version="2.2.7" />
       <PackageReference Include="Hexa.NET.ImNodes" Version="2.2.7" />
@@ -61,14 +65,27 @@
         <PackagePath>\</PackagePath>
       </None>
       <None Remove="obj\**" />
+      <None Remove="api\**" />
+      <None Remove="articles\**" />
+      <None Remove="_site\**" />
+      <None Remove=".gitignore" />
+      <None Remove="docfx.json" />
+      <None Remove="index.md" />
+      <None Remove="toc.yml" />
     </ItemGroup>
 
     <ItemGroup>
       <Compile Remove="obj\**" />
+      <Compile Remove="api\**" />
+      <Compile Remove="articles\**" />
+      <Compile Remove="_site\**" />
     </ItemGroup>
 
     <ItemGroup>
       <EmbeddedResource Remove="obj\**" />
+      <EmbeddedResource Remove="api\**" />
+      <EmbeddedResource Remove="articles\**" />
+      <EmbeddedResource Remove="_site\**" />
     </ItemGroup>
 
 </Project>

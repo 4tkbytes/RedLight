@@ -1,10 +1,8 @@
-using RedLight.Utils;
-using RedLight.Graphics;
 using System.Numerics;
-using System.Collections.Generic;
-using RedLight.Entities;
+using RedLight.Graphics;
+using RedLight.Utils;
 
-namespace RedLight.Graphics.Primitive;
+namespace RedLight.Entities;
 
 /// <summary>
 /// A simple plane entity with direct access to transformation methods.

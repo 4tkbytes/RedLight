@@ -8,10 +8,9 @@ using RedLight.Utils;
 using Serilog;
 using Silk.NET.Input;
 using System.Numerics;
-using RedLight.Graphics.Primitive;
 using RedLight.Lighting;
 using Camera = RedLight.Graphics.Camera;
-using Plane = RedLight.Graphics.Primitive.Plane;
+using Plane = RedLight.Entities.Plane;
 using ShaderType = RedLight.Graphics.ShaderType;
 
 namespace ExampleGame;

@@ -2,7 +2,6 @@
 using System.Numerics;
 using RedLight.Entities;
 using RedLight.Graphics;
-using RedLight.Graphics.Primitive;
 using RedLight.Utils;
 
 namespace RedLight.Lighting;
