@@ -9,6 +9,7 @@ using Serilog;
 using Silk.NET.Input;
 using System.Numerics;
 using RedLight.Lighting;
+using RedLight.UI;
 using Camera = RedLight.Graphics.Camera;
 using Plane = RedLight.Entities.Plane;
 using ShaderType = RedLight.Graphics.ShaderType;
@@ -32,19 +33,19 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     private Camera playerCamera;
     private Camera debugCamera;
     private bool useDebugCamera;
-    
+    private RLImGuiEditor _editor;
     private Sun sun;
-    
     private List<Entity> ObjectModels = new();
-
-    private int counter = 0;
-
+    
     public void OnLoad()
     {
         Graphics.Enable();
         Graphics.EnableDebugErrorCallback();
         
         LightManager = new LightManager();
+        
+        _editor = new RLImGuiEditor(Graphics, Engine.Window.Window, InputManager.Context, Engine);
+        _editor.Load();
         
         plane = new Plane(Graphics, 50f, 20f).Default();
         plane.Model.AttachShader(ShaderManager.Get("lit"));
@@ -93,8 +94,6 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 
     public void OnUpdate(double deltaTime)
     {
-        counter += 1;
-
         PhysicsSystem.Update((float)deltaTime);
         
         sun.Update();
@@ -108,40 +107,54 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         {
             player.Update((float)deltaTime, PressedKeys);
         }
+        
+        _editor.Update((float)deltaTime);
     }
 
     public void OnRender(double deltaTime)
     {
-        Graphics.Begin();
+        _editor.GameFramebuffer.Bind();
+        
+        Graphics.Clear();
+        Graphics.ClearColour(Color.CornflowerBlue);
+        
+        Camera activeCamera = useDebugCamera ? debugCamera : player.Camera;
+        
+        var viewportSize = _editor.ViewportSize;
+        if (viewportSize.X > 0 && viewportSize.Y > 0)
         {
-            Graphics.Clear();
-            Graphics.ClearColour(Color.CornflowerBlue);
-            
-            Camera activeCamera = useDebugCamera ? debugCamera : player.Camera;
+            activeCamera.UpdateAspectRatio(viewportSize.X / viewportSize.Y);
+        }
 
-            foreach (var model in ObjectModels)
+        foreach (var model in ObjectModels)
+        {
+            if (model == sun.SunSphere)
             {
-                if (model == sun.SunSphere)
-                {
-                    sun.Render(activeCamera);
-                    continue;
-                }
-
-                Graphics.Use(model);
-                LightManager.ApplyLightsToShader("lit", activeCamera.Position);
-                Graphics.Update(activeCamera, model);
-                Graphics.Draw(model);
+                sun.Render(activeCamera);
+                continue;
             }
 
-            foreach (var model in ObjectModels)
+            Graphics.Use(model);
+            LightManager.ApplyLightsToShader("lit", activeCamera.Position);
+            Graphics.Update(activeCamera, model);
+            Graphics.Draw(model);
+        }
+
+        foreach (var model in ObjectModels)
+        {
+            if (model.IsHitboxShown)
             {
-                if (model.IsHitboxShown)
-                {
-                    model.DrawBoundingBox(Graphics, activeCamera);
-                }
+                model.DrawBoundingBox(Graphics, activeCamera);
             }
         }
-        Graphics.End();
+        
+        // Unbind framebuffer before rendering ImGui
+        _editor.GameFramebuffer.Unbind();
+        
+        // Restore viewport to full window for ImGui
+        Graphics.OpenGL.Viewport(Engine.Window.Window.FramebufferSize);
+        
+        _editor.Render();
     }
 
     public void OnKeyDown(IKeyboard keyboard, Key key, int keyCode)
@@ -152,24 +165,28 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         {
             switch (key)
             {
-                case Key.R:
-                    player.ResetPhysics();
-                    break;
+                // absolute basic
                 case Key.Escape:
                     Engine.Window.Window.Close();
                     break;
+                // keyboard shortcuts
+                case Key.R:
+                    player.ResetPhysics();
+                    break;
+                // debug logging keypad
                 case Key.Keypad1:
                     Engine.InitialiseLogger(1);
                     break;
                 case Key.Keypad2:
                     Engine.InitialiseLogger(2);
                     break;
+                // func keys
+                case Key.F2:
+                    foreach (var entity in ObjectModels) entity.ToggleHitbox();
+                    break;
                 case Key.F6:
                     useDebugCamera = !useDebugCamera;
                     Log.Debug("Debug Camera is set to {A}", useDebugCamera);
-                    break;
-                case Key.F2:
-                    foreach (var entity in ObjectModels) entity.ToggleHitbox();
                     break;
             }
             InputManager.ChangeCaptureToggle(key);

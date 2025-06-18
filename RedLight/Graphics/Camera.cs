@@ -26,6 +26,10 @@ public class Camera
     private float lastX = 0;
     private float lastY = 0;
     private bool firstMouse = true;
+    
+    public float FOV { get; private set; }
+    public float Near { get; private set; }
+    public float Far { get; private set; }
 
     public Camera(Vector3 cameraPosition, Vector3 cameraFront, Vector3 cameraUp,
         float fov, float aspect, float near, float far)
@@ -34,6 +38,10 @@ public class Camera
         Front = Vector3.Normalize(cameraFront);
         Up = Vector3.Normalize(cameraUp);
         Projection = Matrix4x4.Add(Projection, Matrix4x4.CreatePerspectiveFieldOfView(fov, aspect, near, far));
+        
+        FOV = fov;
+        Near = near;
+        Far = far;
 
         cameraTarget = Position + Front;
         View = Matrix4x4.CreateLookAt(
@@ -201,6 +209,13 @@ public class Camera
         }
 
         UpdateCamera();
+        return this;
+    }
+    
+    public Camera UpdateAspectRatio(float aspectRatio)
+    {
+        Projection = Matrix4x4.CreatePerspectiveFieldOfView(FOV, aspectRatio, Near, Far);
+        Log.Verbose("Updated camera aspect ratio to: {AspectRatio}", aspectRatio);
         return this;
     }
 
