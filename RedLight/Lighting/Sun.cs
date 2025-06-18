@@ -45,6 +45,7 @@ public class Sun
 
     public void Update()
     {
+        lightManager.UpdateLightPosition($"{Name}_light", SunSphere.Position);
         lightManager.UpdateLightDirection($"{Name}_light", Direction);
     }
 
