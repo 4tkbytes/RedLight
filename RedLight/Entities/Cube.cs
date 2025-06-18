@@ -1,8 +1,7 @@
-using RedLight.Entities;
-using RedLight.Utils;
 using RedLight.Graphics;
+using RedLight.Utils;
 
-namespace RedLight.Graphics.Primitive;
+namespace RedLight.Entities;
 
 /// <summary>
 /// A simple cube entity with direct access to transformation methods.

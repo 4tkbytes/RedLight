@@ -8,10 +8,9 @@ using RedLight.Utils;
 using Serilog;
 using Silk.NET.Input;
 using System.Numerics;
-using RedLight.Graphics.Primitive;
 using RedLight.Lighting;
 using Camera = RedLight.Graphics.Camera;
-using Plane = RedLight.Graphics.Primitive.Plane;
+using Plane = RedLight.Entities.Plane;
 using ShaderType = RedLight.Graphics.ShaderType;
 
 namespace ExampleGame;
@@ -47,12 +46,8 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         Graphics.EnableDebugErrorCallback();
         
         LightManager = new LightManager();
-
-        TextureManager.Add("stone",
-            new RLTexture(Graphics, RLFiles.GetResourcePath("ExampleGame.Resources.Textures.576.jpg")));
         
         plane = new Plane(Graphics, 50f, 20f).Default();
-        plane.Model.AttachTexture(TextureManager.Get("stone"));
         plane.Model.AttachShader(ShaderManager.Get("lit"));
         var size = Engine.Window.Size;
 
@@ -68,16 +63,15 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         player.SetPOV(PlayerCameraPOV.ThirdPerson);
         player.SetRotationX(float.DegreesToRadians(-90.0f));
         player.MoveSpeed = 5f;
+        player.EnableImGuizmo();
+        
 
         var cube = new Cube(Graphics, "colliding_cube");
         cube.Translate(new Vector3(3f, 10f, 0f));
         cube.FrictionCoefficient = 5.0f;
         
         var cube2 = new Cube(Graphics, "stuck_cube", applyGravity:false);
-        cube2.Translate(new Vector3(0f, -0.5f, 0f));    
-        
-        // lightCube = new LightingCube(Graphics, LightManager, "crap", "light_cube", Color.BurlyWood, LightType.Point);
-        // lightCube.Translate(new Vector3(-3f, 5f, 0f));
+        cube2.Translate(new Vector3(0f, -0.5f, 0f));
         
         sun = new Sun(Graphics, LightManager, "sun", new Vector3(0.5f, -1f, 0.3f), Color.NavajoWhite);
         sun.Translate(new Vector3(0f, 20f, 0f));
@@ -145,7 +139,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
                 }
 
                 Graphics.Use(model);
-                LightManager.ApplyLightsToShader("lit", activeCamera.Position, ShaderManager);
+                LightManager.ApplyLightsToShader("lit", activeCamera.Position);
                 Graphics.Update(activeCamera, model);
                 Graphics.Draw(model);
             }
@@ -157,8 +151,19 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
                     model.DrawBoundingBox(Graphics, activeCamera);
                 }
             }
+
+            RenderImGuizmo(activeCamera);
         }
         Graphics.End();
+    }
+    
+    private void RenderImGuizmo(Camera camera)
+    {
+        var windowSize = Engine.Window.Size;
+        Vector2 viewportPos = new Vector2(0, 0);
+        Vector2 viewportSize = new Vector2(windowSize.X, windowSize.Y);
+
+        player.RenderImGuizmo(camera, viewportPos, viewportSize);
     }
 
     public void OnKeyDown(IKeyboard keyboard, Key key, int keyCode)

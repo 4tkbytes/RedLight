@@ -106,8 +106,10 @@ public class LightManager
         }
     }
     
-    public void ApplyLightsToShader(string shaderName, Vector3 viewPosition, ShaderManager shaderManager)
+    public void ApplyLightsToShader(string shaderName, Vector3 viewPosition)
     {
+        var shaderManager = ShaderManager.Instance;
+        
         try
         {
             // Only set uniforms that exist in the lit shader

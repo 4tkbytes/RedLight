@@ -43,9 +43,7 @@ public class RLEngine
 
     private Vector2D<int> windowedSize;
     private Vector2D<int> windowedPosition;
-    private bool isFullscreen = false;
-    private bool bug = false;
-    private bool isMaximised = false;
+    private bool isFullscreen;
 
     public string title = "";
 
@@ -63,7 +61,6 @@ public class RLEngine
         if (isFullscreen)
         {
             options.WindowState = WindowState.Fullscreen;
-            isFullscreen = true;
         }
         else
         {
@@ -84,9 +81,9 @@ public class RLEngine
 
             var input = SceneManager.Instance.input.CreateInput();
             Log.Debug("Input context created");
-
-            SetupFullscreenToggle(input.input);
-
+            
+            SetupFullscreen();
+            
             if (startingScene != null)
             {
                 Log.Debug("Starting scene initialisation: {Scene}", startingScene.GetType);
@@ -112,72 +109,69 @@ public class RLEngine
         CreateSceneManager();
     }
 
-    private void SetupFullscreenToggle(IInputContext input)
+    public void AddScene(string id, RLScene scene)
     {
-        foreach (var keyboard in input.Keyboards)
-        {
-            keyboard.KeyDown += (keyboard, key, scancode) =>
-            {
-                if (keyboard.IsKeyPressed(Key.AltLeft) && keyboard.IsKeyPressed(Key.Enter))
-                {
-                    if (bug)
-                    {
-                        switch (Window.Window.WindowState)
-                        {
-                            case WindowState.Normal:
-                                Window.Window.WindowState = WindowState.Fullscreen;
-                                Log.Debug("Window state set to {A}", WindowState.Fullscreen.ToString());
+        SceneManager.Instance.Add(id, scene);
+    }
 
-                                break;
-                            case WindowState.Minimized:
-                                break;
-                            case WindowState.Maximized:
-                                Window.Window.WindowState = WindowState.Fullscreen;
-                                Log.Debug("Window state set to {A}", WindowState.Fullscreen.ToString());
-                                break;
-                            case WindowState.Fullscreen:
-                                Window.Window.WindowState = WindowState.Normal;
-                                Log.Debug("Window state set to {A}", WindowState.Normal.ToString());
-                                break;
-                            default:
-                                throw new ArgumentOutOfRangeException();
-                        }
-                    }
-                    else
-                    {
-                        switch (Window.Window.WindowState)
-                        {
-                            case WindowState.Normal:
-                                Window.Window.WindowState = WindowState.Fullscreen;
-                                Log.Debug("Window state set to {A}", WindowState.Fullscreen.ToString());
-                                break;
-                            case WindowState.Minimized:
-                                break;
-                            case WindowState.Maximized:
-                                Window.Window.WindowState = WindowState.Normal;
-                                Log.Debug("Window state set to {A}", WindowState.Normal.ToString());
-
-                                Window.Window.WindowState = WindowState.Fullscreen;
-                                Log.Debug("Window state set to {A}", WindowState.Fullscreen.ToString());
-
-                                break;
-                            case WindowState.Fullscreen:
-                                Window.Window.WindowState = WindowState.Normal;
-                                Log.Debug("Window state set to {A}", WindowState.Normal.ToString());
-                                break;
-                            default:
-                                throw new ArgumentOutOfRangeException();
-                        }
-                    }
-                }
-            };
-        }
+    public void AddScene(string id, RLScene scene, RLKeyboard keyboard, RLMouse mouse)
+    {
+        SceneManager.Instance.Add(id, scene);
     }
 
     private void OnWindowStateChanged(WindowState newState)
     {
-        isFullscreen = (newState == WindowState.Fullscreen);
         Log.Debug("Window state changed to: {State}", newState);
+        
+        // Update isFullscreen based on the new window state
+        isFullscreen = newState == WindowState.Fullscreen;
+        
+        // Store windowed position and size when switching from fullscreen to windowed
+        if (!isFullscreen && (newState == WindowState.Normal || newState == WindowState.Maximized))
+        {
+            windowedPosition = Window.Window.Position;
+            if (newState == WindowState.Normal)
+            {
+                windowedSize = Window.Window.Size;
+            }
+        }
+    }
+    private void SetupFullscreen()
+    {
+        Log.Debug("SetupFullscreen called, isFullscreen: {IsFullscreen}, WindowState: {State}", 
+            isFullscreen, Window.Window.WindowState);
+          
+        if (isFullscreen)
+        {
+            switch (Window.Window.WindowState)
+            {
+                case WindowState.Normal:
+                case WindowState.Maximized:
+                    // Store current windowed state before going fullscreen
+                    if (Window.Window.WindowState == WindowState.Normal)
+                    {
+                        windowedSize = Window.Window.Size;
+                    }
+                    windowedPosition = Window.Window.Position;
+                    Log.Debug("Switching to fullscreen from {State}", Window.Window.WindowState);
+                    Window.Window.WindowState = WindowState.Fullscreen;
+                    break;
+                case WindowState.Minimized:
+                    // Don't change to fullscreen from minimized
+                    Log.Debug("Not switching to fullscreen from minimized state");
+                    break;
+                case WindowState.Fullscreen:
+                    // Already fullscreen, but ensure viewport is correct
+                    Log.Debug("Already in fullscreen mode");
+                    // Force viewport update for fullscreen
+                    Graphics.OpenGL.Viewport(Window.Window.FramebufferSize);
+                    Log.Debug("Forced viewport update to fullscreen size: {Width}x{Height}", 
+                        Window.Window.FramebufferSize.X, Window.Window.FramebufferSize.Y);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
     }
 
     private void ParseArguments(string[] args)
@@ -196,18 +190,14 @@ public class RLEngine
             {
                 isFullscreen = true;
             }
-            else if (arg.Equals("--Maximised", StringComparison.OrdinalIgnoreCase))
-            {
-                isMaximised = true;
-            }
         }
     }
 
     private void OnFramebufferResize(Vector2D<int> newSize)
     {
         Graphics.OpenGL.Viewport(newSize);
+        Log.Debug("Viewport updated to: {Width}x{Height}", newSize.X, newSize.Y);
 
-        // If we're in windowed mode, update our stored windowed size
         if (!isFullscreen && Window.Window.WindowState == WindowState.Normal)
         {
             windowedSize = newSize;
@@ -244,6 +234,55 @@ public class RLEngine
             Log.Information("ImGui Logger Sink has been created");
         }
       
+    }
+    
+    public void ToggleFullscreen()
+    {
+        Log.Debug("Toggling fullscreen. Current state: isFullscreen={IsFullscreen}, WindowState={State}", 
+            isFullscreen, Window.Window.WindowState);
+    
+        if (isFullscreen)
+        {
+            Log.Debug("Switching to windowed mode. Restoring to size: {Width}x{Height}, position: {X},{Y}", 
+                windowedSize.X, windowedSize.Y, windowedPosition.X, windowedPosition.Y);
+        
+            Window.Window.WindowState = WindowState.Normal;
+            Window.Window.Size = windowedSize;
+            
+            var monitor = Window.Window.Monitor;
+            if (monitor != null)
+            {
+                var monitorSize = monitor.Bounds.Size;
+                var centeredPosition = new Vector2D<int>(
+                    (monitorSize.X - windowedSize.X) / 2,
+                    (monitorSize.Y - windowedSize.Y) / 2
+                );
+                Window.Window.Position = centeredPosition;
+            
+                Log.Debug("Switching to windowed mode. Centered at position: {X},{Y} on monitor size: {MonitorWidth}x{MonitorHeight}", 
+                    centeredPosition.X, centeredPosition.Y, monitorSize.X, monitorSize.Y);
+            }
+            else
+            {
+                // Fallback to stored position if monitor info is unavailable
+                Window.Window.Position = windowedPosition;
+                Log.Debug("Switching to windowed mode. Using stored position: {X},{Y}", 
+                    windowedPosition.X, windowedPosition.Y);
+            }
+            
+            isFullscreen = false;
+        }
+        else
+        {
+            windowedSize = Window.Window.Size;
+            windowedPosition = Window.Window.Position;
+        
+            Log.Debug("Switching to fullscreen mode. Stored windowed size: {Width}x{Height}, position: {X},{Y}", 
+                windowedSize.X, windowedSize.Y, windowedPosition.X, windowedPosition.Y);
+        
+            Window.Window.WindowState = WindowState.Fullscreen;
+            isFullscreen = true;
+        }
     }
 
     public SceneManager CreateSceneManager()

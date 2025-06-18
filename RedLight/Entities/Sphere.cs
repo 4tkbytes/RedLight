@@ -1,7 +1,7 @@
-﻿using System.Numerics;
+﻿using RedLight.Graphics;
 using RedLight.Utils;
 
-namespace RedLight.Graphics.Primitive;
+namespace RedLight.Entities;
 
 public class Sphere : SimpleShape
 {

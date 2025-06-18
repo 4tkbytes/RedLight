@@ -27,15 +27,14 @@ dotnet run --project ExampleGame --Log=1
   - [ ] native text rendering
   - [ ] buttons
   - [ ] user interactions
-- [ ] fix up imgui (IN PROGRESS, in branch [engine-editor](https://github.com/4tkbytes/RedLight/tree/feature/engine-editor))
-- [ ] add imguizmo and get it working (IN PROGRESS, in branch [engine-editor](https://github.com/4tkbytes/RedLight/tree/feature/engine-editor))
-- [ ] create an editor (IN PROGRESS, check out [Flagger](https://github.com/4tkbytes/RedLight/tree/feature/engine-editor))
+- [ ] fix up imgui (IN PROGRESS)
+- [ ] create an editor
 - [ ] add networking (if you have the time or are bothered)
 - [x] create a way to make a player. (notes: i made it primitive)
 - [x] add physics : collisions (primitive)
 - [x] add better physics : gravity, other stuff idk || Note: I used Bepu Physics for this
 - [x] add lighting (basic) like the sun
-
+- [x] add imguizmo and get it working
 
 # licensing
 i dont care what you do as long as you credit me and the engine

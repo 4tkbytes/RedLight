@@ -1,8 +1,6 @@
-using RedLight.Entities;
 using RedLight.Graphics;
-using RedLight.Utils;
 
-namespace RedLight.Graphics.Primitive;
+namespace RedLight.Entities;
 
 /// <summary>
 /// Base class for simple geometric shapes like cubes, spheres, planes, etc.
