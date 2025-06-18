@@ -12,5 +12,6 @@ public interface RLKeyboard
 
     void OnKeyUp(IKeyboard keyboard, Key key, int keyCode)
     {
+        PressedKeys.Remove(key);
     }
 }

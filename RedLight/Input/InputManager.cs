@@ -128,9 +128,8 @@ public class InputManager
     
     public void ChangeCaptureToggle(Key key)
     {
-        if (key == Key.F1 && !togglePressed)
+        if (key == Key.F1)
         {
-            togglePressed = true;
             isCaptured = !isCaptured;
         
             foreach (var mouse in Context.Mice)

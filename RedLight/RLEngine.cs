@@ -86,7 +86,7 @@ public class RLEngine
             
             if (startingScene != null)
             {
-                Log.Debug("Starting scene initialisation: {Scene}", startingScene.GetType);
+                Log.Debug("Starting scene initialisation: {Scene}", startingScene.GetType());
 
                 if (startingScene.PhysicsSystem == null)
                 {
