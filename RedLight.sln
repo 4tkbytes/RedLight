@@ -4,8 +4,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleGame", "ExampleGame\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedLight", "RedLight\RedLight.csproj", "{2F2DC92F-520F-4694-B600-21340F208AB1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flagger", "Flagger\Flagger.csproj", "{4E80D928-392E-47E3-ADEF-84388844184F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,9 +18,5 @@ Global
 		{2F2DC92F-520F-4694-B600-21340F208AB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F2DC92F-520F-4694-B600-21340F208AB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F2DC92F-520F-4694-B600-21340F208AB1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4E80D928-392E-47E3-ADEF-84388844184F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4E80D928-392E-47E3-ADEF-84388844184F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4E80D928-392E-47E3-ADEF-84388844184F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4E80D928-392E-47E3-ADEF-84388844184F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

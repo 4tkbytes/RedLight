@@ -63,6 +63,8 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         player.SetPOV(PlayerCameraPOV.ThirdPerson);
         player.SetRotationX(float.DegreesToRadians(-90.0f));
         player.MoveSpeed = 5f;
+        player.EnableImGuizmo();
+        
 
         var cube = new Cube(Graphics, "colliding_cube");
         cube.Translate(new Vector3(3f, 10f, 0f));
@@ -149,8 +151,19 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
                     model.DrawBoundingBox(Graphics, activeCamera);
                 }
             }
+
+            RenderImGuizmo(activeCamera);
         }
         Graphics.End();
+    }
+    
+    private void RenderImGuizmo(Camera camera)
+    {
+        var windowSize = Engine.Window.Size;
+        Vector2 viewportPos = new Vector2(0, 0);
+        Vector2 viewportSize = new Vector2(windowSize.X, windowSize.Y);
+
+        player.RenderImGuizmo(camera, viewportPos, viewportSize);
     }
 
     public void OnKeyDown(IKeyboard keyboard, Key key, int keyCode)

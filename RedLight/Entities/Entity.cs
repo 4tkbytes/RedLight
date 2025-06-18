@@ -1,4 +1,6 @@
 using System.Numerics;
+using Hexa.NET.ImGui;
+using Hexa.NET.ImGuizmo;
 using RedLight.Graphics;
 using Serilog;
 using Silk.NET.OpenGL;
@@ -40,9 +42,13 @@ public abstract class Entity
     private uint vbo = 0;
     private uint vao = 0;
     
-    // Physics system reference
     public PhysicsSystem PhysicsSystem;
     private HashSet<string> _registeredEntityNames = new();
+    
+    public bool UseImGuizmo { get; set; } = false;
+    public ImGuizmoOperation GuizmoOperation { get; set; } = ImGuizmoOperation.Translate;
+    public ImGuizmoMode GuizmoMode { get; set; } = ImGuizmoMode.World;
+
 
     /// <summary>
     /// Direct access to the underlying RLModel
@@ -332,6 +338,71 @@ public abstract class Entity
     {
         HitboxConfig = config;
         ApplyHitboxConfig();
+    }
+
+    public Entity EnableImGuizmo(ImGuizmoOperation operation = ImGuizmoOperation.Translate, ImGuizmoMode mode = ImGuizmoMode.World)
+    {
+        UseImGuizmo = true;
+        GuizmoOperation = operation;
+        GuizmoMode = mode;
+        return this;
+    }
+
+    public Entity DisableImGuizmo()
+    {
+        UseImGuizmo = false;
+        return this;
+    }
+
+    public bool RenderImGuizmo(Camera camera, Vector2 viewportPos, Vector2 viewportSize)
+    {
+        if (!UseImGuizmo) return false;
+
+        // Ensure ImGui context is available
+        var ctx = ImGui.GetCurrentContext();
+        if (ctx == ImGuiContextPtr.Null)
+        {
+            Log.Warning("ImGui context not available for ImGuizmo");
+            return false;
+        }
+        
+        // Set ImGuizmo context
+        ImGuizmo.SetImGuiContext(ctx);
+        ImGuizmo.SetOrthographic(false);
+        
+        // Get the current ImGui draw list instead of calling SetDrawlist()
+        var drawList = ImGui.GetBackgroundDrawList();
+        if (drawList == ImDrawListPtr.Null)
+        {
+            Log.Warning("ImGui draw list not available for ImGuizmo");
+            return false;
+        }
+        
+        // Set the viewport rectangle
+        ImGuizmo.SetRect(viewportPos.X, viewportPos.Y, viewportSize.X, viewportSize.Y);
+
+        // Get view and projection matrices
+        Matrix4x4 view = camera.View;
+        Matrix4x4 projection = camera.Projection;
+        Matrix4x4 model = ModelMatrix;
+
+        // Manipulate the matrix
+        bool wasManipulated = ImGuizmo.Manipulate(
+            ref view.M11,        // View matrix
+            ref projection.M11,  // Projection matrix
+            GuizmoOperation,     // Operation type
+            GuizmoMode,         // Coordinate space
+            ref model.M11       // Model matrix to manipulate
+        );
+
+        // If the matrix was manipulated, update the entity
+        if (wasManipulated)
+        {
+            ModelMatrix = model;
+            UpdateBoundingBox();
+        }
+
+        return wasManipulated;
     }
     
      /// <summary>

@@ -31,10 +31,6 @@
 
     <ItemGroup>
       <PackageReference Include="BepuPhysics" Version="2.4.0" />
-      <PackageReference Include="docfx.console" Version="2.59.4">
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        <PrivateAssets>all</PrivateAssets>
-      </PackageReference>
       <PackageReference Include="Hexa.NET.ImGui" Version="2.2.7" />
       <PackageReference Include="Hexa.NET.ImGuizmo" Version="2.2.7" />
       <PackageReference Include="Hexa.NET.ImNodes" Version="2.2.7" />
@@ -72,6 +68,7 @@
       <None Remove="docfx.json" />
       <None Remove="index.md" />
       <None Remove="toc.yml" />
+      <None Remove="log.txt" />
     </ItemGroup>
 
     <ItemGroup>

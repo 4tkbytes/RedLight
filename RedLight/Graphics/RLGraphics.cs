@@ -223,7 +223,8 @@ public class RLGraphics
     /// Creates a new model in an easier way. It creates a new RLModel from the resourceName, then attaches the "basic"
     /// shader and makes it Transformable. 
     /// </summary>
-    /// <param name="resourceName">string</param>
+    /// <param name="resourceName">The resource name, not the directory such as
+    /// "RedLight.Resources.Models.Maxwell.maxwell_the_cat.glb"</param>
     /// <param name="name">string</param>
     /// <returns>Transformable RLModel</returns>
     public Transformable<RLModel> CreateModel(string resourceName, string name)
@@ -234,28 +235,28 @@ public class RLGraphics
     }
 
     /// <summary>
-    /// Converts a model into a player. This overload creates a new camera on your behalf. 
+    /// Converts a model into a player. This overload creates a new camera on your behalf, however a hitbox config
+    /// is required. 
     /// </summary>
-    /// <param name="screenSize"><see cref="Vector2"/></param>
-    /// <param name="model"><see cref="Transformable{RLModel}"/></param>
-    /// <returns>Player</returns>
-    public Player MakePlayer(Vector2 screenSize, Transformable<RLModel> model)
+    /// <param name="screenSize"></param>
+    /// <param name="model"></param>
+    /// <param name="hitboxConfig"></param>
+    /// <returns></returns>
+    public Player MakePlayer(Vector2 screenSize, Transformable<RLModel> model, HitboxConfig hitboxConfig)
     {
         var camera = new Camera(screenSize);
-        return new Player(camera, model);
+        return new Player(camera, model, hitboxConfig);
     }
-
+    
     /// <summary>
-    /// Converts a model into a player. This specific overload includes a custom camera that can be parsed through. 
+    /// Converts a model into a player.
+    /// This specific overload includes a custom camera that can be parsed through and
+    /// a required hitbox for the physics system. 
     /// </summary>
-    /// <param name="camera"><see cref="Camera"/></param>
-    /// <param name="model"><see cref="Transformable{RLModel}"/></param>
-    /// <returns><see cref="Player"/></returns>
-    public Player MakePlayer(Camera camera, Transformable<RLModel> model)
-    {
-        return new Player(camera, model);
-    }
-
+    /// <param name="camera"></param>
+    /// <param name="model"></param>
+    /// <param name="hitbox"></param>
+    /// <returns></returns>
     public Player MakePlayer(Camera camera, Transformable<RLModel> model, HitboxConfig hitbox)
     {
         return new Player(camera, model, hitbox);
