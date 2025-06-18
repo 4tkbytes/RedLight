@@ -7,6 +7,7 @@ public struct RLShaderBundle
     public RLShader VertexShader;
     public RLShader FragmentShader;
     public RLShaderProgram Program;
+    public string Name;
 }
 
 public class ShaderManager
@@ -35,7 +36,8 @@ public class ShaderManager
         {
             VertexShader = vertexShader,
             FragmentShader = fragmentShader,
-            Program = program
+            Program = program,
+            Name = id
         });
     }
 

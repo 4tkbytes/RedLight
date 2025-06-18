@@ -19,6 +19,8 @@ public class RLModel
     private List<RLTexture> _texturesLoaded = new();
     private TextureManager textureManager;
     
+    public RLShaderBundle AttachedShader { get; private set; }
+    
     /// <summary>
     /// Gets the directory path where the model file is located.
     /// </summary>
@@ -237,6 +239,7 @@ public class RLModel
             mesh.AttachShader(shaderBundle.VertexShader, shaderBundle.FragmentShader);
         }
 
+        AttachedShader = shaderBundle;
         shaderAttached = true;
         return this;
     }

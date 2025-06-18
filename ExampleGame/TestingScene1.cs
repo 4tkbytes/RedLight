@@ -10,8 +10,10 @@ using Silk.NET.Input;
 using System.Numerics;
 using RedLight.Lighting;
 using RedLight.UI;
+using RedLight.UI.Native;
 using Camera = RedLight.Graphics.Camera;
 using Plane = RedLight.Entities.Plane;
+using Rectangle = RedLight.UI.Native.Rectangle;
 using ShaderType = RedLight.Graphics.ShaderType;
 
 namespace ExampleGame;
@@ -27,6 +29,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     public HashSet<Key> PressedKeys { get; set; } = new();
     public PhysicsSystem PhysicsSystem { get; set; }
     public LightManager LightManager { get; set; }
+    public UIManager UIManager { get; set; } = new();
 
     private Player player;
     private Plane plane;
@@ -75,12 +78,19 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         sun.Translate(new Vector3(0f, 20f, 0f));
         sun.Light.Intensity = 2.5f;
         
+        var centeredRect = new Rectangle(
+            Vector2.Zero, // Position is ignored for Center clamping
+            new Vector2(200, 100), 
+            Color.Cornsilk
+        ) { Clamping = UIClamping.Center };
+        
         ObjectModels.Add(plane);
         ObjectModels.Add(player);
         ObjectModels.Add(cube);
-        
         ObjectModels.Add(sun.SunSphere);
 
+        UIManager.AddElement(centeredRect);
+        
         foreach (var entity in ObjectModels)
         {
             entity.PhysicsSystem = PhysicsSystem;
@@ -113,18 +123,41 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 
     public void OnRender(double deltaTime)
     {
-        _editor.GameFramebuffer.Bind();
+        Graphics.Clear();
+        
+        Camera activeCamera = useDebugCamera ? debugCamera : player.Camera;
+
+        // Update the editor with current model list
+        if (_editor.IsEditorMode)
+        {
+            _editor.SetModelList(ObjectModels);
+        }
+
+        // In editor mode, render to framebuffer; otherwise render directly to screen
+        if (_editor.IsEditorMode)
+        {
+            // Bind the framebuffer for game rendering in editor mode
+            _editor.GameFramebuffer.Bind();
+            
+            // Update camera aspect ratio based on viewport size
+            var viewportSize = _editor.ViewportSize;
+            if (viewportSize.X > 0 && viewportSize.Y > 0)
+            {
+                activeCamera.UpdateAspectRatio(viewportSize.X / viewportSize.Y);
+            }
+        }
+        else
+        {
+            // In game mode, render directly to screen with full window aspect ratio
+            var windowSize = Engine.Window.Window.FramebufferSize;
+            if (windowSize.X > 0 && windowSize.Y > 0)
+            {
+                activeCamera.UpdateAspectRatio((float)windowSize.X / windowSize.Y);
+            }
+        }
         
         Graphics.Clear();
         Graphics.ClearColour(Color.CornflowerBlue);
-        
-        Camera activeCamera = useDebugCamera ? debugCamera : player.Camera;
-        
-        var viewportSize = _editor.ViewportSize;
-        if (viewportSize.X > 0 && viewportSize.Y > 0)
-        {
-            activeCamera.UpdateAspectRatio(viewportSize.X / viewportSize.Y);
-        }
 
         foreach (var model in ObjectModels)
         {
@@ -148,12 +181,19 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
             }
         }
         
-        // Unbind framebuffer before rendering ImGui
-        _editor.GameFramebuffer.Unbind();
+        // Render UI elements
+        UIManager.RenderAll(Graphics, activeCamera);
         
-        // Restore viewport to full window for ImGui
-        Graphics.OpenGL.Viewport(Engine.Window.Window.FramebufferSize);
+        if (_editor.IsEditorMode)
+        {
+            // Unbind framebuffer before rendering ImGui
+            _editor.GameFramebuffer.Unbind();
+            
+            // Restore viewport to full window for ImGui
+            Graphics.OpenGL.Viewport(Engine.Window.Window.FramebufferSize);
+        }
         
+        // Always call render, but it will only show UI in editor mode
         _editor.Render();
     }
 
@@ -188,6 +228,10 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
                     useDebugCamera = !useDebugCamera;
                     Log.Debug("Debug Camera is set to {A}", useDebugCamera);
                     break;
+                case Key.F12:
+                    _editor.ToggleEditorMode();
+                    Log.Debug("Editor mode toggled via F12: {EditorMode}", _editor.IsEditorMode);
+                    break;
             }
             InputManager.ChangeCaptureToggle(key);
         }
@@ -195,13 +239,16 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 
     public void OnMouseMove(IMouse mouse, Vector2 mousePosition)
     {
-        InputManager.IsCaptured(mouse);
-        if (InputManager.isCaptured)
+        if (!_editor.IsEditorMode || (_editor.IsEditorMode && _editor.IsViewportFocused))
         {
-            if (useDebugCamera)
-                debugCamera.FreeMove(mousePosition);
-            else
-                player.Camera.FreeMove(mousePosition);
+            InputManager.IsCaptured(mouse);
+            if (InputManager.isCaptured)
+            {
+                if (useDebugCamera)
+                    debugCamera.FreeMove(mousePosition);
+                else
+                    player.Camera.FreeMove(mousePosition);
+            }
         }
     }
 }
