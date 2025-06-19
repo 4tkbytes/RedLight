@@ -40,51 +40,22 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         Graphics.Enable();
         Graphics.EnableDebugErrorCallback();
         
-        LightManager = new LightManager();
+        debugCamera = new Camera(Engine.Window.Size);
         
-        _editor = new RLImGuiEditor(Graphics, Engine.Window.Window, InputManager.Context, Engine);
-        _editor.Load();
-        
-        plane = new Plane(Graphics, 50f, 20f).Default();
-        plane.Model.AttachShader(ShaderManager.Get("lit"));
-        var size = Engine.Window.Size;
+        InitEditor();
+        CreatePlane();
+        CreatePlayer();
 
-        var maxwell = Graphics.CreateModel("RedLight.Resources.Models.Maxwell.maxwell_the_cat.glb", "maxwell")
-            .SetScale(new Vector3(0.05f))
-            .Rotate(float.DegreesToRadians(-90.0f), Vector3.UnitX);
+        var cube = CreateCube();
 
-        playerCamera = new Camera(size);
-        debugCamera = new Camera(size);
-
-        var playerHitbox = HitboxConfig.ForPlayer();
-        player = Graphics.MakePlayer(playerCamera, maxwell, playerHitbox);
-        player.SetPOV(PlayerCameraPOV.ThirdPerson);
-        player.SetRotationX(float.DegreesToRadians(-90.0f));
-        player.MoveSpeed = 5f;
-
-        var cube = new Cube(Graphics, "colliding_cube");
-        cube.Translate(new Vector3(3f, 10f, 0f));
-        cube.FrictionCoefficient = 5.0f;
-        
-        var cube2 = new Cube(Graphics, "stuck_cube", applyGravity:false);
-        cube2.Translate(new Vector3(0f, -0.5f, 0f));
-        
-        sun = new Sun(Graphics, LightManager, "sun", new Vector3(0.5f, -1f, 0.3f), Color.NavajoWhite);
-        sun.Translate(new Vector3(0f, 20f, 0f));
-        sun.Light.Intensity = 2.5f;
+        CreateLight();
         
         ObjectModels.Add(plane);
         ObjectModels.Add(player);
         ObjectModels.Add(cube);
         ObjectModels.Add(sun.SunSphere);
         
-        foreach (var entity in ObjectModels)
-        {
-            entity.PhysicsSystem = PhysicsSystem;
-            if (entity == sun.SunSphere)
-                continue;
-            PhysicsSystem.AddEntity(entity);
-        }
+        AddPhysics();
         
         player.ResetPhysics();
     }
@@ -230,4 +201,85 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
             }
         }
     }
+    
+    #region init for docs
+    
+    private void InitEditor()
+    {
+        // create new editor instance
+        _editor = new RLImGuiEditor(Graphics, Engine.Window.Window, InputManager.Context, Engine);
+        // load it up
+        _editor.Load();
+    }
+
+    private void CreatePlane()
+    {
+        // create the plane
+        plane = new Plane(Graphics, 50f, 20f).Default();
+    }
+
+    private void CreatePlayer()
+    {
+        // Create a new model
+        var maxwell = Graphics.CreateModel("RedLight.Resources.Models.Maxwell.maxwell_the_cat.glb", "maxwell")
+            .SetScale(new Vector3(0.05f))
+            .Rotate(float.DegreesToRadians(-90.0f), Vector3.UnitX);
+        
+        // create a camera for the player
+        playerCamera = new Camera(Engine.Window.Size);
+        
+        // Create a hitbox config (player default)
+        var playerHitbox = HitboxConfig.ForPlayer();
+        
+        // convert model into player/entity
+        player = Graphics.MakePlayer(playerCamera, maxwell, playerHitbox);
+        
+        // specific model translations + config
+        player.SetRotationX(float.DegreesToRadians(-90.0f));
+        player.MoveSpeed = 5f;
+    }
+
+    private Cube CreateCube()
+    {
+        // create cube model with name
+        var cube = new Cube(Graphics, "colliding_cube");
+        
+        // model translations
+        cube.Translate(new Vector3(3f, 10f, 0f));
+        
+        // physics system todo: fix this shit up
+        cube.FrictionCoefficient = 5.0f;
+
+        return cube;
+    }
+
+    private void CreateLight()
+    {
+        // create a sun instance
+        sun = new Sun(Graphics, LightManager, "sun", new Vector3(0.5f, -1f, 0.3f), Color.NavajoWhite);
+        
+        // model translations
+        sun.Translate(new Vector3(0f, 20f, 0f));
+        
+        // change the intensity of the light
+        sun.Light.Intensity = 2.5f;
+    }
+
+    private void AddPhysics()
+    {
+        // iterate through entity list
+        foreach (var entity in ObjectModels)
+        {
+            // init entitys physics system
+            entity.PhysicsSystem = PhysicsSystem;
+            
+            // skip if type is a light
+            if (entity == sun.SunSphere)
+                continue;
+            
+            // add the entity to the physics system
+            PhysicsSystem.AddEntity(entity);
+        }
+    }
+    #endregion
 }
