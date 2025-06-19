@@ -255,6 +255,9 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 
     private void CreateLight()
     {
+        // initialise the LightManager class
+        LightManager = new LightManager();
+        
         // create a sun instance
         sun = new Sun(Graphics, LightManager, "sun", new Vector3(0.5f, -1f, 0.3f), Color.NavajoWhite);
         
