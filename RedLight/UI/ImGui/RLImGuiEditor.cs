@@ -38,7 +38,15 @@ public class RLImGuiEditor
     {
         var gl = graphics.OpenGL;
         _engine = engine;
-        _imGuiController = new ImGuiController(gl, view, input);
+        
+        _imGuiController = new ImGuiController(
+            gl, 
+            view, 
+            input, 
+            null,
+            () => Hexa.NET.ImGui.ImGui.GetIO().ConfigFlags |= ImGuiConfigFlags.DockingEnable
+            );
+        
         _gameFramebuffer = new Framebuffer(graphics, (int)_viewportSize.X, (int)_viewportSize.Y);
         Log.Debug("RLImGuiEditor initialized");
     }
@@ -232,15 +240,24 @@ public class RLImGuiEditor
 
     private void RenderViewport()
     {
+        // Set viewport window size and position
+        var mainViewport = global::Hexa.NET.ImGui.ImGui.GetMainViewport();
+        var viewportWidth = mainViewport.Size.X / 5;
+        var viewportHeight = mainViewport.Size.Y / 5;
+        var padding = 10.0f; // Add some padding from the edges
+    
+        global::Hexa.NET.ImGui.ImGui.SetNextWindowSize(new Vector2(viewportWidth, viewportHeight), ImGuiCond.FirstUseEver);
+        global::Hexa.NET.ImGui.ImGui.SetNextWindowPos(new Vector2(padding, global::Hexa.NET.ImGui.ImGui.GetFrameHeight() + padding), ImGuiCond.FirstUseEver);
+    
         global::Hexa.NET.ImGui.ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, Vector2.Zero);
-        
+    
         if (global::Hexa.NET.ImGui.ImGui.Begin("Viewport"))
         {
             _viewportFocused = global::Hexa.NET.ImGui.ImGui.IsWindowFocused();
             _viewportHovered = global::Hexa.NET.ImGui.ImGui.IsWindowHovered();
 
             var contentRegion = global::Hexa.NET.ImGui.ImGui.GetContentRegionAvail();
-            
+        
             // Update viewport size if it changed
             if (contentRegion.X > 0 && contentRegion.Y > 0 && 
                 (Math.Abs(contentRegion.X - _viewportSize.X) > 1.0f || 
@@ -259,7 +276,7 @@ public class RLImGuiEditor
                 new Vector2(1, 0)
             );
         }
-        
+    
         global::Hexa.NET.ImGui.ImGui.End();
         global::Hexa.NET.ImGui.ImGui.PopStyleVar();
     }

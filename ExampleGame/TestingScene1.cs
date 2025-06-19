@@ -9,10 +9,8 @@ using Silk.NET.Input;
 using System.Numerics;
 using RedLight.Lighting;
 using RedLight.UI;
-using RedLight.UI.Native;
 using Camera = RedLight.Graphics.Camera;
 using Plane = RedLight.Entities.Plane;
-using Rectangle = RedLight.UI.Native.Rectangle;
 
 namespace ExampleGame;
 
@@ -27,8 +25,6 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     public HashSet<Key> PressedKeys { get; set; } = new();
     public PhysicsSystem PhysicsSystem { get; set; }
     public LightManager LightManager { get; set; }
-    // TODO: Fix up the UI Management and the UI stuff in general
-    public UIManager UIManager { get; set; } = new();
 
     private Player player;
     private Plane plane;
@@ -77,18 +73,10 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         sun.Translate(new Vector3(0f, 20f, 0f));
         sun.Light.Intensity = 2.5f;
         
-        var centeredRect = new Rectangle(
-            Vector2.Zero, // Position is ignored for Center clamping
-            new Vector2(200, 100), 
-            Color.Cornsilk
-        ) { Clamping = UIClamping.Center };
-        
         ObjectModels.Add(plane);
         ObjectModels.Add(player);
         ObjectModels.Add(cube);
         ObjectModels.Add(sun.SunSphere);
-
-        UIManager.AddElement(centeredRect);
         
         foreach (var entity in ObjectModels)
         {
@@ -175,8 +163,6 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
             }
         }
         
-        UIManager.RenderAll(Graphics, activeCamera);
-        
         if (_editor.IsEditorMode)
         {
             _editor.GameFramebuffer.Unbind();
@@ -184,7 +170,6 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
             Graphics.OpenGL.Viewport(Engine.Window.Window.FramebufferSize);
         }
         
-        // Always call render, but it will only show UI in editor mode
         _editor.Render();
     }
 
