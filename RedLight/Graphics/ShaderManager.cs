@@ -4,10 +4,18 @@ namespace RedLight.Graphics;
 
 public struct RLShaderBundle
 {
+    public RLGraphics Graphics;
     public RLShader VertexShader;
     public RLShader FragmentShader;
     public RLShaderProgram Program;
     public string Name;
+
+    public RLShaderBundle(RLGraphics graphics, string vertexSource, string fragmentSource)
+    {
+        Graphics = graphics;
+        VertexShader = new RLShader(Graphics, ShaderType.Vertex, vertexSource);
+        FragmentShader = new RLShader(Graphics, ShaderType.Fragment, fragmentSource);
+    }
 }
 
 public class ShaderManager
@@ -39,6 +47,20 @@ public class ShaderManager
             Program = program,
             Name = id
         });
+    }
+    
+    public void TryAdd(string id, RLShaderBundle shaderBundle)
+    {
+        if (shaders.ContainsKey(id))
+        {
+            Log.Warning("Shader {A} exists, not re-adding shader again", id);
+            return;
+        }
+        
+        shaderBundle.Program = new RLShaderProgram(shaderBundle.Graphics, shaderBundle.VertexShader, shaderBundle.FragmentShader);
+        shaderBundle.Name = id;
+        
+        shaders.Add(id, shaderBundle);
     }
 
     /// <summary>
