@@ -269,10 +269,8 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         //     RLConstants.RL_SUN_DIRECTION, Color.FromArgb(255, 255, 253, 231));
         //
         lightingCube = LightingCube.CreatePointLightCube(Graphics, LightManager, "lightCube", "light_cube",
-            RLConstants.RL_SUN_DIRECTION, Color.FromArgb(255, 255, 253, 231));
-
-        lightingCube.Light.Attenuation = Attenuation.DefaultValues.Range50;
-
+            RLConstants.RL_SUN_DIRECTION, Color.FromArgb(255, 255, 253, 231), Attenuation.DefaultValues.Range50);
+        
         // // Position doesn't matter much for directional lights, but still good to place it high
         // lightingCube.Cube.Translate(new Vector3(0, 20, 0));
 

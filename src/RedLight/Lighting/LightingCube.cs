@@ -15,7 +15,7 @@ public class LightingCube
     public Entity Cube;
     public string Name;
     
-    private LightingCube(RLGraphics graphics, LightManager lightManager, string name, string shaderId, Vector3? position, Vector3? direction, Color colour, LightType lightType)
+    private LightingCube(RLGraphics graphics, LightManager lightManager, string name, string shaderId, Vector3? position, Vector3? direction, Color colour, LightType lightType, Attenuation? attenuation)
     {
         this.graphics = graphics;
         this.lightManager = lightManager;
@@ -37,6 +37,8 @@ public class LightingCube
             case LightType.Point:
                 if (position.HasValue)
                     Light = RLLight.CreatePointLight($"{Name}_light", position.Value, colour);
+                if (attenuation.HasValue)
+                    Light.Attenuation = attenuation.Value;
                 break;
             
             default:
@@ -49,13 +51,13 @@ public class LightingCube
     public static LightingCube CreateDirectionalLightCube(RLGraphics graphics, LightManager lightManager, string name,
         string shaderId, Vector3 direction, Color colour)
     {
-        return new LightingCube(graphics, lightManager, name, shaderId, null, direction, colour, LightType.Directional);
+        return new LightingCube(graphics, lightManager, name, shaderId, null, direction, colour, LightType.Directional, null);
     }
     
     public static LightingCube CreatePointLightCube(RLGraphics graphics, LightManager lightManager, string name,
-        string shaderId, Vector3 position, Color colour)
+        string shaderId, Vector3 position, Color colour, Attenuation attenuation)
     {
-        return new LightingCube(graphics, lightManager, name, shaderId, position, null, colour, LightType.Point);
+        return new LightingCube(graphics, lightManager, name, shaderId, position, null, colour, LightType.Point, attenuation);
     }
     
     public void Render(Camera camera)
