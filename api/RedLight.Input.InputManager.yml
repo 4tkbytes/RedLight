@@ -1,0 +1,1187 @@
+### YamlMime:ManagedReference
+items:
+- uid: RedLight.Input.InputManager
+  commentId: T:RedLight.Input.InputManager
+  id: InputManager
+  parent: RedLight.Input
+  children:
+  - RedLight.Input.InputManager.ChangeCaptureToggle(Silk.NET.Input.Key)
+  - RedLight.Input.InputManager.ChangeCaptureToggleReset(Silk.NET.Input.Key)
+  - RedLight.Input.InputManager.ChangeFullscreenToggle(Silk.NET.Input.Key)
+  - RedLight.Input.InputManager.ChangeFullscreenToggleReset(Silk.NET.Input.Key)
+  - RedLight.Input.InputManager.Context
+  - RedLight.Input.InputManager.CreateInput
+  - RedLight.Input.InputManager.Initialise(RedLight.Core.RLWindow)
+  - RedLight.Input.InputManager.Instance
+  - RedLight.Input.InputManager.IsCaptured(Silk.NET.Input.IMouse)
+  - RedLight.Input.InputManager.IsCaptured(Silk.NET.Input.IMouse,System.Boolean)
+  - RedLight.Input.InputManager.Keyboard
+  - RedLight.Input.InputManager.Keyboards
+  - RedLight.Input.InputManager.Mice
+  - RedLight.Input.InputManager.Mouse
+  - RedLight.Input.InputManager.SubscribeToInputs(RedLight.Input.RLKeyboard,RedLight.Input.RLMouse)
+  - RedLight.Input.InputManager.UnsubscribeFromInputs(RedLight.Input.RLKeyboard,RedLight.Input.RLMouse)
+  - RedLight.Input.InputManager.isCaptured
+  langs:
+  - csharp
+  - vb
+  name: InputManager
+  nameWithType: InputManager
+  fullName: RedLight.Input.InputManager
+  type: Class
+  source:
+    remote:
+      path: src/RedLight/Input/InputManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: InputManager
+    path: src/RedLight/Input/InputManager.cs
+    startLine: 6
+  assemblies:
+  - RedLight
+  namespace: RedLight.Input
+  syntax:
+    content: public class InputManager
+    content.vb: Public Class InputManager
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: RedLight.Input.InputManager.Instance
+  commentId: P:RedLight.Input.InputManager.Instance
+  id: Instance
+  parent: RedLight.Input.InputManager
+  langs:
+  - csharp
+  - vb
+  name: Instance
+  nameWithType: InputManager.Instance
+  fullName: RedLight.Input.InputManager.Instance
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Input/InputManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Instance
+    path: src/RedLight/Input/InputManager.cs
+    startLine: 9
+  assemblies:
+  - RedLight
+  namespace: RedLight.Input
+  syntax:
+    content: public static InputManager Instance { get; }
+    parameters: []
+    return:
+      type: RedLight.Input.InputManager
+    content.vb: Public Shared ReadOnly Property Instance As InputManager
+  overload: RedLight.Input.InputManager.Instance*
+- uid: RedLight.Input.InputManager.Initialise(RedLight.Core.RLWindow)
+  commentId: M:RedLight.Input.InputManager.Initialise(RedLight.Core.RLWindow)
+  id: Initialise(RedLight.Core.RLWindow)
+  parent: RedLight.Input.InputManager
+  langs:
+  - csharp
+  - vb
+  name: Initialise(RLWindow)
+  nameWithType: InputManager.Initialise(RLWindow)
+  fullName: RedLight.Input.InputManager.Initialise(RedLight.Core.RLWindow)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Input/InputManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Initialise
+    path: src/RedLight/Input/InputManager.cs
+    startLine: 19
+  assemblies:
+  - RedLight
+  namespace: RedLight.Input
+  syntax:
+    content: public static void Initialise(RLWindow window)
+    parameters:
+    - id: window
+      type: RedLight.Core.RLWindow
+    content.vb: Public Shared Sub Initialise(window As RLWindow)
+  overload: RedLight.Input.InputManager.Initialise*
+- uid: RedLight.Input.InputManager.Context
+  commentId: F:RedLight.Input.InputManager.Context
+  id: Context
+  parent: RedLight.Input.InputManager
+  langs:
+  - csharp
+  - vb
+  name: Context
+  nameWithType: InputManager.Context
+  fullName: RedLight.Input.InputManager.Context
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Input/InputManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Context
+    path: src/RedLight/Input/InputManager.cs
+    startLine: 26
+  assemblies:
+  - RedLight
+  namespace: RedLight.Input
+  syntax:
+    content: public IInputContext Context
+    return:
+      type: Silk.NET.Input.IInputContext
+    content.vb: Public Context As IInputContext
+- uid: RedLight.Input.InputManager.isCaptured
+  commentId: P:RedLight.Input.InputManager.isCaptured
+  id: isCaptured
+  parent: RedLight.Input.InputManager
+  langs:
+  - csharp
+  - vb
+  name: isCaptured
+  nameWithType: InputManager.isCaptured
+  fullName: RedLight.Input.InputManager.isCaptured
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Input/InputManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: isCaptured
+    path: src/RedLight/Input/InputManager.cs
+    startLine: 28
+  assemblies:
+  - RedLight
+  namespace: RedLight.Input
+  syntax:
+    content: public bool isCaptured { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property isCaptured As Boolean
+  overload: RedLight.Input.InputManager.isCaptured*
+- uid: RedLight.Input.InputManager.Keyboards
+  commentId: P:RedLight.Input.InputManager.Keyboards
+  id: Keyboards
+  parent: RedLight.Input.InputManager
+  langs:
+  - csharp
+  - vb
+  name: Keyboards
+  nameWithType: InputManager.Keyboards
+  fullName: RedLight.Input.InputManager.Keyboards
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Input/InputManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Keyboards
+    path: src/RedLight/Input/InputManager.cs
+    startLine: 32
+  assemblies:
+  - RedLight
+  namespace: RedLight.Input
+  syntax:
+    content: public Dictionary<string, RLKeyboard> Keyboards { get; set; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.Dictionary{System.String,RedLight.Input.RLKeyboard}
+    content.vb: Public Property Keyboards As Dictionary(Of String, RLKeyboard)
+  overload: RedLight.Input.InputManager.Keyboards*
+- uid: RedLight.Input.InputManager.Mice
+  commentId: P:RedLight.Input.InputManager.Mice
+  id: Mice
+  parent: RedLight.Input.InputManager
+  langs:
+  - csharp
+  - vb
+  name: Mice
+  nameWithType: InputManager.Mice
+  fullName: RedLight.Input.InputManager.Mice
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Input/InputManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Mice
+    path: src/RedLight/Input/InputManager.cs
+    startLine: 33
+  assemblies:
+  - RedLight
+  namespace: RedLight.Input
+  syntax:
+    content: public Dictionary<string, RLMouse> Mice { get; set; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.Dictionary{System.String,RedLight.Input.RLMouse}
+    content.vb: Public Property Mice As Dictionary(Of String, RLMouse)
+  overload: RedLight.Input.InputManager.Mice*
+- uid: RedLight.Input.InputManager.Keyboard
+  commentId: P:RedLight.Input.InputManager.Keyboard
+  id: Keyboard
+  parent: RedLight.Input.InputManager
+  langs:
+  - csharp
+  - vb
+  name: Keyboard
+  nameWithType: InputManager.Keyboard
+  fullName: RedLight.Input.InputManager.Keyboard
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Input/InputManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Keyboard
+    path: src/RedLight/Input/InputManager.cs
+    startLine: 34
+  assemblies:
+  - RedLight
+  namespace: RedLight.Input
+  syntax:
+    content: public RLKeyboard Keyboard { get; set; }
+    parameters: []
+    return:
+      type: RedLight.Input.RLKeyboard
+    content.vb: Public Property Keyboard As RLKeyboard
+  overload: RedLight.Input.InputManager.Keyboard*
+- uid: RedLight.Input.InputManager.Mouse
+  commentId: P:RedLight.Input.InputManager.Mouse
+  id: Mouse
+  parent: RedLight.Input.InputManager
+  langs:
+  - csharp
+  - vb
+  name: Mouse
+  nameWithType: InputManager.Mouse
+  fullName: RedLight.Input.InputManager.Mouse
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Input/InputManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Mouse
+    path: src/RedLight/Input/InputManager.cs
+    startLine: 35
+  assemblies:
+  - RedLight
+  namespace: RedLight.Input
+  syntax:
+    content: public RLMouse Mouse { get; set; }
+    parameters: []
+    return:
+      type: RedLight.Input.RLMouse
+    content.vb: Public Property Mouse As RLMouse
+  overload: RedLight.Input.InputManager.Mouse*
+- uid: RedLight.Input.InputManager.CreateInput
+  commentId: M:RedLight.Input.InputManager.CreateInput
+  id: CreateInput
+  parent: RedLight.Input.InputManager
+  langs:
+  - csharp
+  - vb
+  name: CreateInput()
+  nameWithType: InputManager.CreateInput()
+  fullName: RedLight.Input.InputManager.CreateInput()
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Input/InputManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: CreateInput
+    path: src/RedLight/Input/InputManager.cs
+    startLine: 42
+  assemblies:
+  - RedLight
+  namespace: RedLight.Input
+  syntax:
+    content: public InputManager CreateInput()
+    return:
+      type: RedLight.Input.InputManager
+    content.vb: Public Function CreateInput() As InputManager
+  overload: RedLight.Input.InputManager.CreateInput*
+- uid: RedLight.Input.InputManager.SubscribeToInputs(RedLight.Input.RLKeyboard,RedLight.Input.RLMouse)
+  commentId: M:RedLight.Input.InputManager.SubscribeToInputs(RedLight.Input.RLKeyboard,RedLight.Input.RLMouse)
+  id: SubscribeToInputs(RedLight.Input.RLKeyboard,RedLight.Input.RLMouse)
+  parent: RedLight.Input.InputManager
+  langs:
+  - csharp
+  - vb
+  name: SubscribeToInputs(RLKeyboard, RLMouse)
+  nameWithType: InputManager.SubscribeToInputs(RLKeyboard, RLMouse)
+  fullName: RedLight.Input.InputManager.SubscribeToInputs(RedLight.Input.RLKeyboard, RedLight.Input.RLMouse)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Input/InputManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: SubscribeToInputs
+    path: src/RedLight/Input/InputManager.cs
+    startLine: 48
+  assemblies:
+  - RedLight
+  namespace: RedLight.Input
+  syntax:
+    content: public void SubscribeToInputs(RLKeyboard keyboardManager, RLMouse mouseManager)
+    parameters:
+    - id: keyboardManager
+      type: RedLight.Input.RLKeyboard
+    - id: mouseManager
+      type: RedLight.Input.RLMouse
+    content.vb: Public Sub SubscribeToInputs(keyboardManager As RLKeyboard, mouseManager As RLMouse)
+  overload: RedLight.Input.InputManager.SubscribeToInputs*
+- uid: RedLight.Input.InputManager.UnsubscribeFromInputs(RedLight.Input.RLKeyboard,RedLight.Input.RLMouse)
+  commentId: M:RedLight.Input.InputManager.UnsubscribeFromInputs(RedLight.Input.RLKeyboard,RedLight.Input.RLMouse)
+  id: UnsubscribeFromInputs(RedLight.Input.RLKeyboard,RedLight.Input.RLMouse)
+  parent: RedLight.Input.InputManager
+  langs:
+  - csharp
+  - vb
+  name: UnsubscribeFromInputs(RLKeyboard, RLMouse)
+  nameWithType: InputManager.UnsubscribeFromInputs(RLKeyboard, RLMouse)
+  fullName: RedLight.Input.InputManager.UnsubscribeFromInputs(RedLight.Input.RLKeyboard, RedLight.Input.RLMouse)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Input/InputManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: UnsubscribeFromInputs
+    path: src/RedLight/Input/InputManager.cs
+    startLine: 101
+  assemblies:
+  - RedLight
+  namespace: RedLight.Input
+  syntax:
+    content: public void UnsubscribeFromInputs(RLKeyboard keyboardManager, RLMouse mouseManager)
+    parameters:
+    - id: keyboardManager
+      type: RedLight.Input.RLKeyboard
+    - id: mouseManager
+      type: RedLight.Input.RLMouse
+    content.vb: Public Sub UnsubscribeFromInputs(keyboardManager As RLKeyboard, mouseManager As RLMouse)
+  overload: RedLight.Input.InputManager.UnsubscribeFromInputs*
+- uid: RedLight.Input.InputManager.ChangeCaptureToggle(Silk.NET.Input.Key)
+  commentId: M:RedLight.Input.InputManager.ChangeCaptureToggle(Silk.NET.Input.Key)
+  id: ChangeCaptureToggle(Silk.NET.Input.Key)
+  parent: RedLight.Input.InputManager
+  langs:
+  - csharp
+  - vb
+  name: ChangeCaptureToggle(Key)
+  nameWithType: InputManager.ChangeCaptureToggle(Key)
+  fullName: RedLight.Input.InputManager.ChangeCaptureToggle(Silk.NET.Input.Key)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Input/InputManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: ChangeCaptureToggle
+    path: src/RedLight/Input/InputManager.cs
+    startLine: 128
+  assemblies:
+  - RedLight
+  namespace: RedLight.Input
+  syntax:
+    content: public void ChangeCaptureToggle(Key key)
+    parameters:
+    - id: key
+      type: Silk.NET.Input.Key
+    content.vb: Public Sub ChangeCaptureToggle(key As Key)
+  overload: RedLight.Input.InputManager.ChangeCaptureToggle*
+- uid: RedLight.Input.InputManager.IsCaptured(Silk.NET.Input.IMouse,System.Boolean)
+  commentId: M:RedLight.Input.InputManager.IsCaptured(Silk.NET.Input.IMouse,System.Boolean)
+  id: IsCaptured(Silk.NET.Input.IMouse,System.Boolean)
+  parent: RedLight.Input.InputManager
+  langs:
+  - csharp
+  - vb
+  name: IsCaptured(IMouse, bool)
+  nameWithType: InputManager.IsCaptured(IMouse, bool)
+  fullName: RedLight.Input.InputManager.IsCaptured(Silk.NET.Input.IMouse, bool)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Input/InputManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: IsCaptured
+    path: src/RedLight/Input/InputManager.cs
+    startLine: 151
+  assemblies:
+  - RedLight
+  namespace: RedLight.Input
+  summary: >-
+    Checks if a mouse is captured and changes the cursor mode.
+
+
+    If the mouse is captured, it will change it to CursorMode.Disabled. If it
+
+    is not disabled, it will change it to CursorMode.Normal.
+  example: []
+  syntax:
+    content: public void IsCaptured(IMouse mouse, bool isCaptured)
+    parameters:
+    - id: mouse
+      type: Silk.NET.Input.IMouse
+      description: IMouse
+    - id: isCaptured
+      type: System.Boolean
+      description: bool
+    content.vb: Public Sub IsCaptured(mouse As IMouse, isCaptured As Boolean)
+  overload: RedLight.Input.InputManager.IsCaptured*
+  nameWithType.vb: InputManager.IsCaptured(IMouse, Boolean)
+  fullName.vb: RedLight.Input.InputManager.IsCaptured(Silk.NET.Input.IMouse, Boolean)
+  name.vb: IsCaptured(IMouse, Boolean)
+- uid: RedLight.Input.InputManager.IsCaptured(Silk.NET.Input.IMouse)
+  commentId: M:RedLight.Input.InputManager.IsCaptured(Silk.NET.Input.IMouse)
+  id: IsCaptured(Silk.NET.Input.IMouse)
+  parent: RedLight.Input.InputManager
+  langs:
+  - csharp
+  - vb
+  name: IsCaptured(IMouse)
+  nameWithType: InputManager.IsCaptured(IMouse)
+  fullName: RedLight.Input.InputManager.IsCaptured(Silk.NET.Input.IMouse)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Input/InputManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: IsCaptured
+    path: src/RedLight/Input/InputManager.cs
+    startLine: 160
+  assemblies:
+  - RedLight
+  namespace: RedLight.Input
+  syntax:
+    content: public void IsCaptured(IMouse mouse)
+    parameters:
+    - id: mouse
+      type: Silk.NET.Input.IMouse
+    content.vb: Public Sub IsCaptured(mouse As IMouse)
+  overload: RedLight.Input.InputManager.IsCaptured*
+- uid: RedLight.Input.InputManager.ChangeCaptureToggleReset(Silk.NET.Input.Key)
+  commentId: M:RedLight.Input.InputManager.ChangeCaptureToggleReset(Silk.NET.Input.Key)
+  id: ChangeCaptureToggleReset(Silk.NET.Input.Key)
+  parent: RedLight.Input.InputManager
+  langs:
+  - csharp
+  - vb
+  name: ChangeCaptureToggleReset(Key)
+  nameWithType: InputManager.ChangeCaptureToggleReset(Key)
+  fullName: RedLight.Input.InputManager.ChangeCaptureToggleReset(Silk.NET.Input.Key)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Input/InputManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: ChangeCaptureToggleReset
+    path: src/RedLight/Input/InputManager.cs
+    startLine: 169
+  assemblies:
+  - RedLight
+  namespace: RedLight.Input
+  syntax:
+    content: public void ChangeCaptureToggleReset(Key key)
+    parameters:
+    - id: key
+      type: Silk.NET.Input.Key
+    content.vb: Public Sub ChangeCaptureToggleReset(key As Key)
+  overload: RedLight.Input.InputManager.ChangeCaptureToggleReset*
+- uid: RedLight.Input.InputManager.ChangeFullscreenToggle(Silk.NET.Input.Key)
+  commentId: M:RedLight.Input.InputManager.ChangeFullscreenToggle(Silk.NET.Input.Key)
+  id: ChangeFullscreenToggle(Silk.NET.Input.Key)
+  parent: RedLight.Input.InputManager
+  langs:
+  - csharp
+  - vb
+  name: ChangeFullscreenToggle(Key)
+  nameWithType: InputManager.ChangeFullscreenToggle(Key)
+  fullName: RedLight.Input.InputManager.ChangeFullscreenToggle(Silk.NET.Input.Key)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Input/InputManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: ChangeFullscreenToggle
+    path: src/RedLight/Input/InputManager.cs
+    startLine: 177
+  assemblies:
+  - RedLight
+  namespace: RedLight.Input
+  syntax:
+    content: public void ChangeFullscreenToggle(Key key)
+    parameters:
+    - id: key
+      type: Silk.NET.Input.Key
+    content.vb: Public Sub ChangeFullscreenToggle(key As Key)
+  overload: RedLight.Input.InputManager.ChangeFullscreenToggle*
+- uid: RedLight.Input.InputManager.ChangeFullscreenToggleReset(Silk.NET.Input.Key)
+  commentId: M:RedLight.Input.InputManager.ChangeFullscreenToggleReset(Silk.NET.Input.Key)
+  id: ChangeFullscreenToggleReset(Silk.NET.Input.Key)
+  parent: RedLight.Input.InputManager
+  langs:
+  - csharp
+  - vb
+  name: ChangeFullscreenToggleReset(Key)
+  nameWithType: InputManager.ChangeFullscreenToggleReset(Key)
+  fullName: RedLight.Input.InputManager.ChangeFullscreenToggleReset(Silk.NET.Input.Key)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Input/InputManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: ChangeFullscreenToggleReset
+    path: src/RedLight/Input/InputManager.cs
+    startLine: 193
+  assemblies:
+  - RedLight
+  namespace: RedLight.Input
+  syntax:
+    content: public void ChangeFullscreenToggleReset(Key key)
+    parameters:
+    - id: key
+      type: Silk.NET.Input.Key
+    content.vb: Public Sub ChangeFullscreenToggleReset(key As Key)
+  overload: RedLight.Input.InputManager.ChangeFullscreenToggleReset*
+references:
+- uid: RedLight.Input
+  commentId: N:RedLight.Input
+  href: RedLight.html
+  name: RedLight.Input
+  nameWithType: RedLight.Input
+  fullName: RedLight.Input
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Input
+    name: Input
+    href: RedLight.Input.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Input
+    name: Input
+    href: RedLight.Input.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: RedLight.Input.InputManager.Instance*
+  commentId: Overload:RedLight.Input.InputManager.Instance
+  href: RedLight.Input.InputManager.html#RedLight_Input_InputManager_Instance
+  name: Instance
+  nameWithType: InputManager.Instance
+  fullName: RedLight.Input.InputManager.Instance
+- uid: RedLight.Input.InputManager
+  commentId: T:RedLight.Input.InputManager
+  parent: RedLight.Input
+  href: RedLight.Input.InputManager.html
+  name: InputManager
+  nameWithType: InputManager
+  fullName: RedLight.Input.InputManager
+- uid: RedLight.Input.InputManager.Initialise*
+  commentId: Overload:RedLight.Input.InputManager.Initialise
+  href: RedLight.Input.InputManager.html#RedLight_Input_InputManager_Initialise_RedLight_Core_RLWindow_
+  name: Initialise
+  nameWithType: InputManager.Initialise
+  fullName: RedLight.Input.InputManager.Initialise
+- uid: RedLight.Core.RLWindow
+  commentId: T:RedLight.Core.RLWindow
+  parent: RedLight.Core
+  href: RedLight.Core.RLWindow.html
+  name: RLWindow
+  nameWithType: RLWindow
+  fullName: RedLight.Core.RLWindow
+- uid: RedLight.Core
+  commentId: N:RedLight.Core
+  href: RedLight.html
+  name: RedLight.Core
+  nameWithType: RedLight.Core
+  fullName: RedLight.Core
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Core
+    name: Core
+    href: RedLight.Core.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Core
+    name: Core
+    href: RedLight.Core.html
+- uid: Silk.NET.Input.IInputContext
+  commentId: T:Silk.NET.Input.IInputContext
+  parent: Silk.NET.Input
+  isExternal: true
+  name: IInputContext
+  nameWithType: IInputContext
+  fullName: Silk.NET.Input.IInputContext
+- uid: Silk.NET.Input
+  commentId: N:Silk.NET.Input
+  isExternal: true
+  name: Silk.NET.Input
+  nameWithType: Silk.NET.Input
+  fullName: Silk.NET.Input
+  spec.csharp:
+  - uid: Silk
+    name: Silk
+    isExternal: true
+  - name: .
+  - uid: Silk.NET
+    name: NET
+    isExternal: true
+  - name: .
+  - uid: Silk.NET.Input
+    name: Input
+    isExternal: true
+  spec.vb:
+  - uid: Silk
+    name: Silk
+    isExternal: true
+  - name: .
+  - uid: Silk.NET
+    name: NET
+    isExternal: true
+  - name: .
+  - uid: Silk.NET.Input
+    name: Input
+    isExternal: true
+- uid: RedLight.Input.InputManager.isCaptured*
+  commentId: Overload:RedLight.Input.InputManager.isCaptured
+  href: RedLight.Input.InputManager.html#RedLight_Input_InputManager_isCaptured
+  name: isCaptured
+  nameWithType: InputManager.isCaptured
+  fullName: RedLight.Input.InputManager.isCaptured
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: RedLight.Input.InputManager.Keyboards*
+  commentId: Overload:RedLight.Input.InputManager.Keyboards
+  href: RedLight.Input.InputManager.html#RedLight_Input_InputManager_Keyboards
+  name: Keyboards
+  nameWithType: InputManager.Keyboards
+  fullName: RedLight.Input.InputManager.Keyboards
+- uid: System.Collections.Generic.Dictionary{System.String,RedLight.Input.RLKeyboard}
+  commentId: T:System.Collections.Generic.Dictionary{System.String,RedLight.Input.RLKeyboard}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<string, RLKeyboard>
+  nameWithType: Dictionary<string, RLKeyboard>
+  fullName: System.Collections.Generic.Dictionary<string, RedLight.Input.RLKeyboard>
+  nameWithType.vb: Dictionary(Of String, RLKeyboard)
+  fullName.vb: System.Collections.Generic.Dictionary(Of String, RedLight.Input.RLKeyboard)
+  name.vb: Dictionary(Of String, RLKeyboard)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: RedLight.Input.RLKeyboard
+    name: RLKeyboard
+    href: RedLight.Input.RLKeyboard.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: RedLight.Input.RLKeyboard
+    name: RLKeyboard
+    href: RedLight.Input.RLKeyboard.html
+  - name: )
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: RedLight.Input.InputManager.Mice*
+  commentId: Overload:RedLight.Input.InputManager.Mice
+  href: RedLight.Input.InputManager.html#RedLight_Input_InputManager_Mice
+  name: Mice
+  nameWithType: InputManager.Mice
+  fullName: RedLight.Input.InputManager.Mice
+- uid: System.Collections.Generic.Dictionary{System.String,RedLight.Input.RLMouse}
+  commentId: T:System.Collections.Generic.Dictionary{System.String,RedLight.Input.RLMouse}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<string, RLMouse>
+  nameWithType: Dictionary<string, RLMouse>
+  fullName: System.Collections.Generic.Dictionary<string, RedLight.Input.RLMouse>
+  nameWithType.vb: Dictionary(Of String, RLMouse)
+  fullName.vb: System.Collections.Generic.Dictionary(Of String, RedLight.Input.RLMouse)
+  name.vb: Dictionary(Of String, RLMouse)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: RedLight.Input.RLMouse
+    name: RLMouse
+    href: RedLight.Input.RLMouse.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: RedLight.Input.RLMouse
+    name: RLMouse
+    href: RedLight.Input.RLMouse.html
+  - name: )
+- uid: RedLight.Input.InputManager.Keyboard*
+  commentId: Overload:RedLight.Input.InputManager.Keyboard
+  href: RedLight.Input.InputManager.html#RedLight_Input_InputManager_Keyboard
+  name: Keyboard
+  nameWithType: InputManager.Keyboard
+  fullName: RedLight.Input.InputManager.Keyboard
+- uid: RedLight.Input.RLKeyboard
+  commentId: T:RedLight.Input.RLKeyboard
+  parent: RedLight.Input
+  href: RedLight.Input.RLKeyboard.html
+  name: RLKeyboard
+  nameWithType: RLKeyboard
+  fullName: RedLight.Input.RLKeyboard
+- uid: RedLight.Input.InputManager.Mouse*
+  commentId: Overload:RedLight.Input.InputManager.Mouse
+  href: RedLight.Input.InputManager.html#RedLight_Input_InputManager_Mouse
+  name: Mouse
+  nameWithType: InputManager.Mouse
+  fullName: RedLight.Input.InputManager.Mouse
+- uid: RedLight.Input.RLMouse
+  commentId: T:RedLight.Input.RLMouse
+  parent: RedLight.Input
+  href: RedLight.Input.RLMouse.html
+  name: RLMouse
+  nameWithType: RLMouse
+  fullName: RedLight.Input.RLMouse
+- uid: RedLight.Input.InputManager.CreateInput*
+  commentId: Overload:RedLight.Input.InputManager.CreateInput
+  href: RedLight.Input.InputManager.html#RedLight_Input_InputManager_CreateInput
+  name: CreateInput
+  nameWithType: InputManager.CreateInput
+  fullName: RedLight.Input.InputManager.CreateInput
+- uid: RedLight.Input.InputManager.SubscribeToInputs*
+  commentId: Overload:RedLight.Input.InputManager.SubscribeToInputs
+  href: RedLight.Input.InputManager.html#RedLight_Input_InputManager_SubscribeToInputs_RedLight_Input_RLKeyboard_RedLight_Input_RLMouse_
+  name: SubscribeToInputs
+  nameWithType: InputManager.SubscribeToInputs
+  fullName: RedLight.Input.InputManager.SubscribeToInputs
+- uid: RedLight.Input.InputManager.UnsubscribeFromInputs*
+  commentId: Overload:RedLight.Input.InputManager.UnsubscribeFromInputs
+  href: RedLight.Input.InputManager.html#RedLight_Input_InputManager_UnsubscribeFromInputs_RedLight_Input_RLKeyboard_RedLight_Input_RLMouse_
+  name: UnsubscribeFromInputs
+  nameWithType: InputManager.UnsubscribeFromInputs
+  fullName: RedLight.Input.InputManager.UnsubscribeFromInputs
+- uid: RedLight.Input.InputManager.ChangeCaptureToggle*
+  commentId: Overload:RedLight.Input.InputManager.ChangeCaptureToggle
+  href: RedLight.Input.InputManager.html#RedLight_Input_InputManager_ChangeCaptureToggle_Silk_NET_Input_Key_
+  name: ChangeCaptureToggle
+  nameWithType: InputManager.ChangeCaptureToggle
+  fullName: RedLight.Input.InputManager.ChangeCaptureToggle
+- uid: Silk.NET.Input.Key
+  commentId: T:Silk.NET.Input.Key
+  parent: Silk.NET.Input
+  isExternal: true
+  name: Key
+  nameWithType: Key
+  fullName: Silk.NET.Input.Key
+- uid: RedLight.Input.InputManager.IsCaptured*
+  commentId: Overload:RedLight.Input.InputManager.IsCaptured
+  href: RedLight.Input.InputManager.html#RedLight_Input_InputManager_IsCaptured_Silk_NET_Input_IMouse_System_Boolean_
+  name: IsCaptured
+  nameWithType: InputManager.IsCaptured
+  fullName: RedLight.Input.InputManager.IsCaptured
+- uid: Silk.NET.Input.IMouse
+  commentId: T:Silk.NET.Input.IMouse
+  parent: Silk.NET.Input
+  isExternal: true
+  name: IMouse
+  nameWithType: IMouse
+  fullName: Silk.NET.Input.IMouse
+- uid: RedLight.Input.InputManager.ChangeCaptureToggleReset*
+  commentId: Overload:RedLight.Input.InputManager.ChangeCaptureToggleReset
+  href: RedLight.Input.InputManager.html#RedLight_Input_InputManager_ChangeCaptureToggleReset_Silk_NET_Input_Key_
+  name: ChangeCaptureToggleReset
+  nameWithType: InputManager.ChangeCaptureToggleReset
+  fullName: RedLight.Input.InputManager.ChangeCaptureToggleReset
+- uid: RedLight.Input.InputManager.ChangeFullscreenToggle*
+  commentId: Overload:RedLight.Input.InputManager.ChangeFullscreenToggle
+  href: RedLight.Input.InputManager.html#RedLight_Input_InputManager_ChangeFullscreenToggle_Silk_NET_Input_Key_
+  name: ChangeFullscreenToggle
+  nameWithType: InputManager.ChangeFullscreenToggle
+  fullName: RedLight.Input.InputManager.ChangeFullscreenToggle
+- uid: RedLight.Input.InputManager.ChangeFullscreenToggleReset*
+  commentId: Overload:RedLight.Input.InputManager.ChangeFullscreenToggleReset
+  href: RedLight.Input.InputManager.html#RedLight_Input_InputManager_ChangeFullscreenToggleReset_Silk_NET_Input_Key_
+  name: ChangeFullscreenToggleReset
+  nameWithType: InputManager.ChangeFullscreenToggleReset
+  fullName: RedLight.Input.InputManager.ChangeFullscreenToggleReset

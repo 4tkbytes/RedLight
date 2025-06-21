@@ -1,0 +1,1359 @@
+### YamlMime:ManagedReference
+items:
+- uid: RedLight.Lighting.LightManager
+  commentId: T:RedLight.Lighting.LightManager
+  id: LightManager
+  parent: RedLight.Lighting
+  children:
+  - RedLight.Lighting.LightManager.#ctor
+  - RedLight.Lighting.LightManager.AddLight(RedLight.Lighting.RLLight)
+  - RedLight.Lighting.LightManager.AddLightWithVisual(RedLight.Lighting.RLLight,RedLight.Entities.Entity)
+  - RedLight.Lighting.LightManager.ApplyLightCubeShader(System.String,System.String,RedLight.Graphics.ShaderManager)
+  - RedLight.Lighting.LightManager.ApplyLightsToShader(System.Numerics.Vector3,System.String)
+  - RedLight.Lighting.LightManager.Diffuse
+  - RedLight.Lighting.LightManager.DisableAllLights
+  - RedLight.Lighting.LightManager.EnableAllLights
+  - RedLight.Lighting.LightManager.EnableLight(System.String,System.Boolean)
+  - RedLight.Lighting.LightManager.Gamma
+  - RedLight.Lighting.LightManager.GetAllLightCubes
+  - RedLight.Lighting.LightManager.GetAllLights
+  - RedLight.Lighting.LightManager.GetEnabledLights
+  - RedLight.Lighting.LightManager.GetLight(System.String)
+  - RedLight.Lighting.LightManager.GetLightCube(System.String)
+  - RedLight.Lighting.LightManager.RemoveLight(System.String)
+  - RedLight.Lighting.LightManager.Shininess
+  - RedLight.Lighting.LightManager.Specular
+  - RedLight.Lighting.LightManager.UpdateLightColor(System.String,System.Numerics.Vector3)
+  - RedLight.Lighting.LightManager.UpdateLightDirection(System.String,System.Numerics.Vector3)
+  - RedLight.Lighting.LightManager.UpdateLightPosition(System.String,System.Numerics.Vector3)
+  langs:
+  - csharp
+  - vb
+  name: LightManager
+  nameWithType: LightManager
+  fullName: RedLight.Lighting.LightManager
+  type: Class
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: LightManager
+    path: src/RedLight/Lighting/LightManager.cs
+    startLine: 7
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public class LightManager
+    content.vb: Public Class LightManager
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: RedLight.Lighting.LightManager.Gamma
+  commentId: P:RedLight.Lighting.LightManager.Gamma
+  id: Gamma
+  parent: RedLight.Lighting.LightManager
+  langs:
+  - csharp
+  - vb
+  name: Gamma
+  nameWithType: LightManager.Gamma
+  fullName: RedLight.Lighting.LightManager.Gamma
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Gamma
+    path: src/RedLight/Lighting/LightManager.cs
+    startLine: 16
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public float Gamma { get; set; }
+    parameters: []
+    return:
+      type: System.Single
+    content.vb: Public Property Gamma As Single
+  overload: RedLight.Lighting.LightManager.Gamma*
+- uid: RedLight.Lighting.LightManager.Specular
+  commentId: P:RedLight.Lighting.LightManager.Specular
+  id: Specular
+  parent: RedLight.Lighting.LightManager
+  langs:
+  - csharp
+  - vb
+  name: Specular
+  nameWithType: LightManager.Specular
+  fullName: RedLight.Lighting.LightManager.Specular
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Specular
+    path: src/RedLight/Lighting/LightManager.cs
+    startLine: 18
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public float Specular { get; set; }
+    parameters: []
+    return:
+      type: System.Single
+    content.vb: Public Property Specular As Single
+  overload: RedLight.Lighting.LightManager.Specular*
+- uid: RedLight.Lighting.LightManager.Diffuse
+  commentId: P:RedLight.Lighting.LightManager.Diffuse
+  id: Diffuse
+  parent: RedLight.Lighting.LightManager
+  langs:
+  - csharp
+  - vb
+  name: Diffuse
+  nameWithType: LightManager.Diffuse
+  fullName: RedLight.Lighting.LightManager.Diffuse
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Diffuse
+    path: src/RedLight/Lighting/LightManager.cs
+    startLine: 24
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public float Diffuse { get; set; }
+    parameters: []
+    return:
+      type: System.Single
+    content.vb: Public Property Diffuse As Single
+  overload: RedLight.Lighting.LightManager.Diffuse*
+- uid: RedLight.Lighting.LightManager.Shininess
+  commentId: P:RedLight.Lighting.LightManager.Shininess
+  id: Shininess
+  parent: RedLight.Lighting.LightManager
+  langs:
+  - csharp
+  - vb
+  name: Shininess
+  nameWithType: LightManager.Shininess
+  fullName: RedLight.Lighting.LightManager.Shininess
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Shininess
+    path: src/RedLight/Lighting/LightManager.cs
+    startLine: 30
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public float Shininess { get; set; }
+    parameters: []
+    return:
+      type: System.Single
+    content.vb: Public Property Shininess As Single
+  overload: RedLight.Lighting.LightManager.Shininess*
+- uid: RedLight.Lighting.LightManager.#ctor
+  commentId: M:RedLight.Lighting.LightManager.#ctor
+  id: '#ctor'
+  parent: RedLight.Lighting.LightManager
+  langs:
+  - csharp
+  - vb
+  name: LightManager()
+  nameWithType: LightManager.LightManager()
+  fullName: RedLight.Lighting.LightManager.LightManager()
+  type: Constructor
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: .ctor
+    path: src/RedLight/Lighting/LightManager.cs
+    startLine: 36
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public LightManager()
+    content.vb: Public Sub New()
+  overload: RedLight.Lighting.LightManager.#ctor*
+  nameWithType.vb: LightManager.New()
+  fullName.vb: RedLight.Lighting.LightManager.New()
+  name.vb: New()
+- uid: RedLight.Lighting.LightManager.AddLight(RedLight.Lighting.RLLight)
+  commentId: M:RedLight.Lighting.LightManager.AddLight(RedLight.Lighting.RLLight)
+  id: AddLight(RedLight.Lighting.RLLight)
+  parent: RedLight.Lighting.LightManager
+  langs:
+  - csharp
+  - vb
+  name: AddLight(RLLight)
+  nameWithType: LightManager.AddLight(RLLight)
+  fullName: RedLight.Lighting.LightManager.AddLight(RedLight.Lighting.RLLight)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: AddLight
+    path: src/RedLight/Lighting/LightManager.cs
+    startLine: 42
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public void AddLight(RLLight light)
+    parameters:
+    - id: light
+      type: RedLight.Lighting.RLLight
+    content.vb: Public Sub AddLight(light As RLLight)
+  overload: RedLight.Lighting.LightManager.AddLight*
+- uid: RedLight.Lighting.LightManager.AddLightWithVisual(RedLight.Lighting.RLLight,RedLight.Entities.Entity)
+  commentId: M:RedLight.Lighting.LightManager.AddLightWithVisual(RedLight.Lighting.RLLight,RedLight.Entities.Entity)
+  id: AddLightWithVisual(RedLight.Lighting.RLLight,RedLight.Entities.Entity)
+  parent: RedLight.Lighting.LightManager
+  langs:
+  - csharp
+  - vb
+  name: AddLightWithVisual(RLLight, Entity)
+  nameWithType: LightManager.AddLightWithVisual(RLLight, Entity)
+  fullName: RedLight.Lighting.LightManager.AddLightWithVisual(RedLight.Lighting.RLLight, RedLight.Entities.Entity)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: AddLightWithVisual
+    path: src/RedLight/Lighting/LightManager.cs
+    startLine: 53
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public void AddLightWithVisual(RLLight light, Entity lightCube)
+    parameters:
+    - id: light
+      type: RedLight.Lighting.RLLight
+    - id: lightCube
+      type: RedLight.Entities.Entity
+    content.vb: Public Sub AddLightWithVisual(light As RLLight, lightCube As Entity)
+  overload: RedLight.Lighting.LightManager.AddLightWithVisual*
+- uid: RedLight.Lighting.LightManager.GetLight(System.String)
+  commentId: M:RedLight.Lighting.LightManager.GetLight(System.String)
+  id: GetLight(System.String)
+  parent: RedLight.Lighting.LightManager
+  langs:
+  - csharp
+  - vb
+  name: GetLight(string)
+  nameWithType: LightManager.GetLight(string)
+  fullName: RedLight.Lighting.LightManager.GetLight(string)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: GetLight
+    path: src/RedLight/Lighting/LightManager.cs
+    startLine: 60
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public RLLight? GetLight(string name)
+    parameters:
+    - id: name
+      type: System.String
+    return:
+      type: RedLight.Lighting.RLLight
+    content.vb: Public Function GetLight(name As String) As RLLight
+  overload: RedLight.Lighting.LightManager.GetLight*
+  nameWithType.vb: LightManager.GetLight(String)
+  fullName.vb: RedLight.Lighting.LightManager.GetLight(String)
+  name.vb: GetLight(String)
+- uid: RedLight.Lighting.LightManager.GetLightCube(System.String)
+  commentId: M:RedLight.Lighting.LightManager.GetLightCube(System.String)
+  id: GetLightCube(System.String)
+  parent: RedLight.Lighting.LightManager
+  langs:
+  - csharp
+  - vb
+  name: GetLightCube(string)
+  nameWithType: LightManager.GetLightCube(string)
+  fullName: RedLight.Lighting.LightManager.GetLightCube(string)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: GetLightCube
+    path: src/RedLight/Lighting/LightManager.cs
+    startLine: 65
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public Entity? GetLightCube(string name)
+    parameters:
+    - id: name
+      type: System.String
+    return:
+      type: RedLight.Entities.Entity
+    content.vb: Public Function GetLightCube(name As String) As Entity
+  overload: RedLight.Lighting.LightManager.GetLightCube*
+  nameWithType.vb: LightManager.GetLightCube(String)
+  fullName.vb: RedLight.Lighting.LightManager.GetLightCube(String)
+  name.vb: GetLightCube(String)
+- uid: RedLight.Lighting.LightManager.RemoveLight(System.String)
+  commentId: M:RedLight.Lighting.LightManager.RemoveLight(System.String)
+  id: RemoveLight(System.String)
+  parent: RedLight.Lighting.LightManager
+  langs:
+  - csharp
+  - vb
+  name: RemoveLight(string)
+  nameWithType: LightManager.RemoveLight(string)
+  fullName: RedLight.Lighting.LightManager.RemoveLight(string)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: RemoveLight
+    path: src/RedLight/Lighting/LightManager.cs
+    startLine: 70
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public void RemoveLight(string name)
+    parameters:
+    - id: name
+      type: System.String
+    content.vb: Public Sub RemoveLight(name As String)
+  overload: RedLight.Lighting.LightManager.RemoveLight*
+  nameWithType.vb: LightManager.RemoveLight(String)
+  fullName.vb: RedLight.Lighting.LightManager.RemoveLight(String)
+  name.vb: RemoveLight(String)
+- uid: RedLight.Lighting.LightManager.UpdateLightPosition(System.String,System.Numerics.Vector3)
+  commentId: M:RedLight.Lighting.LightManager.UpdateLightPosition(System.String,System.Numerics.Vector3)
+  id: UpdateLightPosition(System.String,System.Numerics.Vector3)
+  parent: RedLight.Lighting.LightManager
+  langs:
+  - csharp
+  - vb
+  name: UpdateLightPosition(string, Vector3)
+  nameWithType: LightManager.UpdateLightPosition(string, Vector3)
+  fullName: RedLight.Lighting.LightManager.UpdateLightPosition(string, System.Numerics.Vector3)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: UpdateLightPosition
+    path: src/RedLight/Lighting/LightManager.cs
+    startLine: 79
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public void UpdateLightPosition(string name, Vector3 position)
+    parameters:
+    - id: name
+      type: System.String
+    - id: position
+      type: System.Numerics.Vector3
+    content.vb: Public Sub UpdateLightPosition(name As String, position As Vector3)
+  overload: RedLight.Lighting.LightManager.UpdateLightPosition*
+  nameWithType.vb: LightManager.UpdateLightPosition(String, Vector3)
+  fullName.vb: RedLight.Lighting.LightManager.UpdateLightPosition(String, System.Numerics.Vector3)
+  name.vb: UpdateLightPosition(String, Vector3)
+- uid: RedLight.Lighting.LightManager.UpdateLightColor(System.String,System.Numerics.Vector3)
+  commentId: M:RedLight.Lighting.LightManager.UpdateLightColor(System.String,System.Numerics.Vector3)
+  id: UpdateLightColor(System.String,System.Numerics.Vector3)
+  parent: RedLight.Lighting.LightManager
+  langs:
+  - csharp
+  - vb
+  name: UpdateLightColor(string, Vector3)
+  nameWithType: LightManager.UpdateLightColor(string, Vector3)
+  fullName: RedLight.Lighting.LightManager.UpdateLightColor(string, System.Numerics.Vector3)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: UpdateLightColor
+    path: src/RedLight/Lighting/LightManager.cs
+    startLine: 87
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public void UpdateLightColor(string name, Vector3 color)
+    parameters:
+    - id: name
+      type: System.String
+    - id: color
+      type: System.Numerics.Vector3
+    content.vb: Public Sub UpdateLightColor(name As String, color As Vector3)
+  overload: RedLight.Lighting.LightManager.UpdateLightColor*
+  nameWithType.vb: LightManager.UpdateLightColor(String, Vector3)
+  fullName.vb: RedLight.Lighting.LightManager.UpdateLightColor(String, System.Numerics.Vector3)
+  name.vb: UpdateLightColor(String, Vector3)
+- uid: RedLight.Lighting.LightManager.UpdateLightDirection(System.String,System.Numerics.Vector3)
+  commentId: M:RedLight.Lighting.LightManager.UpdateLightDirection(System.String,System.Numerics.Vector3)
+  id: UpdateLightDirection(System.String,System.Numerics.Vector3)
+  parent: RedLight.Lighting.LightManager
+  langs:
+  - csharp
+  - vb
+  name: UpdateLightDirection(string, Vector3)
+  nameWithType: LightManager.UpdateLightDirection(string, Vector3)
+  fullName: RedLight.Lighting.LightManager.UpdateLightDirection(string, System.Numerics.Vector3)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: UpdateLightDirection
+    path: src/RedLight/Lighting/LightManager.cs
+    startLine: 95
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public void UpdateLightDirection(string name, Vector3 direction)
+    parameters:
+    - id: name
+      type: System.String
+    - id: direction
+      type: System.Numerics.Vector3
+    content.vb: Public Sub UpdateLightDirection(name As String, direction As Vector3)
+  overload: RedLight.Lighting.LightManager.UpdateLightDirection*
+  nameWithType.vb: LightManager.UpdateLightDirection(String, Vector3)
+  fullName.vb: RedLight.Lighting.LightManager.UpdateLightDirection(String, System.Numerics.Vector3)
+  name.vb: UpdateLightDirection(String, Vector3)
+- uid: RedLight.Lighting.LightManager.EnableLight(System.String,System.Boolean)
+  commentId: M:RedLight.Lighting.LightManager.EnableLight(System.String,System.Boolean)
+  id: EnableLight(System.String,System.Boolean)
+  parent: RedLight.Lighting.LightManager
+  langs:
+  - csharp
+  - vb
+  name: EnableLight(string, bool)
+  nameWithType: LightManager.EnableLight(string, bool)
+  fullName: RedLight.Lighting.LightManager.EnableLight(string, bool)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: EnableLight
+    path: src/RedLight/Lighting/LightManager.cs
+    startLine: 103
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public void EnableLight(string name, bool enabled = true)
+    parameters:
+    - id: name
+      type: System.String
+    - id: enabled
+      type: System.Boolean
+    content.vb: Public Sub EnableLight(name As String, enabled As Boolean = True)
+  overload: RedLight.Lighting.LightManager.EnableLight*
+  nameWithType.vb: LightManager.EnableLight(String, Boolean)
+  fullName.vb: RedLight.Lighting.LightManager.EnableLight(String, Boolean)
+  name.vb: EnableLight(String, Boolean)
+- uid: RedLight.Lighting.LightManager.ApplyLightsToShader(System.Numerics.Vector3,System.String)
+  commentId: M:RedLight.Lighting.LightManager.ApplyLightsToShader(System.Numerics.Vector3,System.String)
+  id: ApplyLightsToShader(System.Numerics.Vector3,System.String)
+  parent: RedLight.Lighting.LightManager
+  langs:
+  - csharp
+  - vb
+  name: ApplyLightsToShader(Vector3, string)
+  nameWithType: LightManager.ApplyLightsToShader(Vector3, string)
+  fullName: RedLight.Lighting.LightManager.ApplyLightsToShader(System.Numerics.Vector3, string)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: ApplyLightsToShader
+    path: src/RedLight/Lighting/LightManager.cs
+    startLine: 111
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public void ApplyLightsToShader(Vector3 viewPosition, string shaderName = "lit")
+    parameters:
+    - id: viewPosition
+      type: System.Numerics.Vector3
+    - id: shaderName
+      type: System.String
+    content.vb: Public Sub ApplyLightsToShader(viewPosition As Vector3, shaderName As String = "lit")
+  overload: RedLight.Lighting.LightManager.ApplyLightsToShader*
+  nameWithType.vb: LightManager.ApplyLightsToShader(Vector3, String)
+  fullName.vb: RedLight.Lighting.LightManager.ApplyLightsToShader(System.Numerics.Vector3, String)
+  name.vb: ApplyLightsToShader(Vector3, String)
+- uid: RedLight.Lighting.LightManager.ApplyLightCubeShader(System.String,System.String,RedLight.Graphics.ShaderManager)
+  commentId: M:RedLight.Lighting.LightManager.ApplyLightCubeShader(System.String,System.String,RedLight.Graphics.ShaderManager)
+  id: ApplyLightCubeShader(System.String,System.String,RedLight.Graphics.ShaderManager)
+  parent: RedLight.Lighting.LightManager
+  langs:
+  - csharp
+  - vb
+  name: ApplyLightCubeShader(string, string, ShaderManager)
+  nameWithType: LightManager.ApplyLightCubeShader(string, string, ShaderManager)
+  fullName: RedLight.Lighting.LightManager.ApplyLightCubeShader(string, string, RedLight.Graphics.ShaderManager)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: ApplyLightCubeShader
+    path: src/RedLight/Lighting/LightManager.cs
+    startLine: 154
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public void ApplyLightCubeShader(string lightName, string shaderName, ShaderManager shaderManager)
+    parameters:
+    - id: lightName
+      type: System.String
+    - id: shaderName
+      type: System.String
+    - id: shaderManager
+      type: RedLight.Graphics.ShaderManager
+    content.vb: Public Sub ApplyLightCubeShader(lightName As String, shaderName As String, shaderManager As ShaderManager)
+  overload: RedLight.Lighting.LightManager.ApplyLightCubeShader*
+  nameWithType.vb: LightManager.ApplyLightCubeShader(String, String, ShaderManager)
+  fullName.vb: RedLight.Lighting.LightManager.ApplyLightCubeShader(String, String, RedLight.Graphics.ShaderManager)
+  name.vb: ApplyLightCubeShader(String, String, ShaderManager)
+- uid: RedLight.Lighting.LightManager.GetAllLights
+  commentId: M:RedLight.Lighting.LightManager.GetAllLights
+  id: GetAllLights
+  parent: RedLight.Lighting.LightManager
+  langs:
+  - csharp
+  - vb
+  name: GetAllLights()
+  nameWithType: LightManager.GetAllLights()
+  fullName: RedLight.Lighting.LightManager.GetAllLights()
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: GetAllLights
+    path: src/RedLight/Lighting/LightManager.cs
+    startLine: 208
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public IEnumerable<RLLight> GetAllLights()
+    return:
+      type: System.Collections.Generic.IEnumerable{RedLight.Lighting.RLLight}
+    content.vb: Public Function GetAllLights() As IEnumerable(Of RLLight)
+  overload: RedLight.Lighting.LightManager.GetAllLights*
+- uid: RedLight.Lighting.LightManager.GetEnabledLights
+  commentId: M:RedLight.Lighting.LightManager.GetEnabledLights
+  id: GetEnabledLights
+  parent: RedLight.Lighting.LightManager
+  langs:
+  - csharp
+  - vb
+  name: GetEnabledLights()
+  nameWithType: LightManager.GetEnabledLights()
+  fullName: RedLight.Lighting.LightManager.GetEnabledLights()
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: GetEnabledLights
+    path: src/RedLight/Lighting/LightManager.cs
+    startLine: 209
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public IEnumerable<RLLight> GetEnabledLights()
+    return:
+      type: System.Collections.Generic.IEnumerable{RedLight.Lighting.RLLight}
+    content.vb: Public Function GetEnabledLights() As IEnumerable(Of RLLight)
+  overload: RedLight.Lighting.LightManager.GetEnabledLights*
+- uid: RedLight.Lighting.LightManager.GetAllLightCubes
+  commentId: M:RedLight.Lighting.LightManager.GetAllLightCubes
+  id: GetAllLightCubes
+  parent: RedLight.Lighting.LightManager
+  langs:
+  - csharp
+  - vb
+  name: GetAllLightCubes()
+  nameWithType: LightManager.GetAllLightCubes()
+  fullName: RedLight.Lighting.LightManager.GetAllLightCubes()
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: GetAllLightCubes
+    path: src/RedLight/Lighting/LightManager.cs
+    startLine: 210
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public IEnumerable<Entity> GetAllLightCubes()
+    return:
+      type: System.Collections.Generic.IEnumerable{RedLight.Entities.Entity}
+    content.vb: Public Function GetAllLightCubes() As IEnumerable(Of Entity)
+  overload: RedLight.Lighting.LightManager.GetAllLightCubes*
+- uid: RedLight.Lighting.LightManager.DisableAllLights
+  commentId: M:RedLight.Lighting.LightManager.DisableAllLights
+  id: DisableAllLights
+  parent: RedLight.Lighting.LightManager
+  langs:
+  - csharp
+  - vb
+  name: DisableAllLights()
+  nameWithType: LightManager.DisableAllLights()
+  fullName: RedLight.Lighting.LightManager.DisableAllLights()
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: DisableAllLights
+    path: src/RedLight/Lighting/LightManager.cs
+    startLine: 212
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public void DisableAllLights()
+    content.vb: Public Sub DisableAllLights()
+  overload: RedLight.Lighting.LightManager.DisableAllLights*
+- uid: RedLight.Lighting.LightManager.EnableAllLights
+  commentId: M:RedLight.Lighting.LightManager.EnableAllLights
+  id: EnableAllLights
+  parent: RedLight.Lighting.LightManager
+  langs:
+  - csharp
+  - vb
+  name: EnableAllLights()
+  nameWithType: LightManager.EnableAllLights()
+  fullName: RedLight.Lighting.LightManager.EnableAllLights()
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: EnableAllLights
+    path: src/RedLight/Lighting/LightManager.cs
+    startLine: 220
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public void EnableAllLights()
+    content.vb: Public Sub EnableAllLights()
+  overload: RedLight.Lighting.LightManager.EnableAllLights*
+references:
+- uid: RedLight.Lighting
+  commentId: N:RedLight.Lighting
+  href: RedLight.html
+  name: RedLight.Lighting
+  nameWithType: RedLight.Lighting
+  fullName: RedLight.Lighting
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Lighting
+    name: Lighting
+    href: RedLight.Lighting.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Lighting
+    name: Lighting
+    href: RedLight.Lighting.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: RedLight.Lighting.LightManager.Gamma*
+  commentId: Overload:RedLight.Lighting.LightManager.Gamma
+  href: RedLight.Lighting.LightManager.html#RedLight_Lighting_LightManager_Gamma
+  name: Gamma
+  nameWithType: LightManager.Gamma
+  fullName: RedLight.Lighting.LightManager.Gamma
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.single
+  name: float
+  nameWithType: float
+  fullName: float
+  nameWithType.vb: Single
+  fullName.vb: Single
+  name.vb: Single
+- uid: RedLight.Lighting.LightManager.Specular*
+  commentId: Overload:RedLight.Lighting.LightManager.Specular
+  href: RedLight.Lighting.LightManager.html#RedLight_Lighting_LightManager_Specular
+  name: Specular
+  nameWithType: LightManager.Specular
+  fullName: RedLight.Lighting.LightManager.Specular
+- uid: RedLight.Lighting.LightManager.Diffuse*
+  commentId: Overload:RedLight.Lighting.LightManager.Diffuse
+  href: RedLight.Lighting.LightManager.html#RedLight_Lighting_LightManager_Diffuse
+  name: Diffuse
+  nameWithType: LightManager.Diffuse
+  fullName: RedLight.Lighting.LightManager.Diffuse
+- uid: RedLight.Lighting.LightManager.Shininess*
+  commentId: Overload:RedLight.Lighting.LightManager.Shininess
+  href: RedLight.Lighting.LightManager.html#RedLight_Lighting_LightManager_Shininess
+  name: Shininess
+  nameWithType: LightManager.Shininess
+  fullName: RedLight.Lighting.LightManager.Shininess
+- uid: RedLight.Lighting.LightManager.#ctor*
+  commentId: Overload:RedLight.Lighting.LightManager.#ctor
+  href: RedLight.Lighting.LightManager.html#RedLight_Lighting_LightManager__ctor
+  name: LightManager
+  nameWithType: LightManager.LightManager
+  fullName: RedLight.Lighting.LightManager.LightManager
+  nameWithType.vb: LightManager.New
+  fullName.vb: RedLight.Lighting.LightManager.New
+  name.vb: New
+- uid: RedLight.Lighting.LightManager.AddLight*
+  commentId: Overload:RedLight.Lighting.LightManager.AddLight
+  href: RedLight.Lighting.LightManager.html#RedLight_Lighting_LightManager_AddLight_RedLight_Lighting_RLLight_
+  name: AddLight
+  nameWithType: LightManager.AddLight
+  fullName: RedLight.Lighting.LightManager.AddLight
+- uid: RedLight.Lighting.RLLight
+  commentId: T:RedLight.Lighting.RLLight
+  parent: RedLight.Lighting
+  href: RedLight.Lighting.RLLight.html
+  name: RLLight
+  nameWithType: RLLight
+  fullName: RedLight.Lighting.RLLight
+- uid: RedLight.Lighting.LightManager.AddLightWithVisual*
+  commentId: Overload:RedLight.Lighting.LightManager.AddLightWithVisual
+  href: RedLight.Lighting.LightManager.html#RedLight_Lighting_LightManager_AddLightWithVisual_RedLight_Lighting_RLLight_RedLight_Entities_Entity_
+  name: AddLightWithVisual
+  nameWithType: LightManager.AddLightWithVisual
+  fullName: RedLight.Lighting.LightManager.AddLightWithVisual
+- uid: RedLight.Entities.Entity
+  commentId: T:RedLight.Entities.Entity
+  parent: RedLight.Entities
+  href: RedLight.Entities.Entity.html
+  name: Entity
+  nameWithType: Entity
+  fullName: RedLight.Entities.Entity
+- uid: RedLight.Entities
+  commentId: N:RedLight.Entities
+  href: RedLight.html
+  name: RedLight.Entities
+  nameWithType: RedLight.Entities
+  fullName: RedLight.Entities
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Entities
+    name: Entities
+    href: RedLight.Entities.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Entities
+    name: Entities
+    href: RedLight.Entities.html
+- uid: RedLight.Lighting.LightManager.GetLight*
+  commentId: Overload:RedLight.Lighting.LightManager.GetLight
+  href: RedLight.Lighting.LightManager.html#RedLight_Lighting_LightManager_GetLight_System_String_
+  name: GetLight
+  nameWithType: LightManager.GetLight
+  fullName: RedLight.Lighting.LightManager.GetLight
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: RedLight.Lighting.LightManager.GetLightCube*
+  commentId: Overload:RedLight.Lighting.LightManager.GetLightCube
+  href: RedLight.Lighting.LightManager.html#RedLight_Lighting_LightManager_GetLightCube_System_String_
+  name: GetLightCube
+  nameWithType: LightManager.GetLightCube
+  fullName: RedLight.Lighting.LightManager.GetLightCube
+- uid: RedLight.Lighting.LightManager.RemoveLight*
+  commentId: Overload:RedLight.Lighting.LightManager.RemoveLight
+  href: RedLight.Lighting.LightManager.html#RedLight_Lighting_LightManager_RemoveLight_System_String_
+  name: RemoveLight
+  nameWithType: LightManager.RemoveLight
+  fullName: RedLight.Lighting.LightManager.RemoveLight
+- uid: RedLight.Lighting.LightManager.UpdateLightPosition*
+  commentId: Overload:RedLight.Lighting.LightManager.UpdateLightPosition
+  href: RedLight.Lighting.LightManager.html#RedLight_Lighting_LightManager_UpdateLightPosition_System_String_System_Numerics_Vector3_
+  name: UpdateLightPosition
+  nameWithType: LightManager.UpdateLightPosition
+  fullName: RedLight.Lighting.LightManager.UpdateLightPosition
+- uid: System.Numerics.Vector3
+  commentId: T:System.Numerics.Vector3
+  parent: System.Numerics
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.numerics.vector3
+  name: Vector3
+  nameWithType: Vector3
+  fullName: System.Numerics.Vector3
+- uid: System.Numerics
+  commentId: N:System.Numerics
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Numerics
+  nameWithType: System.Numerics
+  fullName: System.Numerics
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Numerics
+    name: Numerics
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.numerics
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Numerics
+    name: Numerics
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.numerics
+- uid: RedLight.Lighting.LightManager.UpdateLightColor*
+  commentId: Overload:RedLight.Lighting.LightManager.UpdateLightColor
+  href: RedLight.Lighting.LightManager.html#RedLight_Lighting_LightManager_UpdateLightColor_System_String_System_Numerics_Vector3_
+  name: UpdateLightColor
+  nameWithType: LightManager.UpdateLightColor
+  fullName: RedLight.Lighting.LightManager.UpdateLightColor
+- uid: RedLight.Lighting.LightManager.UpdateLightDirection*
+  commentId: Overload:RedLight.Lighting.LightManager.UpdateLightDirection
+  href: RedLight.Lighting.LightManager.html#RedLight_Lighting_LightManager_UpdateLightDirection_System_String_System_Numerics_Vector3_
+  name: UpdateLightDirection
+  nameWithType: LightManager.UpdateLightDirection
+  fullName: RedLight.Lighting.LightManager.UpdateLightDirection
+- uid: RedLight.Lighting.LightManager.EnableLight*
+  commentId: Overload:RedLight.Lighting.LightManager.EnableLight
+  href: RedLight.Lighting.LightManager.html#RedLight_Lighting_LightManager_EnableLight_System_String_System_Boolean_
+  name: EnableLight
+  nameWithType: LightManager.EnableLight
+  fullName: RedLight.Lighting.LightManager.EnableLight
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: RedLight.Lighting.LightManager.ApplyLightsToShader*
+  commentId: Overload:RedLight.Lighting.LightManager.ApplyLightsToShader
+  href: RedLight.Lighting.LightManager.html#RedLight_Lighting_LightManager_ApplyLightsToShader_System_Numerics_Vector3_System_String_
+  name: ApplyLightsToShader
+  nameWithType: LightManager.ApplyLightsToShader
+  fullName: RedLight.Lighting.LightManager.ApplyLightsToShader
+- uid: RedLight.Lighting.LightManager.ApplyLightCubeShader*
+  commentId: Overload:RedLight.Lighting.LightManager.ApplyLightCubeShader
+  href: RedLight.Lighting.LightManager.html#RedLight_Lighting_LightManager_ApplyLightCubeShader_System_String_System_String_RedLight_Graphics_ShaderManager_
+  name: ApplyLightCubeShader
+  nameWithType: LightManager.ApplyLightCubeShader
+  fullName: RedLight.Lighting.LightManager.ApplyLightCubeShader
+- uid: RedLight.Graphics.ShaderManager
+  commentId: T:RedLight.Graphics.ShaderManager
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.ShaderManager.html
+  name: ShaderManager
+  nameWithType: ShaderManager
+  fullName: RedLight.Graphics.ShaderManager
+- uid: RedLight.Graphics
+  commentId: N:RedLight.Graphics
+  href: RedLight.html
+  name: RedLight.Graphics
+  nameWithType: RedLight.Graphics
+  fullName: RedLight.Graphics
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Graphics
+    name: Graphics
+    href: RedLight.Graphics.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Graphics
+    name: Graphics
+    href: RedLight.Graphics.html
+- uid: RedLight.Lighting.LightManager.GetAllLights*
+  commentId: Overload:RedLight.Lighting.LightManager.GetAllLights
+  href: RedLight.Lighting.LightManager.html#RedLight_Lighting_LightManager_GetAllLights
+  name: GetAllLights
+  nameWithType: LightManager.GetAllLights
+  fullName: RedLight.Lighting.LightManager.GetAllLights
+- uid: System.Collections.Generic.IEnumerable{RedLight.Lighting.RLLight}
+  commentId: T:System.Collections.Generic.IEnumerable{RedLight.Lighting.RLLight}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<RLLight>
+  nameWithType: IEnumerable<RLLight>
+  fullName: System.Collections.Generic.IEnumerable<RedLight.Lighting.RLLight>
+  nameWithType.vb: IEnumerable(Of RLLight)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of RedLight.Lighting.RLLight)
+  name.vb: IEnumerable(Of RLLight)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: RedLight.Lighting.RLLight
+    name: RLLight
+    href: RedLight.Lighting.RLLight.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: RedLight.Lighting.RLLight
+    name: RLLight
+    href: RedLight.Lighting.RLLight.html
+  - name: )
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: RedLight.Lighting.LightManager.GetEnabledLights*
+  commentId: Overload:RedLight.Lighting.LightManager.GetEnabledLights
+  href: RedLight.Lighting.LightManager.html#RedLight_Lighting_LightManager_GetEnabledLights
+  name: GetEnabledLights
+  nameWithType: LightManager.GetEnabledLights
+  fullName: RedLight.Lighting.LightManager.GetEnabledLights
+- uid: RedLight.Lighting.LightManager.GetAllLightCubes*
+  commentId: Overload:RedLight.Lighting.LightManager.GetAllLightCubes
+  href: RedLight.Lighting.LightManager.html#RedLight_Lighting_LightManager_GetAllLightCubes
+  name: GetAllLightCubes
+  nameWithType: LightManager.GetAllLightCubes
+  fullName: RedLight.Lighting.LightManager.GetAllLightCubes
+- uid: System.Collections.Generic.IEnumerable{RedLight.Entities.Entity}
+  commentId: T:System.Collections.Generic.IEnumerable{RedLight.Entities.Entity}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<Entity>
+  nameWithType: IEnumerable<Entity>
+  fullName: System.Collections.Generic.IEnumerable<RedLight.Entities.Entity>
+  nameWithType.vb: IEnumerable(Of Entity)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of RedLight.Entities.Entity)
+  name.vb: IEnumerable(Of Entity)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: RedLight.Entities.Entity
+    name: Entity
+    href: RedLight.Entities.Entity.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: RedLight.Entities.Entity
+    name: Entity
+    href: RedLight.Entities.Entity.html
+  - name: )
+- uid: RedLight.Lighting.LightManager.DisableAllLights*
+  commentId: Overload:RedLight.Lighting.LightManager.DisableAllLights
+  href: RedLight.Lighting.LightManager.html#RedLight_Lighting_LightManager_DisableAllLights
+  name: DisableAllLights
+  nameWithType: LightManager.DisableAllLights
+  fullName: RedLight.Lighting.LightManager.DisableAllLights
+- uid: RedLight.Lighting.LightManager.EnableAllLights*
+  commentId: Overload:RedLight.Lighting.LightManager.EnableAllLights
+  href: RedLight.Lighting.LightManager.html#RedLight_Lighting_LightManager_EnableAllLights
+  name: EnableAllLights
+  nameWithType: LightManager.EnableAllLights
+  fullName: RedLight.Lighting.LightManager.EnableAllLights

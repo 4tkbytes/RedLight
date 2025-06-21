@@ -1,0 +1,161 @@
+### YamlMime:ManagedReference
+items:
+- uid: RedLight.Input.RLMouse
+  commentId: T:RedLight.Input.RLMouse
+  id: RLMouse
+  parent: RedLight.Input
+  children:
+  - RedLight.Input.RLMouse.OnMouseMove(Silk.NET.Input.IMouse,System.Numerics.Vector2)
+  langs:
+  - csharp
+  - vb
+  name: RLMouse
+  nameWithType: RLMouse
+  fullName: RedLight.Input.RLMouse
+  type: Interface
+  source:
+    remote:
+      path: src/RedLight/Input/RLMouse.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: RLMouse
+    path: src/RedLight/Input/RLMouse.cs
+    startLine: 5
+  assemblies:
+  - RedLight
+  namespace: RedLight.Input
+  syntax:
+    content: public interface RLMouse
+    content.vb: Public Interface RLMouse
+- uid: RedLight.Input.RLMouse.OnMouseMove(Silk.NET.Input.IMouse,System.Numerics.Vector2)
+  commentId: M:RedLight.Input.RLMouse.OnMouseMove(Silk.NET.Input.IMouse,System.Numerics.Vector2)
+  id: OnMouseMove(Silk.NET.Input.IMouse,System.Numerics.Vector2)
+  parent: RedLight.Input.RLMouse
+  langs:
+  - csharp
+  - vb
+  name: OnMouseMove(IMouse, Vector2)
+  nameWithType: RLMouse.OnMouseMove(IMouse, Vector2)
+  fullName: RedLight.Input.RLMouse.OnMouseMove(Silk.NET.Input.IMouse, System.Numerics.Vector2)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Input/RLMouse.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: OnMouseMove
+    path: src/RedLight/Input/RLMouse.cs
+    startLine: 7
+  assemblies:
+  - RedLight
+  namespace: RedLight.Input
+  syntax:
+    content: void OnMouseMove(IMouse mouse, Vector2 mousePosition)
+    parameters:
+    - id: mouse
+      type: Silk.NET.Input.IMouse
+    - id: mousePosition
+      type: System.Numerics.Vector2
+    content.vb: Sub OnMouseMove(mouse As IMouse, mousePosition As Vector2)
+  overload: RedLight.Input.RLMouse.OnMouseMove*
+references:
+- uid: RedLight.Input
+  commentId: N:RedLight.Input
+  href: RedLight.html
+  name: RedLight.Input
+  nameWithType: RedLight.Input
+  fullName: RedLight.Input
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Input
+    name: Input
+    href: RedLight.Input.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Input
+    name: Input
+    href: RedLight.Input.html
+- uid: RedLight.Input.RLMouse.OnMouseMove*
+  commentId: Overload:RedLight.Input.RLMouse.OnMouseMove
+  href: RedLight.Input.RLMouse.html#RedLight_Input_RLMouse_OnMouseMove_Silk_NET_Input_IMouse_System_Numerics_Vector2_
+  name: OnMouseMove
+  nameWithType: RLMouse.OnMouseMove
+  fullName: RedLight.Input.RLMouse.OnMouseMove
+- uid: Silk.NET.Input.IMouse
+  commentId: T:Silk.NET.Input.IMouse
+  parent: Silk.NET.Input
+  isExternal: true
+  name: IMouse
+  nameWithType: IMouse
+  fullName: Silk.NET.Input.IMouse
+- uid: System.Numerics.Vector2
+  commentId: T:System.Numerics.Vector2
+  parent: System.Numerics
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.numerics.vector2
+  name: Vector2
+  nameWithType: Vector2
+  fullName: System.Numerics.Vector2
+- uid: Silk.NET.Input
+  commentId: N:Silk.NET.Input
+  isExternal: true
+  name: Silk.NET.Input
+  nameWithType: Silk.NET.Input
+  fullName: Silk.NET.Input
+  spec.csharp:
+  - uid: Silk
+    name: Silk
+    isExternal: true
+  - name: .
+  - uid: Silk.NET
+    name: NET
+    isExternal: true
+  - name: .
+  - uid: Silk.NET.Input
+    name: Input
+    isExternal: true
+  spec.vb:
+  - uid: Silk
+    name: Silk
+    isExternal: true
+  - name: .
+  - uid: Silk.NET
+    name: NET
+    isExternal: true
+  - name: .
+  - uid: Silk.NET.Input
+    name: Input
+    isExternal: true
+- uid: System.Numerics
+  commentId: N:System.Numerics
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Numerics
+  nameWithType: System.Numerics
+  fullName: System.Numerics
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Numerics
+    name: Numerics
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.numerics
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Numerics
+    name: Numerics
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.numerics

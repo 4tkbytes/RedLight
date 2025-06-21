@@ -1,0 +1,900 @@
+### YamlMime:ManagedReference
+items:
+- uid: RedLight.Lighting.Sun
+  commentId: T:RedLight.Lighting.Sun
+  id: Sun
+  parent: RedLight.Lighting
+  children:
+  - RedLight.Lighting.Sun.#ctor(RedLight.Graphics.RLGraphics,RedLight.Lighting.LightManager,System.String,System.Numerics.Vector3,System.Drawing.Color)
+  - RedLight.Lighting.Sun.Direction
+  - RedLight.Lighting.Sun.Light
+  - RedLight.Lighting.Sun.Name
+  - RedLight.Lighting.Sun.OrbitAround(System.Numerics.Vector3,System.Single,System.Single)
+  - RedLight.Lighting.Sun.Render(RedLight.Graphics.Camera)
+  - RedLight.Lighting.Sun.Rotate(System.Single,System.Numerics.Vector3)
+  - RedLight.Lighting.Sun.Scale(System.Numerics.Vector3)
+  - RedLight.Lighting.Sun.SetDirection(System.Numerics.Vector3)
+  - RedLight.Lighting.Sun.SunSphere
+  - RedLight.Lighting.Sun.Translate(System.Numerics.Vector3)
+  - RedLight.Lighting.Sun.Update
+  langs:
+  - csharp
+  - vb
+  name: Sun
+  nameWithType: Sun
+  fullName: RedLight.Lighting.Sun
+  type: Class
+  source:
+    remote:
+      path: src/RedLight/Lighting/Sun.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Sun
+    path: src/RedLight/Lighting/Sun.cs
+    startLine: 8
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public class Sun
+    content.vb: Public Class Sun
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: RedLight.Lighting.Sun.Light
+  commentId: F:RedLight.Lighting.Sun.Light
+  id: Light
+  parent: RedLight.Lighting.Sun
+  langs:
+  - csharp
+  - vb
+  name: Light
+  nameWithType: Sun.Light
+  fullName: RedLight.Lighting.Sun.Light
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Lighting/Sun.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Light
+    path: src/RedLight/Lighting/Sun.cs
+    startLine: 13
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public RLLight Light
+    return:
+      type: RedLight.Lighting.RLLight
+    content.vb: Public Light As RLLight
+- uid: RedLight.Lighting.Sun.SunSphere
+  commentId: F:RedLight.Lighting.Sun.SunSphere
+  id: SunSphere
+  parent: RedLight.Lighting.Sun
+  langs:
+  - csharp
+  - vb
+  name: SunSphere
+  nameWithType: Sun.SunSphere
+  fullName: RedLight.Lighting.Sun.SunSphere
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Lighting/Sun.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: SunSphere
+    path: src/RedLight/Lighting/Sun.cs
+    startLine: 14
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public Entity SunSphere
+    return:
+      type: RedLight.Entities.Entity
+    content.vb: Public SunSphere As Entity
+- uid: RedLight.Lighting.Sun.Name
+  commentId: F:RedLight.Lighting.Sun.Name
+  id: Name
+  parent: RedLight.Lighting.Sun
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: Sun.Name
+  fullName: RedLight.Lighting.Sun.Name
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Lighting/Sun.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Name
+    path: src/RedLight/Lighting/Sun.cs
+    startLine: 15
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public string Name
+    return:
+      type: System.String
+    content.vb: Public Name As String
+- uid: RedLight.Lighting.Sun.Direction
+  commentId: P:RedLight.Lighting.Sun.Direction
+  id: Direction
+  parent: RedLight.Lighting.Sun
+  langs:
+  - csharp
+  - vb
+  name: Direction
+  nameWithType: Sun.Direction
+  fullName: RedLight.Lighting.Sun.Direction
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Lighting/Sun.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Direction
+    path: src/RedLight/Lighting/Sun.cs
+    startLine: 16
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public Vector3 Direction { get; set; }
+    parameters: []
+    return:
+      type: System.Numerics.Vector3
+    content.vb: Public Property Direction As Vector3
+  overload: RedLight.Lighting.Sun.Direction*
+- uid: RedLight.Lighting.Sun.#ctor(RedLight.Graphics.RLGraphics,RedLight.Lighting.LightManager,System.String,System.Numerics.Vector3,System.Drawing.Color)
+  commentId: M:RedLight.Lighting.Sun.#ctor(RedLight.Graphics.RLGraphics,RedLight.Lighting.LightManager,System.String,System.Numerics.Vector3,System.Drawing.Color)
+  id: '#ctor(RedLight.Graphics.RLGraphics,RedLight.Lighting.LightManager,System.String,System.Numerics.Vector3,System.Drawing.Color)'
+  parent: RedLight.Lighting.Sun
+  langs:
+  - csharp
+  - vb
+  name: Sun(RLGraphics, LightManager, string, Vector3, Color)
+  nameWithType: Sun.Sun(RLGraphics, LightManager, string, Vector3, Color)
+  fullName: RedLight.Lighting.Sun.Sun(RedLight.Graphics.RLGraphics, RedLight.Lighting.LightManager, string, System.Numerics.Vector3, System.Drawing.Color)
+  type: Constructor
+  source:
+    remote:
+      path: src/RedLight/Lighting/Sun.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: .ctor
+    path: src/RedLight/Lighting/Sun.cs
+    startLine: 18
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public Sun(RLGraphics graphics, LightManager lightManager, string name, Vector3 direction, Color colour)
+    parameters:
+    - id: graphics
+      type: RedLight.Graphics.RLGraphics
+    - id: lightManager
+      type: RedLight.Lighting.LightManager
+    - id: name
+      type: System.String
+    - id: direction
+      type: System.Numerics.Vector3
+    - id: colour
+      type: System.Drawing.Color
+    content.vb: Public Sub New(graphics As RLGraphics, lightManager As LightManager, name As String, direction As Vector3, colour As Color)
+  overload: RedLight.Lighting.Sun.#ctor*
+  nameWithType.vb: Sun.New(RLGraphics, LightManager, String, Vector3, Color)
+  fullName.vb: RedLight.Lighting.Sun.New(RedLight.Graphics.RLGraphics, RedLight.Lighting.LightManager, String, System.Numerics.Vector3, System.Drawing.Color)
+  name.vb: New(RLGraphics, LightManager, String, Vector3, Color)
+- uid: RedLight.Lighting.Sun.Render(RedLight.Graphics.Camera)
+  commentId: M:RedLight.Lighting.Sun.Render(RedLight.Graphics.Camera)
+  id: Render(RedLight.Graphics.Camera)
+  parent: RedLight.Lighting.Sun
+  langs:
+  - csharp
+  - vb
+  name: Render(Camera)
+  nameWithType: Sun.Render(Camera)
+  fullName: RedLight.Lighting.Sun.Render(RedLight.Graphics.Camera)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Lighting/Sun.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Render
+    path: src/RedLight/Lighting/Sun.cs
+    startLine: 37
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public void Render(Camera camera)
+    parameters:
+    - id: camera
+      type: RedLight.Graphics.Camera
+    content.vb: Public Sub Render(camera As Camera)
+  overload: RedLight.Lighting.Sun.Render*
+- uid: RedLight.Lighting.Sun.Update
+  commentId: M:RedLight.Lighting.Sun.Update
+  id: Update
+  parent: RedLight.Lighting.Sun
+  langs:
+  - csharp
+  - vb
+  name: Update()
+  nameWithType: Sun.Update()
+  fullName: RedLight.Lighting.Sun.Update()
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Lighting/Sun.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Update
+    path: src/RedLight/Lighting/Sun.cs
+    startLine: 45
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public void Update()
+    content.vb: Public Sub Update()
+  overload: RedLight.Lighting.Sun.Update*
+- uid: RedLight.Lighting.Sun.Translate(System.Numerics.Vector3)
+  commentId: M:RedLight.Lighting.Sun.Translate(System.Numerics.Vector3)
+  id: Translate(System.Numerics.Vector3)
+  parent: RedLight.Lighting.Sun
+  langs:
+  - csharp
+  - vb
+  name: Translate(Vector3)
+  nameWithType: Sun.Translate(Vector3)
+  fullName: RedLight.Lighting.Sun.Translate(System.Numerics.Vector3)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Lighting/Sun.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Translate
+    path: src/RedLight/Lighting/Sun.cs
+    startLine: 51
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public void Translate(Vector3 translation)
+    parameters:
+    - id: translation
+      type: System.Numerics.Vector3
+    content.vb: Public Sub Translate(translation As Vector3)
+  overload: RedLight.Lighting.Sun.Translate*
+- uid: RedLight.Lighting.Sun.Rotate(System.Single,System.Numerics.Vector3)
+  commentId: M:RedLight.Lighting.Sun.Rotate(System.Single,System.Numerics.Vector3)
+  id: Rotate(System.Single,System.Numerics.Vector3)
+  parent: RedLight.Lighting.Sun
+  langs:
+  - csharp
+  - vb
+  name: Rotate(float, Vector3)
+  nameWithType: Sun.Rotate(float, Vector3)
+  fullName: RedLight.Lighting.Sun.Rotate(float, System.Numerics.Vector3)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Lighting/Sun.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Rotate
+    path: src/RedLight/Lighting/Sun.cs
+    startLine: 56
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public void Rotate(float axis, Vector3 rotation)
+    parameters:
+    - id: axis
+      type: System.Single
+    - id: rotation
+      type: System.Numerics.Vector3
+    content.vb: Public Sub Rotate(axis As Single, rotation As Vector3)
+  overload: RedLight.Lighting.Sun.Rotate*
+  nameWithType.vb: Sun.Rotate(Single, Vector3)
+  fullName.vb: RedLight.Lighting.Sun.Rotate(Single, System.Numerics.Vector3)
+  name.vb: Rotate(Single, Vector3)
+- uid: RedLight.Lighting.Sun.Scale(System.Numerics.Vector3)
+  commentId: M:RedLight.Lighting.Sun.Scale(System.Numerics.Vector3)
+  id: Scale(System.Numerics.Vector3)
+  parent: RedLight.Lighting.Sun
+  langs:
+  - csharp
+  - vb
+  name: Scale(Vector3)
+  nameWithType: Sun.Scale(Vector3)
+  fullName: RedLight.Lighting.Sun.Scale(System.Numerics.Vector3)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Lighting/Sun.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Scale
+    path: src/RedLight/Lighting/Sun.cs
+    startLine: 63
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public void Scale(Vector3 scale)
+    parameters:
+    - id: scale
+      type: System.Numerics.Vector3
+    content.vb: Public Sub Scale(scale As Vector3)
+  overload: RedLight.Lighting.Sun.Scale*
+- uid: RedLight.Lighting.Sun.SetDirection(System.Numerics.Vector3)
+  commentId: M:RedLight.Lighting.Sun.SetDirection(System.Numerics.Vector3)
+  id: SetDirection(System.Numerics.Vector3)
+  parent: RedLight.Lighting.Sun
+  langs:
+  - csharp
+  - vb
+  name: SetDirection(Vector3)
+  nameWithType: Sun.SetDirection(Vector3)
+  fullName: RedLight.Lighting.Sun.SetDirection(System.Numerics.Vector3)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Lighting/Sun.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: SetDirection
+    path: src/RedLight/Lighting/Sun.cs
+    startLine: 68
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public void SetDirection(Vector3 newDirection)
+    parameters:
+    - id: newDirection
+      type: System.Numerics.Vector3
+    content.vb: Public Sub SetDirection(newDirection As Vector3)
+  overload: RedLight.Lighting.Sun.SetDirection*
+- uid: RedLight.Lighting.Sun.OrbitAround(System.Numerics.Vector3,System.Single,System.Single)
+  commentId: M:RedLight.Lighting.Sun.OrbitAround(System.Numerics.Vector3,System.Single,System.Single)
+  id: OrbitAround(System.Numerics.Vector3,System.Single,System.Single)
+  parent: RedLight.Lighting.Sun
+  langs:
+  - csharp
+  - vb
+  name: OrbitAround(Vector3, float, float)
+  nameWithType: Sun.OrbitAround(Vector3, float, float)
+  fullName: RedLight.Lighting.Sun.OrbitAround(System.Numerics.Vector3, float, float)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Lighting/Sun.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: OrbitAround
+    path: src/RedLight/Lighting/Sun.cs
+    startLine: 73
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public void OrbitAround(Vector3 center, float radius, float angle)
+    parameters:
+    - id: center
+      type: System.Numerics.Vector3
+    - id: radius
+      type: System.Single
+    - id: angle
+      type: System.Single
+    content.vb: Public Sub OrbitAround(center As Vector3, radius As Single, angle As Single)
+  overload: RedLight.Lighting.Sun.OrbitAround*
+  nameWithType.vb: Sun.OrbitAround(Vector3, Single, Single)
+  fullName.vb: RedLight.Lighting.Sun.OrbitAround(System.Numerics.Vector3, Single, Single)
+  name.vb: OrbitAround(Vector3, Single, Single)
+references:
+- uid: RedLight.Lighting
+  commentId: N:RedLight.Lighting
+  href: RedLight.html
+  name: RedLight.Lighting
+  nameWithType: RedLight.Lighting
+  fullName: RedLight.Lighting
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Lighting
+    name: Lighting
+    href: RedLight.Lighting.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Lighting
+    name: Lighting
+    href: RedLight.Lighting.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: RedLight.Lighting.RLLight
+  commentId: T:RedLight.Lighting.RLLight
+  parent: RedLight.Lighting
+  href: RedLight.Lighting.RLLight.html
+  name: RLLight
+  nameWithType: RLLight
+  fullName: RedLight.Lighting.RLLight
+- uid: RedLight.Entities.Entity
+  commentId: T:RedLight.Entities.Entity
+  parent: RedLight.Entities
+  href: RedLight.Entities.Entity.html
+  name: Entity
+  nameWithType: Entity
+  fullName: RedLight.Entities.Entity
+- uid: RedLight.Entities
+  commentId: N:RedLight.Entities
+  href: RedLight.html
+  name: RedLight.Entities
+  nameWithType: RedLight.Entities
+  fullName: RedLight.Entities
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Entities
+    name: Entities
+    href: RedLight.Entities.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Entities
+    name: Entities
+    href: RedLight.Entities.html
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: RedLight.Lighting.Sun.Direction*
+  commentId: Overload:RedLight.Lighting.Sun.Direction
+  href: RedLight.Lighting.Sun.html#RedLight_Lighting_Sun_Direction
+  name: Direction
+  nameWithType: Sun.Direction
+  fullName: RedLight.Lighting.Sun.Direction
+- uid: System.Numerics.Vector3
+  commentId: T:System.Numerics.Vector3
+  parent: System.Numerics
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.numerics.vector3
+  name: Vector3
+  nameWithType: Vector3
+  fullName: System.Numerics.Vector3
+- uid: System.Numerics
+  commentId: N:System.Numerics
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Numerics
+  nameWithType: System.Numerics
+  fullName: System.Numerics
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Numerics
+    name: Numerics
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.numerics
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Numerics
+    name: Numerics
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.numerics
+- uid: RedLight.Lighting.Sun.#ctor*
+  commentId: Overload:RedLight.Lighting.Sun.#ctor
+  href: RedLight.Lighting.Sun.html#RedLight_Lighting_Sun__ctor_RedLight_Graphics_RLGraphics_RedLight_Lighting_LightManager_System_String_System_Numerics_Vector3_System_Drawing_Color_
+  name: Sun
+  nameWithType: Sun.Sun
+  fullName: RedLight.Lighting.Sun.Sun
+  nameWithType.vb: Sun.New
+  fullName.vb: RedLight.Lighting.Sun.New
+  name.vb: New
+- uid: RedLight.Graphics.RLGraphics
+  commentId: T:RedLight.Graphics.RLGraphics
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.RLGraphics.html
+  name: RLGraphics
+  nameWithType: RLGraphics
+  fullName: RedLight.Graphics.RLGraphics
+- uid: RedLight.Lighting.LightManager
+  commentId: T:RedLight.Lighting.LightManager
+  parent: RedLight.Lighting
+  href: RedLight.Lighting.LightManager.html
+  name: LightManager
+  nameWithType: LightManager
+  fullName: RedLight.Lighting.LightManager
+- uid: System.Drawing.Color
+  commentId: T:System.Drawing.Color
+  parent: System.Drawing
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.drawing.color
+  name: Color
+  nameWithType: Color
+  fullName: System.Drawing.Color
+- uid: RedLight.Graphics
+  commentId: N:RedLight.Graphics
+  href: RedLight.html
+  name: RedLight.Graphics
+  nameWithType: RedLight.Graphics
+  fullName: RedLight.Graphics
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Graphics
+    name: Graphics
+    href: RedLight.Graphics.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Graphics
+    name: Graphics
+    href: RedLight.Graphics.html
+- uid: System.Drawing
+  commentId: N:System.Drawing
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Drawing
+  nameWithType: System.Drawing
+  fullName: System.Drawing
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Drawing
+    name: Drawing
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.drawing
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Drawing
+    name: Drawing
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.drawing
+- uid: RedLight.Lighting.Sun.Render*
+  commentId: Overload:RedLight.Lighting.Sun.Render
+  href: RedLight.Lighting.Sun.html#RedLight_Lighting_Sun_Render_RedLight_Graphics_Camera_
+  name: Render
+  nameWithType: Sun.Render
+  fullName: RedLight.Lighting.Sun.Render
+- uid: RedLight.Graphics.Camera
+  commentId: T:RedLight.Graphics.Camera
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.Camera.html
+  name: Camera
+  nameWithType: Camera
+  fullName: RedLight.Graphics.Camera
+- uid: RedLight.Lighting.Sun.Update*
+  commentId: Overload:RedLight.Lighting.Sun.Update
+  href: RedLight.Lighting.Sun.html#RedLight_Lighting_Sun_Update
+  name: Update
+  nameWithType: Sun.Update
+  fullName: RedLight.Lighting.Sun.Update
+- uid: RedLight.Lighting.Sun.Translate*
+  commentId: Overload:RedLight.Lighting.Sun.Translate
+  href: RedLight.Lighting.Sun.html#RedLight_Lighting_Sun_Translate_System_Numerics_Vector3_
+  name: Translate
+  nameWithType: Sun.Translate
+  fullName: RedLight.Lighting.Sun.Translate
+- uid: RedLight.Lighting.Sun.Rotate*
+  commentId: Overload:RedLight.Lighting.Sun.Rotate
+  href: RedLight.Lighting.Sun.html#RedLight_Lighting_Sun_Rotate_System_Single_System_Numerics_Vector3_
+  name: Rotate
+  nameWithType: Sun.Rotate
+  fullName: RedLight.Lighting.Sun.Rotate
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.single
+  name: float
+  nameWithType: float
+  fullName: float
+  nameWithType.vb: Single
+  fullName.vb: Single
+  name.vb: Single
+- uid: RedLight.Lighting.Sun.Scale*
+  commentId: Overload:RedLight.Lighting.Sun.Scale
+  href: RedLight.Lighting.Sun.html#RedLight_Lighting_Sun_Scale_System_Numerics_Vector3_
+  name: Scale
+  nameWithType: Sun.Scale
+  fullName: RedLight.Lighting.Sun.Scale
+- uid: RedLight.Lighting.Sun.SetDirection*
+  commentId: Overload:RedLight.Lighting.Sun.SetDirection
+  href: RedLight.Lighting.Sun.html#RedLight_Lighting_Sun_SetDirection_System_Numerics_Vector3_
+  name: SetDirection
+  nameWithType: Sun.SetDirection
+  fullName: RedLight.Lighting.Sun.SetDirection
+- uid: RedLight.Lighting.Sun.OrbitAround*
+  commentId: Overload:RedLight.Lighting.Sun.OrbitAround
+  href: RedLight.Lighting.Sun.html#RedLight_Lighting_Sun_OrbitAround_System_Numerics_Vector3_System_Single_System_Single_
+  name: OrbitAround
+  nameWithType: Sun.OrbitAround
+  fullName: RedLight.Lighting.Sun.OrbitAround

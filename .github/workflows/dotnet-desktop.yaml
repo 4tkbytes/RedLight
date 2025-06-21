@@ -37,7 +37,7 @@ jobs:
 
       - name: Build ExampleGame AOT Binary
         run: >
-          dotnet publish ExampleGame/ExampleGame.csproj
+          dotnet publish src/ExampleGame/ExampleGame.csproj
           -c Release
           -r ${{ matrix.rid }}
           /p:PublishSingleFile=true
@@ -47,4 +47,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: game-${{ matrix.rid }}
-          path: ExampleGame/bin/Release/net${{ env.DOTNET_VERSION }}/${{ matrix.rid }}/publish/
+          path: src/ExampleGame/bin/Release/net${{ env.DOTNET_VERSION }}/${{ matrix.rid }}/publish/

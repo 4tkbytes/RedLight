@@ -1,0 +1,367 @@
+### YamlMime:ManagedReference
+items:
+- uid: RedLight.UI.FreeTypeText
+  commentId: T:RedLight.UI.FreeTypeText
+  id: FreeTypeText
+  parent: RedLight.UI
+  children:
+  - RedLight.UI.FreeTypeText.Face
+  - RedLight.UI.FreeTypeText.Library
+  langs:
+  - csharp
+  - vb
+  name: FreeTypeText
+  nameWithType: FreeTypeText
+  fullName: RedLight.UI.FreeTypeText
+  type: Struct
+  source:
+    remote:
+      path: src/RedLight/UI/Text.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: FreeTypeText
+    path: src/RedLight/UI/Text.cs
+    startLine: 13
+  assemblies:
+  - RedLight
+  namespace: RedLight.UI
+  syntax:
+    content: public struct FreeTypeText
+    content.vb: Public Structure FreeTypeText
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+- uid: RedLight.UI.FreeTypeText.Library
+  commentId: F:RedLight.UI.FreeTypeText.Library
+  id: Library
+  parent: RedLight.UI.FreeTypeText
+  langs:
+  - csharp
+  - vb
+  name: Library
+  nameWithType: FreeTypeText.Library
+  fullName: RedLight.UI.FreeTypeText.Library
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/UI/Text.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Library
+    path: src/RedLight/UI/Text.cs
+    startLine: 15
+  assemblies:
+  - RedLight
+  namespace: RedLight.UI
+  syntax:
+    content: public FT_LibraryRec_* Library
+    return:
+      type: FreeTypeSharp.FT_LibraryRec_*
+    content.vb: Public Library As FT_LibraryRec_*
+- uid: RedLight.UI.FreeTypeText.Face
+  commentId: F:RedLight.UI.FreeTypeText.Face
+  id: Face
+  parent: RedLight.UI.FreeTypeText
+  langs:
+  - csharp
+  - vb
+  name: Face
+  nameWithType: FreeTypeText.Face
+  fullName: RedLight.UI.FreeTypeText.Face
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/UI/Text.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Face
+    path: src/RedLight/UI/Text.cs
+    startLine: 16
+  assemblies:
+  - RedLight
+  namespace: RedLight.UI
+  syntax:
+    content: public FT_FaceRec_* Face
+    return:
+      type: FreeTypeSharp.FT_FaceRec_*
+    content.vb: Public Face As FT_FaceRec_*
+references:
+- uid: RedLight.UI
+  commentId: N:RedLight.UI
+  href: RedLight.html
+  name: RedLight.UI
+  nameWithType: RedLight.UI
+  fullName: RedLight.UI
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.UI
+    name: UI
+    href: RedLight.UI.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.UI
+    name: UI
+    href: RedLight.UI.html
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  name: Equals(object)
+  nameWithType: ValueType.Equals(object)
+  fullName: System.ValueType.Equals(object)
+  nameWithType.vb: ValueType.Equals(Object)
+  fullName.vb: System.ValueType.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: FreeTypeSharp.FT_LibraryRec_*
+  isExternal: true
+  href: https://github.com/ryancheung/FreeTypeSharp/blob/fb6f244d7cf0cae44bfb0d52d02509a598de150b/FreeTypeSharp/Generated/FT_LibraryRec_.cs
+  name: FT_LibraryRec_*
+  nameWithType: FT_LibraryRec_*
+  fullName: FreeTypeSharp.FT_LibraryRec_*
+  spec.csharp:
+  - uid: FreeTypeSharp.FT_LibraryRec_
+    name: FT_LibraryRec_
+    isExternal: true
+    href: https://github.com/ryancheung/FreeTypeSharp/blob/fb6f244d7cf0cae44bfb0d52d02509a598de150b/FreeTypeSharp/Generated/FT_LibraryRec_.cs
+  - name: '*'
+  spec.vb:
+  - uid: FreeTypeSharp.FT_LibraryRec_
+    name: FT_LibraryRec_
+    isExternal: true
+    href: https://github.com/ryancheung/FreeTypeSharp/blob/fb6f244d7cf0cae44bfb0d52d02509a598de150b/FreeTypeSharp/Generated/FT_LibraryRec_.cs
+  - name: '*'
+- uid: FreeTypeSharp.FT_FaceRec_*
+  isExternal: true
+  href: https://github.com/ryancheung/FreeTypeSharp/blob/fb6f244d7cf0cae44bfb0d52d02509a598de150b/FreeTypeSharp/Generated/FT_FaceRec_.cs
+  name: FT_FaceRec_*
+  nameWithType: FT_FaceRec_*
+  fullName: FreeTypeSharp.FT_FaceRec_*
+  spec.csharp:
+  - uid: FreeTypeSharp.FT_FaceRec_
+    name: FT_FaceRec_
+    isExternal: true
+    href: https://github.com/ryancheung/FreeTypeSharp/blob/fb6f244d7cf0cae44bfb0d52d02509a598de150b/FreeTypeSharp/Generated/FT_FaceRec_.cs
+  - name: '*'
+  spec.vb:
+  - uid: FreeTypeSharp.FT_FaceRec_
+    name: FT_FaceRec_
+    isExternal: true
+    href: https://github.com/ryancheung/FreeTypeSharp/blob/fb6f244d7cf0cae44bfb0d52d02509a598de150b/FreeTypeSharp/Generated/FT_FaceRec_.cs
+  - name: '*'

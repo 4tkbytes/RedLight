@@ -1,0 +1,1466 @@
+### YamlMime:ManagedReference
+items:
+- uid: ExampleGame.TestingScene1
+  commentId: T:ExampleGame.TestingScene1
+  id: TestingScene1
+  parent: ExampleGame
+  children:
+  - ExampleGame.TestingScene1.Engine
+  - ExampleGame.TestingScene1.Graphics
+  - ExampleGame.TestingScene1.InputManager
+  - ExampleGame.TestingScene1.LightManager
+  - ExampleGame.TestingScene1.OnKeyDown(Silk.NET.Input.IKeyboard,Silk.NET.Input.Key,System.Int32)
+  - ExampleGame.TestingScene1.OnLoad
+  - ExampleGame.TestingScene1.OnMouseMove(Silk.NET.Input.IMouse,System.Numerics.Vector2)
+  - ExampleGame.TestingScene1.OnRender(System.Double)
+  - ExampleGame.TestingScene1.OnUpdate(System.Double)
+  - ExampleGame.TestingScene1.PhysicsSystem
+  - ExampleGame.TestingScene1.PressedKeys
+  - ExampleGame.TestingScene1.SceneManager
+  - ExampleGame.TestingScene1.ShaderManager
+  - ExampleGame.TestingScene1.TextureManager
+  langs:
+  - csharp
+  - vb
+  name: TestingScene1
+  nameWithType: TestingScene1
+  fullName: ExampleGame.TestingScene1
+  type: Class
+  source:
+    remote:
+      path: src/ExampleGame/TestingScene1.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: TestingScene1
+    path: src/ExampleGame/TestingScene1.cs
+    startLine: 17
+  assemblies:
+  - ExampleGame
+  namespace: ExampleGame
+  syntax:
+    content: 'public class TestingScene1 : RLScene, RLKeyboard, RLMouse'
+    content.vb: Public Class TestingScene1 Implements RLScene, RLKeyboard, RLMouse
+  inheritance:
+  - System.Object
+  implements:
+  - RedLight.Scene.RLScene
+  - RedLight.Input.RLKeyboard
+  - RedLight.Input.RLMouse
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: ExampleGame.TestingScene1.Graphics
+  commentId: P:ExampleGame.TestingScene1.Graphics
+  id: Graphics
+  parent: ExampleGame.TestingScene1
+  langs:
+  - csharp
+  - vb
+  name: Graphics
+  nameWithType: TestingScene1.Graphics
+  fullName: ExampleGame.TestingScene1.Graphics
+  type: Property
+  source:
+    remote:
+      path: src/ExampleGame/TestingScene1.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Graphics
+    path: src/ExampleGame/TestingScene1.cs
+    startLine: 19
+  assemblies:
+  - ExampleGame
+  namespace: ExampleGame
+  example: []
+  syntax:
+    content: public RLGraphics Graphics { get; set; }
+    parameters: []
+    return:
+      type: RedLight.Graphics.RLGraphics
+    content.vb: Public Property Graphics As RLGraphics
+  overload: ExampleGame.TestingScene1.Graphics*
+  implements:
+  - RedLight.Scene.RLScene.Graphics
+- uid: ExampleGame.TestingScene1.SceneManager
+  commentId: P:ExampleGame.TestingScene1.SceneManager
+  id: SceneManager
+  parent: ExampleGame.TestingScene1
+  langs:
+  - csharp
+  - vb
+  name: SceneManager
+  nameWithType: TestingScene1.SceneManager
+  fullName: ExampleGame.TestingScene1.SceneManager
+  type: Property
+  source:
+    remote:
+      path: src/ExampleGame/TestingScene1.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: SceneManager
+    path: src/ExampleGame/TestingScene1.cs
+    startLine: 20
+  assemblies:
+  - ExampleGame
+  namespace: ExampleGame
+  example: []
+  syntax:
+    content: public SceneManager SceneManager { get; set; }
+    parameters: []
+    return:
+      type: RedLight.Scene.SceneManager
+    content.vb: Public Property SceneManager As SceneManager
+  overload: ExampleGame.TestingScene1.SceneManager*
+  implements:
+  - RedLight.Scene.RLScene.SceneManager
+- uid: ExampleGame.TestingScene1.ShaderManager
+  commentId: P:ExampleGame.TestingScene1.ShaderManager
+  id: ShaderManager
+  parent: ExampleGame.TestingScene1
+  langs:
+  - csharp
+  - vb
+  name: ShaderManager
+  nameWithType: TestingScene1.ShaderManager
+  fullName: ExampleGame.TestingScene1.ShaderManager
+  type: Property
+  source:
+    remote:
+      path: src/ExampleGame/TestingScene1.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: ShaderManager
+    path: src/ExampleGame/TestingScene1.cs
+    startLine: 21
+  assemblies:
+  - ExampleGame
+  namespace: ExampleGame
+  example: []
+  syntax:
+    content: public ShaderManager ShaderManager { get; set; }
+    parameters: []
+    return:
+      type: RedLight.Graphics.ShaderManager
+    content.vb: Public Property ShaderManager As ShaderManager
+  overload: ExampleGame.TestingScene1.ShaderManager*
+  implements:
+  - RedLight.Scene.RLScene.ShaderManager
+- uid: ExampleGame.TestingScene1.TextureManager
+  commentId: P:ExampleGame.TestingScene1.TextureManager
+  id: TextureManager
+  parent: ExampleGame.TestingScene1
+  langs:
+  - csharp
+  - vb
+  name: TextureManager
+  nameWithType: TestingScene1.TextureManager
+  fullName: ExampleGame.TestingScene1.TextureManager
+  type: Property
+  source:
+    remote:
+      path: src/ExampleGame/TestingScene1.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: TextureManager
+    path: src/ExampleGame/TestingScene1.cs
+    startLine: 22
+  assemblies:
+  - ExampleGame
+  namespace: ExampleGame
+  example: []
+  syntax:
+    content: public TextureManager TextureManager { get; set; }
+    parameters: []
+    return:
+      type: RedLight.Graphics.TextureManager
+    content.vb: Public Property TextureManager As TextureManager
+  overload: ExampleGame.TestingScene1.TextureManager*
+  implements:
+  - RedLight.Scene.RLScene.TextureManager
+- uid: ExampleGame.TestingScene1.InputManager
+  commentId: P:ExampleGame.TestingScene1.InputManager
+  id: InputManager
+  parent: ExampleGame.TestingScene1
+  langs:
+  - csharp
+  - vb
+  name: InputManager
+  nameWithType: TestingScene1.InputManager
+  fullName: ExampleGame.TestingScene1.InputManager
+  type: Property
+  source:
+    remote:
+      path: src/ExampleGame/TestingScene1.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: InputManager
+    path: src/ExampleGame/TestingScene1.cs
+    startLine: 23
+  assemblies:
+  - ExampleGame
+  namespace: ExampleGame
+  example: []
+  syntax:
+    content: public InputManager InputManager { get; set; }
+    parameters: []
+    return:
+      type: RedLight.Input.InputManager
+    content.vb: Public Property InputManager As InputManager
+  overload: ExampleGame.TestingScene1.InputManager*
+  implements:
+  - RedLight.Scene.RLScene.InputManager
+- uid: ExampleGame.TestingScene1.Engine
+  commentId: P:ExampleGame.TestingScene1.Engine
+  id: Engine
+  parent: ExampleGame.TestingScene1
+  langs:
+  - csharp
+  - vb
+  name: Engine
+  nameWithType: TestingScene1.Engine
+  fullName: ExampleGame.TestingScene1.Engine
+  type: Property
+  source:
+    remote:
+      path: src/ExampleGame/TestingScene1.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Engine
+    path: src/ExampleGame/TestingScene1.cs
+    startLine: 24
+  assemblies:
+  - ExampleGame
+  namespace: ExampleGame
+  example: []
+  syntax:
+    content: public RLEngine Engine { get; set; }
+    parameters: []
+    return:
+      type: RedLight.RLEngine
+    content.vb: Public Property Engine As RLEngine
+  overload: ExampleGame.TestingScene1.Engine*
+  implements:
+  - RedLight.Scene.RLScene.Engine
+- uid: ExampleGame.TestingScene1.PressedKeys
+  commentId: P:ExampleGame.TestingScene1.PressedKeys
+  id: PressedKeys
+  parent: ExampleGame.TestingScene1
+  langs:
+  - csharp
+  - vb
+  name: PressedKeys
+  nameWithType: TestingScene1.PressedKeys
+  fullName: ExampleGame.TestingScene1.PressedKeys
+  type: Property
+  source:
+    remote:
+      path: src/ExampleGame/TestingScene1.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: PressedKeys
+    path: src/ExampleGame/TestingScene1.cs
+    startLine: 25
+  assemblies:
+  - ExampleGame
+  namespace: ExampleGame
+  example: []
+  syntax:
+    content: public HashSet<Key> PressedKeys { get; set; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.HashSet{Silk.NET.Input.Key}
+    content.vb: Public Property PressedKeys As HashSet(Of Key)
+  overload: ExampleGame.TestingScene1.PressedKeys*
+  implements:
+  - RedLight.Input.RLKeyboard.PressedKeys
+- uid: ExampleGame.TestingScene1.PhysicsSystem
+  commentId: P:ExampleGame.TestingScene1.PhysicsSystem
+  id: PhysicsSystem
+  parent: ExampleGame.TestingScene1
+  langs:
+  - csharp
+  - vb
+  name: PhysicsSystem
+  nameWithType: TestingScene1.PhysicsSystem
+  fullName: ExampleGame.TestingScene1.PhysicsSystem
+  type: Property
+  source:
+    remote:
+      path: src/ExampleGame/TestingScene1.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: PhysicsSystem
+    path: src/ExampleGame/TestingScene1.cs
+    startLine: 26
+  assemblies:
+  - ExampleGame
+  namespace: ExampleGame
+  example: []
+  syntax:
+    content: public PhysicsSystem PhysicsSystem { get; set; }
+    parameters: []
+    return:
+      type: RedLight.Physics.PhysicsSystem
+    content.vb: Public Property PhysicsSystem As PhysicsSystem
+  overload: ExampleGame.TestingScene1.PhysicsSystem*
+  implements:
+  - RedLight.Scene.RLScene.PhysicsSystem
+- uid: ExampleGame.TestingScene1.LightManager
+  commentId: P:ExampleGame.TestingScene1.LightManager
+  id: LightManager
+  parent: ExampleGame.TestingScene1
+  langs:
+  - csharp
+  - vb
+  name: LightManager
+  nameWithType: TestingScene1.LightManager
+  fullName: ExampleGame.TestingScene1.LightManager
+  type: Property
+  source:
+    remote:
+      path: src/ExampleGame/TestingScene1.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: LightManager
+    path: src/ExampleGame/TestingScene1.cs
+    startLine: 27
+  assemblies:
+  - ExampleGame
+  namespace: ExampleGame
+  syntax:
+    content: public LightManager LightManager { get; set; }
+    parameters: []
+    return:
+      type: RedLight.Lighting.LightManager
+    content.vb: Public Property LightManager As LightManager
+  overload: ExampleGame.TestingScene1.LightManager*
+- uid: ExampleGame.TestingScene1.OnLoad
+  commentId: M:ExampleGame.TestingScene1.OnLoad
+  id: OnLoad
+  parent: ExampleGame.TestingScene1
+  langs:
+  - csharp
+  - vb
+  name: OnLoad()
+  nameWithType: TestingScene1.OnLoad()
+  fullName: ExampleGame.TestingScene1.OnLoad()
+  type: Method
+  source:
+    remote:
+      path: src/ExampleGame/TestingScene1.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: OnLoad
+    path: src/ExampleGame/TestingScene1.cs
+    startLine: 38
+  assemblies:
+  - ExampleGame
+  namespace: ExampleGame
+  example: []
+  syntax:
+    content: public void OnLoad()
+    content.vb: Public Sub OnLoad()
+  overload: ExampleGame.TestingScene1.OnLoad*
+  implements:
+  - RedLight.Scene.RLScene.OnLoad
+- uid: ExampleGame.TestingScene1.OnUpdate(System.Double)
+  commentId: M:ExampleGame.TestingScene1.OnUpdate(System.Double)
+  id: OnUpdate(System.Double)
+  parent: ExampleGame.TestingScene1
+  langs:
+  - csharp
+  - vb
+  name: OnUpdate(double)
+  nameWithType: TestingScene1.OnUpdate(double)
+  fullName: ExampleGame.TestingScene1.OnUpdate(double)
+  type: Method
+  source:
+    remote:
+      path: src/ExampleGame/TestingScene1.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: OnUpdate
+    path: src/ExampleGame/TestingScene1.cs
+    startLine: 64
+  assemblies:
+  - ExampleGame
+  namespace: ExampleGame
+  example: []
+  syntax:
+    content: public void OnUpdate(double deltaTime)
+    parameters:
+    - id: deltaTime
+      type: System.Double
+    content.vb: Public Sub OnUpdate(deltaTime As Double)
+  overload: ExampleGame.TestingScene1.OnUpdate*
+  implements:
+  - RedLight.Scene.RLScene.OnUpdate(System.Double)
+  nameWithType.vb: TestingScene1.OnUpdate(Double)
+  fullName.vb: ExampleGame.TestingScene1.OnUpdate(Double)
+  name.vb: OnUpdate(Double)
+- uid: ExampleGame.TestingScene1.OnRender(System.Double)
+  commentId: M:ExampleGame.TestingScene1.OnRender(System.Double)
+  id: OnRender(System.Double)
+  parent: ExampleGame.TestingScene1
+  langs:
+  - csharp
+  - vb
+  name: OnRender(double)
+  nameWithType: TestingScene1.OnRender(double)
+  fullName: ExampleGame.TestingScene1.OnRender(double)
+  type: Method
+  source:
+    remote:
+      path: src/ExampleGame/TestingScene1.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: OnRender
+    path: src/ExampleGame/TestingScene1.cs
+    startLine: 84
+  assemblies:
+  - ExampleGame
+  namespace: ExampleGame
+  example: []
+  syntax:
+    content: public void OnRender(double deltaTime)
+    parameters:
+    - id: deltaTime
+      type: System.Double
+    content.vb: Public Sub OnRender(deltaTime As Double)
+  overload: ExampleGame.TestingScene1.OnRender*
+  implements:
+  - RedLight.Scene.RLScene.OnRender(System.Double)
+  nameWithType.vb: TestingScene1.OnRender(Double)
+  fullName.vb: ExampleGame.TestingScene1.OnRender(Double)
+  name.vb: OnRender(Double)
+- uid: ExampleGame.TestingScene1.OnKeyDown(Silk.NET.Input.IKeyboard,Silk.NET.Input.Key,System.Int32)
+  commentId: M:ExampleGame.TestingScene1.OnKeyDown(Silk.NET.Input.IKeyboard,Silk.NET.Input.Key,System.Int32)
+  id: OnKeyDown(Silk.NET.Input.IKeyboard,Silk.NET.Input.Key,System.Int32)
+  parent: ExampleGame.TestingScene1
+  langs:
+  - csharp
+  - vb
+  name: OnKeyDown(IKeyboard, Key, int)
+  nameWithType: TestingScene1.OnKeyDown(IKeyboard, Key, int)
+  fullName: ExampleGame.TestingScene1.OnKeyDown(Silk.NET.Input.IKeyboard, Silk.NET.Input.Key, int)
+  type: Method
+  source:
+    remote:
+      path: src/ExampleGame/TestingScene1.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: OnKeyDown
+    path: src/ExampleGame/TestingScene1.cs
+    startLine: 149
+  assemblies:
+  - ExampleGame
+  namespace: ExampleGame
+  example: []
+  syntax:
+    content: public void OnKeyDown(IKeyboard keyboard, Key key, int keyCode)
+    parameters:
+    - id: keyboard
+      type: Silk.NET.Input.IKeyboard
+    - id: key
+      type: Silk.NET.Input.Key
+    - id: keyCode
+      type: System.Int32
+    content.vb: Public Sub OnKeyDown(keyboard As IKeyboard, key As Key, keyCode As Integer)
+  overload: ExampleGame.TestingScene1.OnKeyDown*
+  implements:
+  - RedLight.Input.RLKeyboard.OnKeyDown(Silk.NET.Input.IKeyboard,Silk.NET.Input.Key,System.Int32)
+  nameWithType.vb: TestingScene1.OnKeyDown(IKeyboard, Key, Integer)
+  fullName.vb: ExampleGame.TestingScene1.OnKeyDown(Silk.NET.Input.IKeyboard, Silk.NET.Input.Key, Integer)
+  name.vb: OnKeyDown(IKeyboard, Key, Integer)
+- uid: ExampleGame.TestingScene1.OnMouseMove(Silk.NET.Input.IMouse,System.Numerics.Vector2)
+  commentId: M:ExampleGame.TestingScene1.OnMouseMove(Silk.NET.Input.IMouse,System.Numerics.Vector2)
+  id: OnMouseMove(Silk.NET.Input.IMouse,System.Numerics.Vector2)
+  parent: ExampleGame.TestingScene1
+  langs:
+  - csharp
+  - vb
+  name: OnMouseMove(IMouse, Vector2)
+  nameWithType: TestingScene1.OnMouseMove(IMouse, Vector2)
+  fullName: ExampleGame.TestingScene1.OnMouseMove(Silk.NET.Input.IMouse, System.Numerics.Vector2)
+  type: Method
+  source:
+    remote:
+      path: src/ExampleGame/TestingScene1.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: OnMouseMove
+    path: src/ExampleGame/TestingScene1.cs
+    startLine: 192
+  assemblies:
+  - ExampleGame
+  namespace: ExampleGame
+  example: []
+  syntax:
+    content: public void OnMouseMove(IMouse mouse, Vector2 mousePosition)
+    parameters:
+    - id: mouse
+      type: Silk.NET.Input.IMouse
+    - id: mousePosition
+      type: System.Numerics.Vector2
+    content.vb: Public Sub OnMouseMove(mouse As IMouse, mousePosition As Vector2)
+  overload: ExampleGame.TestingScene1.OnMouseMove*
+  implements:
+  - RedLight.Input.RLMouse.OnMouseMove(Silk.NET.Input.IMouse,System.Numerics.Vector2)
+references:
+- uid: ExampleGame
+  commentId: N:ExampleGame
+  href: ExampleGame.html
+  name: ExampleGame
+  nameWithType: ExampleGame
+  fullName: ExampleGame
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: RedLight.Scene.RLScene
+  commentId: T:RedLight.Scene.RLScene
+  parent: RedLight.Scene
+  href: RedLight.Scene.RLScene.html
+  name: RLScene
+  nameWithType: RLScene
+  fullName: RedLight.Scene.RLScene
+- uid: RedLight.Input.RLKeyboard
+  commentId: T:RedLight.Input.RLKeyboard
+  parent: RedLight.Input
+  href: RedLight.Input.RLKeyboard.html
+  name: RLKeyboard
+  nameWithType: RLKeyboard
+  fullName: RedLight.Input.RLKeyboard
+- uid: RedLight.Input.RLMouse
+  commentId: T:RedLight.Input.RLMouse
+  parent: RedLight.Input
+  href: RedLight.Input.RLMouse.html
+  name: RLMouse
+  nameWithType: RLMouse
+  fullName: RedLight.Input.RLMouse
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: RedLight.Scene
+  commentId: N:RedLight.Scene
+  href: RedLight.html
+  name: RedLight.Scene
+  nameWithType: RedLight.Scene
+  fullName: RedLight.Scene
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Scene
+    name: Scene
+    href: RedLight.Scene.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Scene
+    name: Scene
+    href: RedLight.Scene.html
+- uid: RedLight.Input
+  commentId: N:RedLight.Input
+  href: RedLight.html
+  name: RedLight.Input
+  nameWithType: RedLight.Input
+  fullName: RedLight.Input
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Input
+    name: Input
+    href: RedLight.Input.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Input
+    name: Input
+    href: RedLight.Input.html
+- uid: ExampleGame.TestingScene1.Graphics*
+  commentId: Overload:ExampleGame.TestingScene1.Graphics
+  href: ExampleGame.TestingScene1.html#ExampleGame_TestingScene1_Graphics
+  name: Graphics
+  nameWithType: TestingScene1.Graphics
+  fullName: ExampleGame.TestingScene1.Graphics
+- uid: RedLight.Scene.RLScene.Graphics
+  commentId: P:RedLight.Scene.RLScene.Graphics
+  parent: RedLight.Scene.RLScene
+  href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_Graphics
+  name: Graphics
+  nameWithType: RLScene.Graphics
+  fullName: RedLight.Scene.RLScene.Graphics
+- uid: RedLight.Graphics.RLGraphics
+  commentId: T:RedLight.Graphics.RLGraphics
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.RLGraphics.html
+  name: RLGraphics
+  nameWithType: RLGraphics
+  fullName: RedLight.Graphics.RLGraphics
+- uid: RedLight.Graphics
+  commentId: N:RedLight.Graphics
+  href: RedLight.html
+  name: RedLight.Graphics
+  nameWithType: RedLight.Graphics
+  fullName: RedLight.Graphics
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Graphics
+    name: Graphics
+    href: RedLight.Graphics.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Graphics
+    name: Graphics
+    href: RedLight.Graphics.html
+- uid: ExampleGame.TestingScene1.SceneManager*
+  commentId: Overload:ExampleGame.TestingScene1.SceneManager
+  href: ExampleGame.TestingScene1.html#ExampleGame_TestingScene1_SceneManager
+  name: SceneManager
+  nameWithType: TestingScene1.SceneManager
+  fullName: ExampleGame.TestingScene1.SceneManager
+- uid: RedLight.Scene.RLScene.SceneManager
+  commentId: P:RedLight.Scene.RLScene.SceneManager
+  parent: RedLight.Scene.RLScene
+  href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_SceneManager
+  name: SceneManager
+  nameWithType: RLScene.SceneManager
+  fullName: RedLight.Scene.RLScene.SceneManager
+- uid: RedLight.Scene.SceneManager
+  commentId: T:RedLight.Scene.SceneManager
+  parent: RedLight.Scene
+  href: RedLight.Scene.SceneManager.html
+  name: SceneManager
+  nameWithType: SceneManager
+  fullName: RedLight.Scene.SceneManager
+- uid: ExampleGame.TestingScene1.ShaderManager*
+  commentId: Overload:ExampleGame.TestingScene1.ShaderManager
+  href: ExampleGame.TestingScene1.html#ExampleGame_TestingScene1_ShaderManager
+  name: ShaderManager
+  nameWithType: TestingScene1.ShaderManager
+  fullName: ExampleGame.TestingScene1.ShaderManager
+- uid: RedLight.Scene.RLScene.ShaderManager
+  commentId: P:RedLight.Scene.RLScene.ShaderManager
+  parent: RedLight.Scene.RLScene
+  href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_ShaderManager
+  name: ShaderManager
+  nameWithType: RLScene.ShaderManager
+  fullName: RedLight.Scene.RLScene.ShaderManager
+- uid: RedLight.Graphics.ShaderManager
+  commentId: T:RedLight.Graphics.ShaderManager
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.ShaderManager.html
+  name: ShaderManager
+  nameWithType: ShaderManager
+  fullName: RedLight.Graphics.ShaderManager
+- uid: ExampleGame.TestingScene1.TextureManager*
+  commentId: Overload:ExampleGame.TestingScene1.TextureManager
+  href: ExampleGame.TestingScene1.html#ExampleGame_TestingScene1_TextureManager
+  name: TextureManager
+  nameWithType: TestingScene1.TextureManager
+  fullName: ExampleGame.TestingScene1.TextureManager
+- uid: RedLight.Scene.RLScene.TextureManager
+  commentId: P:RedLight.Scene.RLScene.TextureManager
+  parent: RedLight.Scene.RLScene
+  href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_TextureManager
+  name: TextureManager
+  nameWithType: RLScene.TextureManager
+  fullName: RedLight.Scene.RLScene.TextureManager
+- uid: RedLight.Graphics.TextureManager
+  commentId: T:RedLight.Graphics.TextureManager
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.TextureManager.html
+  name: TextureManager
+  nameWithType: TextureManager
+  fullName: RedLight.Graphics.TextureManager
+- uid: ExampleGame.TestingScene1.InputManager*
+  commentId: Overload:ExampleGame.TestingScene1.InputManager
+  href: ExampleGame.TestingScene1.html#ExampleGame_TestingScene1_InputManager
+  name: InputManager
+  nameWithType: TestingScene1.InputManager
+  fullName: ExampleGame.TestingScene1.InputManager
+- uid: RedLight.Scene.RLScene.InputManager
+  commentId: P:RedLight.Scene.RLScene.InputManager
+  parent: RedLight.Scene.RLScene
+  href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_InputManager
+  name: InputManager
+  nameWithType: RLScene.InputManager
+  fullName: RedLight.Scene.RLScene.InputManager
+- uid: RedLight.Input.InputManager
+  commentId: T:RedLight.Input.InputManager
+  parent: RedLight.Input
+  href: RedLight.Input.InputManager.html
+  name: InputManager
+  nameWithType: InputManager
+  fullName: RedLight.Input.InputManager
+- uid: ExampleGame.TestingScene1.Engine*
+  commentId: Overload:ExampleGame.TestingScene1.Engine
+  href: ExampleGame.TestingScene1.html#ExampleGame_TestingScene1_Engine
+  name: Engine
+  nameWithType: TestingScene1.Engine
+  fullName: ExampleGame.TestingScene1.Engine
+- uid: RedLight.Scene.RLScene.Engine
+  commentId: P:RedLight.Scene.RLScene.Engine
+  parent: RedLight.Scene.RLScene
+  href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_Engine
+  name: Engine
+  nameWithType: RLScene.Engine
+  fullName: RedLight.Scene.RLScene.Engine
+- uid: RedLight.RLEngine
+  commentId: T:RedLight.RLEngine
+  parent: RedLight
+  href: RedLight.RLEngine.html
+  name: RLEngine
+  nameWithType: RLEngine
+  fullName: RedLight.RLEngine
+- uid: RedLight
+  commentId: N:RedLight
+  href: RedLight.html
+  name: RedLight
+  nameWithType: RedLight
+  fullName: RedLight
+- uid: ExampleGame.TestingScene1.PressedKeys*
+  commentId: Overload:ExampleGame.TestingScene1.PressedKeys
+  href: ExampleGame.TestingScene1.html#ExampleGame_TestingScene1_PressedKeys
+  name: PressedKeys
+  nameWithType: TestingScene1.PressedKeys
+  fullName: ExampleGame.TestingScene1.PressedKeys
+- uid: RedLight.Input.RLKeyboard.PressedKeys
+  commentId: P:RedLight.Input.RLKeyboard.PressedKeys
+  parent: RedLight.Input.RLKeyboard
+  href: RedLight.Input.RLKeyboard.html#RedLight_Input_RLKeyboard_PressedKeys
+  name: PressedKeys
+  nameWithType: RLKeyboard.PressedKeys
+  fullName: RedLight.Input.RLKeyboard.PressedKeys
+- uid: System.Collections.Generic.HashSet{Silk.NET.Input.Key}
+  commentId: T:System.Collections.Generic.HashSet{Silk.NET.Input.Key}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.HashSet`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  name: HashSet<Key>
+  nameWithType: HashSet<Key>
+  fullName: System.Collections.Generic.HashSet<Silk.NET.Input.Key>
+  nameWithType.vb: HashSet(Of Key)
+  fullName.vb: System.Collections.Generic.HashSet(Of Silk.NET.Input.Key)
+  name.vb: HashSet(Of Key)
+  spec.csharp:
+  - uid: System.Collections.Generic.HashSet`1
+    name: HashSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  - name: <
+  - uid: Silk.NET.Input.Key
+    name: Key
+    isExternal: true
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.HashSet`1
+    name: HashSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Silk.NET.Input.Key
+    name: Key
+    isExternal: true
+  - name: )
+- uid: System.Collections.Generic.HashSet`1
+  commentId: T:System.Collections.Generic.HashSet`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  name: HashSet<T>
+  nameWithType: HashSet<T>
+  fullName: System.Collections.Generic.HashSet<T>
+  nameWithType.vb: HashSet(Of T)
+  fullName.vb: System.Collections.Generic.HashSet(Of T)
+  name.vb: HashSet(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.HashSet`1
+    name: HashSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.HashSet`1
+    name: HashSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: ExampleGame.TestingScene1.PhysicsSystem*
+  commentId: Overload:ExampleGame.TestingScene1.PhysicsSystem
+  href: ExampleGame.TestingScene1.html#ExampleGame_TestingScene1_PhysicsSystem
+  name: PhysicsSystem
+  nameWithType: TestingScene1.PhysicsSystem
+  fullName: ExampleGame.TestingScene1.PhysicsSystem
+- uid: RedLight.Scene.RLScene.PhysicsSystem
+  commentId: P:RedLight.Scene.RLScene.PhysicsSystem
+  parent: RedLight.Scene.RLScene
+  href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_PhysicsSystem
+  name: PhysicsSystem
+  nameWithType: RLScene.PhysicsSystem
+  fullName: RedLight.Scene.RLScene.PhysicsSystem
+- uid: RedLight.Physics.PhysicsSystem
+  commentId: T:RedLight.Physics.PhysicsSystem
+  parent: RedLight.Physics
+  href: RedLight.Physics.PhysicsSystem.html
+  name: PhysicsSystem
+  nameWithType: PhysicsSystem
+  fullName: RedLight.Physics.PhysicsSystem
+- uid: RedLight.Physics
+  commentId: N:RedLight.Physics
+  href: RedLight.html
+  name: RedLight.Physics
+  nameWithType: RedLight.Physics
+  fullName: RedLight.Physics
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Physics
+    name: Physics
+    href: RedLight.Physics.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Physics
+    name: Physics
+    href: RedLight.Physics.html
+- uid: ExampleGame.TestingScene1.LightManager*
+  commentId: Overload:ExampleGame.TestingScene1.LightManager
+  href: ExampleGame.TestingScene1.html#ExampleGame_TestingScene1_LightManager
+  name: LightManager
+  nameWithType: TestingScene1.LightManager
+  fullName: ExampleGame.TestingScene1.LightManager
+- uid: RedLight.Lighting.LightManager
+  commentId: T:RedLight.Lighting.LightManager
+  parent: RedLight.Lighting
+  href: RedLight.Lighting.LightManager.html
+  name: LightManager
+  nameWithType: LightManager
+  fullName: RedLight.Lighting.LightManager
+- uid: RedLight.Lighting
+  commentId: N:RedLight.Lighting
+  href: RedLight.html
+  name: RedLight.Lighting
+  nameWithType: RedLight.Lighting
+  fullName: RedLight.Lighting
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Lighting
+    name: Lighting
+    href: RedLight.Lighting.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Lighting
+    name: Lighting
+    href: RedLight.Lighting.html
+- uid: ExampleGame.TestingScene1.OnLoad*
+  commentId: Overload:ExampleGame.TestingScene1.OnLoad
+  href: ExampleGame.TestingScene1.html#ExampleGame_TestingScene1_OnLoad
+  name: OnLoad
+  nameWithType: TestingScene1.OnLoad
+  fullName: ExampleGame.TestingScene1.OnLoad
+- uid: RedLight.Scene.RLScene.OnLoad
+  commentId: M:RedLight.Scene.RLScene.OnLoad
+  parent: RedLight.Scene.RLScene
+  href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_OnLoad
+  name: OnLoad()
+  nameWithType: RLScene.OnLoad()
+  fullName: RedLight.Scene.RLScene.OnLoad()
+  spec.csharp:
+  - uid: RedLight.Scene.RLScene.OnLoad
+    name: OnLoad
+    href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_OnLoad
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: RedLight.Scene.RLScene.OnLoad
+    name: OnLoad
+    href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_OnLoad
+  - name: (
+  - name: )
+- uid: ExampleGame.TestingScene1.OnUpdate*
+  commentId: Overload:ExampleGame.TestingScene1.OnUpdate
+  href: ExampleGame.TestingScene1.html#ExampleGame_TestingScene1_OnUpdate_System_Double_
+  name: OnUpdate
+  nameWithType: TestingScene1.OnUpdate
+  fullName: ExampleGame.TestingScene1.OnUpdate
+- uid: RedLight.Scene.RLScene.OnUpdate(System.Double)
+  commentId: M:RedLight.Scene.RLScene.OnUpdate(System.Double)
+  parent: RedLight.Scene.RLScene
+  isExternal: true
+  href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_OnUpdate_System_Double_
+  name: OnUpdate(double)
+  nameWithType: RLScene.OnUpdate(double)
+  fullName: RedLight.Scene.RLScene.OnUpdate(double)
+  nameWithType.vb: RLScene.OnUpdate(Double)
+  fullName.vb: RedLight.Scene.RLScene.OnUpdate(Double)
+  name.vb: OnUpdate(Double)
+  spec.csharp:
+  - uid: RedLight.Scene.RLScene.OnUpdate(System.Double)
+    name: OnUpdate
+    href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_OnUpdate_System_Double_
+  - name: (
+  - uid: System.Double
+    name: double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: )
+  spec.vb:
+  - uid: RedLight.Scene.RLScene.OnUpdate(System.Double)
+    name: OnUpdate
+    href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_OnUpdate_System_Double_
+  - name: (
+  - uid: System.Double
+    name: Double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: )
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.double
+  name: double
+  nameWithType: double
+  fullName: double
+  nameWithType.vb: Double
+  fullName.vb: Double
+  name.vb: Double
+- uid: ExampleGame.TestingScene1.OnRender*
+  commentId: Overload:ExampleGame.TestingScene1.OnRender
+  href: ExampleGame.TestingScene1.html#ExampleGame_TestingScene1_OnRender_System_Double_
+  name: OnRender
+  nameWithType: TestingScene1.OnRender
+  fullName: ExampleGame.TestingScene1.OnRender
+- uid: RedLight.Scene.RLScene.OnRender(System.Double)
+  commentId: M:RedLight.Scene.RLScene.OnRender(System.Double)
+  parent: RedLight.Scene.RLScene
+  isExternal: true
+  href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_OnRender_System_Double_
+  name: OnRender(double)
+  nameWithType: RLScene.OnRender(double)
+  fullName: RedLight.Scene.RLScene.OnRender(double)
+  nameWithType.vb: RLScene.OnRender(Double)
+  fullName.vb: RedLight.Scene.RLScene.OnRender(Double)
+  name.vb: OnRender(Double)
+  spec.csharp:
+  - uid: RedLight.Scene.RLScene.OnRender(System.Double)
+    name: OnRender
+    href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_OnRender_System_Double_
+  - name: (
+  - uid: System.Double
+    name: double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: )
+  spec.vb:
+  - uid: RedLight.Scene.RLScene.OnRender(System.Double)
+    name: OnRender
+    href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_OnRender_System_Double_
+  - name: (
+  - uid: System.Double
+    name: Double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: )
+- uid: ExampleGame.TestingScene1.OnKeyDown*
+  commentId: Overload:ExampleGame.TestingScene1.OnKeyDown
+  href: ExampleGame.TestingScene1.html#ExampleGame_TestingScene1_OnKeyDown_Silk_NET_Input_IKeyboard_Silk_NET_Input_Key_System_Int32_
+  name: OnKeyDown
+  nameWithType: TestingScene1.OnKeyDown
+  fullName: ExampleGame.TestingScene1.OnKeyDown
+- uid: RedLight.Input.RLKeyboard.OnKeyDown(Silk.NET.Input.IKeyboard,Silk.NET.Input.Key,System.Int32)
+  commentId: M:RedLight.Input.RLKeyboard.OnKeyDown(Silk.NET.Input.IKeyboard,Silk.NET.Input.Key,System.Int32)
+  parent: RedLight.Input.RLKeyboard
+  isExternal: true
+  href: RedLight.Input.RLKeyboard.html#RedLight_Input_RLKeyboard_OnKeyDown_Silk_NET_Input_IKeyboard_Silk_NET_Input_Key_System_Int32_
+  name: OnKeyDown(IKeyboard, Key, int)
+  nameWithType: RLKeyboard.OnKeyDown(IKeyboard, Key, int)
+  fullName: RedLight.Input.RLKeyboard.OnKeyDown(Silk.NET.Input.IKeyboard, Silk.NET.Input.Key, int)
+  nameWithType.vb: RLKeyboard.OnKeyDown(IKeyboard, Key, Integer)
+  fullName.vb: RedLight.Input.RLKeyboard.OnKeyDown(Silk.NET.Input.IKeyboard, Silk.NET.Input.Key, Integer)
+  name.vb: OnKeyDown(IKeyboard, Key, Integer)
+  spec.csharp:
+  - uid: RedLight.Input.RLKeyboard.OnKeyDown(Silk.NET.Input.IKeyboard,Silk.NET.Input.Key,System.Int32)
+    name: OnKeyDown
+    href: RedLight.Input.RLKeyboard.html#RedLight_Input_RLKeyboard_OnKeyDown_Silk_NET_Input_IKeyboard_Silk_NET_Input_Key_System_Int32_
+  - name: (
+  - uid: Silk.NET.Input.IKeyboard
+    name: IKeyboard
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Silk.NET.Input.Key
+    name: Key
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+  spec.vb:
+  - uid: RedLight.Input.RLKeyboard.OnKeyDown(Silk.NET.Input.IKeyboard,Silk.NET.Input.Key,System.Int32)
+    name: OnKeyDown
+    href: RedLight.Input.RLKeyboard.html#RedLight_Input_RLKeyboard_OnKeyDown_Silk_NET_Input_IKeyboard_Silk_NET_Input_Key_System_Int32_
+  - name: (
+  - uid: Silk.NET.Input.IKeyboard
+    name: IKeyboard
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Silk.NET.Input.Key
+    name: Key
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+- uid: Silk.NET.Input.IKeyboard
+  commentId: T:Silk.NET.Input.IKeyboard
+  parent: Silk.NET.Input
+  isExternal: true
+  name: IKeyboard
+  nameWithType: IKeyboard
+  fullName: Silk.NET.Input.IKeyboard
+- uid: Silk.NET.Input.Key
+  commentId: T:Silk.NET.Input.Key
+  parent: Silk.NET.Input
+  isExternal: true
+  name: Key
+  nameWithType: Key
+  fullName: Silk.NET.Input.Key
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Silk.NET.Input
+  commentId: N:Silk.NET.Input
+  isExternal: true
+  name: Silk.NET.Input
+  nameWithType: Silk.NET.Input
+  fullName: Silk.NET.Input
+  spec.csharp:
+  - uid: Silk
+    name: Silk
+    isExternal: true
+  - name: .
+  - uid: Silk.NET
+    name: NET
+    isExternal: true
+  - name: .
+  - uid: Silk.NET.Input
+    name: Input
+    isExternal: true
+  spec.vb:
+  - uid: Silk
+    name: Silk
+    isExternal: true
+  - name: .
+  - uid: Silk.NET
+    name: NET
+    isExternal: true
+  - name: .
+  - uid: Silk.NET.Input
+    name: Input
+    isExternal: true
+- uid: ExampleGame.TestingScene1.OnMouseMove*
+  commentId: Overload:ExampleGame.TestingScene1.OnMouseMove
+  href: ExampleGame.TestingScene1.html#ExampleGame_TestingScene1_OnMouseMove_Silk_NET_Input_IMouse_System_Numerics_Vector2_
+  name: OnMouseMove
+  nameWithType: TestingScene1.OnMouseMove
+  fullName: ExampleGame.TestingScene1.OnMouseMove
+- uid: RedLight.Input.RLMouse.OnMouseMove(Silk.NET.Input.IMouse,System.Numerics.Vector2)
+  commentId: M:RedLight.Input.RLMouse.OnMouseMove(Silk.NET.Input.IMouse,System.Numerics.Vector2)
+  parent: RedLight.Input.RLMouse
+  isExternal: true
+  href: RedLight.Input.RLMouse.html#RedLight_Input_RLMouse_OnMouseMove_Silk_NET_Input_IMouse_System_Numerics_Vector2_
+  name: OnMouseMove(IMouse, Vector2)
+  nameWithType: RLMouse.OnMouseMove(IMouse, Vector2)
+  fullName: RedLight.Input.RLMouse.OnMouseMove(Silk.NET.Input.IMouse, System.Numerics.Vector2)
+  spec.csharp:
+  - uid: RedLight.Input.RLMouse.OnMouseMove(Silk.NET.Input.IMouse,System.Numerics.Vector2)
+    name: OnMouseMove
+    href: RedLight.Input.RLMouse.html#RedLight_Input_RLMouse_OnMouseMove_Silk_NET_Input_IMouse_System_Numerics_Vector2_
+  - name: (
+  - uid: Silk.NET.Input.IMouse
+    name: IMouse
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Numerics.Vector2
+    name: Vector2
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.numerics.vector2
+  - name: )
+  spec.vb:
+  - uid: RedLight.Input.RLMouse.OnMouseMove(Silk.NET.Input.IMouse,System.Numerics.Vector2)
+    name: OnMouseMove
+    href: RedLight.Input.RLMouse.html#RedLight_Input_RLMouse_OnMouseMove_Silk_NET_Input_IMouse_System_Numerics_Vector2_
+  - name: (
+  - uid: Silk.NET.Input.IMouse
+    name: IMouse
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Numerics.Vector2
+    name: Vector2
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.numerics.vector2
+  - name: )
+- uid: Silk.NET.Input.IMouse
+  commentId: T:Silk.NET.Input.IMouse
+  parent: Silk.NET.Input
+  isExternal: true
+  name: IMouse
+  nameWithType: IMouse
+  fullName: Silk.NET.Input.IMouse
+- uid: System.Numerics.Vector2
+  commentId: T:System.Numerics.Vector2
+  parent: System.Numerics
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.numerics.vector2
+  name: Vector2
+  nameWithType: Vector2
+  fullName: System.Numerics.Vector2
+- uid: System.Numerics
+  commentId: N:System.Numerics
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Numerics
+  nameWithType: System.Numerics
+  fullName: System.Numerics
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Numerics
+    name: Numerics
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.numerics
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Numerics
+    name: Numerics
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.numerics

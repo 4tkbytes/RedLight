@@ -1,0 +1,139 @@
+### YamlMime:ManagedReference
+items:
+- uid: RedLight.Lighting.LightType
+  commentId: T:RedLight.Lighting.LightType
+  id: LightType
+  parent: RedLight.Lighting
+  children:
+  - RedLight.Lighting.LightType.Directional
+  - RedLight.Lighting.LightType.Point
+  - RedLight.Lighting.LightType.Spot
+  langs:
+  - csharp
+  - vb
+  name: LightType
+  nameWithType: LightType
+  fullName: RedLight.Lighting.LightType
+  type: Enum
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightType.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: LightType
+    path: src/RedLight/Lighting/LightType.cs
+    startLine: 2
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public enum LightType
+    content.vb: Public Enum LightType
+- uid: RedLight.Lighting.LightType.Directional
+  commentId: F:RedLight.Lighting.LightType.Directional
+  id: Directional
+  parent: RedLight.Lighting.LightType
+  langs:
+  - csharp
+  - vb
+  name: Directional
+  nameWithType: LightType.Directional
+  fullName: RedLight.Lighting.LightType.Directional
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightType.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Directional
+    path: src/RedLight/Lighting/LightType.cs
+    startLine: 4
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: Directional = 0
+    return:
+      type: RedLight.Lighting.LightType
+- uid: RedLight.Lighting.LightType.Point
+  commentId: F:RedLight.Lighting.LightType.Point
+  id: Point
+  parent: RedLight.Lighting.LightType
+  langs:
+  - csharp
+  - vb
+  name: Point
+  nameWithType: LightType.Point
+  fullName: RedLight.Lighting.LightType.Point
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightType.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Point
+    path: src/RedLight/Lighting/LightType.cs
+    startLine: 5
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: Point = 1
+    return:
+      type: RedLight.Lighting.LightType
+- uid: RedLight.Lighting.LightType.Spot
+  commentId: F:RedLight.Lighting.LightType.Spot
+  id: Spot
+  parent: RedLight.Lighting.LightType
+  langs:
+  - csharp
+  - vb
+  name: Spot
+  nameWithType: LightType.Spot
+  fullName: RedLight.Lighting.LightType.Spot
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightType.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Spot
+    path: src/RedLight/Lighting/LightType.cs
+    startLine: 6
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: Spot = 2
+    return:
+      type: RedLight.Lighting.LightType
+references:
+- uid: RedLight.Lighting
+  commentId: N:RedLight.Lighting
+  href: RedLight.html
+  name: RedLight.Lighting
+  nameWithType: RedLight.Lighting
+  fullName: RedLight.Lighting
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Lighting
+    name: Lighting
+    href: RedLight.Lighting.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Lighting
+    name: Lighting
+    href: RedLight.Lighting.html
+- uid: RedLight.Lighting.LightType
+  commentId: T:RedLight.Lighting.LightType
+  parent: RedLight.Lighting
+  href: RedLight.Lighting.LightType.html
+  name: LightType
+  nameWithType: LightType
+  fullName: RedLight.Lighting.LightType

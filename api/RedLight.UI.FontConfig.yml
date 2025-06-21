@@ -1,0 +1,386 @@
+### YamlMime:ManagedReference
+items:
+- uid: RedLight.UI.FontConfig
+  commentId: T:RedLight.UI.FontConfig
+  id: FontConfig
+  parent: RedLight.UI
+  children:
+  - RedLight.UI.FontConfig.#ctor(System.UInt32,System.UInt32)
+  - RedLight.UI.FontConfig.PixelHeight
+  - RedLight.UI.FontConfig.PixelWidth
+  langs:
+  - csharp
+  - vb
+  name: FontConfig
+  nameWithType: FontConfig
+  fullName: RedLight.UI.FontConfig
+  type: Struct
+  source:
+    remote:
+      path: src/RedLight/UI/Text.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: FontConfig
+    path: src/RedLight/UI/Text.cs
+    startLine: 19
+  assemblies:
+  - RedLight
+  namespace: RedLight.UI
+  syntax:
+    content: public struct FontConfig
+    content.vb: Public Structure FontConfig
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+- uid: RedLight.UI.FontConfig.PixelWidth
+  commentId: F:RedLight.UI.FontConfig.PixelWidth
+  id: PixelWidth
+  parent: RedLight.UI.FontConfig
+  langs:
+  - csharp
+  - vb
+  name: PixelWidth
+  nameWithType: FontConfig.PixelWidth
+  fullName: RedLight.UI.FontConfig.PixelWidth
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/UI/Text.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: PixelWidth
+    path: src/RedLight/UI/Text.cs
+    startLine: 21
+  assemblies:
+  - RedLight
+  namespace: RedLight.UI
+  syntax:
+    content: public uint PixelWidth
+    return:
+      type: System.UInt32
+    content.vb: Public PixelWidth As UInteger
+- uid: RedLight.UI.FontConfig.PixelHeight
+  commentId: F:RedLight.UI.FontConfig.PixelHeight
+  id: PixelHeight
+  parent: RedLight.UI.FontConfig
+  langs:
+  - csharp
+  - vb
+  name: PixelHeight
+  nameWithType: FontConfig.PixelHeight
+  fullName: RedLight.UI.FontConfig.PixelHeight
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/UI/Text.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: PixelHeight
+    path: src/RedLight/UI/Text.cs
+    startLine: 22
+  assemblies:
+  - RedLight
+  namespace: RedLight.UI
+  syntax:
+    content: public uint PixelHeight
+    return:
+      type: System.UInt32
+    content.vb: Public PixelHeight As UInteger
+- uid: RedLight.UI.FontConfig.#ctor(System.UInt32,System.UInt32)
+  commentId: M:RedLight.UI.FontConfig.#ctor(System.UInt32,System.UInt32)
+  id: '#ctor(System.UInt32,System.UInt32)'
+  parent: RedLight.UI.FontConfig
+  langs:
+  - csharp
+  - vb
+  name: FontConfig(uint, uint)
+  nameWithType: FontConfig.FontConfig(uint, uint)
+  fullName: RedLight.UI.FontConfig.FontConfig(uint, uint)
+  type: Constructor
+  source:
+    remote:
+      path: src/RedLight/UI/Text.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: .ctor
+    path: src/RedLight/UI/Text.cs
+    startLine: 24
+  assemblies:
+  - RedLight
+  namespace: RedLight.UI
+  syntax:
+    content: public FontConfig(uint pixelWidth, uint pixelHeight)
+    parameters:
+    - id: pixelWidth
+      type: System.UInt32
+    - id: pixelHeight
+      type: System.UInt32
+    content.vb: Public Sub New(pixelWidth As UInteger, pixelHeight As UInteger)
+  overload: RedLight.UI.FontConfig.#ctor*
+  nameWithType.vb: FontConfig.New(UInteger, UInteger)
+  fullName.vb: RedLight.UI.FontConfig.New(UInteger, UInteger)
+  name.vb: New(UInteger, UInteger)
+references:
+- uid: RedLight.UI
+  commentId: N:RedLight.UI
+  href: RedLight.html
+  name: RedLight.UI
+  nameWithType: RedLight.UI
+  fullName: RedLight.UI
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.UI
+    name: UI
+    href: RedLight.UI.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.UI
+    name: UI
+    href: RedLight.UI.html
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  name: Equals(object)
+  nameWithType: ValueType.Equals(object)
+  fullName: System.ValueType.Equals(object)
+  nameWithType.vb: ValueType.Equals(Object)
+  fullName.vb: System.ValueType.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.UInt32
+  commentId: T:System.UInt32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint32
+  name: uint
+  nameWithType: uint
+  fullName: uint
+  nameWithType.vb: UInteger
+  fullName.vb: UInteger
+  name.vb: UInteger
+- uid: RedLight.UI.FontConfig.#ctor*
+  commentId: Overload:RedLight.UI.FontConfig.#ctor
+  href: RedLight.UI.FontConfig.html#RedLight_UI_FontConfig__ctor_System_UInt32_System_UInt32_
+  name: FontConfig
+  nameWithType: FontConfig.FontConfig
+  fullName: RedLight.UI.FontConfig.FontConfig
+  nameWithType.vb: FontConfig.New
+  fullName.vb: RedLight.UI.FontConfig.New
+  name.vb: New

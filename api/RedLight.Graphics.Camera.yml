@@ -1,0 +1,1806 @@
+### YamlMime:ManagedReference
+items:
+- uid: RedLight.Graphics.Camera
+  commentId: T:RedLight.Graphics.Camera
+  id: Camera
+  parent: RedLight.Graphics
+  children:
+  - RedLight.Graphics.Camera.#ctor(System.Numerics.Vector2)
+  - RedLight.Graphics.Camera.#ctor(System.Numerics.Vector3,System.Numerics.Vector3,System.Numerics.Vector3,System.Single,System.Single,System.Single,System.Single)
+  - RedLight.Graphics.Camera.FOV
+  - RedLight.Graphics.Camera.Far
+  - RedLight.Graphics.Camera.FreeMove(System.Numerics.Vector2)
+  - RedLight.Graphics.Camera.Front
+  - RedLight.Graphics.Camera.KeyMap(System.Collections.Generic.HashSet{Silk.NET.Input.Key},RedLight.Entities.Player)
+  - RedLight.Graphics.Camera.KeyMap(System.Collections.Generic.HashSet{Silk.NET.Input.Key},System.Single)
+  - RedLight.Graphics.Camera.LookAt(System.Numerics.Vector3,System.Numerics.Vector3,System.Numerics.Vector3,System.Boolean)
+  - RedLight.Graphics.Camera.MoveBack
+  - RedLight.Graphics.Camera.MoveBack(System.Single)
+  - RedLight.Graphics.Camera.MoveDown
+  - RedLight.Graphics.Camera.MoveDown(System.Single)
+  - RedLight.Graphics.Camera.MoveForward
+  - RedLight.Graphics.Camera.MoveForward(System.Single)
+  - RedLight.Graphics.Camera.MoveLeft
+  - RedLight.Graphics.Camera.MoveLeft(System.Single)
+  - RedLight.Graphics.Camera.MoveRight
+  - RedLight.Graphics.Camera.MoveRight(System.Single)
+  - RedLight.Graphics.Camera.MoveUp
+  - RedLight.Graphics.Camera.MoveUp(System.Single)
+  - RedLight.Graphics.Camera.Near
+  - RedLight.Graphics.Camera.Pitch
+  - RedLight.Graphics.Camera.Position
+  - RedLight.Graphics.Camera.Projection
+  - RedLight.Graphics.Camera.Sensitivity
+  - RedLight.Graphics.Camera.SetFront(System.Numerics.Vector3)
+  - RedLight.Graphics.Camera.SetPosition(System.Numerics.Vector3)
+  - RedLight.Graphics.Camera.SetSpeed(System.Single)
+  - RedLight.Graphics.Camera.Speed
+  - RedLight.Graphics.Camera.Up
+  - RedLight.Graphics.Camera.UpdateAspectRatio(System.Single)
+  - RedLight.Graphics.Camera.UpdateCamera(System.Boolean)
+  - RedLight.Graphics.Camera.View
+  - RedLight.Graphics.Camera.Yaw
+  langs:
+  - csharp
+  - vb
+  name: Camera
+  nameWithType: Camera
+  fullName: RedLight.Graphics.Camera
+  type: Class
+  source:
+    remote:
+      path: src/RedLight/Graphics/Camera.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Camera
+    path: src/RedLight/Graphics/Camera.cs
+    startLine: 8
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public class Camera
+    content.vb: Public Class Camera
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: RedLight.Graphics.Camera.View
+  commentId: P:RedLight.Graphics.Camera.View
+  id: View
+  parent: RedLight.Graphics.Camera
+  langs:
+  - csharp
+  - vb
+  name: View
+  nameWithType: Camera.View
+  fullName: RedLight.Graphics.Camera.View
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Graphics/Camera.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: View
+    path: src/RedLight/Graphics/Camera.cs
+    startLine: 11
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public Matrix4x4 View { get; set; }
+    parameters: []
+    return:
+      type: System.Numerics.Matrix4x4
+    content.vb: Public Property View As Matrix4x4
+  overload: RedLight.Graphics.Camera.View*
+- uid: RedLight.Graphics.Camera.Projection
+  commentId: P:RedLight.Graphics.Camera.Projection
+  id: Projection
+  parent: RedLight.Graphics.Camera
+  langs:
+  - csharp
+  - vb
+  name: Projection
+  nameWithType: Camera.Projection
+  fullName: RedLight.Graphics.Camera.Projection
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Graphics/Camera.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Projection
+    path: src/RedLight/Graphics/Camera.cs
+    startLine: 12
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public Matrix4x4 Projection { get; }
+    parameters: []
+    return:
+      type: System.Numerics.Matrix4x4
+    content.vb: Public Property Projection As Matrix4x4
+  overload: RedLight.Graphics.Camera.Projection*
+- uid: RedLight.Graphics.Camera.Position
+  commentId: P:RedLight.Graphics.Camera.Position
+  id: Position
+  parent: RedLight.Graphics.Camera
+  langs:
+  - csharp
+  - vb
+  name: Position
+  nameWithType: Camera.Position
+  fullName: RedLight.Graphics.Camera.Position
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Graphics/Camera.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Position
+    path: src/RedLight/Graphics/Camera.cs
+    startLine: 13
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public Vector3 Position { get; set; }
+    parameters: []
+    return:
+      type: System.Numerics.Vector3
+    content.vb: Public Property Position As Vector3
+  overload: RedLight.Graphics.Camera.Position*
+- uid: RedLight.Graphics.Camera.Front
+  commentId: P:RedLight.Graphics.Camera.Front
+  id: Front
+  parent: RedLight.Graphics.Camera
+  langs:
+  - csharp
+  - vb
+  name: Front
+  nameWithType: Camera.Front
+  fullName: RedLight.Graphics.Camera.Front
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Graphics/Camera.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Front
+    path: src/RedLight/Graphics/Camera.cs
+    startLine: 14
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public Vector3 Front { get; }
+    parameters: []
+    return:
+      type: System.Numerics.Vector3
+    content.vb: Public Property Front As Vector3
+  overload: RedLight.Graphics.Camera.Front*
+- uid: RedLight.Graphics.Camera.Up
+  commentId: P:RedLight.Graphics.Camera.Up
+  id: Up
+  parent: RedLight.Graphics.Camera
+  langs:
+  - csharp
+  - vb
+  name: Up
+  nameWithType: Camera.Up
+  fullName: RedLight.Graphics.Camera.Up
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Graphics/Camera.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Up
+    path: src/RedLight/Graphics/Camera.cs
+    startLine: 15
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public Vector3 Up { get; }
+    parameters: []
+    return:
+      type: System.Numerics.Vector3
+    content.vb: Public Property Up As Vector3
+  overload: RedLight.Graphics.Camera.Up*
+- uid: RedLight.Graphics.Camera.Yaw
+  commentId: P:RedLight.Graphics.Camera.Yaw
+  id: Yaw
+  parent: RedLight.Graphics.Camera
+  langs:
+  - csharp
+  - vb
+  name: Yaw
+  nameWithType: Camera.Yaw
+  fullName: RedLight.Graphics.Camera.Yaw
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Graphics/Camera.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Yaw
+    path: src/RedLight/Graphics/Camera.cs
+    startLine: 16
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public float Yaw { get; set; }
+    parameters: []
+    return:
+      type: System.Single
+    content.vb: Public Property Yaw As Single
+  overload: RedLight.Graphics.Camera.Yaw*
+- uid: RedLight.Graphics.Camera.Pitch
+  commentId: P:RedLight.Graphics.Camera.Pitch
+  id: Pitch
+  parent: RedLight.Graphics.Camera
+  langs:
+  - csharp
+  - vb
+  name: Pitch
+  nameWithType: Camera.Pitch
+  fullName: RedLight.Graphics.Camera.Pitch
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Graphics/Camera.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Pitch
+    path: src/RedLight/Graphics/Camera.cs
+    startLine: 17
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public float Pitch { get; set; }
+    parameters: []
+    return:
+      type: System.Single
+    content.vb: Public Property Pitch As Single
+  overload: RedLight.Graphics.Camera.Pitch*
+- uid: RedLight.Graphics.Camera.Speed
+  commentId: P:RedLight.Graphics.Camera.Speed
+  id: Speed
+  parent: RedLight.Graphics.Camera
+  langs:
+  - csharp
+  - vb
+  name: Speed
+  nameWithType: Camera.Speed
+  fullName: RedLight.Graphics.Camera.Speed
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Graphics/Camera.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Speed
+    path: src/RedLight/Graphics/Camera.cs
+    startLine: 20
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public float Speed { get; }
+    parameters: []
+    return:
+      type: System.Single
+    content.vb: Public Property Speed As Single
+  overload: RedLight.Graphics.Camera.Speed*
+- uid: RedLight.Graphics.Camera.Sensitivity
+  commentId: P:RedLight.Graphics.Camera.Sensitivity
+  id: Sensitivity
+  parent: RedLight.Graphics.Camera
+  langs:
+  - csharp
+  - vb
+  name: Sensitivity
+  nameWithType: Camera.Sensitivity
+  fullName: RedLight.Graphics.Camera.Sensitivity
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Graphics/Camera.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Sensitivity
+    path: src/RedLight/Graphics/Camera.cs
+    startLine: 21
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public float Sensitivity { get; }
+    parameters: []
+    return:
+      type: System.Single
+    content.vb: Public Property Sensitivity As Single
+  overload: RedLight.Graphics.Camera.Sensitivity*
+- uid: RedLight.Graphics.Camera.FOV
+  commentId: P:RedLight.Graphics.Camera.FOV
+  id: FOV
+  parent: RedLight.Graphics.Camera
+  langs:
+  - csharp
+  - vb
+  name: FOV
+  nameWithType: Camera.FOV
+  fullName: RedLight.Graphics.Camera.FOV
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Graphics/Camera.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: FOV
+    path: src/RedLight/Graphics/Camera.cs
+    startLine: 29
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public float FOV { get; }
+    parameters: []
+    return:
+      type: System.Single
+    content.vb: Public Property FOV As Single
+  overload: RedLight.Graphics.Camera.FOV*
+- uid: RedLight.Graphics.Camera.Near
+  commentId: P:RedLight.Graphics.Camera.Near
+  id: Near
+  parent: RedLight.Graphics.Camera
+  langs:
+  - csharp
+  - vb
+  name: Near
+  nameWithType: Camera.Near
+  fullName: RedLight.Graphics.Camera.Near
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Graphics/Camera.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Near
+    path: src/RedLight/Graphics/Camera.cs
+    startLine: 30
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public float Near { get; }
+    parameters: []
+    return:
+      type: System.Single
+    content.vb: Public Property Near As Single
+  overload: RedLight.Graphics.Camera.Near*
+- uid: RedLight.Graphics.Camera.Far
+  commentId: P:RedLight.Graphics.Camera.Far
+  id: Far
+  parent: RedLight.Graphics.Camera
+  langs:
+  - csharp
+  - vb
+  name: Far
+  nameWithType: Camera.Far
+  fullName: RedLight.Graphics.Camera.Far
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Graphics/Camera.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Far
+    path: src/RedLight/Graphics/Camera.cs
+    startLine: 31
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public float Far { get; }
+    parameters: []
+    return:
+      type: System.Single
+    content.vb: Public Property Far As Single
+  overload: RedLight.Graphics.Camera.Far*
+- uid: RedLight.Graphics.Camera.#ctor(System.Numerics.Vector3,System.Numerics.Vector3,System.Numerics.Vector3,System.Single,System.Single,System.Single,System.Single)
+  commentId: M:RedLight.Graphics.Camera.#ctor(System.Numerics.Vector3,System.Numerics.Vector3,System.Numerics.Vector3,System.Single,System.Single,System.Single,System.Single)
+  id: '#ctor(System.Numerics.Vector3,System.Numerics.Vector3,System.Numerics.Vector3,System.Single,System.Single,System.Single,System.Single)'
+  parent: RedLight.Graphics.Camera
+  langs:
+  - csharp
+  - vb
+  name: Camera(Vector3, Vector3, Vector3, float, float, float, float)
+  nameWithType: Camera.Camera(Vector3, Vector3, Vector3, float, float, float, float)
+  fullName: RedLight.Graphics.Camera.Camera(System.Numerics.Vector3, System.Numerics.Vector3, System.Numerics.Vector3, float, float, float, float)
+  type: Constructor
+  source:
+    remote:
+      path: src/RedLight/Graphics/Camera.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: .ctor
+    path: src/RedLight/Graphics/Camera.cs
+    startLine: 33
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public Camera(Vector3 cameraPosition, Vector3 cameraFront, Vector3 cameraUp, float fov, float aspect, float near, float far)
+    parameters:
+    - id: cameraPosition
+      type: System.Numerics.Vector3
+    - id: cameraFront
+      type: System.Numerics.Vector3
+    - id: cameraUp
+      type: System.Numerics.Vector3
+    - id: fov
+      type: System.Single
+    - id: aspect
+      type: System.Single
+    - id: near
+      type: System.Single
+    - id: far
+      type: System.Single
+    content.vb: Public Sub New(cameraPosition As Vector3, cameraFront As Vector3, cameraUp As Vector3, fov As Single, aspect As Single, near As Single, far As Single)
+  overload: RedLight.Graphics.Camera.#ctor*
+  nameWithType.vb: Camera.New(Vector3, Vector3, Vector3, Single, Single, Single, Single)
+  fullName.vb: RedLight.Graphics.Camera.New(System.Numerics.Vector3, System.Numerics.Vector3, System.Numerics.Vector3, Single, Single, Single, Single)
+  name.vb: New(Vector3, Vector3, Vector3, Single, Single, Single, Single)
+- uid: RedLight.Graphics.Camera.#ctor(System.Numerics.Vector2)
+  commentId: M:RedLight.Graphics.Camera.#ctor(System.Numerics.Vector2)
+  id: '#ctor(System.Numerics.Vector2)'
+  parent: RedLight.Graphics.Camera
+  langs:
+  - csharp
+  - vb
+  name: Camera(Vector2)
+  nameWithType: Camera.Camera(Vector2)
+  fullName: RedLight.Graphics.Camera.Camera(System.Numerics.Vector2)
+  type: Constructor
+  source:
+    remote:
+      path: src/RedLight/Graphics/Camera.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: .ctor
+    path: src/RedLight/Graphics/Camera.cs
+    startLine: 54
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public Camera(Vector2 screenSize)
+    parameters:
+    - id: screenSize
+      type: System.Numerics.Vector2
+    content.vb: Public Sub New(screenSize As Vector2)
+  overload: RedLight.Graphics.Camera.#ctor*
+  nameWithType.vb: Camera.New(Vector2)
+  fullName.vb: RedLight.Graphics.Camera.New(System.Numerics.Vector2)
+  name.vb: New(Vector2)
+- uid: RedLight.Graphics.Camera.UpdateCamera(System.Boolean)
+  commentId: M:RedLight.Graphics.Camera.UpdateCamera(System.Boolean)
+  id: UpdateCamera(System.Boolean)
+  parent: RedLight.Graphics.Camera
+  langs:
+  - csharp
+  - vb
+  name: UpdateCamera(bool)
+  nameWithType: Camera.UpdateCamera(bool)
+  fullName: RedLight.Graphics.Camera.UpdateCamera(bool)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/Camera.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: UpdateCamera
+    path: src/RedLight/Graphics/Camera.cs
+    startLine: 65
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public Camera UpdateCamera(bool shutup = true)
+    parameters:
+    - id: shutup
+      type: System.Boolean
+    return:
+      type: RedLight.Graphics.Camera
+    content.vb: Public Function UpdateCamera(shutup As Boolean = True) As Camera
+  overload: RedLight.Graphics.Camera.UpdateCamera*
+  nameWithType.vb: Camera.UpdateCamera(Boolean)
+  fullName.vb: RedLight.Graphics.Camera.UpdateCamera(Boolean)
+  name.vb: UpdateCamera(Boolean)
+- uid: RedLight.Graphics.Camera.LookAt(System.Numerics.Vector3,System.Numerics.Vector3,System.Numerics.Vector3,System.Boolean)
+  commentId: M:RedLight.Graphics.Camera.LookAt(System.Numerics.Vector3,System.Numerics.Vector3,System.Numerics.Vector3,System.Boolean)
+  id: LookAt(System.Numerics.Vector3,System.Numerics.Vector3,System.Numerics.Vector3,System.Boolean)
+  parent: RedLight.Graphics.Camera
+  langs:
+  - csharp
+  - vb
+  name: LookAt(Vector3, Vector3, Vector3, bool)
+  nameWithType: Camera.LookAt(Vector3, Vector3, Vector3, bool)
+  fullName: RedLight.Graphics.Camera.LookAt(System.Numerics.Vector3, System.Numerics.Vector3, System.Numerics.Vector3, bool)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/Camera.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: LookAt
+    path: src/RedLight/Graphics/Camera.cs
+    startLine: 75
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public Camera LookAt(Vector3 position, Vector3 cameraTarget, Vector3 cameraUpVector, bool shutup = true)
+    parameters:
+    - id: position
+      type: System.Numerics.Vector3
+    - id: cameraTarget
+      type: System.Numerics.Vector3
+    - id: cameraUpVector
+      type: System.Numerics.Vector3
+    - id: shutup
+      type: System.Boolean
+    return:
+      type: RedLight.Graphics.Camera
+    content.vb: Public Function LookAt(position As Vector3, cameraTarget As Vector3, cameraUpVector As Vector3, shutup As Boolean = True) As Camera
+  overload: RedLight.Graphics.Camera.LookAt*
+  nameWithType.vb: Camera.LookAt(Vector3, Vector3, Vector3, Boolean)
+  fullName.vb: RedLight.Graphics.Camera.LookAt(System.Numerics.Vector3, System.Numerics.Vector3, System.Numerics.Vector3, Boolean)
+  name.vb: LookAt(Vector3, Vector3, Vector3, Boolean)
+- uid: RedLight.Graphics.Camera.FreeMove(System.Numerics.Vector2)
+  commentId: M:RedLight.Graphics.Camera.FreeMove(System.Numerics.Vector2)
+  id: FreeMove(System.Numerics.Vector2)
+  parent: RedLight.Graphics.Camera
+  langs:
+  - csharp
+  - vb
+  name: FreeMove(Vector2)
+  nameWithType: Camera.FreeMove(Vector2)
+  fullName: RedLight.Graphics.Camera.FreeMove(System.Numerics.Vector2)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/Camera.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: FreeMove
+    path: src/RedLight/Graphics/Camera.cs
+    startLine: 88
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public void FreeMove(Vector2 mousePosition)
+    parameters:
+    - id: mousePosition
+      type: System.Numerics.Vector2
+    content.vb: Public Sub FreeMove(mousePosition As Vector2)
+  overload: RedLight.Graphics.Camera.FreeMove*
+- uid: RedLight.Graphics.Camera.KeyMap(System.Collections.Generic.HashSet{Silk.NET.Input.Key},System.Single)
+  commentId: M:RedLight.Graphics.Camera.KeyMap(System.Collections.Generic.HashSet{Silk.NET.Input.Key},System.Single)
+  id: KeyMap(System.Collections.Generic.HashSet{Silk.NET.Input.Key},System.Single)
+  parent: RedLight.Graphics.Camera
+  langs:
+  - csharp
+  - vb
+  name: KeyMap(HashSet<Key>, float)
+  nameWithType: Camera.KeyMap(HashSet<Key>, float)
+  fullName: RedLight.Graphics.Camera.KeyMap(System.Collections.Generic.HashSet<Silk.NET.Input.Key>, float)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/Camera.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: KeyMap
+    path: src/RedLight/Graphics/Camera.cs
+    startLine: 124
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public Camera KeyMap(HashSet<Key> PressedKeys, float deltaTime)
+    parameters:
+    - id: PressedKeys
+      type: System.Collections.Generic.HashSet{Silk.NET.Input.Key}
+    - id: deltaTime
+      type: System.Single
+    return:
+      type: RedLight.Graphics.Camera
+    content.vb: Public Function KeyMap(PressedKeys As HashSet(Of Key), deltaTime As Single) As Camera
+  overload: RedLight.Graphics.Camera.KeyMap*
+  nameWithType.vb: Camera.KeyMap(HashSet(Of Key), Single)
+  fullName.vb: RedLight.Graphics.Camera.KeyMap(System.Collections.Generic.HashSet(Of Silk.NET.Input.Key), Single)
+  name.vb: KeyMap(HashSet(Of Key), Single)
+- uid: RedLight.Graphics.Camera.KeyMap(System.Collections.Generic.HashSet{Silk.NET.Input.Key},RedLight.Entities.Player)
+  commentId: M:RedLight.Graphics.Camera.KeyMap(System.Collections.Generic.HashSet{Silk.NET.Input.Key},RedLight.Entities.Player)
+  id: KeyMap(System.Collections.Generic.HashSet{Silk.NET.Input.Key},RedLight.Entities.Player)
+  parent: RedLight.Graphics.Camera
+  langs:
+  - csharp
+  - vb
+  name: KeyMap(HashSet<Key>, Player)
+  nameWithType: Camera.KeyMap(HashSet<Key>, Player)
+  fullName: RedLight.Graphics.Camera.KeyMap(System.Collections.Generic.HashSet<Silk.NET.Input.Key>, RedLight.Entities.Player)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/Camera.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: KeyMap
+    path: src/RedLight/Graphics/Camera.cs
+    startLine: 146
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public Camera KeyMap(HashSet<Key> PressedKeys, Player player)
+    parameters:
+    - id: PressedKeys
+      type: System.Collections.Generic.HashSet{Silk.NET.Input.Key}
+    - id: player
+      type: RedLight.Entities.Player
+    return:
+      type: RedLight.Graphics.Camera
+    content.vb: Public Function KeyMap(PressedKeys As HashSet(Of Key), player As Player) As Camera
+  overload: RedLight.Graphics.Camera.KeyMap*
+  nameWithType.vb: Camera.KeyMap(HashSet(Of Key), Player)
+  fullName.vb: RedLight.Graphics.Camera.KeyMap(System.Collections.Generic.HashSet(Of Silk.NET.Input.Key), RedLight.Entities.Player)
+  name.vb: KeyMap(HashSet(Of Key), Player)
+- uid: RedLight.Graphics.Camera.UpdateAspectRatio(System.Single)
+  commentId: M:RedLight.Graphics.Camera.UpdateAspectRatio(System.Single)
+  id: UpdateAspectRatio(System.Single)
+  parent: RedLight.Graphics.Camera
+  langs:
+  - csharp
+  - vb
+  name: UpdateAspectRatio(float)
+  nameWithType: Camera.UpdateAspectRatio(float)
+  fullName: RedLight.Graphics.Camera.UpdateAspectRatio(float)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/Camera.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: UpdateAspectRatio
+    path: src/RedLight/Graphics/Camera.cs
+    startLine: 194
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public Camera UpdateAspectRatio(float aspectRatio)
+    parameters:
+    - id: aspectRatio
+      type: System.Single
+    return:
+      type: RedLight.Graphics.Camera
+    content.vb: Public Function UpdateAspectRatio(aspectRatio As Single) As Camera
+  overload: RedLight.Graphics.Camera.UpdateAspectRatio*
+  nameWithType.vb: Camera.UpdateAspectRatio(Single)
+  fullName.vb: RedLight.Graphics.Camera.UpdateAspectRatio(Single)
+  name.vb: UpdateAspectRatio(Single)
+- uid: RedLight.Graphics.Camera.SetSpeed(System.Single)
+  commentId: M:RedLight.Graphics.Camera.SetSpeed(System.Single)
+  id: SetSpeed(System.Single)
+  parent: RedLight.Graphics.Camera
+  langs:
+  - csharp
+  - vb
+  name: SetSpeed(float)
+  nameWithType: Camera.SetSpeed(float)
+  fullName: RedLight.Graphics.Camera.SetSpeed(float)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/Camera.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: SetSpeed
+    path: src/RedLight/Graphics/Camera.cs
+    startLine: 201
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public Camera SetSpeed(float speed)
+    parameters:
+    - id: speed
+      type: System.Single
+    return:
+      type: RedLight.Graphics.Camera
+    content.vb: Public Function SetSpeed(speed As Single) As Camera
+  overload: RedLight.Graphics.Camera.SetSpeed*
+  nameWithType.vb: Camera.SetSpeed(Single)
+  fullName.vb: RedLight.Graphics.Camera.SetSpeed(Single)
+  name.vb: SetSpeed(Single)
+- uid: RedLight.Graphics.Camera.SetFront(System.Numerics.Vector3)
+  commentId: M:RedLight.Graphics.Camera.SetFront(System.Numerics.Vector3)
+  id: SetFront(System.Numerics.Vector3)
+  parent: RedLight.Graphics.Camera
+  langs:
+  - csharp
+  - vb
+  name: SetFront(Vector3)
+  nameWithType: Camera.SetFront(Vector3)
+  fullName: RedLight.Graphics.Camera.SetFront(System.Numerics.Vector3)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/Camera.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: SetFront
+    path: src/RedLight/Graphics/Camera.cs
+    startLine: 207
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public Camera SetFront(Vector3 direction)
+    parameters:
+    - id: direction
+      type: System.Numerics.Vector3
+    return:
+      type: RedLight.Graphics.Camera
+    content.vb: Public Function SetFront(direction As Vector3) As Camera
+  overload: RedLight.Graphics.Camera.SetFront*
+- uid: RedLight.Graphics.Camera.MoveForward
+  commentId: M:RedLight.Graphics.Camera.MoveForward
+  id: MoveForward
+  parent: RedLight.Graphics.Camera
+  langs:
+  - csharp
+  - vb
+  name: MoveForward()
+  nameWithType: Camera.MoveForward()
+  fullName: RedLight.Graphics.Camera.MoveForward()
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/Camera.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: MoveForward
+    path: src/RedLight/Graphics/Camera.cs
+    startLine: 213
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public Camera MoveForward()
+    return:
+      type: RedLight.Graphics.Camera
+    content.vb: Public Function MoveForward() As Camera
+  overload: RedLight.Graphics.Camera.MoveForward*
+- uid: RedLight.Graphics.Camera.MoveBack
+  commentId: M:RedLight.Graphics.Camera.MoveBack
+  id: MoveBack
+  parent: RedLight.Graphics.Camera
+  langs:
+  - csharp
+  - vb
+  name: MoveBack()
+  nameWithType: Camera.MoveBack()
+  fullName: RedLight.Graphics.Camera.MoveBack()
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/Camera.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: MoveBack
+    path: src/RedLight/Graphics/Camera.cs
+    startLine: 219
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public Camera MoveBack()
+    return:
+      type: RedLight.Graphics.Camera
+    content.vb: Public Function MoveBack() As Camera
+  overload: RedLight.Graphics.Camera.MoveBack*
+- uid: RedLight.Graphics.Camera.MoveUp
+  commentId: M:RedLight.Graphics.Camera.MoveUp
+  id: MoveUp
+  parent: RedLight.Graphics.Camera
+  langs:
+  - csharp
+  - vb
+  name: MoveUp()
+  nameWithType: Camera.MoveUp()
+  fullName: RedLight.Graphics.Camera.MoveUp()
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/Camera.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: MoveUp
+    path: src/RedLight/Graphics/Camera.cs
+    startLine: 225
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public Camera MoveUp()
+    return:
+      type: RedLight.Graphics.Camera
+    content.vb: Public Function MoveUp() As Camera
+  overload: RedLight.Graphics.Camera.MoveUp*
+- uid: RedLight.Graphics.Camera.MoveDown
+  commentId: M:RedLight.Graphics.Camera.MoveDown
+  id: MoveDown
+  parent: RedLight.Graphics.Camera
+  langs:
+  - csharp
+  - vb
+  name: MoveDown()
+  nameWithType: Camera.MoveDown()
+  fullName: RedLight.Graphics.Camera.MoveDown()
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/Camera.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: MoveDown
+    path: src/RedLight/Graphics/Camera.cs
+    startLine: 231
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public Camera MoveDown()
+    return:
+      type: RedLight.Graphics.Camera
+    content.vb: Public Function MoveDown() As Camera
+  overload: RedLight.Graphics.Camera.MoveDown*
+- uid: RedLight.Graphics.Camera.MoveLeft
+  commentId: M:RedLight.Graphics.Camera.MoveLeft
+  id: MoveLeft
+  parent: RedLight.Graphics.Camera
+  langs:
+  - csharp
+  - vb
+  name: MoveLeft()
+  nameWithType: Camera.MoveLeft()
+  fullName: RedLight.Graphics.Camera.MoveLeft()
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/Camera.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: MoveLeft
+    path: src/RedLight/Graphics/Camera.cs
+    startLine: 237
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public Camera MoveLeft()
+    return:
+      type: RedLight.Graphics.Camera
+    content.vb: Public Function MoveLeft() As Camera
+  overload: RedLight.Graphics.Camera.MoveLeft*
+- uid: RedLight.Graphics.Camera.MoveRight
+  commentId: M:RedLight.Graphics.Camera.MoveRight
+  id: MoveRight
+  parent: RedLight.Graphics.Camera
+  langs:
+  - csharp
+  - vb
+  name: MoveRight()
+  nameWithType: Camera.MoveRight()
+  fullName: RedLight.Graphics.Camera.MoveRight()
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/Camera.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: MoveRight
+    path: src/RedLight/Graphics/Camera.cs
+    startLine: 243
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public Camera MoveRight()
+    return:
+      type: RedLight.Graphics.Camera
+    content.vb: Public Function MoveRight() As Camera
+  overload: RedLight.Graphics.Camera.MoveRight*
+- uid: RedLight.Graphics.Camera.MoveForward(System.Single)
+  commentId: M:RedLight.Graphics.Camera.MoveForward(System.Single)
+  id: MoveForward(System.Single)
+  parent: RedLight.Graphics.Camera
+  langs:
+  - csharp
+  - vb
+  name: MoveForward(float)
+  nameWithType: Camera.MoveForward(float)
+  fullName: RedLight.Graphics.Camera.MoveForward(float)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/Camera.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: MoveForward
+    path: src/RedLight/Graphics/Camera.cs
+    startLine: 249
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public Camera MoveForward(float speed)
+    parameters:
+    - id: speed
+      type: System.Single
+    return:
+      type: RedLight.Graphics.Camera
+    content.vb: Public Function MoveForward(speed As Single) As Camera
+  overload: RedLight.Graphics.Camera.MoveForward*
+  nameWithType.vb: Camera.MoveForward(Single)
+  fullName.vb: RedLight.Graphics.Camera.MoveForward(Single)
+  name.vb: MoveForward(Single)
+- uid: RedLight.Graphics.Camera.MoveBack(System.Single)
+  commentId: M:RedLight.Graphics.Camera.MoveBack(System.Single)
+  id: MoveBack(System.Single)
+  parent: RedLight.Graphics.Camera
+  langs:
+  - csharp
+  - vb
+  name: MoveBack(float)
+  nameWithType: Camera.MoveBack(float)
+  fullName: RedLight.Graphics.Camera.MoveBack(float)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/Camera.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: MoveBack
+    path: src/RedLight/Graphics/Camera.cs
+    startLine: 255
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public Camera MoveBack(float speed)
+    parameters:
+    - id: speed
+      type: System.Single
+    return:
+      type: RedLight.Graphics.Camera
+    content.vb: Public Function MoveBack(speed As Single) As Camera
+  overload: RedLight.Graphics.Camera.MoveBack*
+  nameWithType.vb: Camera.MoveBack(Single)
+  fullName.vb: RedLight.Graphics.Camera.MoveBack(Single)
+  name.vb: MoveBack(Single)
+- uid: RedLight.Graphics.Camera.MoveUp(System.Single)
+  commentId: M:RedLight.Graphics.Camera.MoveUp(System.Single)
+  id: MoveUp(System.Single)
+  parent: RedLight.Graphics.Camera
+  langs:
+  - csharp
+  - vb
+  name: MoveUp(float)
+  nameWithType: Camera.MoveUp(float)
+  fullName: RedLight.Graphics.Camera.MoveUp(float)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/Camera.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: MoveUp
+    path: src/RedLight/Graphics/Camera.cs
+    startLine: 261
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public Camera MoveUp(float speed)
+    parameters:
+    - id: speed
+      type: System.Single
+    return:
+      type: RedLight.Graphics.Camera
+    content.vb: Public Function MoveUp(speed As Single) As Camera
+  overload: RedLight.Graphics.Camera.MoveUp*
+  nameWithType.vb: Camera.MoveUp(Single)
+  fullName.vb: RedLight.Graphics.Camera.MoveUp(Single)
+  name.vb: MoveUp(Single)
+- uid: RedLight.Graphics.Camera.MoveDown(System.Single)
+  commentId: M:RedLight.Graphics.Camera.MoveDown(System.Single)
+  id: MoveDown(System.Single)
+  parent: RedLight.Graphics.Camera
+  langs:
+  - csharp
+  - vb
+  name: MoveDown(float)
+  nameWithType: Camera.MoveDown(float)
+  fullName: RedLight.Graphics.Camera.MoveDown(float)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/Camera.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: MoveDown
+    path: src/RedLight/Graphics/Camera.cs
+    startLine: 267
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public Camera MoveDown(float speed)
+    parameters:
+    - id: speed
+      type: System.Single
+    return:
+      type: RedLight.Graphics.Camera
+    content.vb: Public Function MoveDown(speed As Single) As Camera
+  overload: RedLight.Graphics.Camera.MoveDown*
+  nameWithType.vb: Camera.MoveDown(Single)
+  fullName.vb: RedLight.Graphics.Camera.MoveDown(Single)
+  name.vb: MoveDown(Single)
+- uid: RedLight.Graphics.Camera.MoveLeft(System.Single)
+  commentId: M:RedLight.Graphics.Camera.MoveLeft(System.Single)
+  id: MoveLeft(System.Single)
+  parent: RedLight.Graphics.Camera
+  langs:
+  - csharp
+  - vb
+  name: MoveLeft(float)
+  nameWithType: Camera.MoveLeft(float)
+  fullName: RedLight.Graphics.Camera.MoveLeft(float)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/Camera.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: MoveLeft
+    path: src/RedLight/Graphics/Camera.cs
+    startLine: 273
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public Camera MoveLeft(float speed)
+    parameters:
+    - id: speed
+      type: System.Single
+    return:
+      type: RedLight.Graphics.Camera
+    content.vb: Public Function MoveLeft(speed As Single) As Camera
+  overload: RedLight.Graphics.Camera.MoveLeft*
+  nameWithType.vb: Camera.MoveLeft(Single)
+  fullName.vb: RedLight.Graphics.Camera.MoveLeft(Single)
+  name.vb: MoveLeft(Single)
+- uid: RedLight.Graphics.Camera.MoveRight(System.Single)
+  commentId: M:RedLight.Graphics.Camera.MoveRight(System.Single)
+  id: MoveRight(System.Single)
+  parent: RedLight.Graphics.Camera
+  langs:
+  - csharp
+  - vb
+  name: MoveRight(float)
+  nameWithType: Camera.MoveRight(float)
+  fullName: RedLight.Graphics.Camera.MoveRight(float)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/Camera.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: MoveRight
+    path: src/RedLight/Graphics/Camera.cs
+    startLine: 280
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public Camera MoveRight(float speed)
+    parameters:
+    - id: speed
+      type: System.Single
+    return:
+      type: RedLight.Graphics.Camera
+    content.vb: Public Function MoveRight(speed As Single) As Camera
+  overload: RedLight.Graphics.Camera.MoveRight*
+  nameWithType.vb: Camera.MoveRight(Single)
+  fullName.vb: RedLight.Graphics.Camera.MoveRight(Single)
+  name.vb: MoveRight(Single)
+- uid: RedLight.Graphics.Camera.SetPosition(System.Numerics.Vector3)
+  commentId: M:RedLight.Graphics.Camera.SetPosition(System.Numerics.Vector3)
+  id: SetPosition(System.Numerics.Vector3)
+  parent: RedLight.Graphics.Camera
+  langs:
+  - csharp
+  - vb
+  name: SetPosition(Vector3)
+  nameWithType: Camera.SetPosition(Vector3)
+  fullName: RedLight.Graphics.Camera.SetPosition(System.Numerics.Vector3)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/Camera.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: SetPosition
+    path: src/RedLight/Graphics/Camera.cs
+    startLine: 287
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public Camera SetPosition(Vector3 pos)
+    parameters:
+    - id: pos
+      type: System.Numerics.Vector3
+    return:
+      type: RedLight.Graphics.Camera
+    content.vb: Public Function SetPosition(pos As Vector3) As Camera
+  overload: RedLight.Graphics.Camera.SetPosition*
+references:
+- uid: RedLight.Graphics
+  commentId: N:RedLight.Graphics
+  href: RedLight.html
+  name: RedLight.Graphics
+  nameWithType: RedLight.Graphics
+  fullName: RedLight.Graphics
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Graphics
+    name: Graphics
+    href: RedLight.Graphics.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Graphics
+    name: Graphics
+    href: RedLight.Graphics.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: RedLight.Graphics.Camera.View*
+  commentId: Overload:RedLight.Graphics.Camera.View
+  href: RedLight.Graphics.Camera.html#RedLight_Graphics_Camera_View
+  name: View
+  nameWithType: Camera.View
+  fullName: RedLight.Graphics.Camera.View
+- uid: System.Numerics.Matrix4x4
+  commentId: T:System.Numerics.Matrix4x4
+  parent: System.Numerics
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.numerics.matrix4x4
+  name: Matrix4x4
+  nameWithType: Matrix4x4
+  fullName: System.Numerics.Matrix4x4
+- uid: System.Numerics
+  commentId: N:System.Numerics
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Numerics
+  nameWithType: System.Numerics
+  fullName: System.Numerics
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Numerics
+    name: Numerics
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.numerics
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Numerics
+    name: Numerics
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.numerics
+- uid: RedLight.Graphics.Camera.Projection*
+  commentId: Overload:RedLight.Graphics.Camera.Projection
+  href: RedLight.Graphics.Camera.html#RedLight_Graphics_Camera_Projection
+  name: Projection
+  nameWithType: Camera.Projection
+  fullName: RedLight.Graphics.Camera.Projection
+- uid: RedLight.Graphics.Camera.Position*
+  commentId: Overload:RedLight.Graphics.Camera.Position
+  href: RedLight.Graphics.Camera.html#RedLight_Graphics_Camera_Position
+  name: Position
+  nameWithType: Camera.Position
+  fullName: RedLight.Graphics.Camera.Position
+- uid: System.Numerics.Vector3
+  commentId: T:System.Numerics.Vector3
+  parent: System.Numerics
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.numerics.vector3
+  name: Vector3
+  nameWithType: Vector3
+  fullName: System.Numerics.Vector3
+- uid: RedLight.Graphics.Camera.Front*
+  commentId: Overload:RedLight.Graphics.Camera.Front
+  href: RedLight.Graphics.Camera.html#RedLight_Graphics_Camera_Front
+  name: Front
+  nameWithType: Camera.Front
+  fullName: RedLight.Graphics.Camera.Front
+- uid: RedLight.Graphics.Camera.Up*
+  commentId: Overload:RedLight.Graphics.Camera.Up
+  href: RedLight.Graphics.Camera.html#RedLight_Graphics_Camera_Up
+  name: Up
+  nameWithType: Camera.Up
+  fullName: RedLight.Graphics.Camera.Up
+- uid: RedLight.Graphics.Camera.Yaw*
+  commentId: Overload:RedLight.Graphics.Camera.Yaw
+  href: RedLight.Graphics.Camera.html#RedLight_Graphics_Camera_Yaw
+  name: Yaw
+  nameWithType: Camera.Yaw
+  fullName: RedLight.Graphics.Camera.Yaw
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.single
+  name: float
+  nameWithType: float
+  fullName: float
+  nameWithType.vb: Single
+  fullName.vb: Single
+  name.vb: Single
+- uid: RedLight.Graphics.Camera.Pitch*
+  commentId: Overload:RedLight.Graphics.Camera.Pitch
+  href: RedLight.Graphics.Camera.html#RedLight_Graphics_Camera_Pitch
+  name: Pitch
+  nameWithType: Camera.Pitch
+  fullName: RedLight.Graphics.Camera.Pitch
+- uid: RedLight.Graphics.Camera.Speed*
+  commentId: Overload:RedLight.Graphics.Camera.Speed
+  href: RedLight.Graphics.Camera.html#RedLight_Graphics_Camera_Speed
+  name: Speed
+  nameWithType: Camera.Speed
+  fullName: RedLight.Graphics.Camera.Speed
+- uid: RedLight.Graphics.Camera.Sensitivity*
+  commentId: Overload:RedLight.Graphics.Camera.Sensitivity
+  href: RedLight.Graphics.Camera.html#RedLight_Graphics_Camera_Sensitivity
+  name: Sensitivity
+  nameWithType: Camera.Sensitivity
+  fullName: RedLight.Graphics.Camera.Sensitivity
+- uid: RedLight.Graphics.Camera.FOV*
+  commentId: Overload:RedLight.Graphics.Camera.FOV
+  href: RedLight.Graphics.Camera.html#RedLight_Graphics_Camera_FOV
+  name: FOV
+  nameWithType: Camera.FOV
+  fullName: RedLight.Graphics.Camera.FOV
+- uid: RedLight.Graphics.Camera.Near*
+  commentId: Overload:RedLight.Graphics.Camera.Near
+  href: RedLight.Graphics.Camera.html#RedLight_Graphics_Camera_Near
+  name: Near
+  nameWithType: Camera.Near
+  fullName: RedLight.Graphics.Camera.Near
+- uid: RedLight.Graphics.Camera.Far*
+  commentId: Overload:RedLight.Graphics.Camera.Far
+  href: RedLight.Graphics.Camera.html#RedLight_Graphics_Camera_Far
+  name: Far
+  nameWithType: Camera.Far
+  fullName: RedLight.Graphics.Camera.Far
+- uid: RedLight.Graphics.Camera.#ctor*
+  commentId: Overload:RedLight.Graphics.Camera.#ctor
+  href: RedLight.Graphics.Camera.html#RedLight_Graphics_Camera__ctor_System_Numerics_Vector3_System_Numerics_Vector3_System_Numerics_Vector3_System_Single_System_Single_System_Single_System_Single_
+  name: Camera
+  nameWithType: Camera.Camera
+  fullName: RedLight.Graphics.Camera.Camera
+  nameWithType.vb: Camera.New
+  fullName.vb: RedLight.Graphics.Camera.New
+  name.vb: New
+- uid: System.Numerics.Vector2
+  commentId: T:System.Numerics.Vector2
+  parent: System.Numerics
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.numerics.vector2
+  name: Vector2
+  nameWithType: Vector2
+  fullName: System.Numerics.Vector2
+- uid: RedLight.Graphics.Camera.UpdateCamera*
+  commentId: Overload:RedLight.Graphics.Camera.UpdateCamera
+  href: RedLight.Graphics.Camera.html#RedLight_Graphics_Camera_UpdateCamera_System_Boolean_
+  name: UpdateCamera
+  nameWithType: Camera.UpdateCamera
+  fullName: RedLight.Graphics.Camera.UpdateCamera
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: RedLight.Graphics.Camera
+  commentId: T:RedLight.Graphics.Camera
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.Camera.html
+  name: Camera
+  nameWithType: Camera
+  fullName: RedLight.Graphics.Camera
+- uid: RedLight.Graphics.Camera.LookAt*
+  commentId: Overload:RedLight.Graphics.Camera.LookAt
+  href: RedLight.Graphics.Camera.html#RedLight_Graphics_Camera_LookAt_System_Numerics_Vector3_System_Numerics_Vector3_System_Numerics_Vector3_System_Boolean_
+  name: LookAt
+  nameWithType: Camera.LookAt
+  fullName: RedLight.Graphics.Camera.LookAt
+- uid: RedLight.Graphics.Camera.FreeMove*
+  commentId: Overload:RedLight.Graphics.Camera.FreeMove
+  href: RedLight.Graphics.Camera.html#RedLight_Graphics_Camera_FreeMove_System_Numerics_Vector2_
+  name: FreeMove
+  nameWithType: Camera.FreeMove
+  fullName: RedLight.Graphics.Camera.FreeMove
+- uid: RedLight.Graphics.Camera.KeyMap*
+  commentId: Overload:RedLight.Graphics.Camera.KeyMap
+  href: RedLight.Graphics.Camera.html#RedLight_Graphics_Camera_KeyMap_System_Collections_Generic_HashSet_Silk_NET_Input_Key__System_Single_
+  name: KeyMap
+  nameWithType: Camera.KeyMap
+  fullName: RedLight.Graphics.Camera.KeyMap
+- uid: System.Collections.Generic.HashSet{Silk.NET.Input.Key}
+  commentId: T:System.Collections.Generic.HashSet{Silk.NET.Input.Key}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.HashSet`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  name: HashSet<Key>
+  nameWithType: HashSet<Key>
+  fullName: System.Collections.Generic.HashSet<Silk.NET.Input.Key>
+  nameWithType.vb: HashSet(Of Key)
+  fullName.vb: System.Collections.Generic.HashSet(Of Silk.NET.Input.Key)
+  name.vb: HashSet(Of Key)
+  spec.csharp:
+  - uid: System.Collections.Generic.HashSet`1
+    name: HashSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  - name: <
+  - uid: Silk.NET.Input.Key
+    name: Key
+    isExternal: true
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.HashSet`1
+    name: HashSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Silk.NET.Input.Key
+    name: Key
+    isExternal: true
+  - name: )
+- uid: System.Collections.Generic.HashSet`1
+  commentId: T:System.Collections.Generic.HashSet`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  name: HashSet<T>
+  nameWithType: HashSet<T>
+  fullName: System.Collections.Generic.HashSet<T>
+  nameWithType.vb: HashSet(Of T)
+  fullName.vb: System.Collections.Generic.HashSet(Of T)
+  name.vb: HashSet(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.HashSet`1
+    name: HashSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.HashSet`1
+    name: HashSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: RedLight.Entities.Player
+  commentId: T:RedLight.Entities.Player
+  parent: RedLight.Entities
+  href: RedLight.Entities.Player.html
+  name: Player
+  nameWithType: Player
+  fullName: RedLight.Entities.Player
+- uid: RedLight.Entities
+  commentId: N:RedLight.Entities
+  href: RedLight.html
+  name: RedLight.Entities
+  nameWithType: RedLight.Entities
+  fullName: RedLight.Entities
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Entities
+    name: Entities
+    href: RedLight.Entities.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Entities
+    name: Entities
+    href: RedLight.Entities.html
+- uid: RedLight.Graphics.Camera.UpdateAspectRatio*
+  commentId: Overload:RedLight.Graphics.Camera.UpdateAspectRatio
+  href: RedLight.Graphics.Camera.html#RedLight_Graphics_Camera_UpdateAspectRatio_System_Single_
+  name: UpdateAspectRatio
+  nameWithType: Camera.UpdateAspectRatio
+  fullName: RedLight.Graphics.Camera.UpdateAspectRatio
+- uid: RedLight.Graphics.Camera.SetSpeed*
+  commentId: Overload:RedLight.Graphics.Camera.SetSpeed
+  href: RedLight.Graphics.Camera.html#RedLight_Graphics_Camera_SetSpeed_System_Single_
+  name: SetSpeed
+  nameWithType: Camera.SetSpeed
+  fullName: RedLight.Graphics.Camera.SetSpeed
+- uid: RedLight.Graphics.Camera.SetFront*
+  commentId: Overload:RedLight.Graphics.Camera.SetFront
+  href: RedLight.Graphics.Camera.html#RedLight_Graphics_Camera_SetFront_System_Numerics_Vector3_
+  name: SetFront
+  nameWithType: Camera.SetFront
+  fullName: RedLight.Graphics.Camera.SetFront
+- uid: RedLight.Graphics.Camera.MoveForward*
+  commentId: Overload:RedLight.Graphics.Camera.MoveForward
+  href: RedLight.Graphics.Camera.html#RedLight_Graphics_Camera_MoveForward
+  name: MoveForward
+  nameWithType: Camera.MoveForward
+  fullName: RedLight.Graphics.Camera.MoveForward
+- uid: RedLight.Graphics.Camera.MoveBack*
+  commentId: Overload:RedLight.Graphics.Camera.MoveBack
+  href: RedLight.Graphics.Camera.html#RedLight_Graphics_Camera_MoveBack
+  name: MoveBack
+  nameWithType: Camera.MoveBack
+  fullName: RedLight.Graphics.Camera.MoveBack
+- uid: RedLight.Graphics.Camera.MoveUp*
+  commentId: Overload:RedLight.Graphics.Camera.MoveUp
+  href: RedLight.Graphics.Camera.html#RedLight_Graphics_Camera_MoveUp
+  name: MoveUp
+  nameWithType: Camera.MoveUp
+  fullName: RedLight.Graphics.Camera.MoveUp
+- uid: RedLight.Graphics.Camera.MoveDown*
+  commentId: Overload:RedLight.Graphics.Camera.MoveDown
+  href: RedLight.Graphics.Camera.html#RedLight_Graphics_Camera_MoveDown
+  name: MoveDown
+  nameWithType: Camera.MoveDown
+  fullName: RedLight.Graphics.Camera.MoveDown
+- uid: RedLight.Graphics.Camera.MoveLeft*
+  commentId: Overload:RedLight.Graphics.Camera.MoveLeft
+  href: RedLight.Graphics.Camera.html#RedLight_Graphics_Camera_MoveLeft
+  name: MoveLeft
+  nameWithType: Camera.MoveLeft
+  fullName: RedLight.Graphics.Camera.MoveLeft
+- uid: RedLight.Graphics.Camera.MoveRight*
+  commentId: Overload:RedLight.Graphics.Camera.MoveRight
+  href: RedLight.Graphics.Camera.html#RedLight_Graphics_Camera_MoveRight
+  name: MoveRight
+  nameWithType: Camera.MoveRight
+  fullName: RedLight.Graphics.Camera.MoveRight
+- uid: RedLight.Graphics.Camera.SetPosition*
+  commentId: Overload:RedLight.Graphics.Camera.SetPosition
+  href: RedLight.Graphics.Camera.html#RedLight_Graphics_Camera_SetPosition_System_Numerics_Vector3_
+  name: SetPosition
+  nameWithType: Camera.SetPosition
+  fullName: RedLight.Graphics.Camera.SetPosition

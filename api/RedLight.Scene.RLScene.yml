@@ -1,0 +1,553 @@
+### YamlMime:ManagedReference
+items:
+- uid: RedLight.Scene.RLScene
+  commentId: T:RedLight.Scene.RLScene
+  id: RLScene
+  parent: RedLight.Scene
+  children:
+  - RedLight.Scene.RLScene.Engine
+  - RedLight.Scene.RLScene.Graphics
+  - RedLight.Scene.RLScene.InputManager
+  - RedLight.Scene.RLScene.OnLoad
+  - RedLight.Scene.RLScene.OnRender(System.Double)
+  - RedLight.Scene.RLScene.OnUpdate(System.Double)
+  - RedLight.Scene.RLScene.PhysicsSystem
+  - RedLight.Scene.RLScene.SceneManager
+  - RedLight.Scene.RLScene.ShaderManager
+  - RedLight.Scene.RLScene.TextureManager
+  langs:
+  - csharp
+  - vb
+  name: RLScene
+  nameWithType: RLScene
+  fullName: RedLight.Scene.RLScene
+  type: Interface
+  source:
+    remote:
+      path: src/RedLight/Scene/RLScene.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: RLScene
+    path: src/RedLight/Scene/RLScene.cs
+    startLine: 7
+  assemblies:
+  - RedLight
+  namespace: RedLight.Scene
+  syntax:
+    content: public interface RLScene
+    content.vb: Public Interface RLScene
+- uid: RedLight.Scene.RLScene.Engine
+  commentId: P:RedLight.Scene.RLScene.Engine
+  id: Engine
+  parent: RedLight.Scene.RLScene
+  langs:
+  - csharp
+  - vb
+  name: Engine
+  nameWithType: RLScene.Engine
+  fullName: RedLight.Scene.RLScene.Engine
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Scene/RLScene.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Engine
+    path: src/RedLight/Scene/RLScene.cs
+    startLine: 9
+  assemblies:
+  - RedLight
+  namespace: RedLight.Scene
+  syntax:
+    content: RLEngine Engine { get; set; }
+    parameters: []
+    return:
+      type: RedLight.RLEngine
+    content.vb: Property Engine As RLEngine
+  overload: RedLight.Scene.RLScene.Engine*
+- uid: RedLight.Scene.RLScene.Graphics
+  commentId: P:RedLight.Scene.RLScene.Graphics
+  id: Graphics
+  parent: RedLight.Scene.RLScene
+  langs:
+  - csharp
+  - vb
+  name: Graphics
+  nameWithType: RLScene.Graphics
+  fullName: RedLight.Scene.RLScene.Graphics
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Scene/RLScene.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Graphics
+    path: src/RedLight/Scene/RLScene.cs
+    startLine: 10
+  assemblies:
+  - RedLight
+  namespace: RedLight.Scene
+  syntax:
+    content: RLGraphics Graphics { get; set; }
+    parameters: []
+    return:
+      type: RedLight.Graphics.RLGraphics
+    content.vb: Property Graphics As RLGraphics
+  overload: RedLight.Scene.RLScene.Graphics*
+- uid: RedLight.Scene.RLScene.SceneManager
+  commentId: P:RedLight.Scene.RLScene.SceneManager
+  id: SceneManager
+  parent: RedLight.Scene.RLScene
+  langs:
+  - csharp
+  - vb
+  name: SceneManager
+  nameWithType: RLScene.SceneManager
+  fullName: RedLight.Scene.RLScene.SceneManager
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Scene/RLScene.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: SceneManager
+    path: src/RedLight/Scene/RLScene.cs
+    startLine: 11
+  assemblies:
+  - RedLight
+  namespace: RedLight.Scene
+  syntax:
+    content: SceneManager SceneManager { get; set; }
+    parameters: []
+    return:
+      type: RedLight.Scene.SceneManager
+    content.vb: Property SceneManager As SceneManager
+  overload: RedLight.Scene.RLScene.SceneManager*
+- uid: RedLight.Scene.RLScene.ShaderManager
+  commentId: P:RedLight.Scene.RLScene.ShaderManager
+  id: ShaderManager
+  parent: RedLight.Scene.RLScene
+  langs:
+  - csharp
+  - vb
+  name: ShaderManager
+  nameWithType: RLScene.ShaderManager
+  fullName: RedLight.Scene.RLScene.ShaderManager
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Scene/RLScene.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: ShaderManager
+    path: src/RedLight/Scene/RLScene.cs
+    startLine: 12
+  assemblies:
+  - RedLight
+  namespace: RedLight.Scene
+  syntax:
+    content: ShaderManager ShaderManager { get; set; }
+    parameters: []
+    return:
+      type: RedLight.Graphics.ShaderManager
+    content.vb: Property ShaderManager As ShaderManager
+  overload: RedLight.Scene.RLScene.ShaderManager*
+- uid: RedLight.Scene.RLScene.TextureManager
+  commentId: P:RedLight.Scene.RLScene.TextureManager
+  id: TextureManager
+  parent: RedLight.Scene.RLScene
+  langs:
+  - csharp
+  - vb
+  name: TextureManager
+  nameWithType: RLScene.TextureManager
+  fullName: RedLight.Scene.RLScene.TextureManager
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Scene/RLScene.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: TextureManager
+    path: src/RedLight/Scene/RLScene.cs
+    startLine: 13
+  assemblies:
+  - RedLight
+  namespace: RedLight.Scene
+  syntax:
+    content: TextureManager TextureManager { get; set; }
+    parameters: []
+    return:
+      type: RedLight.Graphics.TextureManager
+    content.vb: Property TextureManager As TextureManager
+  overload: RedLight.Scene.RLScene.TextureManager*
+- uid: RedLight.Scene.RLScene.InputManager
+  commentId: P:RedLight.Scene.RLScene.InputManager
+  id: InputManager
+  parent: RedLight.Scene.RLScene
+  langs:
+  - csharp
+  - vb
+  name: InputManager
+  nameWithType: RLScene.InputManager
+  fullName: RedLight.Scene.RLScene.InputManager
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Scene/RLScene.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: InputManager
+    path: src/RedLight/Scene/RLScene.cs
+    startLine: 14
+  assemblies:
+  - RedLight
+  namespace: RedLight.Scene
+  syntax:
+    content: InputManager InputManager { get; set; }
+    parameters: []
+    return:
+      type: RedLight.Input.InputManager
+    content.vb: Property InputManager As InputManager
+  overload: RedLight.Scene.RLScene.InputManager*
+- uid: RedLight.Scene.RLScene.PhysicsSystem
+  commentId: P:RedLight.Scene.RLScene.PhysicsSystem
+  id: PhysicsSystem
+  parent: RedLight.Scene.RLScene
+  langs:
+  - csharp
+  - vb
+  name: PhysicsSystem
+  nameWithType: RLScene.PhysicsSystem
+  fullName: RedLight.Scene.RLScene.PhysicsSystem
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Scene/RLScene.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: PhysicsSystem
+    path: src/RedLight/Scene/RLScene.cs
+    startLine: 15
+  assemblies:
+  - RedLight
+  namespace: RedLight.Scene
+  syntax:
+    content: PhysicsSystem PhysicsSystem { get; set; }
+    parameters: []
+    return:
+      type: RedLight.Physics.PhysicsSystem
+    content.vb: Property PhysicsSystem As PhysicsSystem
+  overload: RedLight.Scene.RLScene.PhysicsSystem*
+- uid: RedLight.Scene.RLScene.OnLoad
+  commentId: M:RedLight.Scene.RLScene.OnLoad
+  id: OnLoad
+  parent: RedLight.Scene.RLScene
+  langs:
+  - csharp
+  - vb
+  name: OnLoad()
+  nameWithType: RLScene.OnLoad()
+  fullName: RedLight.Scene.RLScene.OnLoad()
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Scene/RLScene.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: OnLoad
+    path: src/RedLight/Scene/RLScene.cs
+    startLine: 18
+  assemblies:
+  - RedLight
+  namespace: RedLight.Scene
+  syntax:
+    content: void OnLoad()
+    content.vb: Sub OnLoad()
+  overload: RedLight.Scene.RLScene.OnLoad*
+- uid: RedLight.Scene.RLScene.OnUpdate(System.Double)
+  commentId: M:RedLight.Scene.RLScene.OnUpdate(System.Double)
+  id: OnUpdate(System.Double)
+  parent: RedLight.Scene.RLScene
+  langs:
+  - csharp
+  - vb
+  name: OnUpdate(double)
+  nameWithType: RLScene.OnUpdate(double)
+  fullName: RedLight.Scene.RLScene.OnUpdate(double)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Scene/RLScene.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: OnUpdate
+    path: src/RedLight/Scene/RLScene.cs
+    startLine: 27
+  assemblies:
+  - RedLight
+  namespace: RedLight.Scene
+  syntax:
+    content: void OnUpdate(double deltaTime)
+    parameters:
+    - id: deltaTime
+      type: System.Double
+    content.vb: Sub OnUpdate(deltaTime As Double)
+  overload: RedLight.Scene.RLScene.OnUpdate*
+  nameWithType.vb: RLScene.OnUpdate(Double)
+  fullName.vb: RedLight.Scene.RLScene.OnUpdate(Double)
+  name.vb: OnUpdate(Double)
+- uid: RedLight.Scene.RLScene.OnRender(System.Double)
+  commentId: M:RedLight.Scene.RLScene.OnRender(System.Double)
+  id: OnRender(System.Double)
+  parent: RedLight.Scene.RLScene
+  langs:
+  - csharp
+  - vb
+  name: OnRender(double)
+  nameWithType: RLScene.OnRender(double)
+  fullName: RedLight.Scene.RLScene.OnRender(double)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Scene/RLScene.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: OnRender
+    path: src/RedLight/Scene/RLScene.cs
+    startLine: 29
+  assemblies:
+  - RedLight
+  namespace: RedLight.Scene
+  syntax:
+    content: void OnRender(double deltaTime)
+    parameters:
+    - id: deltaTime
+      type: System.Double
+    content.vb: Sub OnRender(deltaTime As Double)
+  overload: RedLight.Scene.RLScene.OnRender*
+  nameWithType.vb: RLScene.OnRender(Double)
+  fullName.vb: RedLight.Scene.RLScene.OnRender(Double)
+  name.vb: OnRender(Double)
+references:
+- uid: RedLight.Scene
+  commentId: N:RedLight.Scene
+  href: RedLight.html
+  name: RedLight.Scene
+  nameWithType: RedLight.Scene
+  fullName: RedLight.Scene
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Scene
+    name: Scene
+    href: RedLight.Scene.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Scene
+    name: Scene
+    href: RedLight.Scene.html
+- uid: RedLight.Scene.RLScene.Engine*
+  commentId: Overload:RedLight.Scene.RLScene.Engine
+  href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_Engine
+  name: Engine
+  nameWithType: RLScene.Engine
+  fullName: RedLight.Scene.RLScene.Engine
+- uid: RedLight.RLEngine
+  commentId: T:RedLight.RLEngine
+  parent: RedLight
+  href: RedLight.RLEngine.html
+  name: RLEngine
+  nameWithType: RLEngine
+  fullName: RedLight.RLEngine
+- uid: RedLight
+  commentId: N:RedLight
+  href: RedLight.html
+  name: RedLight
+  nameWithType: RedLight
+  fullName: RedLight
+- uid: RedLight.Scene.RLScene.Graphics*
+  commentId: Overload:RedLight.Scene.RLScene.Graphics
+  href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_Graphics
+  name: Graphics
+  nameWithType: RLScene.Graphics
+  fullName: RedLight.Scene.RLScene.Graphics
+- uid: RedLight.Graphics.RLGraphics
+  commentId: T:RedLight.Graphics.RLGraphics
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.RLGraphics.html
+  name: RLGraphics
+  nameWithType: RLGraphics
+  fullName: RedLight.Graphics.RLGraphics
+- uid: RedLight.Graphics
+  commentId: N:RedLight.Graphics
+  href: RedLight.html
+  name: RedLight.Graphics
+  nameWithType: RedLight.Graphics
+  fullName: RedLight.Graphics
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Graphics
+    name: Graphics
+    href: RedLight.Graphics.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Graphics
+    name: Graphics
+    href: RedLight.Graphics.html
+- uid: RedLight.Scene.RLScene.SceneManager*
+  commentId: Overload:RedLight.Scene.RLScene.SceneManager
+  href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_SceneManager
+  name: SceneManager
+  nameWithType: RLScene.SceneManager
+  fullName: RedLight.Scene.RLScene.SceneManager
+- uid: RedLight.Scene.SceneManager
+  commentId: T:RedLight.Scene.SceneManager
+  parent: RedLight.Scene
+  href: RedLight.Scene.SceneManager.html
+  name: SceneManager
+  nameWithType: SceneManager
+  fullName: RedLight.Scene.SceneManager
+- uid: RedLight.Scene.RLScene.ShaderManager*
+  commentId: Overload:RedLight.Scene.RLScene.ShaderManager
+  href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_ShaderManager
+  name: ShaderManager
+  nameWithType: RLScene.ShaderManager
+  fullName: RedLight.Scene.RLScene.ShaderManager
+- uid: RedLight.Graphics.ShaderManager
+  commentId: T:RedLight.Graphics.ShaderManager
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.ShaderManager.html
+  name: ShaderManager
+  nameWithType: ShaderManager
+  fullName: RedLight.Graphics.ShaderManager
+- uid: RedLight.Scene.RLScene.TextureManager*
+  commentId: Overload:RedLight.Scene.RLScene.TextureManager
+  href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_TextureManager
+  name: TextureManager
+  nameWithType: RLScene.TextureManager
+  fullName: RedLight.Scene.RLScene.TextureManager
+- uid: RedLight.Graphics.TextureManager
+  commentId: T:RedLight.Graphics.TextureManager
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.TextureManager.html
+  name: TextureManager
+  nameWithType: TextureManager
+  fullName: RedLight.Graphics.TextureManager
+- uid: RedLight.Scene.RLScene.InputManager*
+  commentId: Overload:RedLight.Scene.RLScene.InputManager
+  href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_InputManager
+  name: InputManager
+  nameWithType: RLScene.InputManager
+  fullName: RedLight.Scene.RLScene.InputManager
+- uid: RedLight.Input.InputManager
+  commentId: T:RedLight.Input.InputManager
+  parent: RedLight.Input
+  href: RedLight.Input.InputManager.html
+  name: InputManager
+  nameWithType: InputManager
+  fullName: RedLight.Input.InputManager
+- uid: RedLight.Input
+  commentId: N:RedLight.Input
+  href: RedLight.html
+  name: RedLight.Input
+  nameWithType: RedLight.Input
+  fullName: RedLight.Input
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Input
+    name: Input
+    href: RedLight.Input.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Input
+    name: Input
+    href: RedLight.Input.html
+- uid: RedLight.Scene.RLScene.PhysicsSystem*
+  commentId: Overload:RedLight.Scene.RLScene.PhysicsSystem
+  href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_PhysicsSystem
+  name: PhysicsSystem
+  nameWithType: RLScene.PhysicsSystem
+  fullName: RedLight.Scene.RLScene.PhysicsSystem
+- uid: RedLight.Physics.PhysicsSystem
+  commentId: T:RedLight.Physics.PhysicsSystem
+  parent: RedLight.Physics
+  href: RedLight.Physics.PhysicsSystem.html
+  name: PhysicsSystem
+  nameWithType: PhysicsSystem
+  fullName: RedLight.Physics.PhysicsSystem
+- uid: RedLight.Physics
+  commentId: N:RedLight.Physics
+  href: RedLight.html
+  name: RedLight.Physics
+  nameWithType: RedLight.Physics
+  fullName: RedLight.Physics
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Physics
+    name: Physics
+    href: RedLight.Physics.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Physics
+    name: Physics
+    href: RedLight.Physics.html
+- uid: RedLight.Scene.RLScene.OnLoad*
+  commentId: Overload:RedLight.Scene.RLScene.OnLoad
+  href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_OnLoad
+  name: OnLoad
+  nameWithType: RLScene.OnLoad
+  fullName: RedLight.Scene.RLScene.OnLoad
+- uid: RedLight.Scene.RLScene.OnUpdate*
+  commentId: Overload:RedLight.Scene.RLScene.OnUpdate
+  href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_OnUpdate_System_Double_
+  name: OnUpdate
+  nameWithType: RLScene.OnUpdate
+  fullName: RedLight.Scene.RLScene.OnUpdate
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.double
+  name: double
+  nameWithType: double
+  fullName: double
+  nameWithType.vb: Double
+  fullName.vb: Double
+  name.vb: Double
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: RedLight.Scene.RLScene.OnRender*
+  commentId: Overload:RedLight.Scene.RLScene.OnRender
+  href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_OnRender_System_Double_
+  name: OnRender
+  nameWithType: RLScene.OnRender
+  fullName: RedLight.Scene.RLScene.OnRender

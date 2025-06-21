@@ -1,0 +1,108 @@
+### YamlMime:ManagedReference
+items:
+- uid: RedLight.Entities
+  commentId: N:RedLight.Entities
+  id: RedLight.Entities
+  children:
+  - RedLight.Entities.CollisionSide
+  - RedLight.Entities.Cube
+  - RedLight.Entities.Entity
+  - RedLight.Entities.HitboxConfig
+  - RedLight.Entities.Plane
+  - RedLight.Entities.Player
+  - RedLight.Entities.PlayerCameraPOV
+  - RedLight.Entities.SimpleShape
+  - RedLight.Entities.Sphere
+  langs:
+  - csharp
+  - vb
+  name: RedLight.Entities
+  nameWithType: RedLight.Entities
+  fullName: RedLight.Entities
+  type: Namespace
+  assemblies:
+  - RedLight
+references:
+- uid: RedLight.Entities.Cube
+  commentId: T:RedLight.Entities.Cube
+  href: RedLight.Entities.Cube.html
+  name: Cube
+  nameWithType: Cube
+  fullName: RedLight.Entities.Cube
+- uid: RedLight.Entities.Entity
+  commentId: T:RedLight.Entities.Entity
+  parent: RedLight.Entities
+  href: RedLight.Entities.Entity.html
+  name: Entity
+  nameWithType: Entity
+  fullName: RedLight.Entities.Entity
+- uid: RedLight.Entities.CollisionSide
+  commentId: T:RedLight.Entities.CollisionSide
+  parent: RedLight.Entities
+  href: RedLight.Entities.CollisionSide.html
+  name: CollisionSide
+  nameWithType: CollisionSide
+  fullName: RedLight.Entities.CollisionSide
+- uid: RedLight.Entities.Plane
+  commentId: T:RedLight.Entities.Plane
+  parent: RedLight.Entities
+  href: RedLight.Entities.Plane.html
+  name: Plane
+  nameWithType: Plane
+  fullName: RedLight.Entities.Plane
+- uid: RedLight.Entities.Player
+  commentId: T:RedLight.Entities.Player
+  parent: RedLight.Entities
+  href: RedLight.Entities.Player.html
+  name: Player
+  nameWithType: Player
+  fullName: RedLight.Entities.Player
+- uid: RedLight.Entities.PlayerCameraPOV
+  commentId: T:RedLight.Entities.PlayerCameraPOV
+  parent: RedLight.Entities
+  href: RedLight.Entities.PlayerCameraPOV.html
+  name: PlayerCameraPOV
+  nameWithType: PlayerCameraPOV
+  fullName: RedLight.Entities.PlayerCameraPOV
+- uid: RedLight.Entities.SimpleShape
+  commentId: T:RedLight.Entities.SimpleShape
+  parent: RedLight.Entities
+  href: RedLight.Entities.SimpleShape.html
+  name: SimpleShape
+  nameWithType: SimpleShape
+  fullName: RedLight.Entities.SimpleShape
+- uid: RedLight.Entities.Sphere
+  commentId: T:RedLight.Entities.Sphere
+  href: RedLight.Entities.Sphere.html
+  name: Sphere
+  nameWithType: Sphere
+  fullName: RedLight.Entities.Sphere
+- uid: RedLight.Entities.HitboxConfig
+  commentId: T:RedLight.Entities.HitboxConfig
+  parent: RedLight.Entities
+  href: RedLight.Entities.HitboxConfig.html
+  name: HitboxConfig
+  nameWithType: HitboxConfig
+  fullName: RedLight.Entities.HitboxConfig
+- uid: RedLight.Entities
+  commentId: N:RedLight.Entities
+  href: RedLight.html
+  name: RedLight.Entities
+  nameWithType: RedLight.Entities
+  fullName: RedLight.Entities
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Entities
+    name: Entities
+    href: RedLight.Entities.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Entities
+    name: Entities
+    href: RedLight.Entities.html

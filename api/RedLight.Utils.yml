@@ -1,0 +1,37 @@
+### YamlMime:ManagedReference
+items:
+- uid: RedLight.Utils
+  commentId: N:RedLight.Utils
+  id: RedLight.Utils
+  children:
+  - RedLight.Utils.RLConstants
+  - RedLight.Utils.RLFiles
+  - RedLight.Utils.RLUtils
+  langs:
+  - csharp
+  - vb
+  name: RedLight.Utils
+  nameWithType: RedLight.Utils
+  fullName: RedLight.Utils
+  type: Namespace
+  assemblies:
+  - RedLight
+references:
+- uid: RedLight.Utils.RLConstants
+  commentId: T:RedLight.Utils.RLConstants
+  href: RedLight.Utils.RLConstants.html
+  name: RLConstants
+  nameWithType: RLConstants
+  fullName: RedLight.Utils.RLConstants
+- uid: RedLight.Utils.RLFiles
+  commentId: T:RedLight.Utils.RLFiles
+  href: RedLight.Utils.RLFiles.html
+  name: RLFiles
+  nameWithType: RLFiles
+  fullName: RedLight.Utils.RLFiles
+- uid: RedLight.Utils.RLUtils
+  commentId: T:RedLight.Utils.RLUtils
+  href: RedLight.Utils.RLUtils.html
+  name: RLUtils
+  nameWithType: RLUtils
+  fullName: RedLight.Utils.RLUtils

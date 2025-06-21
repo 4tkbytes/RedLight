@@ -1,0 +1,91 @@
+### YamlMime:ManagedReference
+items:
+- uid: RedLight.Lighting
+  commentId: N:RedLight.Lighting
+  id: RedLight.Lighting
+  children:
+  - RedLight.Lighting.LightManager
+  - RedLight.Lighting.LightMaterials
+  - RedLight.Lighting.LightType
+  - RedLight.Lighting.LightingCube
+  - RedLight.Lighting.MaterialInfo
+  - RedLight.Lighting.RLLight
+  - RedLight.Lighting.Sun
+  langs:
+  - csharp
+  - vb
+  name: RedLight.Lighting
+  nameWithType: RedLight.Lighting
+  fullName: RedLight.Lighting
+  type: Namespace
+  assemblies:
+  - RedLight
+references:
+- uid: RedLight.Lighting.LightingCube
+  commentId: T:RedLight.Lighting.LightingCube
+  href: RedLight.Lighting.LightingCube.html
+  name: LightingCube
+  nameWithType: LightingCube
+  fullName: RedLight.Lighting.LightingCube
+- uid: RedLight.Lighting.LightManager
+  commentId: T:RedLight.Lighting.LightManager
+  parent: RedLight.Lighting
+  href: RedLight.Lighting.LightManager.html
+  name: LightManager
+  nameWithType: LightManager
+  fullName: RedLight.Lighting.LightManager
+- uid: RedLight.Lighting.MaterialInfo
+  commentId: T:RedLight.Lighting.MaterialInfo
+  parent: RedLight.Lighting
+  href: RedLight.Lighting.MaterialInfo.html
+  name: MaterialInfo
+  nameWithType: MaterialInfo
+  fullName: RedLight.Lighting.MaterialInfo
+- uid: RedLight.Lighting.LightMaterials
+  commentId: T:RedLight.Lighting.LightMaterials
+  href: RedLight.Lighting.LightMaterials.html
+  name: LightMaterials
+  nameWithType: LightMaterials
+  fullName: RedLight.Lighting.LightMaterials
+- uid: RedLight.Lighting.LightType
+  commentId: T:RedLight.Lighting.LightType
+  parent: RedLight.Lighting
+  href: RedLight.Lighting.LightType.html
+  name: LightType
+  nameWithType: LightType
+  fullName: RedLight.Lighting.LightType
+- uid: RedLight.Lighting.RLLight
+  commentId: T:RedLight.Lighting.RLLight
+  parent: RedLight.Lighting
+  href: RedLight.Lighting.RLLight.html
+  name: RLLight
+  nameWithType: RLLight
+  fullName: RedLight.Lighting.RLLight
+- uid: RedLight.Lighting.Sun
+  commentId: T:RedLight.Lighting.Sun
+  href: RedLight.Lighting.Sun.html
+  name: Sun
+  nameWithType: Sun
+  fullName: RedLight.Lighting.Sun
+- uid: RedLight.Lighting
+  commentId: N:RedLight.Lighting
+  href: RedLight.html
+  name: RedLight.Lighting
+  nameWithType: RedLight.Lighting
+  fullName: RedLight.Lighting
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Lighting
+    name: Lighting
+    href: RedLight.Lighting.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Lighting
+    name: Lighting
+    href: RedLight.Lighting.html

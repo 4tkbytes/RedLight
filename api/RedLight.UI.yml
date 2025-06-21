@@ -1,0 +1,105 @@
+### YamlMime:ManagedReference
+items:
+- uid: RedLight.UI
+  commentId: N:RedLight.UI
+  id: RedLight.UI
+  children:
+  - RedLight.UI.Characters
+  - RedLight.UI.ConsoleLog
+  - RedLight.UI.FontConfig
+  - RedLight.UI.FreeTypeText
+  - RedLight.UI.ImGuiConsoleSink
+  - RedLight.UI.RLImGuiEditor
+  - RedLight.UI.SerilogExtensions
+  - RedLight.UI.Text
+  - RedLight.UI.TextManager
+  langs:
+  - csharp
+  - vb
+  name: RedLight.UI
+  nameWithType: RedLight.UI
+  fullName: RedLight.UI
+  type: Namespace
+  assemblies:
+  - RedLight
+references:
+- uid: RedLight.UI.ConsoleLog
+  commentId: T:RedLight.UI.ConsoleLog
+  parent: RedLight.UI
+  href: RedLight.UI.ConsoleLog.html
+  name: ConsoleLog
+  nameWithType: ConsoleLog
+  fullName: RedLight.UI.ConsoleLog
+- uid: RedLight.UI.ImGuiConsoleSink
+  commentId: T:RedLight.UI.ImGuiConsoleSink
+  href: RedLight.UI.ImGuiConsoleSink.html
+  name: ImGuiConsoleSink
+  nameWithType: ImGuiConsoleSink
+  fullName: RedLight.UI.ImGuiConsoleSink
+- uid: RedLight.UI.RLImGuiEditor
+  commentId: T:RedLight.UI.RLImGuiEditor
+  href: RedLight.UI.RLImGuiEditor.html
+  name: RLImGuiEditor
+  nameWithType: RLImGuiEditor
+  fullName: RedLight.UI.RLImGuiEditor
+- uid: RedLight.UI.SerilogExtensions
+  commentId: T:RedLight.UI.SerilogExtensions
+  href: RedLight.UI.SerilogExtensions.html
+  name: SerilogExtensions
+  nameWithType: SerilogExtensions
+  fullName: RedLight.UI.SerilogExtensions
+- uid: RedLight.UI.FreeTypeText
+  commentId: T:RedLight.UI.FreeTypeText
+  parent: RedLight.UI
+  href: RedLight.UI.FreeTypeText.html
+  name: FreeTypeText
+  nameWithType: FreeTypeText
+  fullName: RedLight.UI.FreeTypeText
+- uid: RedLight.UI.FontConfig
+  commentId: T:RedLight.UI.FontConfig
+  parent: RedLight.UI
+  href: RedLight.UI.FontConfig.html
+  name: FontConfig
+  nameWithType: FontConfig
+  fullName: RedLight.UI.FontConfig
+- uid: RedLight.UI.Text
+  commentId: T:RedLight.UI.Text
+  href: RedLight.UI.Text.html
+  name: Text
+  nameWithType: Text
+  fullName: RedLight.UI.Text
+- uid: RedLight.UI.Characters
+  commentId: T:RedLight.UI.Characters
+  href: RedLight.UI.Characters.html
+  name: Characters
+  nameWithType: Characters
+  fullName: RedLight.UI.Characters
+- uid: RedLight.UI.TextManager
+  commentId: T:RedLight.UI.TextManager
+  parent: RedLight.UI
+  href: RedLight.UI.TextManager.html
+  name: TextManager
+  nameWithType: TextManager
+  fullName: RedLight.UI.TextManager
+- uid: RedLight.UI
+  commentId: N:RedLight.UI
+  href: RedLight.html
+  name: RedLight.UI
+  nameWithType: RedLight.UI
+  fullName: RedLight.UI
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.UI
+    name: UI
+    href: RedLight.UI.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.UI
+    name: UI
+    href: RedLight.UI.html

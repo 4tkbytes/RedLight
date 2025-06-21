@@ -1,0 +1,62 @@
+### YamlMime:ManagedReference
+items:
+- uid: RedLight.Scene
+  commentId: N:RedLight.Scene
+  id: RedLight.Scene
+  children:
+  - RedLight.Scene.LoadingState
+  - RedLight.Scene.RLScene
+  - RedLight.Scene.SceneManager
+  langs:
+  - csharp
+  - vb
+  name: RedLight.Scene
+  nameWithType: RedLight.Scene
+  fullName: RedLight.Scene
+  type: Namespace
+  assemblies:
+  - RedLight
+references:
+- uid: RedLight.Scene.RLScene
+  commentId: T:RedLight.Scene.RLScene
+  parent: RedLight.Scene
+  href: RedLight.Scene.RLScene.html
+  name: RLScene
+  nameWithType: RLScene
+  fullName: RedLight.Scene.RLScene
+- uid: RedLight.Scene.SceneManager
+  commentId: T:RedLight.Scene.SceneManager
+  parent: RedLight.Scene
+  href: RedLight.Scene.SceneManager.html
+  name: SceneManager
+  nameWithType: SceneManager
+  fullName: RedLight.Scene.SceneManager
+- uid: RedLight.Scene.LoadingState
+  commentId: T:RedLight.Scene.LoadingState
+  parent: RedLight.Scene
+  href: RedLight.Scene.LoadingState.html
+  name: LoadingState
+  nameWithType: LoadingState
+  fullName: RedLight.Scene.LoadingState
+- uid: RedLight.Scene
+  commentId: N:RedLight.Scene
+  href: RedLight.html
+  name: RedLight.Scene
+  nameWithType: RedLight.Scene
+  fullName: RedLight.Scene
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Scene
+    name: Scene
+    href: RedLight.Scene.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Scene
+    name: Scene
+    href: RedLight.Scene.html

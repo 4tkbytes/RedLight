@@ -1,0 +1,861 @@
+### YamlMime:ManagedReference
+items:
+- uid: RedLight.Graphics.ShaderManager
+  commentId: T:RedLight.Graphics.ShaderManager
+  id: ShaderManager
+  parent: RedLight.Graphics
+  children:
+  - RedLight.Graphics.ShaderManager.Clone(System.String,System.String)
+  - RedLight.Graphics.ShaderManager.FindShaderIdByProgramHandle(System.UInt32)
+  - RedLight.Graphics.ShaderManager.Get(System.String)
+  - RedLight.Graphics.ShaderManager.GetProgramHandleString(System.String)
+  - RedLight.Graphics.ShaderManager.GetShaderDetailsForDebugging(System.UInt32)
+  - RedLight.Graphics.ShaderManager.HasUniform(System.String,System.String)
+  - RedLight.Graphics.ShaderManager.Instance
+  - RedLight.Graphics.ShaderManager.SetUniform``1(System.String,System.String,``0)
+  - RedLight.Graphics.ShaderManager.TryAdd(System.String,RedLight.Graphics.RLShader,RedLight.Graphics.RLShader)
+  - RedLight.Graphics.ShaderManager.TryAdd(System.String,RedLight.Graphics.RLShaderBundle)
+  - RedLight.Graphics.ShaderManager.TryGet(System.String)
+  langs:
+  - csharp
+  - vb
+  name: ShaderManager
+  nameWithType: ShaderManager
+  fullName: RedLight.Graphics.ShaderManager
+  type: Class
+  source:
+    remote:
+      path: src/RedLight/Graphics/ShaderManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: ShaderManager
+    path: src/RedLight/Graphics/ShaderManager.cs
+    startLine: 20
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public class ShaderManager
+    content.vb: Public Class ShaderManager
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: RedLight.Graphics.ShaderManager.Instance
+  commentId: P:RedLight.Graphics.ShaderManager.Instance
+  id: Instance
+  parent: RedLight.Graphics.ShaderManager
+  langs:
+  - csharp
+  - vb
+  name: Instance
+  nameWithType: ShaderManager.Instance
+  fullName: RedLight.Graphics.ShaderManager.Instance
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Graphics/ShaderManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Instance
+    path: src/RedLight/Graphics/ShaderManager.cs
+    startLine: 23
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public static ShaderManager Instance { get; }
+    parameters: []
+    return:
+      type: RedLight.Graphics.ShaderManager
+    content.vb: Public Shared ReadOnly Property Instance As ShaderManager
+  overload: RedLight.Graphics.ShaderManager.Instance*
+- uid: RedLight.Graphics.ShaderManager.TryAdd(System.String,RedLight.Graphics.RLShader,RedLight.Graphics.RLShader)
+  commentId: M:RedLight.Graphics.ShaderManager.TryAdd(System.String,RedLight.Graphics.RLShader,RedLight.Graphics.RLShader)
+  id: TryAdd(System.String,RedLight.Graphics.RLShader,RedLight.Graphics.RLShader)
+  parent: RedLight.Graphics.ShaderManager
+  langs:
+  - csharp
+  - vb
+  name: TryAdd(string, RLShader, RLShader)
+  nameWithType: ShaderManager.TryAdd(string, RLShader, RLShader)
+  fullName: RedLight.Graphics.ShaderManager.TryAdd(string, RedLight.Graphics.RLShader, RedLight.Graphics.RLShader)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/ShaderManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: TryAdd
+    path: src/RedLight/Graphics/ShaderManager.cs
+    startLine: 33
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  summary: >-
+    This function attempts to add a shader into the ShaderManagers dictionary. If the shader exists (as per the id),
+
+    it will only provide a warning and return unlike a normal Add function which throws an exception.
+  example: []
+  syntax:
+    content: public void TryAdd(string id, RLShader vertexShader, RLShader fragmentShader)
+    parameters:
+    - id: id
+      type: System.String
+    - id: vertexShader
+      type: RedLight.Graphics.RLShader
+    - id: fragmentShader
+      type: RedLight.Graphics.RLShader
+    content.vb: Public Sub TryAdd(id As String, vertexShader As RLShader, fragmentShader As RLShader)
+  overload: RedLight.Graphics.ShaderManager.TryAdd*
+  nameWithType.vb: ShaderManager.TryAdd(String, RLShader, RLShader)
+  fullName.vb: RedLight.Graphics.ShaderManager.TryAdd(String, RedLight.Graphics.RLShader, RedLight.Graphics.RLShader)
+  name.vb: TryAdd(String, RLShader, RLShader)
+- uid: RedLight.Graphics.ShaderManager.TryAdd(System.String,RedLight.Graphics.RLShaderBundle)
+  commentId: M:RedLight.Graphics.ShaderManager.TryAdd(System.String,RedLight.Graphics.RLShaderBundle)
+  id: TryAdd(System.String,RedLight.Graphics.RLShaderBundle)
+  parent: RedLight.Graphics.ShaderManager
+  langs:
+  - csharp
+  - vb
+  name: TryAdd(string, RLShaderBundle)
+  nameWithType: ShaderManager.TryAdd(string, RLShaderBundle)
+  fullName: RedLight.Graphics.ShaderManager.TryAdd(string, RedLight.Graphics.RLShaderBundle)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/ShaderManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: TryAdd
+    path: src/RedLight/Graphics/ShaderManager.cs
+    startLine: 51
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public void TryAdd(string id, RLShaderBundle shaderBundle)
+    parameters:
+    - id: id
+      type: System.String
+    - id: shaderBundle
+      type: RedLight.Graphics.RLShaderBundle
+    content.vb: Public Sub TryAdd(id As String, shaderBundle As RLShaderBundle)
+  overload: RedLight.Graphics.ShaderManager.TryAdd*
+  nameWithType.vb: ShaderManager.TryAdd(String, RLShaderBundle)
+  fullName.vb: RedLight.Graphics.ShaderManager.TryAdd(String, RedLight.Graphics.RLShaderBundle)
+  name.vb: TryAdd(String, RLShaderBundle)
+- uid: RedLight.Graphics.ShaderManager.TryGet(System.String)
+  commentId: M:RedLight.Graphics.ShaderManager.TryGet(System.String)
+  id: TryGet(System.String)
+  parent: RedLight.Graphics.ShaderManager
+  langs:
+  - csharp
+  - vb
+  name: TryGet(string)
+  nameWithType: ShaderManager.TryGet(string)
+  fullName: RedLight.Graphics.ShaderManager.TryGet(string)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/ShaderManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: TryGet
+    path: src/RedLight/Graphics/ShaderManager.cs
+    startLine: 69
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  summary: >-
+    This function attempts to fetch the shader by its ID from the dictionary. If the ID does not exist, it will
+
+    log a warning and return null.
+  example: []
+  syntax:
+    content: public RLShaderBundle TryGet(string id)
+    parameters:
+    - id: id
+      type: System.String
+    return:
+      type: RedLight.Graphics.RLShaderBundle
+    content.vb: Public Function TryGet(id As String) As RLShaderBundle
+  overload: RedLight.Graphics.ShaderManager.TryGet*
+  nameWithType.vb: ShaderManager.TryGet(String)
+  fullName.vb: RedLight.Graphics.ShaderManager.TryGet(String)
+  name.vb: TryGet(String)
+- uid: RedLight.Graphics.ShaderManager.Clone(System.String,System.String)
+  commentId: M:RedLight.Graphics.ShaderManager.Clone(System.String,System.String)
+  id: Clone(System.String,System.String)
+  parent: RedLight.Graphics.ShaderManager
+  langs:
+  - csharp
+  - vb
+  name: Clone(string, string)
+  nameWithType: ShaderManager.Clone(string, string)
+  fullName: RedLight.Graphics.ShaderManager.Clone(string, string)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/ShaderManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Clone
+    path: src/RedLight/Graphics/ShaderManager.cs
+    startLine: 86
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  summary: Clones/Duplicates a shader.
+  example: []
+  syntax:
+    content: public void Clone(string oldId, string newId)
+    parameters:
+    - id: oldId
+      type: System.String
+      description: ''
+    - id: newId
+      type: System.String
+      description: ''
+    content.vb: Public Sub Clone(oldId As String, newId As String)
+  overload: RedLight.Graphics.ShaderManager.Clone*
+  exceptions:
+  - type: System.Exception
+    commentId: T:System.Exception
+    description: ''
+  nameWithType.vb: ShaderManager.Clone(String, String)
+  fullName.vb: RedLight.Graphics.ShaderManager.Clone(String, String)
+  name.vb: Clone(String, String)
+- uid: RedLight.Graphics.ShaderManager.Get(System.String)
+  commentId: M:RedLight.Graphics.ShaderManager.Get(System.String)
+  id: Get(System.String)
+  parent: RedLight.Graphics.ShaderManager
+  langs:
+  - csharp
+  - vb
+  name: Get(string)
+  nameWithType: ShaderManager.Get(string)
+  fullName: RedLight.Graphics.ShaderManager.Get(string)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/ShaderManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Get
+    path: src/RedLight/Graphics/ShaderManager.cs
+    startLine: 109
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  summary: >-
+    This function attempts to fetch the shader by its ID from the dictionary. If the ID does not exist, it will
+
+    throw an Exception stating that the ID/Shader does not exist. If it does exist, it will return a RLShaderBundle.
+  example: []
+  syntax:
+    content: public RLShaderBundle Get(string id)
+    parameters:
+    - id: id
+      type: System.String
+    return:
+      type: RedLight.Graphics.RLShaderBundle
+    content.vb: Public Function [Get](id As String) As RLShaderBundle
+  overload: RedLight.Graphics.ShaderManager.Get*
+  nameWithType.vb: ShaderManager.Get(String)
+  fullName.vb: RedLight.Graphics.ShaderManager.Get(String)
+  name.vb: Get(String)
+- uid: RedLight.Graphics.ShaderManager.SetUniform``1(System.String,System.String,``0)
+  commentId: M:RedLight.Graphics.ShaderManager.SetUniform``1(System.String,System.String,``0)
+  id: SetUniform``1(System.String,System.String,``0)
+  parent: RedLight.Graphics.ShaderManager
+  langs:
+  - csharp
+  - vb
+  name: SetUniform<T>(string, string, T)
+  nameWithType: ShaderManager.SetUniform<T>(string, string, T)
+  fullName: RedLight.Graphics.ShaderManager.SetUniform<T>(string, string, T)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/ShaderManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: SetUniform
+    path: src/RedLight/Graphics/ShaderManager.cs
+    startLine: 124
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  summary: >-
+    A better way of setting a shaders uniform. Instead of going directly into the ShaderBundles program,
+
+    it will search it up for you.
+  example: []
+  syntax:
+    content: public void SetUniform<T>(string shaderId, string name, T value)
+    parameters:
+    - id: shaderId
+      type: System.String
+      description: ''
+    - id: name
+      type: System.String
+      description: ''
+    - id: value
+      type: '{T}'
+      description: ''
+    typeParameters:
+    - id: T
+      description: ''
+    content.vb: Public Sub SetUniform(Of T)(shaderId As String, name As String, value As T)
+  overload: RedLight.Graphics.ShaderManager.SetUniform*
+  nameWithType.vb: ShaderManager.SetUniform(Of T)(String, String, T)
+  fullName.vb: RedLight.Graphics.ShaderManager.SetUniform(Of T)(String, String, T)
+  name.vb: SetUniform(Of T)(String, String, T)
+- uid: RedLight.Graphics.ShaderManager.HasUniform(System.String,System.String)
+  commentId: M:RedLight.Graphics.ShaderManager.HasUniform(System.String,System.String)
+  id: HasUniform(System.String,System.String)
+  parent: RedLight.Graphics.ShaderManager
+  langs:
+  - csharp
+  - vb
+  name: HasUniform(string, string)
+  nameWithType: ShaderManager.HasUniform(string, string)
+  fullName: RedLight.Graphics.ShaderManager.HasUniform(string, string)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/ShaderManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: HasUniform
+    path: src/RedLight/Graphics/ShaderManager.cs
+    startLine: 134
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  summary: Checks if a uniform with the given name exists in the shader program
+  example: []
+  syntax:
+    content: public bool HasUniform(string shaderId, string name)
+    parameters:
+    - id: shaderId
+      type: System.String
+    - id: name
+      type: System.String
+      description: The name of the uniform to check
+    return:
+      type: System.Boolean
+      description: True if the uniform exists, false otherwise
+    content.vb: Public Function HasUniform(shaderId As String, name As String) As Boolean
+  overload: RedLight.Graphics.ShaderManager.HasUniform*
+  nameWithType.vb: ShaderManager.HasUniform(String, String)
+  fullName.vb: RedLight.Graphics.ShaderManager.HasUniform(String, String)
+  name.vb: HasUniform(String, String)
+- uid: RedLight.Graphics.ShaderManager.GetProgramHandleString(System.String)
+  commentId: M:RedLight.Graphics.ShaderManager.GetProgramHandleString(System.String)
+  id: GetProgramHandleString(System.String)
+  parent: RedLight.Graphics.ShaderManager
+  langs:
+  - csharp
+  - vb
+  name: GetProgramHandleString(string)
+  nameWithType: ShaderManager.GetProgramHandleString(string)
+  fullName: RedLight.Graphics.ShaderManager.GetProgramHandleString(string)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/ShaderManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: GetProgramHandleString
+    path: src/RedLight/Graphics/ShaderManager.cs
+    startLine: 150
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public string GetProgramHandleString(string shaderId)
+    parameters:
+    - id: shaderId
+      type: System.String
+    return:
+      type: System.String
+    content.vb: Public Function GetProgramHandleString(shaderId As String) As String
+  overload: RedLight.Graphics.ShaderManager.GetProgramHandleString*
+  nameWithType.vb: ShaderManager.GetProgramHandleString(String)
+  fullName.vb: RedLight.Graphics.ShaderManager.GetProgramHandleString(String)
+  name.vb: GetProgramHandleString(String)
+- uid: RedLight.Graphics.ShaderManager.FindShaderIdByProgramHandle(System.UInt32)
+  commentId: M:RedLight.Graphics.ShaderManager.FindShaderIdByProgramHandle(System.UInt32)
+  id: FindShaderIdByProgramHandle(System.UInt32)
+  parent: RedLight.Graphics.ShaderManager
+  langs:
+  - csharp
+  - vb
+  name: FindShaderIdByProgramHandle(uint)
+  nameWithType: ShaderManager.FindShaderIdByProgramHandle(uint)
+  fullName: RedLight.Graphics.ShaderManager.FindShaderIdByProgramHandle(uint)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/ShaderManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: FindShaderIdByProgramHandle
+    path: src/RedLight/Graphics/ShaderManager.cs
+    startLine: 161
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  summary: Finds a shader ID by its program handle
+  example: []
+  syntax:
+    content: public string FindShaderIdByProgramHandle(uint programHandle)
+    parameters:
+    - id: programHandle
+      type: System.UInt32
+      description: The OpenGL program handle to search for
+    return:
+      type: System.String
+      description: The shader ID if found, or null if not found
+    content.vb: Public Function FindShaderIdByProgramHandle(programHandle As UInteger) As String
+  overload: RedLight.Graphics.ShaderManager.FindShaderIdByProgramHandle*
+  nameWithType.vb: ShaderManager.FindShaderIdByProgramHandle(UInteger)
+  fullName.vb: RedLight.Graphics.ShaderManager.FindShaderIdByProgramHandle(UInteger)
+  name.vb: FindShaderIdByProgramHandle(UInteger)
+- uid: RedLight.Graphics.ShaderManager.GetShaderDetailsForDebugging(System.UInt32)
+  commentId: M:RedLight.Graphics.ShaderManager.GetShaderDetailsForDebugging(System.UInt32)
+  id: GetShaderDetailsForDebugging(System.UInt32)
+  parent: RedLight.Graphics.ShaderManager
+  langs:
+  - csharp
+  - vb
+  name: GetShaderDetailsForDebugging(uint)
+  nameWithType: ShaderManager.GetShaderDetailsForDebugging(uint)
+  fullName: RedLight.Graphics.ShaderManager.GetShaderDetailsForDebugging(uint)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/ShaderManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: GetShaderDetailsForDebugging
+    path: src/RedLight/Graphics/ShaderManager.cs
+    startLine: 178
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  summary: Enhanced method to find shader details by program handle with added debugging information
+  example: []
+  syntax:
+    content: public string GetShaderDetailsForDebugging(uint programHandle)
+    parameters:
+    - id: programHandle
+      type: System.UInt32
+      description: The OpenGL program handle
+    return:
+      type: System.String
+      description: Detailed information about the shader
+    content.vb: Public Function GetShaderDetailsForDebugging(programHandle As UInteger) As String
+  overload: RedLight.Graphics.ShaderManager.GetShaderDetailsForDebugging*
+  nameWithType.vb: ShaderManager.GetShaderDetailsForDebugging(UInteger)
+  fullName.vb: RedLight.Graphics.ShaderManager.GetShaderDetailsForDebugging(UInteger)
+  name.vb: GetShaderDetailsForDebugging(UInteger)
+references:
+- uid: RedLight.Graphics
+  commentId: N:RedLight.Graphics
+  href: RedLight.html
+  name: RedLight.Graphics
+  nameWithType: RedLight.Graphics
+  fullName: RedLight.Graphics
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Graphics
+    name: Graphics
+    href: RedLight.Graphics.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Graphics
+    name: Graphics
+    href: RedLight.Graphics.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: RedLight.Graphics.ShaderManager.Instance*
+  commentId: Overload:RedLight.Graphics.ShaderManager.Instance
+  href: RedLight.Graphics.ShaderManager.html#RedLight_Graphics_ShaderManager_Instance
+  name: Instance
+  nameWithType: ShaderManager.Instance
+  fullName: RedLight.Graphics.ShaderManager.Instance
+- uid: RedLight.Graphics.ShaderManager
+  commentId: T:RedLight.Graphics.ShaderManager
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.ShaderManager.html
+  name: ShaderManager
+  nameWithType: ShaderManager
+  fullName: RedLight.Graphics.ShaderManager
+- uid: RedLight.Graphics.ShaderManager.TryAdd*
+  commentId: Overload:RedLight.Graphics.ShaderManager.TryAdd
+  href: RedLight.Graphics.ShaderManager.html#RedLight_Graphics_ShaderManager_TryAdd_System_String_RedLight_Graphics_RLShader_RedLight_Graphics_RLShader_
+  name: TryAdd
+  nameWithType: ShaderManager.TryAdd
+  fullName: RedLight.Graphics.ShaderManager.TryAdd
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: RedLight.Graphics.RLShader
+  commentId: T:RedLight.Graphics.RLShader
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.RLShader.html
+  name: RLShader
+  nameWithType: RLShader
+  fullName: RedLight.Graphics.RLShader
+- uid: RedLight.Graphics.RLShaderBundle
+  commentId: T:RedLight.Graphics.RLShaderBundle
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.RLShaderBundle.html
+  name: RLShaderBundle
+  nameWithType: RLShaderBundle
+  fullName: RedLight.Graphics.RLShaderBundle
+- uid: RedLight.Graphics.ShaderManager.TryGet*
+  commentId: Overload:RedLight.Graphics.ShaderManager.TryGet
+  href: RedLight.Graphics.ShaderManager.html#RedLight_Graphics_ShaderManager_TryGet_System_String_
+  name: TryGet
+  nameWithType: ShaderManager.TryGet
+  fullName: RedLight.Graphics.ShaderManager.TryGet
+- uid: System.Exception
+  commentId: T:System.Exception
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.exception
+  name: Exception
+  nameWithType: Exception
+  fullName: System.Exception
+- uid: RedLight.Graphics.ShaderManager.Clone*
+  commentId: Overload:RedLight.Graphics.ShaderManager.Clone
+  href: RedLight.Graphics.ShaderManager.html#RedLight_Graphics_ShaderManager_Clone_System_String_System_String_
+  name: Clone
+  nameWithType: ShaderManager.Clone
+  fullName: RedLight.Graphics.ShaderManager.Clone
+- uid: RedLight.Graphics.ShaderManager.Get*
+  commentId: Overload:RedLight.Graphics.ShaderManager.Get
+  href: RedLight.Graphics.ShaderManager.html#RedLight_Graphics_ShaderManager_Get_System_String_
+  name: Get
+  nameWithType: ShaderManager.Get
+  fullName: RedLight.Graphics.ShaderManager.Get
+- uid: RedLight.Graphics.ShaderManager.SetUniform*
+  commentId: Overload:RedLight.Graphics.ShaderManager.SetUniform
+  href: RedLight.Graphics.ShaderManager.html#RedLight_Graphics_ShaderManager_SetUniform__1_System_String_System_String___0_
+  name: SetUniform
+  nameWithType: ShaderManager.SetUniform
+  fullName: RedLight.Graphics.ShaderManager.SetUniform
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: RedLight.Graphics.ShaderManager.HasUniform*
+  commentId: Overload:RedLight.Graphics.ShaderManager.HasUniform
+  href: RedLight.Graphics.ShaderManager.html#RedLight_Graphics_ShaderManager_HasUniform_System_String_System_String_
+  name: HasUniform
+  nameWithType: ShaderManager.HasUniform
+  fullName: RedLight.Graphics.ShaderManager.HasUniform
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: RedLight.Graphics.ShaderManager.GetProgramHandleString*
+  commentId: Overload:RedLight.Graphics.ShaderManager.GetProgramHandleString
+  href: RedLight.Graphics.ShaderManager.html#RedLight_Graphics_ShaderManager_GetProgramHandleString_System_String_
+  name: GetProgramHandleString
+  nameWithType: ShaderManager.GetProgramHandleString
+  fullName: RedLight.Graphics.ShaderManager.GetProgramHandleString
+- uid: RedLight.Graphics.ShaderManager.FindShaderIdByProgramHandle*
+  commentId: Overload:RedLight.Graphics.ShaderManager.FindShaderIdByProgramHandle
+  href: RedLight.Graphics.ShaderManager.html#RedLight_Graphics_ShaderManager_FindShaderIdByProgramHandle_System_UInt32_
+  name: FindShaderIdByProgramHandle
+  nameWithType: ShaderManager.FindShaderIdByProgramHandle
+  fullName: RedLight.Graphics.ShaderManager.FindShaderIdByProgramHandle
+- uid: System.UInt32
+  commentId: T:System.UInt32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint32
+  name: uint
+  nameWithType: uint
+  fullName: uint
+  nameWithType.vb: UInteger
+  fullName.vb: UInteger
+  name.vb: UInteger
+- uid: RedLight.Graphics.ShaderManager.GetShaderDetailsForDebugging*
+  commentId: Overload:RedLight.Graphics.ShaderManager.GetShaderDetailsForDebugging
+  href: RedLight.Graphics.ShaderManager.html#RedLight_Graphics_ShaderManager_GetShaderDetailsForDebugging_System_UInt32_
+  name: GetShaderDetailsForDebugging
+  nameWithType: ShaderManager.GetShaderDetailsForDebugging
+  fullName: RedLight.Graphics.ShaderManager.GetShaderDetailsForDebugging
