@@ -9,6 +9,7 @@ public class LightingCube
 {
     private RLGraphics graphics;
     private LightManager lightManager;
+    private string shaderId;
 
     public RLLight Light;
     public Entity Cube;
@@ -19,10 +20,11 @@ public class LightingCube
         this.graphics = graphics;
         this.lightManager = lightManager;
         Name = name;
+        this.shaderId = shaderId;
 
         var hitbox = HitboxConfig.ForCube(0.1f, 0f);
         Cube = new Cube(graphics, $"{Name}_cube", false).SetScale(new Vector3(0.5f));
-        Cube.Model.AttachShader(ShaderManager.Instance.Get("light_cube"));
+        Cube.Model.AttachShader(ShaderManager.Instance.Get(this.shaderId));
         Cube.SetHitboxConfig(hitbox);
 
         switch (lightType)
@@ -41,7 +43,7 @@ public class LightingCube
     public void Render(Camera camera)
     {
         graphics.Use(Cube);
-        lightManager.ApplyLightCubeShader($"{Name}_cube", "light_cube", ShaderManager.Instance);
+        lightManager.ApplyLightCubeShader($"{Name}_cube", shaderId, ShaderManager.Instance);
         graphics.Update(camera, Cube);
         graphics.Draw(Cube);
     }

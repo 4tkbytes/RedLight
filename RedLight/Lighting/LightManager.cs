@@ -9,6 +9,30 @@ public class LightManager
 {
     private readonly Dictionary<string, RLLight> _lights;
     private readonly Dictionary<string, Entity> _lightCubes;
+    
+    private float _diffuse;
+    private float _specular = 1;
+    private float _shininess = 64f;
+    
+    public float Gamma { get; set; } = 0.2f;
+
+    public float Specular
+    {
+        get => _specular;
+        set => _specular = value;
+    }
+
+    public float Diffuse
+    {
+        get => _diffuse;
+        set => _diffuse = value;
+    }
+
+    public float Shininess
+    {
+        get => _shininess;
+        set => _shininess = value;
+    }
 
     public LightManager()
     {
@@ -93,17 +117,11 @@ public class LightManager
         {
             try
             {
-                if (shaderManager.HasUniform(shaderName, "material.ambient"))
-                    shaderManager.SetUniform(shaderName, "material.ambient", light.Ambient);
-                
-                if (shaderManager.HasUniform(shaderName, "material.diffuse"))
-                    shaderManager.SetUniform(shaderName, "material.diffuse", light.Diffuse);
-
-                if (shaderManager.HasUniform(shaderName, "material.specular"))
-                    shaderManager.SetUniform(shaderName, "material.specular", light.Specular);
-
-                if (shaderManager.HasUniform(shaderName, "material.shininess"))
-                    shaderManager.SetUniform(shaderName, "material.shininess", light.Shininess);
+                // if (shaderManager.HasUniform(shaderName, "material.diffuse"))
+                //     shaderManager.SetUniform(shaderName, "material.diffuse", _diffuse);
+                //
+                // if (shaderManager.HasUniform(shaderName, "material.specular"))
+                //     shaderManager.SetUniform(shaderName, "material.specular", _specular);
             
                 if (shaderManager.HasUniform(shaderName, "viewPos"))
                     shaderManager.SetUniform(shaderName, "viewPos", viewPosition);
@@ -113,16 +131,19 @@ public class LightManager
                 var primaryLight = enabledLights.FirstOrDefault();
                 if (primaryLight != null)
                 {
-                    ApplySingleLight(shaderName, primaryLight, shaderManager);
+                    ApplySingleLight(shaderName, light, shaderManager);
                 }
                 else
                 {
-                    if (shaderManager.HasUniform(shaderName, "lightColor"))
-                        shaderManager.SetUniform(shaderName, "lightColor", Vector3.Zero);
+                    if (shaderManager.HasUniform(shaderName, "light.colour"))
+                        shaderManager.SetUniform(shaderName, "light.colour", Vector3.Zero);
                 
-                    if (shaderManager.HasUniform(shaderName, "lightPos"))
-                        shaderManager.SetUniform(shaderName, "lightPos", Vector3.Zero);
+                    if (shaderManager.HasUniform(shaderName, "light.position"))
+                        shaderManager.SetUniform(shaderName, "light.position", Vector3.Zero);
                 }
+                
+                if (shaderManager.HasUniform(shaderName, "material.shininess"))
+                    shaderManager.SetUniform(shaderName, "material.shininess", _shininess);
             }
             catch (Exception ex)
             {
@@ -156,17 +177,14 @@ public class LightManager
 
     private void ApplySingleLight(string shaderName, RLLight light, ShaderManager shaderManager)
     {
-        var finalColor = light.Colour * light.Intensity;
-
-        // Set light struct properties instead of individual uniforms
         if (shaderManager.HasUniform(shaderName, "light.ambient"))
-            shaderManager.SetUniform(shaderName, "light.ambient", finalColor * light.Gamma); // ambient is typically dimmer
+            shaderManager.SetUniform(shaderName, "light.ambient", new Vector3(0.2f));
 
         if (shaderManager.HasUniform(shaderName, "light.diffuse"))
-            shaderManager.SetUniform(shaderName, "light.diffuse", finalColor);
+            shaderManager.SetUniform(shaderName, "light.diffuse", new Vector3(0.5f));
 
         if (shaderManager.HasUniform(shaderName, "light.specular"))
-            shaderManager.SetUniform(shaderName, "light.specular", finalColor);
+            shaderManager.SetUniform(shaderName, "light.specular", new Vector3(1.0f));
 
         switch (light.Type)
         {

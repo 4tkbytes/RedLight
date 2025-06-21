@@ -2,6 +2,7 @@
 using System.Numerics;
 using RedLight.Entities;
 using RedLight.UI;
+using RedLight.Utils;
 using Serilog;
 using Silk.NET.OpenGL;
 
@@ -21,7 +22,7 @@ public class RLGraphics
     /// to improve performance and decrease the load/info from the logger. 
     /// </summary>
     public bool ShutUp { get; set; } = true;
-
+    
     /// <summary>
     /// Enabled OpenGL's Depth Text, culls the back faces and internal faces from textures. 
     /// </summary>
@@ -53,6 +54,10 @@ public class RLGraphics
             {
                 string msg = Silk.NET.Core.Native.SilkMarshal.PtrToString((nint)message);
                 Console.WriteLine($"[GL DEBUG] {msg}");
+                
+                var (programHandle, uniformLocation) = RLUtils.ExtractGLErrorInfo(msg);
+                var shaderId = ShaderManager.Instance.GetShaderDetailsForDebugging((uint)programHandle);
+                Console.WriteLine($"Error in shader: {shaderId}, program: {programHandle}, uniform location: {uniformLocation}");
             }, null);
         }
 #else

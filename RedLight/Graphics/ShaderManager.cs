@@ -147,4 +147,60 @@ public class ShaderManager
             return false;
         }
     }
+
+    public string GetProgramHandleString(string shaderId)
+    {
+        var shader = Get(shaderId);
+        return shader.Program.ProgramHandle.ToString();
+    }
+    
+    /// <summary>
+    /// Finds a shader ID by its program handle
+    /// </summary>
+    /// <param name="programHandle">The OpenGL program handle to search for</param>
+    /// <returns>The shader ID if found, or null if not found</returns>
+    public string FindShaderIdByProgramHandle(uint programHandle)
+    {
+        foreach (var kvp in shaders)
+        {
+            if (kvp.Value.Program.ProgramHandle == programHandle)
+            {
+                return kvp.Key;
+            }
+        }
+        return null;
+    }
+    
+    /// <summary>
+    /// Enhanced method to find shader details by program handle with added debugging information
+    /// </summary>
+    /// <param name="programHandle">The OpenGL program handle</param>
+    /// <returns>Detailed information about the shader</returns>
+    public string GetShaderDetailsForDebugging(uint programHandle)
+    {
+        try
+        {
+            // Try to find the shader ID first
+            string shaderId = FindShaderIdByProgramHandle(programHandle);
+        
+            if (string.IsNullOrEmpty(shaderId))
+            {
+                // If not found in our shaders dictionary, return a message with program handle
+                return $"[Unknown Shader Program: {programHandle}]";
+            }
+        
+            // Get the shader from the dictionary
+            var shader = Get(shaderId);
+            if (shader.Name == null)
+                return $"[Shader ID {shaderId} exists but shader object is null]";
+            
+            // Return more detailed information about the shader
+            return $"{shaderId} (Program: {programHandle})";
+        }
+        catch (Exception ex)
+        {
+            // Catch and provide information about any exceptions
+            return $"[Error getting shader: {ex.Message}]";
+        }
+    }
 }

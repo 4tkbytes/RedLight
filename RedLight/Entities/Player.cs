@@ -23,6 +23,7 @@ public class Player: Entity
     private Vector3 lastModelPosition;
     private bool isMoving = false;
     bool IsSprinting = false;
+    private bool hasJumped;
 
     public Player(Camera camera, Transformable<RLModel> model, HitboxConfig hitboxConfig = null) : base(model.Target)
     {
@@ -99,11 +100,12 @@ public class Player: Entity
         
         UpdateCameraPosition();
     }
-    
+
+    private bool spacePressed;
+    private bool wasGrounded;
     private void HandleMovement(HashSet<Key> pressedKeys, float deltaTime, bool silent = true)
     {
         Vector3 direction = Vector3.Zero;
-        bool shouldJump = false;
 
         // Calculate direction based on camera orientation
         var forward = Vector3.Normalize(new Vector3(Camera.Front.X, 0, Camera.Front.Z));
@@ -117,12 +119,20 @@ public class Player: Entity
             direction -= right;
         if (pressedKeys.Contains(Key.D))
             direction += right;
-        if (pressedKeys.Contains(Key.Space))
-            shouldJump = true;
         if (pressedKeys.Contains(Key.ShiftLeft))
             IsSprinting = true;
         if (!pressedKeys.Contains(Key.ShiftLeft))
             IsSprinting = false;
+        
+        bool isGrounded = IsGrounded();
+        
+        bool spaceIsPressed = pressedKeys.Contains(Key.Space);
+        bool shouldJump = false;
+        
+        if ((spaceIsPressed && !spacePressed) || (spaceIsPressed && isGrounded && !wasGrounded))
+            shouldJump = true;
+        
+        spacePressed = spaceIsPressed;
 
         var horizontalDirection = new Vector3(direction.X, 0, direction.Z);
         isMoving = horizontalDirection.Length() > 0.01f;
@@ -170,17 +180,25 @@ public class Player: Entity
                 }
 
                 // Handle jumping
-                if (shouldJump && IsGrounded())
+                if (shouldJump && isGrounded && !hasJumped)
                 {
-                    float jumpForce = 5.5f; // Adjust this value to control jump height
+                    float jumpForce = 5f;
                     bodyRef.Velocity.Linear = new Vector3(
                         currentVel.X,
-                        jumpForce, // Set upward velocity for jump
+                        jumpForce,
                         currentVel.Z
                     );
 
+                    hasJumped = true;
                     if (!silent) Log.Debug("[Player] Jump applied with force: {JumpForce}", jumpForce);
                 }
+
+                if (isGrounded && bodyRef.Velocity.Linear.Y <= 0)
+                {
+                    hasJumped = false;
+                }
+                
+                wasGrounded = isGrounded;
 
                 if (!bodyRef.Awake)
                 {

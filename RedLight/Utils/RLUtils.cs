@@ -35,4 +35,55 @@ public static class RLUtils
     {
         return new Vector3((float) color.R / 255, (float) color.G / 255, (float) color.B / 255);
     }
+    
+    /// <summary>
+    /// Extracts the uniform location number from an OpenGL error message
+    /// </summary>
+    /// <param name="errorMessage">The OpenGL error message</param>
+    /// <returns>The uniform location as an integer, or -1 if not found</returns>
+    public static int ExtractUniformLocation(string errorMessage)
+    {
+        // Regex to find "uniform of location "X"" pattern
+        var regex = new System.Text.RegularExpressions.Regex("uniform of location \"(\\d+)\"");
+        var match = regex.Match(errorMessage);
+    
+        if (match.Success && match.Groups.Count > 1)
+        {
+            if (int.TryParse(match.Groups[1].Value, out int location))
+            {
+                return location;
+            }
+        }
+    
+        return -1;
+    }
+    
+    /// <summary>
+    /// Extracts both program handle and uniform location from an OpenGL error message
+    /// </summary>
+    /// <param name="errorMessage">The OpenGL error message</param>
+    /// <returns>Tuple containing (programHandle, uniformLocation), or (-1, -1) if not found</returns>
+    public static (int ProgramHandle, int UniformLocation) ExtractGLErrorInfo(string errorMessage)
+    {
+        int programHandle = -1;
+        int uniformLocation = -1;
+    
+        // Extract uniform location
+        var locationRegex = new System.Text.RegularExpressions.Regex("uniform of location \"(\\d+)\"");
+        var locationMatch = locationRegex.Match(errorMessage);
+        if (locationMatch.Success && locationMatch.Groups.Count > 1)
+        {
+            int.TryParse(locationMatch.Groups[1].Value, out uniformLocation);
+        }
+    
+        // Extract program handle
+        var programRegex = new System.Text.RegularExpressions.Regex("in program (\\d+),");
+        var programMatch = programRegex.Match(errorMessage);
+        if (programMatch.Success && programMatch.Groups.Count > 1)
+        {
+            int.TryParse(programMatch.Groups[1].Value, out programHandle);
+        }
+    
+        return (programHandle, uniformLocation);
+    }
 }
