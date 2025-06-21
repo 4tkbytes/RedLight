@@ -94,11 +94,11 @@ public class LightManager
             try
             {
                 // Only set uniforms that exist in the lit shader
-                if (shaderManager.HasUniform(shaderName, "material.ambient"))
-                    shaderManager.SetUniform(shaderName, "material.ambient", light.Ambient);
-
-                if (shaderManager.HasUniform(shaderName, "material.diffuse"))
-                    shaderManager.SetUniform(shaderName, "material.diffuse", light.Diffuse);
+                // if (shaderManager.HasUniform(shaderName, "material.ambient"))
+                //     shaderManager.SetUniform(shaderName, "material.ambient", light.Ambient);
+                //
+                // if (shaderManager.HasUniform(shaderName, "material.diffuse"))
+                //     shaderManager.SetUniform(shaderName, "material.diffuse", light.Diffuse);
 
                 if (shaderManager.HasUniform(shaderName, "material.specular"))
                     shaderManager.SetUniform(shaderName, "material.specular", light.Specular);

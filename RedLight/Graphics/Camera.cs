@@ -124,7 +124,6 @@ public class Camera
 
     public Camera KeyMap(HashSet<Key> PressedKeys)
     {
-
         if (PressedKeys.Contains(Key.W))
             MoveForward();
         if (PressedKeys.Contains(Key.S))
@@ -145,19 +144,20 @@ public class Camera
     
     public Camera KeyMap(HashSet<Key> PressedKeys, float deltaTime)
     {
-        Speed *= deltaTime;
+        float adjustedSpeed = Speed * deltaTime;
+
         if (PressedKeys.Contains(Key.W))
-            MoveForward();
+            Position += adjustedSpeed * Front;
         if (PressedKeys.Contains(Key.S))
-            MoveBack();
+            Position -= adjustedSpeed * Front;
         if (PressedKeys.Contains(Key.A))
-            MoveLeft();
+            Position -= Vector3.Normalize(Vector3.Cross(Front, Up)) * adjustedSpeed;
         if (PressedKeys.Contains(Key.D))
-            MoveRight();
+            Position += Vector3.Normalize(Vector3.Cross(Front, Up)) * adjustedSpeed;
         if (PressedKeys.Contains(Key.ShiftLeft))
-            MoveDown();
+            Position -= Up * adjustedSpeed;
         if (PressedKeys.Contains(Key.Space))
-            MoveUp();
+            Position += Up * adjustedSpeed;
         
         UpdateCamera();
 
