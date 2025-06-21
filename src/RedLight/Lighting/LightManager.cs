@@ -12,7 +12,7 @@ public class LightManager
     
     private float _diffuse;
     private float _specular = 1;
-    private float _shininess = 64f;
+    private float _shininess = 32f;
     
     public float Gamma { get; set; } = 0.2f;
 
@@ -77,11 +77,11 @@ public class LightManager
         }
     }
 
-    public void UpdateLightPosition(string name, Vector3 position)
+    public void UpdateLightPosition(string name, Vector3 direction)
     {
         if (_lights.TryGetValue(name, out var light))
         {
-            light.Position = position;
+            light.Direction = direction;
         }
     }
 
@@ -177,31 +177,21 @@ public class LightManager
 
     private void ApplySingleLight(string shaderName, RLLight light, ShaderManager shaderManager)
     {
+        // Use the light's color and intensity for ambient/diffuse/specular
         if (shaderManager.HasUniform(shaderName, "light.ambient"))
-            shaderManager.SetUniform(shaderName, "light.ambient", new Vector3(0.2f));
+            shaderManager.SetUniform(shaderName, "light.ambient", light.Colour * 0.3f * light.Intensity);
 
         if (shaderManager.HasUniform(shaderName, "light.diffuse"))
-            shaderManager.SetUniform(shaderName, "light.diffuse", new Vector3(0.5f));
+            shaderManager.SetUniform(shaderName, "light.diffuse", light.Colour * 0.7f * light.Intensity);
 
         if (shaderManager.HasUniform(shaderName, "light.specular"))
-            shaderManager.SetUniform(shaderName, "light.specular", new Vector3(1.0f));
+            shaderManager.SetUniform(shaderName, "light.specular", light.Colour * 1.0f * light.Intensity);
 
         switch (light.Type)
         {
             case LightType.Directional:
-                // For directional lights, use the direction as position
-                if (shaderManager.HasUniform(shaderName, "light.position"))
-                    shaderManager.SetUniform(shaderName, "light.position", -light.Direction * 100.0f); // Position far away in direction
-                break;
-
-            case LightType.Point:
-                if (shaderManager.HasUniform(shaderName, "light.position"))
-                    shaderManager.SetUniform(shaderName, "light.position", light.Position);
-                break;
-
-            case LightType.Spot:
-                if (shaderManager.HasUniform(shaderName, "light.position"))
-                    shaderManager.SetUniform(shaderName, "light.position", light.Position);
+                if (shaderManager.HasUniform(shaderName, "light.direction"))
+                    shaderManager.SetUniform(shaderName, "light.direction", -light.Direction);
                 break;
         }
     }

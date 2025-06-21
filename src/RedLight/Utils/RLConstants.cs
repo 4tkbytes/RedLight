@@ -1,3 +1,4 @@
+using System.Numerics;
 using RedLight.Graphics;
 
 namespace RedLight.Utils;
@@ -13,4 +14,6 @@ public static class RLConstants
         RLFiles.GetResourceAsString("RedLight.Resources.Shaders.basic.frag");
 
     public static readonly int MAX_BONE_INFLUENCE = 4;
+
+    public static readonly Vector3 RL_SUN_DIRECTION = new(-0.5f, -1.0f, -0.3f);
 }
