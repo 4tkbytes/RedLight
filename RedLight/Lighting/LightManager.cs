@@ -159,9 +159,6 @@ public class LightManager
     {
         var finalColor = light.Colour * light.Intensity;
 
-        var stupid = light.Colour * 0.5f;
-        var stupid2 = light.Diffuse * light.Gamma;
-
         // Set light struct properties instead of individual uniforms
         if (shaderManager.HasUniform(shaderName, "light.ambient"))
             shaderManager.SetUniform(shaderName, "light.ambient", finalColor * light.Gamma); // ambient is typically dimmer
