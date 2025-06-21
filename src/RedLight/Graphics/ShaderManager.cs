@@ -143,7 +143,7 @@ public class ShaderManager
         }
         catch (Exception ex)
         {
-            Log.Warning("Error checking uniform {UniformName}: {Error}", name, ex.Message);
+            // Log.Warning("Error checking uniform {UniformName}: {Error}", name, ex.Message);
             return false;
         }
     }

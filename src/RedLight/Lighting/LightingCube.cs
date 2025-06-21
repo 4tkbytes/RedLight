@@ -15,7 +15,7 @@ public class LightingCube
     public Entity Cube;
     public string Name;
     
-    public LightingCube(RLGraphics graphics, LightManager lightManager, string name, string shaderId, Vector3 direction, Color colour, LightType lightType)
+    private LightingCube(RLGraphics graphics, LightManager lightManager, string name, string shaderId, Vector3? position, Vector3? direction, Color colour, LightType lightType)
     {
         this.graphics = graphics;
         this.lightManager = lightManager;
@@ -30,13 +30,32 @@ public class LightingCube
         switch (lightType)
         {
             case LightType.Directional:
-                Light = RLLight.CreateDirectionalLight($"{Name}_light", direction, colour);
+                if (direction.HasValue)
+                    Light = RLLight.CreateDirectionalLight($"{Name}_light", direction.Value, colour);
                 break;
+            
+            case LightType.Point:
+                if (position.HasValue)
+                    Light = RLLight.CreatePointLight($"{Name}_light", position.Value, colour);
+                break;
+            
             default:
                 throw new ArgumentOutOfRangeException(nameof(lightType), lightType, null);
         }
         
         lightManager.AddLightWithVisual(Light, Cube);
+    }
+
+    public static LightingCube CreateDirectionalLightCube(RLGraphics graphics, LightManager lightManager, string name,
+        string shaderId, Vector3 direction, Color colour)
+    {
+        return new LightingCube(graphics, lightManager, name, shaderId, null, direction, colour, LightType.Directional);
+    }
+    
+    public static LightingCube CreatePointLightCube(RLGraphics graphics, LightManager lightManager, string name,
+        string shaderId, Vector3 position, Color colour)
+    {
+        return new LightingCube(graphics, lightManager, name, shaderId, position, null, colour, LightType.Point);
     }
     
     public void Render(Camera camera)

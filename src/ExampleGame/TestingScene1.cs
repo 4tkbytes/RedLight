@@ -11,6 +11,7 @@ using RedLight.Lighting;
 using RedLight.Physics;
 using RedLight.UI;
 using RedLight.Utils;
+using Silk.NET.Assimp;
 using Silk.NET.OpenGL;
 using Camera = RedLight.Graphics.Camera;
 using Plane = RedLight.Entities.Plane;
@@ -263,15 +264,20 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         // initialise the LightManager class
         LightManager = new LightManager();
 
-        // create new light cube with a sun-like yellow/white color
-        lightingCube = new LightingCube(Graphics, LightManager, "lightCube", "light_cube", 
-            RLConstants.RL_SUN_DIRECTION, Color.FromArgb(255, 255, 253, 231), LightType.Directional);
+        // // create new light cube with a sun-like yellow/white color
+        // lightingCube = LightingCube.CreateDirectionalLightCube(Graphics, LightManager, "lightCube", "light_cube",
+        //     RLConstants.RL_SUN_DIRECTION, Color.FromArgb(255, 255, 253, 231));
+        //
+        lightingCube = LightingCube.CreatePointLightCube(Graphics, LightManager, "lightCube", "light_cube",
+            RLConstants.RL_SUN_DIRECTION, Color.FromArgb(255, 255, 253, 231));
 
-        // Position doesn't matter much for directional lights, but still good to place it high
-        lightingCube.Cube.Translate(new Vector3(0, 20, 0));
-    
+        lightingCube.Light.Attenuation = Attenuation.DefaultValues.Range50;
+
+        // // Position doesn't matter much for directional lights, but still good to place it high
+        // lightingCube.Cube.Translate(new Vector3(0, 20, 0));
+
         // Set a direction that mimics sunlight from above at an angle
-        lightingCube.Light.Direction = RLConstants.RL_SUN_DIRECTION;
+        // lightingCube.Light.Direction = RLConstants.RL_SUN_DIRECTION;
     }
 
     private void AddPhysics()

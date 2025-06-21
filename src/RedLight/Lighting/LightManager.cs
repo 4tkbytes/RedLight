@@ -14,8 +14,6 @@ public class LightManager
     private float _specular = 1;
     private float _shininess = 32f;
     
-    public float Gamma { get; set; } = 0.2f;
-
     public float Specular
     {
         get => _specular;
@@ -117,12 +115,6 @@ public class LightManager
         {
             try
             {
-                // if (shaderManager.HasUniform(shaderName, "material.diffuse"))
-                //     shaderManager.SetUniform(shaderName, "material.diffuse", _diffuse);
-                //
-                // if (shaderManager.HasUniform(shaderName, "material.specular"))
-                //     shaderManager.SetUniform(shaderName, "material.specular", _specular);
-            
                 if (shaderManager.HasUniform(shaderName, "viewPos"))
                     shaderManager.SetUniform(shaderName, "viewPos", viewPosition);
 
@@ -192,6 +184,16 @@ public class LightManager
             case LightType.Directional:
                 if (shaderManager.HasUniform(shaderName, "light.direction"))
                     shaderManager.SetUniform(shaderName, "light.direction", -light.Direction);
+                shaderManager.SetUniform(shaderName, "light.type", (int)LightType.Directional);
+                break;
+            case LightType.Point:
+                if (shaderManager.HasUniform(shaderName, "light.position"))
+                    shaderManager.SetUniform(shaderName, "light.position", light.Position);
+                shaderManager.SetUniform(shaderName, "light.constant", light.Attenuation.Constant);
+                shaderManager.SetUniform(shaderName, "light.linear", light.Attenuation.Linear);
+                shaderManager.SetUniform(shaderName, "light.quadratic", light.Attenuation.Quadratic);
+
+                shaderManager.SetUniform(shaderName, "light.type", (int)LightType.Point);
                 break;
         }
     }
