@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleGame", "ExampleGame\ExampleGame.csproj", "{4EF62C49-1207-4236-936D-613AA32B5AFB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleGame", "src\ExampleGame\ExampleGame.csproj", "{4EF62C49-1207-4236-936D-613AA32B5AFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedLight", "RedLight\RedLight.csproj", "{2F2DC92F-520F-4694-B600-21340F208AB1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedLight", "src\RedLight\RedLight.csproj", "{2F2DC92F-520F-4694-B600-21340F208AB1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
