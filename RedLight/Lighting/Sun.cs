@@ -24,13 +24,13 @@ public class Sun
         Direction = direction;
 
         // Create a larger sphere to represent the sun
-        var hitbox = HitboxConfig.ForCube(2.0f, 0f);
+        // var hitbox = HitboxConfig.ForCube(2.0f, 0f);
         SunSphere = new Sphere(graphics, TextureManager.Instance, ShaderManager.Instance, $"{Name}_sun", false).SetScale(new Vector3(0.5f));
         SunSphere.Model.AttachShader(ShaderManager.Instance.Get("light_cube"));
-        SunSphere.SetHitboxConfig(hitbox);
+        // SunSphere.SetHitboxConfig(hitbox);
 
         // Create directional light for the sun
-        Light = RLLight.CreateDirectionalLight($"{Name}_light", direction, RLUtils.ColorToVector3(colour));
+        Light = RLLight.CreateDirectionalLight($"{Name}_light", direction, colour);
         
         lightManager.AddLightWithVisual(Light, SunSphere);
     }

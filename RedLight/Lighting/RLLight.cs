@@ -1,22 +1,21 @@
 ﻿using System.Numerics;
 using System.Drawing;
+using RedLight.Utils;
 
 namespace RedLight.Lighting;
 
-public enum LightType
-{
-    Directional,
-    Point,
-    Spot
-}
-
 public class RLLight
 {
+    private Vector3 _ambient = new(0.2f);
+    private Vector3 _specular = new(1.0f);
+    private Vector3 _diffuse = new(0.8f);
+    private float _shininess = 32.0f;
+    
     public string Name { get; set; }
     public LightType Type { get; set; }
     public Vector3 Position { get; set; }
     public Vector3 Direction { get; set; }
-    public Vector3 Color { get; set; }
+    public Vector3 Colour { get; set; }
     public float Intensity { get; set; }
     
     // Point light properties
@@ -27,20 +26,46 @@ public class RLLight
     // Spot light properties
     public float InnerCutOff { get; set; } = 12.5f;
     public float OuterCutOff { get; set; } = 17.5f;
+
+    public Vector3 Gamma { get; set; } = new Vector3(0.2f);
     
     public bool IsEnabled { get; set; } = true;
+
+    public Vector3 Ambient
+    {
+        get => _ambient;
+        set => _ambient = value;
+    }
+
+    public Vector3 Specular
+    {
+        get => _specular;
+        set => _specular = value;
+    }
+
+    public Vector3 Diffuse
+    {
+        get => _diffuse;
+        set => _diffuse = value;
+    }
+
+    public float Shininess
+    {
+        get => _shininess;
+        set => _shininess = value;
+    }
     
-    public RLLight(string name, LightType type, Vector3 position, Vector3 color, float intensity = 1.0f)
+    public RLLight(string name, LightType type, Vector3 position, Color color, float intensity = 1.0f)
     {
         Name = name;
         Type = type;
         Position = position;
-        Color = color;
+        Colour = RLUtils.ColorToVector3(color);
         Intensity = intensity;
         Direction = Vector3.UnitZ;
     }
     
-    public static RLLight CreateDirectionalLight(string name, Vector3 direction, Vector3 color, float intensity = 1.0f)
+    public static RLLight CreateDirectionalLight(string name, Vector3 direction, Color color, float intensity = 1.0f)
     {
         return new RLLight(name, LightType.Directional, Vector3.Zero, color, intensity)
         {
@@ -48,19 +73,12 @@ public class RLLight
         };
     }
     
-    public static RLLight CreatePointLight(string name, Vector3 position, Vector3 color, float intensity = 1.0f)
+    public static RLLight CreatePointLight(string name, Vector3 position, Color color, float intensity = 1.0f)
     {
         return new RLLight(name, LightType.Point, position, color, intensity);
     }
     
-    // Overload to accept System.Drawing.Color
-    public static RLLight CreatePointLight(string name, Vector3 position, Color color, float intensity = 1.0f)
-    {
-        var colorVec = new Vector3(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f);
-        return new RLLight(name, LightType.Point, position, colorVec, intensity);
-    }
-    
-    public static RLLight CreateSpotLight(string name, Vector3 position, Vector3 direction, Vector3 color, float intensity = 1.0f)
+    public static RLLight CreateSpotLight(string name, Vector3 position, Vector3 direction, Color color, float intensity = 1.0f)
     {
         return new RLLight(name, LightType.Spot, position, color, intensity)
         {

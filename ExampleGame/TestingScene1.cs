@@ -32,7 +32,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     private Camera debugCamera;
     private bool useDebugCamera;
     private RLImGuiEditor _editor;
-    private Sun sun;
+    private LightingCube lightingCube;
     private List<Entity> ObjectModels = new();
     
     public void OnLoad()
@@ -53,18 +53,19 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         ObjectModels.Add(plane);
         ObjectModels.Add(player);
         ObjectModels.Add(cube);
-        ObjectModels.Add(sun.SunSphere);
+        ObjectModels.Add(lightingCube.Cube);
         
         AddPhysics();
         
         player.ResetPhysics();
     }
 
+    private int counter;
     public void OnUpdate(double deltaTime)
     {
         PhysicsSystem.Update((float)deltaTime);
         
-        sun.Update();
+        lightingCube.Update();
     
         if (useDebugCamera)
         {
@@ -77,6 +78,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         }
         
         _editor.Update((float)deltaTime);
+        counter++;
     }
 
     public void OnRender(double deltaTime)
@@ -114,14 +116,14 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 
         foreach (var model in ObjectModels)
         {
-            if (model == sun.SunSphere)
+            if (model == lightingCube.Cube)
             {
-                sun.Render(activeCamera);
+                lightingCube.Render(activeCamera);
                 continue;
             }
 
             Graphics.Use(model);
-            LightManager.ApplyLightsToShader("lit", activeCamera.Position);
+            LightManager.ApplyLightsToShader(activeCamera.Position);
             Graphics.Update(activeCamera, model);
             Graphics.Draw(model);
         }
@@ -257,15 +259,12 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     {
         // initialise the LightManager class
         LightManager = new LightManager();
-        
-        // create a sun instance
-        sun = new Sun(Graphics, LightManager, "sun", new Vector3(0.5f, -1f, 0.3f), Color.NavajoWhite);
-        
-        // model translations
-        sun.Translate(new Vector3(0f, 20f, 0f));
-        
-        // change the intensity of the light
-        sun.Light.Intensity = 2.5f;
+
+        // create new light cube
+        lightingCube = new LightingCube(Graphics, LightManager, "lightCube", "light_cube", Color.White, LightType.Point);
+
+        // set intensity
+        lightingCube.Light.Intensity = 2.5f;
     }
 
     private void AddPhysics()
@@ -277,7 +276,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
             entity.PhysicsSystem = PhysicsSystem;
             
             // skip if type is a light
-            if (entity == sun.SunSphere)
+            if (entity == lightingCube.Cube)
                 continue;
             
             // add the entity to the physics system
