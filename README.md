@@ -20,6 +20,13 @@ then you build/restore it. you need a minimum of dotnet 9.0.
 dotnet run --project ExampleGame --Log=1
 ```
 
+# action download
+
+for some people like my friends who wanna test this out but do not want to sign into github, you
+can download it from this link: [nightly.link](https://nightly.link/4tkbytes/RedLight/workflows/dotnet-desktop.yaml/main?preview)
+
+fyi: this website is open source under [here](https://github.com/oprypin/nightly.link) and is very trustworthy :D
+
 # todo
 - [ ] create a proper readme file + documentation
 - [ ] scene creation - Had to change it back because it was broken, will fix later
