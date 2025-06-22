@@ -15,13 +15,16 @@ struct Light {
     vec3 diffuse;
     vec3 specular;
 
-// point
+    // point
     float constant;
     float linear;
     float quadratic;
+    
+    // spotlight
+    float cutOff;
 
-    int type; // 0 for directional, 1 for point
-// just like the LightType enum
+    int type; // 0 for directional, 1 for point, 2 for spotlight
+    // just like the LightType enum
 };
 
 in vec3 FragPos;
@@ -34,38 +37,77 @@ uniform Light light;
 
 void main()
 {
-    // ambient
+    // ambient calculation (common base)
     vec3 ambient = light.ambient * texture(material.diffuse, TexCoords).rgb;
-
-    // diffuse
     vec3 norm = normalize(Normal);
     vec3 lightDir;
+    vec3 result;
 
     if (light.type == 0) {
+        // Directional light
         lightDir = normalize(-light.direction);
-    } else { // light.type == 1
-        lightDir = normalize(light.position - FragPos);
+
+        float diff = max(dot(norm, lightDir), 0.0);
+        vec3 diffuse = light.diffuse * diff * texture(material.diffuse, TexCoords).rgb;
+
+        vec3 viewDir = normalize(viewPos - FragPos);
+        vec3 reflectDir = reflect(-lightDir, norm);
+        float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+        vec3 specular = light.specular * spec * texture(material.specular, TexCoords).rgb;
+
+        result = ambient + diffuse + specular;
     }
+    else if (light.type == 1) {
+        // Point light
+        lightDir = normalize(light.position - FragPos);
 
-    float diff = max(dot(norm, lightDir), 0.0);
-    vec3 diffuse = light.diffuse * diff * texture(material.diffuse, TexCoords).rgb;
+        float diff = max(dot(norm, lightDir), 0.0);
+        vec3 diffuse = light.diffuse * diff * texture(material.diffuse, TexCoords).rgb;
 
-    // specular
-    vec3 viewDir = normalize(viewPos - FragPos);
-    vec3 reflectDir = reflect(-lightDir, norm);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
-    vec3 specular = light.specular * spec * texture(material.specular, TexCoords).rgb;
+        vec3 viewDir = normalize(viewPos - FragPos);
+        vec3 reflectDir = reflect(-lightDir, norm);
+        float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+        vec3 specular = light.specular * spec * texture(material.specular, TexCoords).rgb;
 
-    if (light.type == 1) {
-        // attenuation
         float distance = length(light.position - FragPos);
         float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
 
         ambient *= attenuation;
         diffuse *= attenuation;
         specular *= attenuation;
+
+        result = ambient + diffuse + specular;
+    }
+    else if (light.type == 2) {
+        // Spotlight
+        lightDir = normalize(light.position - FragPos);
+
+        // Check if lighting is inside the spotlight cone
+        float theta = dot(lightDir, normalize(-light.direction));
+
+        if(theta > light.cutOff) {
+            // Inside the spotlight cone
+            float diff = max(dot(norm, lightDir), 0.0);
+            vec3 diffuse = light.diffuse * diff * texture(material.diffuse, TexCoords).rgb;
+
+            vec3 viewDir = normalize(viewPos - FragPos);
+            vec3 reflectDir = reflect(-lightDir, norm);
+            float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+            vec3 specular = light.specular * spec * texture(material.specular, TexCoords).rgb;
+
+            float distance = length(light.position - FragPos);
+            float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
+
+            // Keep ambient constant, only attenuate diffuse and specular
+            diffuse *= attenuation;
+            specular *= attenuation;
+
+            result = ambient + diffuse + specular;
+        } else {
+            // Outside the spotlight cone - only ambient
+            result = ambient;
+        }
     }
 
-    vec3 result = ambient + diffuse + specular;
     FragColor = vec4(result, 1.0);
 }

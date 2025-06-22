@@ -195,6 +195,12 @@ public class LightManager
 
                 shaderManager.SetUniform(shaderName, "light.type", (int)LightType.Point);
                 break;
+            case LightType.Spot:
+                shaderManager.SetUniformIfExists(shaderName, "light.position", light.Position);
+                shaderManager.SetUniformIfExists(shaderName, "light.direction", light.Direction);
+                shaderManager.SetUniformIfExists(shaderName, "light.cutOff", float.Cos(float.DegreesToRadians(light.CutoffAngle)));
+                shaderManager.SetUniform(shaderName, "light.type", (int)LightType.Spot);
+                break;
         }
     }
 

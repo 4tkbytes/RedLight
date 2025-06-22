@@ -40,7 +40,10 @@ public class LightingCube
                 if (attenuation.HasValue)
                     Light.Attenuation = attenuation.Value;
                 break;
-            
+            case LightType.Spot:
+                Light = RLLight.CreateSpotLight($"{Name}_light", direction.Value, position.Value, colour);
+                Light.Attenuation = attenuation.Value;
+                break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(lightType), lightType, null);
         }
@@ -59,18 +62,52 @@ public class LightingCube
     {
         return new LightingCube(graphics, lightManager, name, shaderId, position, null, colour, LightType.Point, attenuation);
     }
-    
-    public void Render(Camera camera)
+
+    public static LightingCube CreateSpotLightCube(RLGraphics graphics, LightManager lightManager, string name,
+        string shaderId, Vector3 position, Vector3 direction, Color colour, Attenuation attenuation)
     {
-        graphics.Use(Cube);
-        lightManager.ApplyLightCubeShader($"{Name}_cube", shaderId, ShaderManager.Instance);
-        graphics.Update(camera, Cube);
-        graphics.Draw(Cube);
+        return new LightingCube(graphics, lightManager, name, shaderId, position, direction, colour, LightType.Spot, attenuation);
+    }
+    
+    public static LightingCube CreateSpotLightCube(RLGraphics graphics, LightManager lightManager, string name,
+        string shaderId, Camera camera, Color colour, Attenuation attenuation)
+    {
+        return new LightingCube(graphics, lightManager, name, shaderId, camera.Position, camera.Front, colour, LightType.Spot, attenuation);
+    }
+    
+    public void Update(Camera camera = null)
+    {
+        Console.WriteLine($"[DEBUG] Updating {Name} light - Position: {Cube.Position}");
+        lightManager.UpdateLightPosition($"{Name}_cube", Cube.Position);
+
+        if (Light.Type == LightType.Spot && camera != null)
+        {
+            Console.WriteLine($"[DEBUG] Spotlight mode - Camera Pos: {camera.Position}, Front: {camera.Front}");
+            Light.Direction = camera.Front;
+            Light.Position = camera.Position;
+            Console.WriteLine($"[DEBUG] Updated spotlight - Direction: {Light.Direction}, Position: {Light.Position}");
+            lightManager.UpdateLightDirection($"{Name}_light", camera.Front);
+        }
+        else if (Light.Type == LightType.Spot && camera == null)
+        {
+            Console.WriteLine($"[WARNING] Spotlight without camera reference! Direction won't update.");
+        }
     }
 
-    public void Update()
+    public void Render(Camera camera)
     {
-        lightManager.UpdateLightPosition($"{Name}_cube", Cube.Position);
+        Console.WriteLine($"[DEBUG] Rendering {Name} light - Type: {Light.Type}");
+        graphics.Use(Cube);
+        Console.WriteLine($"[DEBUG] Using shader: {shaderId}");
+        lightManager.ApplyLightCubeShader($"{Name}_cube", shaderId, ShaderManager.Instance);
+    
+        if (Light.Type == LightType.Spot)
+        {
+            Console.WriteLine($"[DEBUG] Spotlight properties - Position: {Light.Position}, Direction: {Light.Direction}, CutOff: {Light.CutoffAngle}");
+        }
+    
+        graphics.Update(camera, Cube);
+        graphics.Draw(Cube);
     }
 
     public void Translate(Vector3 translation)

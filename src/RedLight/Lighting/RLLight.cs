@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using System.Drawing;
+using RedLight.Graphics;
 using RedLight.Utils;
 
 namespace RedLight.Lighting;
@@ -13,6 +14,7 @@ public class RLLight
     public Vector3 Colour { get; set; }
     public float Intensity { get; set; }
     public Attenuation Attenuation { get; set; }
+    public float CutoffAngle { get; set; } = 12.5f;
     
     public bool IsEnabled { get; set; } = true;
     
@@ -24,7 +26,6 @@ public class RLLight
         Position = position;
         Colour = RLUtils.ColorToVector3(color);
         Intensity = intensity;
-        Direction = Vector3.UnitZ;
     }
     
     public static RLLight CreateDirectionalLight(string name, Vector3 direction, Color color, float intensity = 2.0f)
@@ -39,10 +40,12 @@ public class RLLight
     {
         return new RLLight(name, LightType.Point, null, position, color, intensity);
     }
-
-    public RLLight SetAttenuation(Attenuation attenuation)
+    
+    public static RLLight CreateSpotLight(string name, Vector3 direction, Vector3 position, Color color, float intensity = 2.0f, float cutoffAngle = 12.5f)
     {
-        Attenuation = attenuation;
-        return this;
+        return new RLLight(name, LightType.Spot, direction, position, color, intensity)
+        {
+            CutoffAngle = cutoffAngle
+        };
     }
 }

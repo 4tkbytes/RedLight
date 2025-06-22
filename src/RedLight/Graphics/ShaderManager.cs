@@ -122,30 +122,36 @@ public class ShaderManager
     /// <param name="name"></param>
     /// <param name="value"></param>
     /// <typeparam name="T"></typeparam>
-    public void SetUniform<T>(string shaderId, string name, T value)
+    public void SetUniform<T>(string shaderId, string uniform, T value)
     {
-        Get(shaderId).Program.SetUniform(name, value);
+        Get(shaderId).Program.SetUniform(uniform, value);
     }
     
     /// <summary>
     /// Checks if a uniform with the given name exists in the shader program
     /// </summary>
-    /// <param name="name">The name of the uniform to check</param>
+    /// <param name="uniform">The name of the uniform to check</param>
     /// <returns>True if the uniform exists, false otherwise</returns>
-    public bool HasUniform(string shaderId, string name)
+    public bool HasUniform(string shaderId, string uniform)
     {
         var shader = Get(shaderId);
         var gl = shader.VertexShader.graphics.OpenGL;
         try
         {
-            int location = gl.GetUniformLocation(shader.Program.ProgramHandle, name);
+            int location = gl.GetUniformLocation(shader.Program.ProgramHandle, uniform);
             return location != -1;
         }
         catch (Exception ex)
         {
-            // Log.Warning("Error checking uniform {UniformName}: {Error}", name, ex.Message);
+            Log.Warning("Error checking uniform {UniformName}: {Error}", uniform, ex.Message);
             return false;
         }
+    }
+
+    public void SetUniformIfExists<T>(string shaderId, string uniform, T value)
+    {
+        if (HasUniform(shaderId, uniform))
+            SetUniform(shaderId, uniform, value);
     }
 
     public string GetProgramHandleString(string shaderId)
