@@ -1,0 +1,562 @@
+### YamlMime:ManagedReference
+items:
+- uid: RedLight.Lighting.Attenuation.DefaultValues
+  commentId: T:RedLight.Lighting.Attenuation.DefaultValues
+  id: Attenuation.DefaultValues
+  parent: RedLight.Lighting
+  children:
+  - RedLight.Lighting.Attenuation.DefaultValues.Range100
+  - RedLight.Lighting.Attenuation.DefaultValues.Range13
+  - RedLight.Lighting.Attenuation.DefaultValues.Range160
+  - RedLight.Lighting.Attenuation.DefaultValues.Range200
+  - RedLight.Lighting.Attenuation.DefaultValues.Range32
+  - RedLight.Lighting.Attenuation.DefaultValues.Range325
+  - RedLight.Lighting.Attenuation.DefaultValues.Range3250
+  - RedLight.Lighting.Attenuation.DefaultValues.Range50
+  - RedLight.Lighting.Attenuation.DefaultValues.Range600
+  - RedLight.Lighting.Attenuation.DefaultValues.Range65
+  langs:
+  - csharp
+  - vb
+  name: Attenuation.DefaultValues
+  nameWithType: Attenuation.DefaultValues
+  fullName: RedLight.Lighting.Attenuation.DefaultValues
+  type: Struct
+  source:
+    remote:
+      path: src/RedLight/Lighting/Attenuation.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: DefaultValues
+    path: src/RedLight/Lighting/Attenuation.cs
+    startLine: 24
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public readonly struct Attenuation.DefaultValues
+    content.vb: Public Structure Attenuation.DefaultValues
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+- uid: RedLight.Lighting.Attenuation.DefaultValues.Range3250
+  commentId: F:RedLight.Lighting.Attenuation.DefaultValues.Range3250
+  id: Range3250
+  parent: RedLight.Lighting.Attenuation.DefaultValues
+  langs:
+  - csharp
+  - vb
+  name: Range3250
+  nameWithType: Attenuation.DefaultValues.Range3250
+  fullName: RedLight.Lighting.Attenuation.DefaultValues.Range3250
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Lighting/Attenuation.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Range3250
+    path: src/RedLight/Lighting/Attenuation.cs
+    startLine: 26
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public static readonly Attenuation Range3250
+    return:
+      type: RedLight.Lighting.Attenuation
+    content.vb: Public Shared ReadOnly Range3250 As Attenuation
+- uid: RedLight.Lighting.Attenuation.DefaultValues.Range600
+  commentId: F:RedLight.Lighting.Attenuation.DefaultValues.Range600
+  id: Range600
+  parent: RedLight.Lighting.Attenuation.DefaultValues
+  langs:
+  - csharp
+  - vb
+  name: Range600
+  nameWithType: Attenuation.DefaultValues.Range600
+  fullName: RedLight.Lighting.Attenuation.DefaultValues.Range600
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Lighting/Attenuation.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Range600
+    path: src/RedLight/Lighting/Attenuation.cs
+    startLine: 27
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public static readonly Attenuation Range600
+    return:
+      type: RedLight.Lighting.Attenuation
+    content.vb: Public Shared ReadOnly Range600 As Attenuation
+- uid: RedLight.Lighting.Attenuation.DefaultValues.Range325
+  commentId: F:RedLight.Lighting.Attenuation.DefaultValues.Range325
+  id: Range325
+  parent: RedLight.Lighting.Attenuation.DefaultValues
+  langs:
+  - csharp
+  - vb
+  name: Range325
+  nameWithType: Attenuation.DefaultValues.Range325
+  fullName: RedLight.Lighting.Attenuation.DefaultValues.Range325
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Lighting/Attenuation.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Range325
+    path: src/RedLight/Lighting/Attenuation.cs
+    startLine: 28
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public static readonly Attenuation Range325
+    return:
+      type: RedLight.Lighting.Attenuation
+    content.vb: Public Shared ReadOnly Range325 As Attenuation
+- uid: RedLight.Lighting.Attenuation.DefaultValues.Range200
+  commentId: F:RedLight.Lighting.Attenuation.DefaultValues.Range200
+  id: Range200
+  parent: RedLight.Lighting.Attenuation.DefaultValues
+  langs:
+  - csharp
+  - vb
+  name: Range200
+  nameWithType: Attenuation.DefaultValues.Range200
+  fullName: RedLight.Lighting.Attenuation.DefaultValues.Range200
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Lighting/Attenuation.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Range200
+    path: src/RedLight/Lighting/Attenuation.cs
+    startLine: 29
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public static readonly Attenuation Range200
+    return:
+      type: RedLight.Lighting.Attenuation
+    content.vb: Public Shared ReadOnly Range200 As Attenuation
+- uid: RedLight.Lighting.Attenuation.DefaultValues.Range160
+  commentId: F:RedLight.Lighting.Attenuation.DefaultValues.Range160
+  id: Range160
+  parent: RedLight.Lighting.Attenuation.DefaultValues
+  langs:
+  - csharp
+  - vb
+  name: Range160
+  nameWithType: Attenuation.DefaultValues.Range160
+  fullName: RedLight.Lighting.Attenuation.DefaultValues.Range160
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Lighting/Attenuation.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Range160
+    path: src/RedLight/Lighting/Attenuation.cs
+    startLine: 30
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public static readonly Attenuation Range160
+    return:
+      type: RedLight.Lighting.Attenuation
+    content.vb: Public Shared ReadOnly Range160 As Attenuation
+- uid: RedLight.Lighting.Attenuation.DefaultValues.Range100
+  commentId: F:RedLight.Lighting.Attenuation.DefaultValues.Range100
+  id: Range100
+  parent: RedLight.Lighting.Attenuation.DefaultValues
+  langs:
+  - csharp
+  - vb
+  name: Range100
+  nameWithType: Attenuation.DefaultValues.Range100
+  fullName: RedLight.Lighting.Attenuation.DefaultValues.Range100
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Lighting/Attenuation.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Range100
+    path: src/RedLight/Lighting/Attenuation.cs
+    startLine: 31
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public static readonly Attenuation Range100
+    return:
+      type: RedLight.Lighting.Attenuation
+    content.vb: Public Shared ReadOnly Range100 As Attenuation
+- uid: RedLight.Lighting.Attenuation.DefaultValues.Range65
+  commentId: F:RedLight.Lighting.Attenuation.DefaultValues.Range65
+  id: Range65
+  parent: RedLight.Lighting.Attenuation.DefaultValues
+  langs:
+  - csharp
+  - vb
+  name: Range65
+  nameWithType: Attenuation.DefaultValues.Range65
+  fullName: RedLight.Lighting.Attenuation.DefaultValues.Range65
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Lighting/Attenuation.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Range65
+    path: src/RedLight/Lighting/Attenuation.cs
+    startLine: 32
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public static readonly Attenuation Range65
+    return:
+      type: RedLight.Lighting.Attenuation
+    content.vb: Public Shared ReadOnly Range65 As Attenuation
+- uid: RedLight.Lighting.Attenuation.DefaultValues.Range50
+  commentId: F:RedLight.Lighting.Attenuation.DefaultValues.Range50
+  id: Range50
+  parent: RedLight.Lighting.Attenuation.DefaultValues
+  langs:
+  - csharp
+  - vb
+  name: Range50
+  nameWithType: Attenuation.DefaultValues.Range50
+  fullName: RedLight.Lighting.Attenuation.DefaultValues.Range50
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Lighting/Attenuation.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Range50
+    path: src/RedLight/Lighting/Attenuation.cs
+    startLine: 33
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public static readonly Attenuation Range50
+    return:
+      type: RedLight.Lighting.Attenuation
+    content.vb: Public Shared ReadOnly Range50 As Attenuation
+- uid: RedLight.Lighting.Attenuation.DefaultValues.Range32
+  commentId: F:RedLight.Lighting.Attenuation.DefaultValues.Range32
+  id: Range32
+  parent: RedLight.Lighting.Attenuation.DefaultValues
+  langs:
+  - csharp
+  - vb
+  name: Range32
+  nameWithType: Attenuation.DefaultValues.Range32
+  fullName: RedLight.Lighting.Attenuation.DefaultValues.Range32
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Lighting/Attenuation.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Range32
+    path: src/RedLight/Lighting/Attenuation.cs
+    startLine: 34
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public static readonly Attenuation Range32
+    return:
+      type: RedLight.Lighting.Attenuation
+    content.vb: Public Shared ReadOnly Range32 As Attenuation
+- uid: RedLight.Lighting.Attenuation.DefaultValues.Range13
+  commentId: F:RedLight.Lighting.Attenuation.DefaultValues.Range13
+  id: Range13
+  parent: RedLight.Lighting.Attenuation.DefaultValues
+  langs:
+  - csharp
+  - vb
+  name: Range13
+  nameWithType: Attenuation.DefaultValues.Range13
+  fullName: RedLight.Lighting.Attenuation.DefaultValues.Range13
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Lighting/Attenuation.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Range13
+    path: src/RedLight/Lighting/Attenuation.cs
+    startLine: 35
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public static readonly Attenuation Range13
+    return:
+      type: RedLight.Lighting.Attenuation
+    content.vb: Public Shared ReadOnly Range13 As Attenuation
+references:
+- uid: RedLight.Lighting
+  commentId: N:RedLight.Lighting
+  href: RedLight.html
+  name: RedLight.Lighting
+  nameWithType: RedLight.Lighting
+  fullName: RedLight.Lighting
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Lighting
+    name: Lighting
+    href: RedLight.Lighting.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Lighting
+    name: Lighting
+    href: RedLight.Lighting.html
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  name: Equals(object)
+  nameWithType: ValueType.Equals(object)
+  fullName: System.ValueType.Equals(object)
+  nameWithType.vb: ValueType.Equals(Object)
+  fullName.vb: System.ValueType.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: RedLight.Lighting.Attenuation
+  commentId: T:RedLight.Lighting.Attenuation
+  parent: RedLight.Lighting
+  href: RedLight.Lighting.Attenuation.html
+  name: Attenuation
+  nameWithType: Attenuation
+  fullName: RedLight.Lighting.Attenuation

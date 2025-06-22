@@ -1,0 +1,116 @@
+### YamlMime:ManagedReference
+items:
+- uid: RedLight.Graphics.ModelType
+  commentId: T:RedLight.Graphics.ModelType
+  id: ModelType
+  parent: RedLight.Graphics
+  children:
+  - RedLight.Graphics.ModelType.Entity
+  - RedLight.Graphics.ModelType.Light
+  langs:
+  - csharp
+  - vb
+  name: ModelType
+  nameWithType: ModelType
+  fullName: RedLight.Graphics.ModelType
+  type: Enum
+  source:
+    remote:
+      path: src/RedLight/Graphics/ModelType.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: ModelType
+    path: src/RedLight/Graphics/ModelType.cs
+    startLine: 2
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public enum ModelType
+    content.vb: Public Enum ModelType
+- uid: RedLight.Graphics.ModelType.Entity
+  commentId: F:RedLight.Graphics.ModelType.Entity
+  id: Entity
+  parent: RedLight.Graphics.ModelType
+  langs:
+  - csharp
+  - vb
+  name: Entity
+  nameWithType: ModelType.Entity
+  fullName: RedLight.Graphics.ModelType.Entity
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Graphics/ModelType.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Entity
+    path: src/RedLight/Graphics/ModelType.cs
+    startLine: 7
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  summary: The model type is an entity. Wow so crazy!!?!1
+  example: []
+  syntax:
+    content: Entity = 0
+    return:
+      type: RedLight.Graphics.ModelType
+- uid: RedLight.Graphics.ModelType.Light
+  commentId: F:RedLight.Graphics.ModelType.Light
+  id: Light
+  parent: RedLight.Graphics.ModelType
+  langs:
+  - csharp
+  - vb
+  name: Light
+  nameWithType: ModelType.Light
+  fullName: RedLight.Graphics.ModelType.Light
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Graphics/ModelType.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Light
+    path: src/RedLight/Graphics/ModelType.cs
+    startLine: 12
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  summary: The model type is a light. Wow so crazy!!?!1
+  example: []
+  syntax:
+    content: Light = 1
+    return:
+      type: RedLight.Graphics.ModelType
+references:
+- uid: RedLight.Graphics
+  commentId: N:RedLight.Graphics
+  href: RedLight.html
+  name: RedLight.Graphics
+  nameWithType: RedLight.Graphics
+  fullName: RedLight.Graphics
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Graphics
+    name: Graphics
+    href: RedLight.Graphics.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Graphics
+    name: Graphics
+    href: RedLight.Graphics.html
+- uid: RedLight.Graphics.ModelType
+  commentId: T:RedLight.Graphics.ModelType
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.ModelType.html
+  name: ModelType
+  nameWithType: ModelType
+  fullName: RedLight.Graphics.ModelType
