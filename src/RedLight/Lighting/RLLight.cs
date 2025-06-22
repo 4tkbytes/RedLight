@@ -47,7 +47,10 @@ public class RLLight
     {
         return new RLLight(name, LightType.Spot, direction, position, color, intensity)
         {
-            InnerCutoff = innerCutoffAngle
+            Direction = Vector3.Normalize(direction),
+            InnerCutoff = innerCutoffAngle,
+            OuterCutoff = outerCutoffAngle, // Make sure this is set
+            Attenuation = new Attenuation()
         };
     }
 }

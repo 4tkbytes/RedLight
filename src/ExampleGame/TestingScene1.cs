@@ -10,6 +10,7 @@ using System.Numerics;
 using RedLight.Lighting;
 using RedLight.Physics;
 using RedLight.UI;
+using RedLight.Utils;
 using Camera = RedLight.Graphics.Camera;
 using Plane = RedLight.Entities.Plane;
 
@@ -33,7 +34,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     private Camera debugCamera;
     private bool useDebugCamera;
     private RLImGuiEditor _editor;
-    private LightingCube lampCube;
+    private LightingCube lampLight;
     private LightingCube flashLight;
     
     public override void OnLoad()
@@ -54,7 +55,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         AddToLists(plane);
         AddToLists(player);
         AddToLists(cube);
-        // AddToLists(lampCube);
+        AddToLists(lampLight);
         AddToLists(flashLight);
         
         player.ResetPhysics();
@@ -64,7 +65,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     {
         PhysicsSystem.Update((float)deltaTime);
         
-        // lampCube.Update(player.Camera);
+        lampLight.Update(player.Camera);
         flashLight.Update(player.Camera);
     
         if (useDebugCamera)
@@ -221,33 +222,16 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 
         // Create any type of light (within the enum)
         // This one is a spotlight, like a flash light
-        // lampCube = LightingCube.CreateSpotLightCube(LightManager, "lightCubeSpot", "light_cube", playerCamera,
-        //     Color.AntiqueWhite, Attenuation.DefaultValues.Range50);
+        lampLight = LightingCube.CreateSpotLightCube(LightManager, "lightCubeSpot", "light_cube", playerCamera,
+            Color.AntiqueWhite, Attenuation.DefaultValues.Range50);
 
         // // This one is a directional light, such as that of the sun
-        // lightingCube = LightingCube.CreateDirectionalLightCube(LightManager, "lightCubeDirectional", "light_cube",
+        // sunLight = LightingCube.CreateDirectionalLightCube(LightManager, "lightCubeDirectional", "light_cube",
         //     RLConstants.RL_SUN_DIRECTION, Color.AntiqueWhite);
         //
         // // This one is a point light, like a lamp
         flashLight = LightingCube.CreatePointLightCube(LightManager, "lightCubePoint", "light_cube", Vector3.Zero,
             Color.AntiqueWhite, Attenuation.DefaultValues.Range50);
     }
-
-    // private void AddPhysics()
-    // {
-    //     // iterate through entity list
-    //     foreach (var entity in ObjectModels)
-    //     {
-    //         // init entitys physics system
-    //         entity.PhysicsSystem = PhysicsSystem;
-    //         
-    //         // skip if type is a light
-    //         if (entity == lampCube.Cube)
-    //             continue;
-    //         
-    //         // add the entity to the physics system
-    //         PhysicsSystem.AddEntity(entity);
-    //     }
-    // }
     #endregion
 }

@@ -110,36 +110,124 @@ public class LightManager
     {
         var shaderManager = ShaderManager.Instance;
 
-        foreach (var light in _lights.Values)
+        try
         {
-            try
-            {
-                if (shaderManager.HasUniform(shaderName, "viewPos"))
-                    shaderManager.SetUniform(shaderName, "viewPos", viewPosition);
+            // Set view position
+            if (shaderManager.HasUniform(shaderName, "viewPos"))
+                shaderManager.SetUniform(shaderName, "viewPos", viewPosition);
 
-                var enabledLights = _lights.Values.Where(l => l.IsEnabled).ToList();
+            // Set material properties
+            if (shaderManager.HasUniform(shaderName, "material.shininess"))
+                shaderManager.SetUniform(shaderName, "material.shininess", _shininess);
             
-                var primaryLight = enabledLights.FirstOrDefault();
-                if (primaryLight != null)
-                {
-                    ApplySingleLight(shaderName, light, shaderManager);
-                }
-                else
-                {
-                    if (shaderManager.HasUniform(shaderName, "light.colour"))
-                        shaderManager.SetUniform(shaderName, "light.colour", Vector3.Zero);
-                
-                    if (shaderManager.HasUniform(shaderName, "light.position"))
-                        shaderManager.SetUniform(shaderName, "light.position", Vector3.Zero);
-                }
-                
-                if (shaderManager.HasUniform(shaderName, "material.shininess"))
-                    shaderManager.SetUniform(shaderName, "material.shininess", _shininess);
-            }
-            catch (Exception ex)
+            if (shaderManager.HasUniform(shaderName, "material.diffuse"))
+                shaderManager.SetUniform(shaderName, "material.diffuse", 0); // Texture unit 0
+            
+            if (shaderManager.HasUniform(shaderName, "material.specular"))
+                shaderManager.SetUniform(shaderName, "material.specular", 1); // Texture unit 1
+
+            var enabledLights = _lights.Values.Where(l => l.IsEnabled).ToList();
+
+            // Apply directional light
+            var dirLight = enabledLights.FirstOrDefault(l => l.Type == LightType.Directional);
+            ApplyDirectionalLight(shaderName, dirLight, shaderManager);
+
+            // Apply point lights (up to 4)
+            var pointLights = enabledLights.Where(l => l.Type == LightType.Point).Take(4).ToList();
+            ApplyPointLights(shaderName, pointLights, shaderManager);
+
+            // Apply spotlight
+            var spotLight = enabledLights.FirstOrDefault(l => l.Type == LightType.Spot);
+            ApplySpotLight(shaderName, spotLight, shaderManager);
+        }
+        catch (Exception ex)
+        {
+            Log.Error("Error applying lights to shader {ShaderName}: {Error}", shaderName, ex.Message);
+        }
+    }
+
+    private void ApplyDirectionalLight(string shaderName, RLLight? light, ShaderManager shaderManager)
+    {
+        string prefix = "dirLight";
+        
+        if (light != null)
+        {
+            shaderManager.SetUniformIfExists(shaderName, $"{prefix}.direction", light.Direction ?? Vector3.UnitY);
+            shaderManager.SetUniformIfExists(shaderName, $"{prefix}.ambient", light.Colour * 0.2f * light.Intensity);
+            shaderManager.SetUniformIfExists(shaderName, $"{prefix}.diffuse", light.Colour * 0.5f * light.Intensity);
+            shaderManager.SetUniformIfExists(shaderName, $"{prefix}.specular", light.Colour * 1.0f * light.Intensity);
+        }
+        else
+        {
+            // Set default/disabled values
+            shaderManager.SetUniformIfExists(shaderName, $"{prefix}.direction", Vector3.UnitY);
+            shaderManager.SetUniformIfExists(shaderName, $"{prefix}.ambient", Vector3.Zero);
+            shaderManager.SetUniformIfExists(shaderName, $"{prefix}.diffuse", Vector3.Zero);
+            shaderManager.SetUniformIfExists(shaderName, $"{prefix}.specular", Vector3.Zero);
+        }
+    }
+
+    private void ApplyPointLights(string shaderName, List<RLLight> lights, ShaderManager shaderManager)
+    {
+        for (int i = 0; i < 4; i++) // NR_POINT_LIGHTS = 4
+        {
+            string prefix = $"pointLights[{i}]";
+            
+            if (i < lights.Count)
             {
-                Log.Error("Error applying lights to shader {ShaderName}: {Error}", shaderName, ex.Message);
+                var light = lights[i];
+                shaderManager.SetUniformIfExists(shaderName, $"{prefix}.position", light.Position ?? Vector3.Zero);
+                shaderManager.SetUniformIfExists(shaderName, $"{prefix}.ambient", light.Colour * 0.2f * light.Intensity);
+                shaderManager.SetUniformIfExists(shaderName, $"{prefix}.diffuse", light.Colour * 0.5f * light.Intensity);
+                shaderManager.SetUniformIfExists(shaderName, $"{prefix}.specular", light.Colour * 1.0f * light.Intensity);
+                shaderManager.SetUniformIfExists(shaderName, $"{prefix}.constant", light.Attenuation.Constant);
+                shaderManager.SetUniformIfExists(shaderName, $"{prefix}.linear", light.Attenuation.Linear);
+                shaderManager.SetUniformIfExists(shaderName, $"{prefix}.quadratic", light.Attenuation.Quadratic);
             }
+            else
+            {
+                // Set default/disabled values for unused slots
+                shaderManager.SetUniformIfExists(shaderName, $"{prefix}.position", Vector3.Zero);
+                shaderManager.SetUniformIfExists(shaderName, $"{prefix}.ambient", Vector3.Zero);
+                shaderManager.SetUniformIfExists(shaderName, $"{prefix}.diffuse", Vector3.Zero);
+                shaderManager.SetUniformIfExists(shaderName, $"{prefix}.specular", Vector3.Zero);
+                shaderManager.SetUniformIfExists(shaderName, $"{prefix}.constant", 1.0f);
+                shaderManager.SetUniformIfExists(shaderName, $"{prefix}.linear", 0.0f);
+                shaderManager.SetUniformIfExists(shaderName, $"{prefix}.quadratic", 0.0f);
+            }
+        }
+    }
+
+    private void ApplySpotLight(string shaderName, RLLight? light, ShaderManager shaderManager)
+    {
+        string prefix = "spotLight";
+        
+        if (light != null)
+        {
+            shaderManager.SetUniformIfExists(shaderName, $"{prefix}.position", light.Position ?? Vector3.Zero);
+            shaderManager.SetUniformIfExists(shaderName, $"{prefix}.direction", light.Direction ?? Vector3.UnitY);
+            shaderManager.SetUniformIfExists(shaderName, $"{prefix}.ambient", light.Colour * 0.2f * light.Intensity);
+            shaderManager.SetUniformIfExists(shaderName, $"{prefix}.diffuse", light.Colour * 0.5f * light.Intensity);
+            shaderManager.SetUniformIfExists(shaderName, $"{prefix}.specular", light.Colour * 1.0f * light.Intensity);
+            shaderManager.SetUniformIfExists(shaderName, $"{prefix}.constant", light.Attenuation.Constant);
+            shaderManager.SetUniformIfExists(shaderName, $"{prefix}.linear", light.Attenuation.Linear);
+            shaderManager.SetUniformIfExists(shaderName, $"{prefix}.quadratic", light.Attenuation.Quadratic);
+            shaderManager.SetUniformIfExists(shaderName, $"{prefix}.cutOff", MathF.Cos(MathF.PI * light.InnerCutoff / 180.0f));
+            shaderManager.SetUniformIfExists(shaderName, $"{prefix}.outerCutOff", MathF.Cos(MathF.PI * light.OuterCutoff / 180.0f));
+        }
+        else
+        {
+            // Set default/disabled values
+            shaderManager.SetUniformIfExists(shaderName, $"{prefix}.position", Vector3.Zero);
+            shaderManager.SetUniformIfExists(shaderName, $"{prefix}.direction", Vector3.UnitY);
+            shaderManager.SetUniformIfExists(shaderName, $"{prefix}.ambient", Vector3.Zero);
+            shaderManager.SetUniformIfExists(shaderName, $"{prefix}.diffuse", Vector3.Zero);
+            shaderManager.SetUniformIfExists(shaderName, $"{prefix}.specular", Vector3.Zero);
+            shaderManager.SetUniformIfExists(shaderName, $"{prefix}.constant", 1.0f);
+            shaderManager.SetUniformIfExists(shaderName, $"{prefix}.linear", 0.0f);
+            shaderManager.SetUniformIfExists(shaderName, $"{prefix}.quadratic", 0.0f);
+            shaderManager.SetUniformIfExists(shaderName, $"{prefix}.cutOff", MathF.Cos(MathF.PI * 12.5f / 180.0f));
+            shaderManager.SetUniformIfExists(shaderName, $"{prefix}.outerCutOff", MathF.Cos(MathF.PI * 17.5f / 180.0f));
         }
     }
 
