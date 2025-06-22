@@ -14,7 +14,8 @@ public class RLLight
     public Vector3 Colour { get; set; }
     public float Intensity { get; set; }
     public Attenuation Attenuation { get; set; }
-    public float CutoffAngle { get; set; } = 12.5f;
+    public float InnerCutoff { get; set; } = 12.5f;
+    public float OuterCutoff { get; set; } = 17.5f;
     
     public bool IsEnabled { get; set; } = true;
     
@@ -41,11 +42,12 @@ public class RLLight
         return new RLLight(name, LightType.Point, null, position, color, intensity);
     }
     
-    public static RLLight CreateSpotLight(string name, Vector3 direction, Vector3 position, Color color, float intensity = 2.0f, float cutoffAngle = 12.5f)
+    public static RLLight CreateSpotLight(string name, Vector3 direction, Vector3 position, Color color, 
+        float intensity = 2.0f, float innerCutoffAngle = 12.5f, float outerCutoffAngle = 17.5f)
     {
         return new RLLight(name, LightType.Spot, direction, position, color, intensity)
         {
-            CutoffAngle = cutoffAngle
+            InnerCutoff = innerCutoffAngle
         };
     }
 }

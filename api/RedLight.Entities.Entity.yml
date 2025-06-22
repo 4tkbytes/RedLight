@@ -5,7 +5,7 @@ items:
   id: Entity
   parent: RedLight.Entities
   children:
-  - RedLight.Entities.Entity.#ctor(RedLight.Graphics.RLModel,System.Boolean)
+  - RedLight.Entities.Entity.#ctor(RedLight.Graphics.RLModel,RedLight.Graphics.ModelType,System.Boolean)
   - RedLight.Entities.Entity.AbsoluteReset
   - RedLight.Entities.Entity.ApplyGravity
   - RedLight.Entities.Entity.ApplyHitboxConfig
@@ -15,8 +15,9 @@ items:
   - RedLight.Entities.Entity.DefaultBoundingBoxMin
   - RedLight.Entities.Entity.DefaultRotation
   - RedLight.Entities.Entity.DisableImGuizmo
-  - RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.RLGraphics,RedLight.Graphics.Camera)
+  - RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.Camera)
   - RedLight.Entities.Entity.EnableImGuizmo(Hexa.NET.ImGuizmo.ImGuizmoOperation,Hexa.NET.ImGuizmo.ImGuizmoMode)
+  - RedLight.Entities.Entity.EnablePhysics
   - RedLight.Entities.Entity.FrictionCoefficient
   - RedLight.Entities.Entity.GuizmoMode
   - RedLight.Entities.Entity.GuizmoOperation
@@ -28,11 +29,11 @@ items:
   - RedLight.Entities.Entity.Mass
   - RedLight.Entities.Entity.Model
   - RedLight.Entities.Entity.ModelMatrix
+  - RedLight.Entities.Entity.ModelType
   - RedLight.Entities.Entity.Name
   - RedLight.Entities.Entity.ObjectCollisionSides
   - RedLight.Entities.Entity.PhysicsSystem
   - RedLight.Entities.Entity.Position
-  - RedLight.Entities.Entity.RenderImGuizmo(RedLight.Graphics.Camera,System.Numerics.Vector2,System.Numerics.Vector2)
   - RedLight.Entities.Entity.Reset(System.Boolean)
   - RedLight.Entities.Entity.Rotate(System.Single,System.Numerics.Vector3)
   - RedLight.Entities.Entity.Rotation
@@ -75,7 +76,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Entity
     path: src/RedLight/Entities/Entity.cs
-    startLine: 14
+    startLine: 15
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -118,7 +119,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: _positionDefault
     path: src/RedLight/Entities/Entity.cs
-    startLine: 22
+    startLine: 23
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -145,7 +146,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: _rotationDefault
     path: src/RedLight/Entities/Entity.cs
-    startLine: 23
+    startLine: 24
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -172,7 +173,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: _scaleDefault
     path: src/RedLight/Entities/Entity.cs
-    startLine: 24
+    startLine: 25
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -199,7 +200,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Velocity
     path: src/RedLight/Entities/Entity.cs
-    startLine: 26
+    startLine: 27
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -228,7 +229,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: ApplyGravity
     path: src/RedLight/Entities/Entity.cs
-    startLine: 27
+    startLine: 28
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -239,6 +240,35 @@ items:
       type: System.Boolean
     content.vb: Public Property ApplyGravity As Boolean
   overload: RedLight.Entities.Entity.ApplyGravity*
+- uid: RedLight.Entities.Entity.EnablePhysics
+  commentId: P:RedLight.Entities.Entity.EnablePhysics
+  id: EnablePhysics
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: EnablePhysics
+  nameWithType: Entity.EnablePhysics
+  fullName: RedLight.Entities.Entity.EnablePhysics
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: EnablePhysics
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 29
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: public bool EnablePhysics { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property EnablePhysics As Boolean
+  overload: RedLight.Entities.Entity.EnablePhysics*
 - uid: RedLight.Entities.Entity.Mass
   commentId: P:RedLight.Entities.Entity.Mass
   id: Mass
@@ -257,7 +287,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Mass
     path: src/RedLight/Entities/Entity.cs
-    startLine: 28
+    startLine: 30
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -286,7 +316,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: FrictionCoefficient
     path: src/RedLight/Entities/Entity.cs
-    startLine: 29
+    startLine: 31
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -315,7 +345,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: BoundingBoxMin
     path: src/RedLight/Entities/Entity.cs
-    startLine: 31
+    startLine: 33
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -344,7 +374,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: BoundingBoxMax
     path: src/RedLight/Entities/Entity.cs
-    startLine: 32
+    startLine: 34
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -373,7 +403,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: DefaultBoundingBoxMin
     path: src/RedLight/Entities/Entity.cs
-    startLine: 33
+    startLine: 35
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -402,7 +432,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: DefaultBoundingBoxMax
     path: src/RedLight/Entities/Entity.cs
-    startLine: 34
+    startLine: 36
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -431,7 +461,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: HitboxConfig
     path: src/RedLight/Entities/Entity.cs
-    startLine: 35
+    startLine: 37
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -460,7 +490,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: ObjectCollisionSides
     path: src/RedLight/Entities/Entity.cs
-    startLine: 36
+    startLine: 38
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -489,7 +519,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: IsColliding
     path: src/RedLight/Entities/Entity.cs
-    startLine: 37
+    startLine: 39
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -518,7 +548,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: IsHitboxShown
     path: src/RedLight/Entities/Entity.cs
-    startLine: 38
+    startLine: 40
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -547,7 +577,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Name
     path: src/RedLight/Entities/Entity.cs
-    startLine: 40
+    startLine: 42
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -576,7 +606,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: PhysicsSystem
     path: src/RedLight/Entities/Entity.cs
-    startLine: 45
+    startLine: 47
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -603,7 +633,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: UseImGuizmo
     path: src/RedLight/Entities/Entity.cs
-    startLine: 48
+    startLine: 50
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -632,7 +662,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: GuizmoOperation
     path: src/RedLight/Entities/Entity.cs
-    startLine: 49
+    startLine: 51
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -661,7 +691,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: GuizmoMode
     path: src/RedLight/Entities/Entity.cs
-    startLine: 50
+    startLine: 52
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -672,6 +702,35 @@ items:
       type: Hexa.NET.ImGuizmo.ImGuizmoMode
     content.vb: Public Property GuizmoMode As ImGuizmoMode
   overload: RedLight.Entities.Entity.GuizmoMode*
+- uid: RedLight.Entities.Entity.ModelType
+  commentId: P:RedLight.Entities.Entity.ModelType
+  id: ModelType
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: ModelType
+  nameWithType: Entity.ModelType
+  fullName: RedLight.Entities.Entity.ModelType
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: ModelType
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 54
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: public ModelType ModelType { get; set; }
+    parameters: []
+    return:
+      type: RedLight.Graphics.ModelType
+    content.vb: Public Property ModelType As ModelType
+  overload: RedLight.Entities.Entity.ModelType*
 - uid: RedLight.Entities.Entity.Model
   commentId: P:RedLight.Entities.Entity.Model
   id: Model
@@ -690,7 +749,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Model
     path: src/RedLight/Entities/Entity.cs
-    startLine: 56
+    startLine: 60
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -721,7 +780,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: ModelMatrix
     path: src/RedLight/Entities/Entity.cs
-    startLine: 65
+    startLine: 69
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -752,7 +811,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Position
     path: src/RedLight/Entities/Entity.cs
-    startLine: 74
+    startLine: 78
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -783,7 +842,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Scale
     path: src/RedLight/Entities/Entity.cs
-    startLine: 83
+    startLine: 87
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -814,7 +873,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Rotation
     path: src/RedLight/Entities/Entity.cs
-    startLine: 98
+    startLine: 102
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -827,16 +886,16 @@ items:
       type: System.Numerics.Vector3
     content.vb: Public Property Rotation As Vector3
   overload: RedLight.Entities.Entity.Rotation*
-- uid: RedLight.Entities.Entity.#ctor(RedLight.Graphics.RLModel,System.Boolean)
-  commentId: M:RedLight.Entities.Entity.#ctor(RedLight.Graphics.RLModel,System.Boolean)
-  id: '#ctor(RedLight.Graphics.RLModel,System.Boolean)'
+- uid: RedLight.Entities.Entity.#ctor(RedLight.Graphics.RLModel,RedLight.Graphics.ModelType,System.Boolean)
+  commentId: M:RedLight.Entities.Entity.#ctor(RedLight.Graphics.RLModel,RedLight.Graphics.ModelType,System.Boolean)
+  id: '#ctor(RedLight.Graphics.RLModel,RedLight.Graphics.ModelType,System.Boolean)'
   parent: RedLight.Entities.Entity
   langs:
   - csharp
   - vb
-  name: Entity(RLModel, bool)
-  nameWithType: Entity.Entity(RLModel, bool)
-  fullName: RedLight.Entities.Entity.Entity(RedLight.Graphics.RLModel, bool)
+  name: Entity(RLModel, ModelType, bool)
+  nameWithType: Entity.Entity(RLModel, ModelType, bool)
+  fullName: RedLight.Entities.Entity.Entity(RedLight.Graphics.RLModel, RedLight.Graphics.ModelType, bool)
   type: Constructor
   source:
     remote:
@@ -845,22 +904,24 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: .ctor
     path: src/RedLight/Entities/Entity.cs
-    startLine: 138
+    startLine: 142
   assemblies:
   - RedLight
   namespace: RedLight.Entities
   syntax:
-    content: protected Entity(RLModel model, bool applyGravity = true)
+    content: protected Entity(RLModel model, ModelType modelType, bool applyGravity = true)
     parameters:
     - id: model
       type: RedLight.Graphics.RLModel
+    - id: modelType
+      type: RedLight.Graphics.ModelType
     - id: applyGravity
       type: System.Boolean
-    content.vb: Protected Sub New(model As RLModel, applyGravity As Boolean = True)
+    content.vb: Protected Sub New(model As RLModel, modelType As ModelType, applyGravity As Boolean = True)
   overload: RedLight.Entities.Entity.#ctor*
-  nameWithType.vb: Entity.New(RLModel, Boolean)
-  fullName.vb: RedLight.Entities.Entity.New(RedLight.Graphics.RLModel, Boolean)
-  name.vb: New(RLModel, Boolean)
+  nameWithType.vb: Entity.New(RLModel, ModelType, Boolean)
+  fullName.vb: RedLight.Entities.Entity.New(RedLight.Graphics.RLModel, RedLight.Graphics.ModelType, Boolean)
+  name.vb: New(RLModel, ModelType, Boolean)
 - uid: RedLight.Entities.Entity.Translate(System.Numerics.Vector3)
   commentId: M:RedLight.Entities.Entity.Translate(System.Numerics.Vector3)
   id: Translate(System.Numerics.Vector3)
@@ -879,7 +940,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Translate
     path: src/RedLight/Entities/Entity.cs
-    startLine: 158
+    startLine: 163
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -912,7 +973,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Rotate
     path: src/RedLight/Entities/Entity.cs
-    startLine: 169
+    startLine: 174
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -950,7 +1011,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: SetScale
     path: src/RedLight/Entities/Entity.cs
-    startLine: 181
+    startLine: 186
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -983,7 +1044,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: SetPosition
     path: src/RedLight/Entities/Entity.cs
-    startLine: 191
+    startLine: 196
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -1016,7 +1077,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: SetModel
     path: src/RedLight/Entities/Entity.cs
-    startLine: 210
+    startLine: 215
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -1049,7 +1110,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: AbsoluteReset
     path: src/RedLight/Entities/Entity.cs
-    startLine: 220
+    startLine: 225
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -1079,7 +1140,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: SetDefault
     path: src/RedLight/Entities/Entity.cs
-    startLine: 232
+    startLine: 237
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -1109,7 +1170,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: SetDefault
     path: src/RedLight/Entities/Entity.cs
-    startLine: 241
+    startLine: 246
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -1147,7 +1208,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Reset
     path: src/RedLight/Entities/Entity.cs
-    startLine: 256
+    startLine: 261
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -1183,7 +1244,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: SetRotation
     path: src/RedLight/Entities/Entity.cs
-    startLine: 296
+    startLine: 301
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -1216,7 +1277,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: SetRotationDegrees
     path: src/RedLight/Entities/Entity.cs
-    startLine: 318
+    startLine: 323
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -1249,7 +1310,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: ApplyHitboxConfig
     path: src/RedLight/Entities/Entity.cs
-    startLine: 328
+    startLine: 333
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -1275,7 +1336,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: SetHitboxConfig
     path: src/RedLight/Entities/Entity.cs
-    startLine: 337
+    startLine: 342
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -1304,7 +1365,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: EnableImGuizmo
     path: src/RedLight/Entities/Entity.cs
-    startLine: 343
+    startLine: 348
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -1337,7 +1398,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: DisableImGuizmo
     path: src/RedLight/Entities/Entity.cs
-    startLine: 351
+    startLine: 356
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -1347,51 +1408,16 @@ items:
       type: RedLight.Entities.Entity
     content.vb: Public Function DisableImGuizmo() As Entity
   overload: RedLight.Entities.Entity.DisableImGuizmo*
-- uid: RedLight.Entities.Entity.RenderImGuizmo(RedLight.Graphics.Camera,System.Numerics.Vector2,System.Numerics.Vector2)
-  commentId: M:RedLight.Entities.Entity.RenderImGuizmo(RedLight.Graphics.Camera,System.Numerics.Vector2,System.Numerics.Vector2)
-  id: RenderImGuizmo(RedLight.Graphics.Camera,System.Numerics.Vector2,System.Numerics.Vector2)
+- uid: RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.Camera)
+  commentId: M:RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.Camera)
+  id: DrawBoundingBox(RedLight.Graphics.Camera)
   parent: RedLight.Entities.Entity
   langs:
   - csharp
   - vb
-  name: RenderImGuizmo(Camera, Vector2, Vector2)
-  nameWithType: Entity.RenderImGuizmo(Camera, Vector2, Vector2)
-  fullName: RedLight.Entities.Entity.RenderImGuizmo(RedLight.Graphics.Camera, System.Numerics.Vector2, System.Numerics.Vector2)
-  type: Method
-  source:
-    remote:
-      path: src/RedLight/Entities/Entity.cs
-      branch: main
-      repo: git@github.com:4tkbytes/RedLight
-    id: RenderImGuizmo
-    path: src/RedLight/Entities/Entity.cs
-    startLine: 357
-  assemblies:
-  - RedLight
-  namespace: RedLight.Entities
-  syntax:
-    content: public bool RenderImGuizmo(Camera camera, Vector2 viewportPos, Vector2 viewportSize)
-    parameters:
-    - id: camera
-      type: RedLight.Graphics.Camera
-    - id: viewportPos
-      type: System.Numerics.Vector2
-    - id: viewportSize
-      type: System.Numerics.Vector2
-    return:
-      type: System.Boolean
-    content.vb: Public Function RenderImGuizmo(camera As Camera, viewportPos As Vector2, viewportSize As Vector2) As Boolean
-  overload: RedLight.Entities.Entity.RenderImGuizmo*
-- uid: RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.RLGraphics,RedLight.Graphics.Camera)
-  commentId: M:RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.RLGraphics,RedLight.Graphics.Camera)
-  id: DrawBoundingBox(RedLight.Graphics.RLGraphics,RedLight.Graphics.Camera)
-  parent: RedLight.Entities.Entity
-  langs:
-  - csharp
-  - vb
-  name: DrawBoundingBox(RLGraphics, Camera)
-  nameWithType: Entity.DrawBoundingBox(RLGraphics, Camera)
-  fullName: RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.RLGraphics, RedLight.Graphics.Camera)
+  name: DrawBoundingBox(Camera)
+  nameWithType: Entity.DrawBoundingBox(Camera)
+  fullName: RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.Camera)
   type: Method
   source:
     remote:
@@ -1400,20 +1426,18 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: DrawBoundingBox
     path: src/RedLight/Entities/Entity.cs
-    startLine: 411
+    startLine: 365
   assemblies:
   - RedLight
   namespace: RedLight.Entities
   summary: Draws the bounding box edges in red using OpenGL lines with proper camera transformations.
   example: []
   syntax:
-    content: public void DrawBoundingBox(RLGraphics graphics, Camera camera)
+    content: public void DrawBoundingBox(Camera camera)
     parameters:
-    - id: graphics
-      type: RedLight.Graphics.RLGraphics
     - id: camera
       type: RedLight.Graphics.Camera
-    content.vb: Public Sub DrawBoundingBox(graphics As RLGraphics, camera As Camera)
+    content.vb: Public Sub DrawBoundingBox(camera As Camera)
   overload: RedLight.Entities.Entity.DrawBoundingBox*
 - uid: RedLight.Entities.Entity.SetRotationX(System.Single)
   commentId: M:RedLight.Entities.Entity.SetRotationX(System.Single)
@@ -1433,7 +1457,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: SetRotationX
     path: src/RedLight/Entities/Entity.cs
-    startLine: 584
+    startLine: 539
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -1469,7 +1493,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: SetRotationY
     path: src/RedLight/Entities/Entity.cs
-    startLine: 593
+    startLine: 548
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -1505,7 +1529,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: SetRotationZ
     path: src/RedLight/Entities/Entity.cs
-    startLine: 602
+    startLine: 557
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -1541,7 +1565,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: SetScaleX
     path: src/RedLight/Entities/Entity.cs
-    startLine: 611
+    startLine: 566
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -1577,7 +1601,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: SetScaleY
     path: src/RedLight/Entities/Entity.cs
-    startLine: 620
+    startLine: 575
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -1613,7 +1637,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: SetScaleZ
     path: src/RedLight/Entities/Entity.cs
-    startLine: 629
+    startLine: 584
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -1649,7 +1673,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: SetUniformScale
     path: src/RedLight/Entities/Entity.cs
-    startLine: 638
+    startLine: 593
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -1685,7 +1709,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: ShowHitbox
     path: src/RedLight/Entities/Entity.cs
-    startLine: 646
+    startLine: 601
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -1713,7 +1737,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: HideHitbox
     path: src/RedLight/Entities/Entity.cs
-    startLine: 651
+    startLine: 606
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -1741,7 +1765,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: ToggleHitbox
     path: src/RedLight/Entities/Entity.cs
-    startLine: 656
+    startLine: 611
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -1769,7 +1793,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: IsDefaultSet
     path: src/RedLight/Entities/Entity.cs
-    startLine: 661
+    startLine: 616
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -1799,7 +1823,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: RotationDegrees
     path: src/RedLight/Entities/Entity.cs
-    startLine: 663
+    startLine: 618
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -1828,7 +1852,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: DefaultRotation
     path: src/RedLight/Entities/Entity.cs
-    startLine: 677
+    startLine: 632
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -2157,6 +2181,12 @@ references:
   nameWithType.vb: Boolean
   fullName.vb: Boolean
   name.vb: Boolean
+- uid: RedLight.Entities.Entity.EnablePhysics*
+  commentId: Overload:RedLight.Entities.Entity.EnablePhysics
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_EnablePhysics
+  name: EnablePhysics
+  nameWithType: Entity.EnablePhysics
+  fullName: RedLight.Entities.Entity.EnablePhysics
 - uid: RedLight.Entities.Entity.Mass*
   commentId: Overload:RedLight.Entities.Entity.Mass
   href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_Mass
@@ -2441,19 +2471,19 @@ references:
   name: ImGuizmoMode
   nameWithType: ImGuizmoMode
   fullName: Hexa.NET.ImGuizmo.ImGuizmoMode
-- uid: RedLight.Entities.Entity.Model*
-  commentId: Overload:RedLight.Entities.Entity.Model
-  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_Model
-  name: Model
-  nameWithType: Entity.Model
-  fullName: RedLight.Entities.Entity.Model
-- uid: RedLight.Graphics.RLModel
-  commentId: T:RedLight.Graphics.RLModel
+- uid: RedLight.Entities.Entity.ModelType*
+  commentId: Overload:RedLight.Entities.Entity.ModelType
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_ModelType
+  name: ModelType
+  nameWithType: Entity.ModelType
+  fullName: RedLight.Entities.Entity.ModelType
+- uid: RedLight.Graphics.ModelType
+  commentId: T:RedLight.Graphics.ModelType
   parent: RedLight.Graphics
-  href: RedLight.Graphics.RLModel.html
-  name: RLModel
-  nameWithType: RLModel
-  fullName: RedLight.Graphics.RLModel
+  href: RedLight.Graphics.ModelType.html
+  name: ModelType
+  nameWithType: ModelType
+  fullName: RedLight.Graphics.ModelType
 - uid: RedLight.Graphics
   commentId: N:RedLight.Graphics
   href: RedLight.html
@@ -2476,6 +2506,19 @@ references:
   - uid: RedLight.Graphics
     name: Graphics
     href: RedLight.Graphics.html
+- uid: RedLight.Entities.Entity.Model*
+  commentId: Overload:RedLight.Entities.Entity.Model
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_Model
+  name: Model
+  nameWithType: Entity.Model
+  fullName: RedLight.Entities.Entity.Model
+- uid: RedLight.Graphics.RLModel
+  commentId: T:RedLight.Graphics.RLModel
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.RLModel.html
+  name: RLModel
+  nameWithType: RLModel
+  fullName: RedLight.Graphics.RLModel
 - uid: RedLight.Entities.Entity.ModelMatrix*
   commentId: Overload:RedLight.Entities.Entity.ModelMatrix
   href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_ModelMatrix
@@ -2510,7 +2553,7 @@ references:
   fullName: RedLight.Entities.Entity.Rotation
 - uid: RedLight.Entities.Entity.#ctor*
   commentId: Overload:RedLight.Entities.Entity.#ctor
-  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity__ctor_RedLight_Graphics_RLModel_System_Boolean_
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity__ctor_RedLight_Graphics_RLModel_RedLight_Graphics_ModelType_System_Boolean_
   name: Entity
   nameWithType: Entity.Entity
   fullName: RedLight.Entities.Entity.Entity
@@ -2608,12 +2651,12 @@ references:
   name: DisableImGuizmo
   nameWithType: Entity.DisableImGuizmo
   fullName: RedLight.Entities.Entity.DisableImGuizmo
-- uid: RedLight.Entities.Entity.RenderImGuizmo*
-  commentId: Overload:RedLight.Entities.Entity.RenderImGuizmo
-  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_RenderImGuizmo_RedLight_Graphics_Camera_System_Numerics_Vector2_System_Numerics_Vector2_
-  name: RenderImGuizmo
-  nameWithType: Entity.RenderImGuizmo
-  fullName: RedLight.Entities.Entity.RenderImGuizmo
+- uid: RedLight.Entities.Entity.DrawBoundingBox*
+  commentId: Overload:RedLight.Entities.Entity.DrawBoundingBox
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_DrawBoundingBox_RedLight_Graphics_Camera_
+  name: DrawBoundingBox
+  nameWithType: Entity.DrawBoundingBox
+  fullName: RedLight.Entities.Entity.DrawBoundingBox
 - uid: RedLight.Graphics.Camera
   commentId: T:RedLight.Graphics.Camera
   parent: RedLight.Graphics
@@ -2621,27 +2664,6 @@ references:
   name: Camera
   nameWithType: Camera
   fullName: RedLight.Graphics.Camera
-- uid: System.Numerics.Vector2
-  commentId: T:System.Numerics.Vector2
-  parent: System.Numerics
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.numerics.vector2
-  name: Vector2
-  nameWithType: Vector2
-  fullName: System.Numerics.Vector2
-- uid: RedLight.Entities.Entity.DrawBoundingBox*
-  commentId: Overload:RedLight.Entities.Entity.DrawBoundingBox
-  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_DrawBoundingBox_RedLight_Graphics_RLGraphics_RedLight_Graphics_Camera_
-  name: DrawBoundingBox
-  nameWithType: Entity.DrawBoundingBox
-  fullName: RedLight.Entities.Entity.DrawBoundingBox
-- uid: RedLight.Graphics.RLGraphics
-  commentId: T:RedLight.Graphics.RLGraphics
-  parent: RedLight.Graphics
-  href: RedLight.Graphics.RLGraphics.html
-  name: RLGraphics
-  nameWithType: RLGraphics
-  fullName: RedLight.Graphics.RLGraphics
 - uid: RedLight.Entities.Entity.SetRotationX*
   commentId: Overload:RedLight.Entities.Entity.SetRotationX
   href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_SetRotationX_System_Single_

@@ -15,7 +15,7 @@ items:
   - RedLight.UI.RLImGuiEditor.Load
   - RedLight.UI.RLImGuiEditor.Render
   - RedLight.UI.RLImGuiEditor.SetEditorMode(System.Boolean)
-  - RedLight.UI.RLImGuiEditor.SetModelList(System.Collections.Generic.List{RedLight.Entities.Entity})
+  - RedLight.UI.RLImGuiEditor.SetModelList(System.Collections.Generic.List{RedLight.Entities.Entity},RedLight.Graphics.Camera)
   - RedLight.UI.RLImGuiEditor.ToggleEditorMode
   - RedLight.UI.RLImGuiEditor.Update(System.Single)
   - RedLight.UI.RLImGuiEditor.ViewportSize
@@ -33,7 +33,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: RLImGuiEditor
     path: src/RedLight/UI/ImGui/RLImGuiEditor.cs
-    startLine: 13
+    startLine: 15
   assemblies:
   - RedLight
   namespace: RedLight.UI
@@ -68,7 +68,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: GameFramebuffer
     path: src/RedLight/UI/ImGui/RLImGuiEditor.cs
-    startLine: 30
+    startLine: 38
   assemblies:
   - RedLight
   namespace: RedLight.UI
@@ -97,7 +97,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: ViewportSize
     path: src/RedLight/UI/ImGui/RLImGuiEditor.cs
-    startLine: 31
+    startLine: 39
   assemblies:
   - RedLight
   namespace: RedLight.UI
@@ -126,7 +126,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: IsViewportFocused
     path: src/RedLight/UI/ImGui/RLImGuiEditor.cs
-    startLine: 32
+    startLine: 40
   assemblies:
   - RedLight
   namespace: RedLight.UI
@@ -155,7 +155,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: IsViewportHovered
     path: src/RedLight/UI/ImGui/RLImGuiEditor.cs
-    startLine: 33
+    startLine: 41
   assemblies:
   - RedLight
   namespace: RedLight.UI
@@ -184,7 +184,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: IsEditorMode
     path: src/RedLight/UI/ImGui/RLImGuiEditor.cs
-    startLine: 34
+    startLine: 42
   assemblies:
   - RedLight
   namespace: RedLight.UI
@@ -213,7 +213,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: .ctor
     path: src/RedLight/UI/ImGui/RLImGuiEditor.cs
-    startLine: 36
+    startLine: 44
   assemblies:
   - RedLight
   namespace: RedLight.UI
@@ -251,7 +251,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Load
     path: src/RedLight/UI/ImGui/RLImGuiEditor.cs
-    startLine: 53
+    startLine: 69
   assemblies:
   - RedLight
   namespace: RedLight.UI
@@ -277,7 +277,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Update
     path: src/RedLight/UI/ImGui/RLImGuiEditor.cs
-    startLine: 58
+    startLine: 74
   assemblies:
   - RedLight
   namespace: RedLight.UI
@@ -309,7 +309,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: ToggleEditorMode
     path: src/RedLight/UI/ImGui/RLImGuiEditor.cs
-    startLine: 63
+    startLine: 79
   assemblies:
   - RedLight
   namespace: RedLight.UI
@@ -335,7 +335,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: SetEditorMode
     path: src/RedLight/UI/ImGui/RLImGuiEditor.cs
-    startLine: 69
+    startLine: 85
   assemblies:
   - RedLight
   namespace: RedLight.UI
@@ -349,16 +349,16 @@ items:
   nameWithType.vb: RLImGuiEditor.SetEditorMode(Boolean)
   fullName.vb: RedLight.UI.RLImGuiEditor.SetEditorMode(Boolean)
   name.vb: SetEditorMode(Boolean)
-- uid: RedLight.UI.RLImGuiEditor.SetModelList(System.Collections.Generic.List{RedLight.Entities.Entity})
-  commentId: M:RedLight.UI.RLImGuiEditor.SetModelList(System.Collections.Generic.List{RedLight.Entities.Entity})
-  id: SetModelList(System.Collections.Generic.List{RedLight.Entities.Entity})
+- uid: RedLight.UI.RLImGuiEditor.SetModelList(System.Collections.Generic.List{RedLight.Entities.Entity},RedLight.Graphics.Camera)
+  commentId: M:RedLight.UI.RLImGuiEditor.SetModelList(System.Collections.Generic.List{RedLight.Entities.Entity},RedLight.Graphics.Camera)
+  id: SetModelList(System.Collections.Generic.List{RedLight.Entities.Entity},RedLight.Graphics.Camera)
   parent: RedLight.UI.RLImGuiEditor
   langs:
   - csharp
   - vb
-  name: SetModelList(List<Entity>)
-  nameWithType: RLImGuiEditor.SetModelList(List<Entity>)
-  fullName: RedLight.UI.RLImGuiEditor.SetModelList(System.Collections.Generic.List<RedLight.Entities.Entity>)
+  name: SetModelList(List<Entity>, Camera)
+  nameWithType: RLImGuiEditor.SetModelList(List<Entity>, Camera)
+  fullName: RedLight.UI.RLImGuiEditor.SetModelList(System.Collections.Generic.List<RedLight.Entities.Entity>, RedLight.Graphics.Camera)
   type: Method
   source:
     remote:
@@ -367,20 +367,22 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: SetModelList
     path: src/RedLight/UI/ImGui/RLImGuiEditor.cs
-    startLine: 75
+    startLine: 91
   assemblies:
   - RedLight
   namespace: RedLight.UI
   syntax:
-    content: public void SetModelList(List<Entity> models)
+    content: public void SetModelList(List<Entity> models, Camera activeCamera)
     parameters:
     - id: models
       type: System.Collections.Generic.List{RedLight.Entities.Entity}
-    content.vb: Public Sub SetModelList(models As List(Of Entity))
+    - id: activeCamera
+      type: RedLight.Graphics.Camera
+    content.vb: Public Sub SetModelList(models As List(Of Entity), activeCamera As Camera)
   overload: RedLight.UI.RLImGuiEditor.SetModelList*
-  nameWithType.vb: RLImGuiEditor.SetModelList(List(Of Entity))
-  fullName.vb: RedLight.UI.RLImGuiEditor.SetModelList(System.Collections.Generic.List(Of RedLight.Entities.Entity))
-  name.vb: SetModelList(List(Of Entity))
+  nameWithType.vb: RLImGuiEditor.SetModelList(List(Of Entity), Camera)
+  fullName.vb: RedLight.UI.RLImGuiEditor.SetModelList(System.Collections.Generic.List(Of RedLight.Entities.Entity), RedLight.Graphics.Camera)
+  name.vb: SetModelList(List(Of Entity), Camera)
 - uid: RedLight.UI.RLImGuiEditor.GetSelectedModel
   commentId: M:RedLight.UI.RLImGuiEditor.GetSelectedModel
   id: GetSelectedModel
@@ -399,7 +401,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: GetSelectedModel
     path: src/RedLight/UI/ImGui/RLImGuiEditor.cs
-    startLine: 86
+    startLine: 104
   assemblies:
   - RedLight
   namespace: RedLight.UI
@@ -427,7 +429,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Render
     path: src/RedLight/UI/ImGui/RLImGuiEditor.cs
-    startLine: 89
+    startLine: 106
   assemblies:
   - RedLight
   namespace: RedLight.UI
@@ -453,7 +455,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Dispose
     path: src/RedLight/UI/ImGui/RLImGuiEditor.cs
-    startLine: 457
+    startLine: 588
   assemblies:
   - RedLight
   namespace: RedLight.UI
@@ -966,7 +968,7 @@ references:
   fullName: RedLight.UI.RLImGuiEditor.SetEditorMode
 - uid: RedLight.UI.RLImGuiEditor.SetModelList*
   commentId: Overload:RedLight.UI.RLImGuiEditor.SetModelList
-  href: RedLight.UI.RLImGuiEditor.html#RedLight_UI_RLImGuiEditor_SetModelList_System_Collections_Generic_List_RedLight_Entities_Entity__
+  href: RedLight.UI.RLImGuiEditor.html#RedLight_UI_RLImGuiEditor_SetModelList_System_Collections_Generic_List_RedLight_Entities_Entity__RedLight_Graphics_Camera_
   name: SetModelList
   nameWithType: RLImGuiEditor.SetModelList
   fullName: RedLight.UI.RLImGuiEditor.SetModelList
@@ -1003,6 +1005,13 @@ references:
     name: Entity
     href: RedLight.Entities.Entity.html
   - name: )
+- uid: RedLight.Graphics.Camera
+  commentId: T:RedLight.Graphics.Camera
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.Camera.html
+  name: Camera
+  nameWithType: Camera
+  fullName: RedLight.Graphics.Camera
 - uid: System.Collections.Generic.List`1
   commentId: T:System.Collections.Generic.List`1
   isExternal: true

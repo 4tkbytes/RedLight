@@ -45,6 +45,7 @@ items:
   - RedLight.Entities.Entity._scaleDefault
   - RedLight.Entities.Entity.Velocity
   - RedLight.Entities.Entity.ApplyGravity
+  - RedLight.Entities.Entity.EnablePhysics
   - RedLight.Entities.Entity.Mass
   - RedLight.Entities.Entity.FrictionCoefficient
   - RedLight.Entities.Entity.BoundingBoxMin
@@ -60,6 +61,7 @@ items:
   - RedLight.Entities.Entity.UseImGuizmo
   - RedLight.Entities.Entity.GuizmoOperation
   - RedLight.Entities.Entity.GuizmoMode
+  - RedLight.Entities.Entity.ModelType
   - RedLight.Entities.Entity.Model
   - RedLight.Entities.Entity.ModelMatrix
   - RedLight.Entities.Entity.Position
@@ -80,8 +82,7 @@ items:
   - RedLight.Entities.Entity.SetHitboxConfig(RedLight.Entities.HitboxConfig)
   - RedLight.Entities.Entity.EnableImGuizmo(Hexa.NET.ImGuizmo.ImGuizmoOperation,Hexa.NET.ImGuizmo.ImGuizmoMode)
   - RedLight.Entities.Entity.DisableImGuizmo
-  - RedLight.Entities.Entity.RenderImGuizmo(RedLight.Graphics.Camera,System.Numerics.Vector2,System.Numerics.Vector2)
-  - RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.RLGraphics,RedLight.Graphics.Camera)
+  - RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.Camera)
   - RedLight.Entities.Entity.SetRotationX(System.Single)
   - RedLight.Entities.Entity.SetRotationY(System.Single)
   - RedLight.Entities.Entity.SetRotationZ(System.Single)
@@ -514,6 +515,13 @@ references:
   name: ApplyGravity
   nameWithType: Entity.ApplyGravity
   fullName: RedLight.Entities.Entity.ApplyGravity
+- uid: RedLight.Entities.Entity.EnablePhysics
+  commentId: P:RedLight.Entities.Entity.EnablePhysics
+  parent: RedLight.Entities.Entity
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_EnablePhysics
+  name: EnablePhysics
+  nameWithType: Entity.EnablePhysics
+  fullName: RedLight.Entities.Entity.EnablePhysics
 - uid: RedLight.Entities.Entity.Mass
   commentId: P:RedLight.Entities.Entity.Mass
   parent: RedLight.Entities.Entity
@@ -619,6 +627,13 @@ references:
   name: GuizmoMode
   nameWithType: Entity.GuizmoMode
   fullName: RedLight.Entities.Entity.GuizmoMode
+- uid: RedLight.Entities.Entity.ModelType
+  commentId: P:RedLight.Entities.Entity.ModelType
+  parent: RedLight.Entities.Entity
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_ModelType
+  name: ModelType
+  nameWithType: Entity.ModelType
+  fullName: RedLight.Entities.Entity.ModelType
 - uid: RedLight.Entities.Entity.Model
   commentId: P:RedLight.Entities.Entity.Model
   parent: RedLight.Entities.Entity
@@ -1088,87 +1103,27 @@ references:
     href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_DisableImGuizmo
   - name: (
   - name: )
-- uid: RedLight.Entities.Entity.RenderImGuizmo(RedLight.Graphics.Camera,System.Numerics.Vector2,System.Numerics.Vector2)
-  commentId: M:RedLight.Entities.Entity.RenderImGuizmo(RedLight.Graphics.Camera,System.Numerics.Vector2,System.Numerics.Vector2)
+- uid: RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.Camera)
+  commentId: M:RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.Camera)
   parent: RedLight.Entities.Entity
-  isExternal: true
-  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_RenderImGuizmo_RedLight_Graphics_Camera_System_Numerics_Vector2_System_Numerics_Vector2_
-  name: RenderImGuizmo(Camera, Vector2, Vector2)
-  nameWithType: Entity.RenderImGuizmo(Camera, Vector2, Vector2)
-  fullName: RedLight.Entities.Entity.RenderImGuizmo(RedLight.Graphics.Camera, System.Numerics.Vector2, System.Numerics.Vector2)
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_DrawBoundingBox_RedLight_Graphics_Camera_
+  name: DrawBoundingBox(Camera)
+  nameWithType: Entity.DrawBoundingBox(Camera)
+  fullName: RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.Camera)
   spec.csharp:
-  - uid: RedLight.Entities.Entity.RenderImGuizmo(RedLight.Graphics.Camera,System.Numerics.Vector2,System.Numerics.Vector2)
-    name: RenderImGuizmo
-    href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_RenderImGuizmo_RedLight_Graphics_Camera_System_Numerics_Vector2_System_Numerics_Vector2_
-  - name: (
-  - uid: RedLight.Graphics.Camera
-    name: Camera
-    href: RedLight.Graphics.Camera.html
-  - name: ','
-  - name: " "
-  - uid: System.Numerics.Vector2
-    name: Vector2
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.numerics.vector2
-  - name: ','
-  - name: " "
-  - uid: System.Numerics.Vector2
-    name: Vector2
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.numerics.vector2
-  - name: )
-  spec.vb:
-  - uid: RedLight.Entities.Entity.RenderImGuizmo(RedLight.Graphics.Camera,System.Numerics.Vector2,System.Numerics.Vector2)
-    name: RenderImGuizmo
-    href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_RenderImGuizmo_RedLight_Graphics_Camera_System_Numerics_Vector2_System_Numerics_Vector2_
-  - name: (
-  - uid: RedLight.Graphics.Camera
-    name: Camera
-    href: RedLight.Graphics.Camera.html
-  - name: ','
-  - name: " "
-  - uid: System.Numerics.Vector2
-    name: Vector2
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.numerics.vector2
-  - name: ','
-  - name: " "
-  - uid: System.Numerics.Vector2
-    name: Vector2
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.numerics.vector2
-  - name: )
-- uid: RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.RLGraphics,RedLight.Graphics.Camera)
-  commentId: M:RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.RLGraphics,RedLight.Graphics.Camera)
-  parent: RedLight.Entities.Entity
-  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_DrawBoundingBox_RedLight_Graphics_RLGraphics_RedLight_Graphics_Camera_
-  name: DrawBoundingBox(RLGraphics, Camera)
-  nameWithType: Entity.DrawBoundingBox(RLGraphics, Camera)
-  fullName: RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.RLGraphics, RedLight.Graphics.Camera)
-  spec.csharp:
-  - uid: RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.RLGraphics,RedLight.Graphics.Camera)
+  - uid: RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.Camera)
     name: DrawBoundingBox
-    href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_DrawBoundingBox_RedLight_Graphics_RLGraphics_RedLight_Graphics_Camera_
+    href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_DrawBoundingBox_RedLight_Graphics_Camera_
   - name: (
-  - uid: RedLight.Graphics.RLGraphics
-    name: RLGraphics
-    href: RedLight.Graphics.RLGraphics.html
-  - name: ','
-  - name: " "
   - uid: RedLight.Graphics.Camera
     name: Camera
     href: RedLight.Graphics.Camera.html
   - name: )
   spec.vb:
-  - uid: RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.RLGraphics,RedLight.Graphics.Camera)
+  - uid: RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.Camera)
     name: DrawBoundingBox
-    href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_DrawBoundingBox_RedLight_Graphics_RLGraphics_RedLight_Graphics_Camera_
+    href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_DrawBoundingBox_RedLight_Graphics_Camera_
   - name: (
-  - uid: RedLight.Graphics.RLGraphics
-    name: RLGraphics
-    href: RedLight.Graphics.RLGraphics.html
-  - name: ','
-  - name: " "
   - uid: RedLight.Graphics.Camera
     name: Camera
     href: RedLight.Graphics.Camera.html

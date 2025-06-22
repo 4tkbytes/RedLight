@@ -10,9 +10,6 @@ using System.Numerics;
 using RedLight.Lighting;
 using RedLight.Physics;
 using RedLight.UI;
-using RedLight.Utils;
-using Silk.NET.Assimp;
-using Silk.NET.OpenGL;
 using Camera = RedLight.Graphics.Camera;
 using Plane = RedLight.Entities.Plane;
 
@@ -20,15 +17,15 @@ namespace ExampleGame;
 
 public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 {
-    public RLGraphics Graphics { get; set; }
-    public SceneManager SceneManager { get; set; }
-    public ShaderManager ShaderManager { get; set; }
-    public TextureManager TextureManager { get; set; }
-    public InputManager InputManager { get; set; }
-    public RLEngine Engine { get; set; }
+    public override RLGraphics Graphics { get; set; }
+    public override SceneManager SceneManager { get; set; }
+    public override ShaderManager ShaderManager { get; set; }
+    public override TextureManager TextureManager { get; set; }
+    public override InputManager InputManager { get; set; }
+    public override RLEngine Engine { get; set; }
     public HashSet<Key> PressedKeys { get; set; } = new();
-    public PhysicsSystem PhysicsSystem { get; set; }
-    public LightManager LightManager { get; set; }
+    public override PhysicsSystem PhysicsSystem { get; set; }
+    public override LightManager LightManager { get; set; }
 
     private Player player;
     private Plane plane;
@@ -36,10 +33,10 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     private Camera debugCamera;
     private bool useDebugCamera;
     private RLImGuiEditor _editor;
-    private LightingCube lightingCube;
-    private List<Entity> ObjectModels = new();
+    private LightingCube lampCube;
+    private LightingCube flashLight;
     
-    public void OnLoad()
+    public override void OnLoad()
     {
         Graphics.Enable();
         Graphics.EnableDebugErrorCallback();
@@ -54,22 +51,21 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 
         CreateLight();
         
-        ObjectModels.Add(plane);
-        ObjectModels.Add(player);
-        ObjectModels.Add(cube);
-        ObjectModels.Add(lightingCube.Cube);
-        
-        AddPhysics();
+        AddToLists(plane);
+        AddToLists(player);
+        AddToLists(cube);
+        // AddToLists(lampCube);
+        AddToLists(flashLight);
         
         player.ResetPhysics();
     }
 
-    private int counter;
-    public void OnUpdate(double deltaTime)
+    public override void OnUpdate(double deltaTime)
     {
         PhysicsSystem.Update((float)deltaTime);
         
-        lightingCube.Update(player.Camera);
+        // lampCube.Update(player.Camera);
+        flashLight.Update(player.Camera);
     
         if (useDebugCamera)
         {
@@ -82,72 +78,31 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         }
         
         _editor.Update((float)deltaTime);
-        counter++;
     }
 
-    public void OnRender(double deltaTime)
+    public override void OnRender(double deltaTime)
     {
         Graphics.Clear();
-        
         Camera activeCamera = useDebugCamera ? debugCamera : player.Camera;
 
-        if (_editor.IsEditorMode)
-        {
-            _editor.SetModelList(ObjectModels, activeCamera);
-        }
-
-        if (_editor.IsEditorMode)
-        {
-            _editor.GameFramebuffer.Bind();
-            
-            var viewportSize = _editor.ViewportSize;
-            if (viewportSize.X > 0 && viewportSize.Y > 0)
-            {
-                activeCamera.UpdateAspectRatio(viewportSize.X / viewportSize.Y);
-            }
-        }
-        else
-        {
-            var windowSize = Engine.Window.Window.FramebufferSize;
-            if (windowSize.X > 0 && windowSize.Y > 0)
-            {
-                activeCamera.UpdateAspectRatio((float)windowSize.X / windowSize.Y);
-            }
-        }
+        BeforeEditorRender(_editor, activeCamera);
         
         Graphics.Clear();
         Graphics.ClearColour(Color.CornflowerBlue);
 
-        foreach (var model in ObjectModels)
-        {
-            if (model == lightingCube.Cube)
-            {
-                lightingCube.Render(activeCamera);
-                continue;
-            }
+        RenderModel(activeCamera);
 
-            Graphics.Use(model);
-            LightManager.ApplyLightsToShader(activeCamera.Position);
-            Graphics.Update(activeCamera, model);
-            Graphics.Draw(model);
-        }
+        LightManager.RenderAllLightCubes(activeCamera);
 
         foreach (var model in ObjectModels)
         {
             if (model.IsHitboxShown)
             {
-                model.DrawBoundingBox(Graphics, activeCamera);
+                model.DrawBoundingBox(activeCamera);
             }
         }
-        
-        if (_editor.IsEditorMode)
-        {
-            _editor.GameFramebuffer.Unbind();
-            
-            Graphics.OpenGL.Viewport(Engine.Window.Window.FramebufferSize);
-        }
-        
-        _editor.Render();
+
+        AfterEditorRender(_editor);
     }
 
     public void OnKeyDown(IKeyboard keyboard, Key key, int keyCode)
@@ -248,7 +203,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     private Cube CreateCube()
     {
         // create cube model with name
-        var cube = new Cube(Graphics, "colliding_cube");
+        var cube = new Cube("colliding_cube");
         
         // model translations
         cube.Translate(new Vector3(3f, 10f, 0f));
@@ -264,37 +219,35 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         // initialise the LightManager class
         LightManager = new LightManager();
 
-        // // create new light cube with a sun-like yellow/white color
-        // lightingCube = LightingCube.CreateDirectionalLightCube(Graphics, LightManager, "lightCube", "light_cube",
-        //     RLConstants.RL_SUN_DIRECTION, Color.FromArgb(255, 255, 253, 231));
+        // Create any type of light (within the enum)
+        // This one is a spotlight, like a flash light
+        // lampCube = LightingCube.CreateSpotLightCube(LightManager, "lightCubeSpot", "light_cube", playerCamera,
+        //     Color.AntiqueWhite, Attenuation.DefaultValues.Range50);
+
+        // // This one is a directional light, such as that of the sun
+        // lightingCube = LightingCube.CreateDirectionalLightCube(LightManager, "lightCubeDirectional", "light_cube",
+        //     RLConstants.RL_SUN_DIRECTION, Color.AntiqueWhite);
         //
-        // lightingCube = LightingCube.CreatePointLightCube(Graphics, LightManager, "lightCube", "light_cube",
-        //     RLConstants.RL_SUN_DIRECTION, Color.FromArgb(255, 255, 253, 231), Attenuation.DefaultValues.Range50);
-
-        lightingCube = LightingCube.CreateSpotLightCube(Graphics, LightManager, "lightCube", "light_cube", playerCamera,
+        // // This one is a point light, like a lamp
+        flashLight = LightingCube.CreatePointLightCube(LightManager, "lightCubePoint", "light_cube", Vector3.Zero,
             Color.AntiqueWhite, Attenuation.DefaultValues.Range50);
-
-        // // Position doesn't matter much for directional lights, but still good to place it high
-        // lightingCube.Cube.Translate(new Vector3(0, 0, 0));
-
-        // Set a direction that mimics sunlight from above at an angle
     }
 
-    private void AddPhysics()
-    {
-        // iterate through entity list
-        foreach (var entity in ObjectModels)
-        {
-            // init entitys physics system
-            entity.PhysicsSystem = PhysicsSystem;
-            
-            // skip if type is a light
-            if (entity == lightingCube.Cube)
-                continue;
-            
-            // add the entity to the physics system
-            PhysicsSystem.AddEntity(entity);
-        }
-    }
+    // private void AddPhysics()
+    // {
+    //     // iterate through entity list
+    //     foreach (var entity in ObjectModels)
+    //     {
+    //         // init entitys physics system
+    //         entity.PhysicsSystem = PhysicsSystem;
+    //         
+    //         // skip if type is a light
+    //         if (entity == lampCube.Cube)
+    //             continue;
+    //         
+    //         // add the entity to the physics system
+    //         PhysicsSystem.AddEntity(entity);
+    //     }
+    // }
     #endregion
 }

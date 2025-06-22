@@ -4,13 +4,14 @@ items:
   commentId: N:RedLight.Lighting
   id: RedLight.Lighting
   children:
+  - RedLight.Lighting.Attenuation
+  - RedLight.Lighting.Attenuation.DefaultValues
   - RedLight.Lighting.LightManager
   - RedLight.Lighting.LightMaterials
   - RedLight.Lighting.LightType
   - RedLight.Lighting.LightingCube
   - RedLight.Lighting.MaterialInfo
   - RedLight.Lighting.RLLight
-  - RedLight.Lighting.Sun
   langs:
   - csharp
   - vb
@@ -21,8 +22,38 @@ items:
   assemblies:
   - RedLight
 references:
+- uid: RedLight.Lighting.Attenuation
+  commentId: T:RedLight.Lighting.Attenuation
+  parent: RedLight.Lighting
+  href: RedLight.Lighting.Attenuation.html
+  name: Attenuation
+  nameWithType: Attenuation
+  fullName: RedLight.Lighting.Attenuation
+- uid: RedLight.Lighting.Attenuation.DefaultValues
+  commentId: T:RedLight.Lighting.Attenuation.DefaultValues
+  href: RedLight.Lighting.Attenuation.html
+  name: Attenuation.DefaultValues
+  nameWithType: Attenuation.DefaultValues
+  fullName: RedLight.Lighting.Attenuation.DefaultValues
+  spec.csharp:
+  - uid: RedLight.Lighting.Attenuation
+    name: Attenuation
+    href: RedLight.Lighting.Attenuation.html
+  - name: .
+  - uid: RedLight.Lighting.Attenuation.DefaultValues
+    name: DefaultValues
+    href: RedLight.Lighting.Attenuation.DefaultValues.html
+  spec.vb:
+  - uid: RedLight.Lighting.Attenuation
+    name: Attenuation
+    href: RedLight.Lighting.Attenuation.html
+  - name: .
+  - uid: RedLight.Lighting.Attenuation.DefaultValues
+    name: DefaultValues
+    href: RedLight.Lighting.Attenuation.DefaultValues.html
 - uid: RedLight.Lighting.LightingCube
   commentId: T:RedLight.Lighting.LightingCube
+  parent: RedLight.Lighting
   href: RedLight.Lighting.LightingCube.html
   name: LightingCube
   nameWithType: LightingCube
@@ -61,12 +92,6 @@ references:
   name: RLLight
   nameWithType: RLLight
   fullName: RedLight.Lighting.RLLight
-- uid: RedLight.Lighting.Sun
-  commentId: T:RedLight.Lighting.Sun
-  href: RedLight.Lighting.Sun.html
-  name: Sun
-  nameWithType: Sun
-  fullName: RedLight.Lighting.Sun
 - uid: RedLight.Lighting
   commentId: N:RedLight.Lighting
   href: RedLight.html

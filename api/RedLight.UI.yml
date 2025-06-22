@@ -38,6 +38,7 @@ references:
   fullName: RedLight.UI.ImGuiConsoleSink
 - uid: RedLight.UI.RLImGuiEditor
   commentId: T:RedLight.UI.RLImGuiEditor
+  parent: RedLight.UI
   href: RedLight.UI.RLImGuiEditor.html
   name: RLImGuiEditor
   nameWithType: RLImGuiEditor

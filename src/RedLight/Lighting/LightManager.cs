@@ -9,6 +9,7 @@ public class LightManager
 {
     private readonly Dictionary<string, RLLight> _lights;
     private readonly Dictionary<string, Entity> _lightCubes;
+    private readonly Dictionary<string, LightingCube> _lightingCubes;
     
     private float _diffuse;
     private float _specular = 1;
@@ -34,8 +35,15 @@ public class LightManager
 
     public LightManager()
     {
-        _lights = new Dictionary<string, RLLight>();
-        _lightCubes = new Dictionary<string, Entity>();
+        _lights = new();
+        _lightCubes = new();
+        _lightingCubes = new();
+    }
+    
+    public void AddLightingCube(string lightName, LightingCube lightingCube)
+    {
+        _lightingCubes.Add(lightName, lightingCube);
+        Log.Verbose("Added lighting cube for light: {LightName}", lightName);
     }
 
     public void AddLight(RLLight light)
@@ -64,15 +72,6 @@ public class LightManager
     public Entity? GetLightCube(string name)
     {
         return _lightCubes.TryGetValue(name, out var cube) ? cube : null;
-    }
-
-    public void RemoveLight(string name)
-    {
-        if (_lights.Remove(name))
-        {
-            _lightCubes.Remove(name);
-            Log.Verbose("Removed light: {Name}", name);
-        }
     }
 
     public void UpdateLightPosition(string name, Vector3 direction)
@@ -166,6 +165,43 @@ public class LightManager
             Log.Error("Error applying light cube shader {ShaderName} for light {LightName}: {Error}", shaderName, lightName, ex.Message);
         }
     }
+    
+    public void RenderAllLightCubes(Camera camera)
+    {
+        foreach (var kvp in _lightingCubes)
+        {
+            var lightName = kvp.Key;
+            var lightingCube = kvp.Value;
+            
+            // Only render if the light exists and is enabled
+            if (_lights.TryGetValue(lightName, out var light) && light.IsEnabled)
+            {
+                lightingCube.Render(camera);
+            }
+        }
+    }
+    
+    public void UpdateAllLightCubes(Camera playerCamera = null)
+    {
+        foreach (var kvp in _lightingCubes)
+        {
+            var lightName = kvp.Key;
+            var lightingCube = kvp.Value;
+            
+            if (_lights.TryGetValue(lightName, out var light))
+            {
+                // For spotlight following player camera
+                if (light.Type == LightType.Spot && playerCamera != null)
+                {
+                    lightingCube.Update(playerCamera);
+                }
+                else
+                {
+                    lightingCube.Update();
+                }
+            }
+        }
+    }
 
     private void ApplySingleLight(string shaderName, RLLight light, ShaderManager shaderManager)
     {
@@ -198,7 +234,11 @@ public class LightManager
             case LightType.Spot:
                 shaderManager.SetUniformIfExists(shaderName, "light.position", light.Position);
                 shaderManager.SetUniformIfExists(shaderName, "light.direction", light.Direction);
-                shaderManager.SetUniformIfExists(shaderName, "light.cutOff", float.Cos(float.DegreesToRadians(light.CutoffAngle)));
+                shaderManager.SetUniform(shaderName, "light.constant", light.Attenuation.Constant);
+                shaderManager.SetUniform(shaderName, "light.linear", light.Attenuation.Linear);
+                shaderManager.SetUniform(shaderName, "light.quadratic", light.Attenuation.Quadratic);
+                shaderManager.SetUniformIfExists(shaderName, "light.cutOff", float.Cos(float.DegreesToRadians(light.InnerCutoff)));
+                shaderManager.SetUniformIfExists(shaderName, "light.outerCutOff", float.Cos(float.DegreesToRadians(light.OuterCutoff)));
                 shaderManager.SetUniform(shaderName, "light.type", (int)LightType.Spot);
                 break;
         }
@@ -207,6 +247,8 @@ public class LightManager
     public IEnumerable<RLLight> GetAllLights() => _lights.Values;
     public IEnumerable<RLLight> GetEnabledLights() => _lights.Values.Where(l => l.IsEnabled);
     public IEnumerable<Entity> GetAllLightCubes() => _lightCubes.Values;
+    public IEnumerable<LightingCube> GetAllLightingCubes() => _lightingCubes.Values;
+
     
     public void DisableAllLights()
     {
@@ -223,4 +265,39 @@ public class LightManager
             light.IsEnabled = true;
         }
     }
+    
+    // Set visibility for all light cubes
+    public void SetAllLightCubesVisible(bool visible)
+    {
+        foreach (var lightingCube in _lightingCubes.Values)
+        {
+            lightingCube.SetVisible(visible);
+        }
+    }
+
+    // Set visibility for specific light cube
+    public void SetLightCubeVisible(string lightName, bool visible)
+    {
+        if (_lightingCubes.TryGetValue(lightName, out var lightingCube))
+        {
+            lightingCube.SetVisible(visible);
+        }
+    }
+
+    // Get specific lighting cube
+    public LightingCube? GetLightingCube(string lightName)
+    {
+        return _lightingCubes.TryGetValue(lightName, out var lightingCube) ? lightingCube : null;
+    }
+
+    // Remove light and its cube
+    public void RemoveLight(string name)
+    {
+        if (_lights.Remove(name))
+        {
+            _lightCubes.Remove(name);
+            _lightingCubes.Remove(name); // Also remove lighting cube
+            Log.Verbose("Removed light: {Name}", name);
+        }
+    } 
 }

@@ -3,6 +3,7 @@ using Hexa.NET.ImGui;
 using Hexa.NET.ImGuizmo;
 using RedLight.Graphics;
 using RedLight.Physics;
+using RedLight.Scene;
 using Serilog;
 using Silk.NET.OpenGL;
 
@@ -26,6 +27,7 @@ public abstract class Entity
     
     public Vector3 Velocity { get; set; } = Vector3.Zero;
     public bool ApplyGravity { get; set; } = true;
+    public bool EnablePhysics { get; set; } = true;
     public float Mass { get; set; } = 1f;
     public float FrictionCoefficient { get; set; } = 1.0f;
 
@@ -40,8 +42,8 @@ public abstract class Entity
 
     public string Name { get; private set; }
 
-    private uint vbo = 0;
-    private uint vao = 0;
+    private uint vbo;
+    private uint vao;
     
     public PhysicsSystem PhysicsSystem;
     private HashSet<string> _registeredEntityNames = new();
@@ -49,6 +51,8 @@ public abstract class Entity
     public bool UseImGuizmo { get; set; } = false;
     public ImGuizmoOperation GuizmoOperation { get; set; } = ImGuizmoOperation.Translate;
     public ImGuizmoMode GuizmoMode { get; set; } = ImGuizmoMode.World;
+    
+    public ModelType ModelType { get; set; }
 
 
     /// <summary>
@@ -136,9 +140,10 @@ public abstract class Entity
         }
     }
 
-    protected Entity(RLModel model, bool applyGravity = true)
+    protected Entity(RLModel model, ModelType modelType, bool applyGravity = true)
     {
         _model = model;
+        ModelType = modelType;
         ApplyGravity = applyGravity;
         Name = model.Name;
         
@@ -358,8 +363,9 @@ public abstract class Entity
     /// <summary>
     /// Draws the bounding box edges in red using OpenGL lines with proper camera transformations.
     /// </summary>
-    public void DrawBoundingBox(RLGraphics graphics, Camera camera)
+    public void DrawBoundingBox(Camera camera)
     {
+        var graphics = SceneManager.Instance.GetCurrentScene().Graphics;
         var shaderBundle = ShaderManager.Instance.Get("hitbox");
         
         if (!IsHitboxShown) return;

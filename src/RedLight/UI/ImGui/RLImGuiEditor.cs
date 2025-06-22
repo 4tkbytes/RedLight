@@ -104,7 +104,6 @@ public class RLImGuiEditor
     
     public Entity GetSelectedModel() => _selectedModel;
 
-
     public void Render()
     {
         // Only render ImGui interface in editor mode

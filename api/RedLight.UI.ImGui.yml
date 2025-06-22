@@ -6,7 +6,6 @@ items:
   children:
   - RedLight.UI.ImGui.ImGuiController
   - RedLight.UI.ImGui.ImGuiFontConfig
-  - RedLight.UI.ImGui.RLGuizmo
   - RedLight.UI.ImGui.TextureCoordinate
   langs:
   - csharp
@@ -20,7 +19,6 @@ items:
 references:
 - uid: RedLight.UI.ImGui.ImGuiController
   commentId: T:RedLight.UI.ImGui.ImGuiController
-  parent: RedLight.UI.ImGui
   href: RedLight.UI.ImGui.ImGuiController.html
   name: ImGuiController
   nameWithType: ImGuiController
@@ -32,12 +30,6 @@ references:
   name: ImGuiFontConfig
   nameWithType: ImGuiFontConfig
   fullName: RedLight.UI.ImGui.ImGuiFontConfig
-- uid: RedLight.UI.ImGui.RLGuizmo
-  commentId: T:RedLight.UI.ImGui.RLGuizmo
-  href: RedLight.UI.ImGui.RLGuizmo.html
-  name: RLGuizmo
-  nameWithType: RLGuizmo
-  fullName: RedLight.UI.ImGui.RLGuizmo
 - uid: RedLight.UI.ImGui.TextureCoordinate
   commentId: T:RedLight.UI.ImGui.TextureCoordinate
   parent: RedLight.UI.ImGui

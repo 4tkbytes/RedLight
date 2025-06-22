@@ -10,6 +10,7 @@ items:
   - RedLight.Utils.RLUtils.ExtractGLErrorInfo(System.String)
   - RedLight.Utils.RLUtils.ExtractUniformLocation(System.String)
   - RedLight.Utils.RLUtils.NumericsVector3ToSilkVector3D(System.Numerics.Vector3)
+  - RedLight.Utils.RLUtils.QuaternionToEuler(System.Numerics.Quaternion)
   - RedLight.Utils.RLUtils.SilkVector2DToNumericsVector2(Silk.NET.Maths.Vector2D{System.Int32})
   - RedLight.Utils.RLUtils.SilkVector3DToNumericsVector3(Silk.NET.Maths.Vector3D{System.Single})
   - RedLight.Utils.RLUtils.Vector3ToColor(System.Numerics.Vector3)
@@ -312,6 +313,37 @@ items:
   nameWithType.vb: RLUtils.ExtractGLErrorInfo(String)
   fullName.vb: RedLight.Utils.RLUtils.ExtractGLErrorInfo(String)
   name.vb: ExtractGLErrorInfo(String)
+- uid: RedLight.Utils.RLUtils.QuaternionToEuler(System.Numerics.Quaternion)
+  commentId: M:RedLight.Utils.RLUtils.QuaternionToEuler(System.Numerics.Quaternion)
+  id: QuaternionToEuler(System.Numerics.Quaternion)
+  parent: RedLight.Utils.RLUtils
+  langs:
+  - csharp
+  - vb
+  name: QuaternionToEuler(Quaternion)
+  nameWithType: RLUtils.QuaternionToEuler(Quaternion)
+  fullName: RedLight.Utils.RLUtils.QuaternionToEuler(System.Numerics.Quaternion)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Utils/RLUtils.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: QuaternionToEuler
+    path: src/RedLight/Utils/RLUtils.cs
+    startLine: 89
+  assemblies:
+  - RedLight
+  namespace: RedLight.Utils
+  syntax:
+    content: public static Vector3 QuaternionToEuler(Quaternion q)
+    parameters:
+    - id: q
+      type: System.Numerics.Quaternion
+    return:
+      type: System.Numerics.Vector3
+    content.vb: Public Shared Function QuaternionToEuler(q As Quaternion) As Vector3
+  overload: RedLight.Utils.RLUtils.QuaternionToEuler*
 references:
 - uid: RedLight.Utils
   commentId: N:RedLight.Utils
@@ -950,3 +982,17 @@ references:
   - name: " "
   - name: T2
   - name: )
+- uid: RedLight.Utils.RLUtils.QuaternionToEuler*
+  commentId: Overload:RedLight.Utils.RLUtils.QuaternionToEuler
+  href: RedLight.Utils.RLUtils.html#RedLight_Utils_RLUtils_QuaternionToEuler_System_Numerics_Quaternion_
+  name: QuaternionToEuler
+  nameWithType: RLUtils.QuaternionToEuler
+  fullName: RedLight.Utils.RLUtils.QuaternionToEuler
+- uid: System.Numerics.Quaternion
+  commentId: T:System.Numerics.Quaternion
+  parent: System.Numerics
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.numerics.quaternion
+  name: Quaternion
+  nameWithType: Quaternion
+  fullName: System.Numerics.Quaternion

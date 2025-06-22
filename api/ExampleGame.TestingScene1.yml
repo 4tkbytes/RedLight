@@ -39,14 +39,19 @@ items:
   namespace: ExampleGame
   syntax:
     content: 'public class TestingScene1 : RLScene, RLKeyboard, RLMouse'
-    content.vb: Public Class TestingScene1 Implements RLScene, RLKeyboard, RLMouse
+    content.vb: Public Class TestingScene1 Inherits RLScene Implements RLKeyboard, RLMouse
   inheritance:
   - System.Object
-  implements:
   - RedLight.Scene.RLScene
+  implements:
   - RedLight.Input.RLKeyboard
   - RedLight.Input.RLMouse
   inheritedMembers:
+  - RedLight.Scene.RLScene.ObjectModels
+  - RedLight.Scene.RLScene.AddToLists``1({T},RedLight.UI.RLImGuiEditor)
+  - RedLight.Scene.RLScene.RenderModel(RedLight.Graphics.Camera)
+  - RedLight.Scene.RLScene.BeforeEditorRender(RedLight.UI.RLImGuiEditor,RedLight.Graphics.Camera)
+  - RedLight.Scene.RLScene.AfterEditorRender(RedLight.UI.RLImGuiEditor)
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
   - System.Object.GetHashCode
@@ -78,14 +83,13 @@ items:
   namespace: ExampleGame
   example: []
   syntax:
-    content: public RLGraphics Graphics { get; set; }
+    content: public override RLGraphics Graphics { get; set; }
     parameters: []
     return:
       type: RedLight.Graphics.RLGraphics
-    content.vb: Public Property Graphics As RLGraphics
+    content.vb: Public Overrides Property Graphics As RLGraphics
+  overridden: RedLight.Scene.RLScene.Graphics
   overload: ExampleGame.TestingScene1.Graphics*
-  implements:
-  - RedLight.Scene.RLScene.Graphics
 - uid: ExampleGame.TestingScene1.SceneManager
   commentId: P:ExampleGame.TestingScene1.SceneManager
   id: SceneManager
@@ -110,14 +114,13 @@ items:
   namespace: ExampleGame
   example: []
   syntax:
-    content: public SceneManager SceneManager { get; set; }
+    content: public override SceneManager SceneManager { get; set; }
     parameters: []
     return:
       type: RedLight.Scene.SceneManager
-    content.vb: Public Property SceneManager As SceneManager
+    content.vb: Public Overrides Property SceneManager As SceneManager
+  overridden: RedLight.Scene.RLScene.SceneManager
   overload: ExampleGame.TestingScene1.SceneManager*
-  implements:
-  - RedLight.Scene.RLScene.SceneManager
 - uid: ExampleGame.TestingScene1.ShaderManager
   commentId: P:ExampleGame.TestingScene1.ShaderManager
   id: ShaderManager
@@ -142,14 +145,13 @@ items:
   namespace: ExampleGame
   example: []
   syntax:
-    content: public ShaderManager ShaderManager { get; set; }
+    content: public override ShaderManager ShaderManager { get; set; }
     parameters: []
     return:
       type: RedLight.Graphics.ShaderManager
-    content.vb: Public Property ShaderManager As ShaderManager
+    content.vb: Public Overrides Property ShaderManager As ShaderManager
+  overridden: RedLight.Scene.RLScene.ShaderManager
   overload: ExampleGame.TestingScene1.ShaderManager*
-  implements:
-  - RedLight.Scene.RLScene.ShaderManager
 - uid: ExampleGame.TestingScene1.TextureManager
   commentId: P:ExampleGame.TestingScene1.TextureManager
   id: TextureManager
@@ -174,14 +176,13 @@ items:
   namespace: ExampleGame
   example: []
   syntax:
-    content: public TextureManager TextureManager { get; set; }
+    content: public override TextureManager TextureManager { get; set; }
     parameters: []
     return:
       type: RedLight.Graphics.TextureManager
-    content.vb: Public Property TextureManager As TextureManager
+    content.vb: Public Overrides Property TextureManager As TextureManager
+  overridden: RedLight.Scene.RLScene.TextureManager
   overload: ExampleGame.TestingScene1.TextureManager*
-  implements:
-  - RedLight.Scene.RLScene.TextureManager
 - uid: ExampleGame.TestingScene1.InputManager
   commentId: P:ExampleGame.TestingScene1.InputManager
   id: InputManager
@@ -206,14 +207,13 @@ items:
   namespace: ExampleGame
   example: []
   syntax:
-    content: public InputManager InputManager { get; set; }
+    content: public override InputManager InputManager { get; set; }
     parameters: []
     return:
       type: RedLight.Input.InputManager
-    content.vb: Public Property InputManager As InputManager
+    content.vb: Public Overrides Property InputManager As InputManager
+  overridden: RedLight.Scene.RLScene.InputManager
   overload: ExampleGame.TestingScene1.InputManager*
-  implements:
-  - RedLight.Scene.RLScene.InputManager
 - uid: ExampleGame.TestingScene1.Engine
   commentId: P:ExampleGame.TestingScene1.Engine
   id: Engine
@@ -238,14 +238,13 @@ items:
   namespace: ExampleGame
   example: []
   syntax:
-    content: public RLEngine Engine { get; set; }
+    content: public override RLEngine Engine { get; set; }
     parameters: []
     return:
       type: RedLight.RLEngine
-    content.vb: Public Property Engine As RLEngine
+    content.vb: Public Overrides Property Engine As RLEngine
+  overridden: RedLight.Scene.RLScene.Engine
   overload: ExampleGame.TestingScene1.Engine*
-  implements:
-  - RedLight.Scene.RLScene.Engine
 - uid: ExampleGame.TestingScene1.PressedKeys
   commentId: P:ExampleGame.TestingScene1.PressedKeys
   id: PressedKeys
@@ -302,14 +301,13 @@ items:
   namespace: ExampleGame
   example: []
   syntax:
-    content: public PhysicsSystem PhysicsSystem { get; set; }
+    content: public override PhysicsSystem PhysicsSystem { get; set; }
     parameters: []
     return:
       type: RedLight.Physics.PhysicsSystem
-    content.vb: Public Property PhysicsSystem As PhysicsSystem
+    content.vb: Public Overrides Property PhysicsSystem As PhysicsSystem
+  overridden: RedLight.Scene.RLScene.PhysicsSystem
   overload: ExampleGame.TestingScene1.PhysicsSystem*
-  implements:
-  - RedLight.Scene.RLScene.PhysicsSystem
 - uid: ExampleGame.TestingScene1.LightManager
   commentId: P:ExampleGame.TestingScene1.LightManager
   id: LightManager
@@ -332,12 +330,14 @@ items:
   assemblies:
   - ExampleGame
   namespace: ExampleGame
+  example: []
   syntax:
-    content: public LightManager LightManager { get; set; }
+    content: public override LightManager LightManager { get; set; }
     parameters: []
     return:
       type: RedLight.Lighting.LightManager
-    content.vb: Public Property LightManager As LightManager
+    content.vb: Public Overrides Property LightManager As LightManager
+  overridden: RedLight.Scene.RLScene.LightManager
   overload: ExampleGame.TestingScene1.LightManager*
 - uid: ExampleGame.TestingScene1.OnLoad
   commentId: M:ExampleGame.TestingScene1.OnLoad
@@ -363,11 +363,10 @@ items:
   namespace: ExampleGame
   example: []
   syntax:
-    content: public void OnLoad()
-    content.vb: Public Sub OnLoad()
+    content: public override void OnLoad()
+    content.vb: Public Overrides Sub OnLoad()
+  overridden: RedLight.Scene.RLScene.OnLoad
   overload: ExampleGame.TestingScene1.OnLoad*
-  implements:
-  - RedLight.Scene.RLScene.OnLoad
 - uid: ExampleGame.TestingScene1.OnUpdate(System.Double)
   commentId: M:ExampleGame.TestingScene1.OnUpdate(System.Double)
   id: OnUpdate(System.Double)
@@ -386,20 +385,19 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: OnUpdate
     path: src/ExampleGame/TestingScene1.cs
-    startLine: 64
+    startLine: 62
   assemblies:
   - ExampleGame
   namespace: ExampleGame
   example: []
   syntax:
-    content: public void OnUpdate(double deltaTime)
+    content: public override void OnUpdate(double deltaTime)
     parameters:
     - id: deltaTime
       type: System.Double
-    content.vb: Public Sub OnUpdate(deltaTime As Double)
+    content.vb: Public Overrides Sub OnUpdate(deltaTime As Double)
+  overridden: RedLight.Scene.RLScene.OnUpdate(System.Double)
   overload: ExampleGame.TestingScene1.OnUpdate*
-  implements:
-  - RedLight.Scene.RLScene.OnUpdate(System.Double)
   nameWithType.vb: TestingScene1.OnUpdate(Double)
   fullName.vb: ExampleGame.TestingScene1.OnUpdate(Double)
   name.vb: OnUpdate(Double)
@@ -421,20 +419,19 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: OnRender
     path: src/ExampleGame/TestingScene1.cs
-    startLine: 84
+    startLine: 82
   assemblies:
   - ExampleGame
   namespace: ExampleGame
   example: []
   syntax:
-    content: public void OnRender(double deltaTime)
+    content: public override void OnRender(double deltaTime)
     parameters:
     - id: deltaTime
       type: System.Double
-    content.vb: Public Sub OnRender(deltaTime As Double)
+    content.vb: Public Overrides Sub OnRender(deltaTime As Double)
+  overridden: RedLight.Scene.RLScene.OnRender(System.Double)
   overload: ExampleGame.TestingScene1.OnRender*
-  implements:
-  - RedLight.Scene.RLScene.OnRender(System.Double)
   nameWithType.vb: TestingScene1.OnRender(Double)
   fullName.vb: ExampleGame.TestingScene1.OnRender(Double)
   name.vb: OnRender(Double)
@@ -456,7 +453,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: OnKeyDown
     path: src/ExampleGame/TestingScene1.cs
-    startLine: 149
+    startLine: 107
   assemblies:
   - ExampleGame
   namespace: ExampleGame
@@ -495,7 +492,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: OnMouseMove
     path: src/ExampleGame/TestingScene1.cs
-    startLine: 192
+    startLine: 150
   assemblies:
   - ExampleGame
   namespace: ExampleGame
@@ -550,6 +547,141 @@ references:
   name: RLMouse
   nameWithType: RLMouse
   fullName: RedLight.Input.RLMouse
+- uid: RedLight.Scene.RLScene.ObjectModels
+  commentId: F:RedLight.Scene.RLScene.ObjectModels
+  parent: RedLight.Scene.RLScene
+  href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_ObjectModels
+  name: ObjectModels
+  nameWithType: RLScene.ObjectModels
+  fullName: RedLight.Scene.RLScene.ObjectModels
+- uid: RedLight.Scene.RLScene.AddToLists``1({T},RedLight.UI.RLImGuiEditor)
+  commentId: M:RedLight.Scene.RLScene.AddToLists``1(``0,RedLight.UI.RLImGuiEditor)
+  parent: RedLight.Scene.RLScene
+  definition: RedLight.Scene.RLScene.AddToLists``1(``0,RedLight.UI.RLImGuiEditor)
+  href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_AddToLists__1___0_RedLight_UI_RLImGuiEditor_
+  name: AddToLists<T>(T, RLImGuiEditor)
+  nameWithType: RLScene.AddToLists<T>(T, RLImGuiEditor)
+  fullName: RedLight.Scene.RLScene.AddToLists<T>(T, RedLight.UI.RLImGuiEditor)
+  nameWithType.vb: RLScene.AddToLists(Of T)(T, RLImGuiEditor)
+  fullName.vb: RedLight.Scene.RLScene.AddToLists(Of T)(T, RedLight.UI.RLImGuiEditor)
+  name.vb: AddToLists(Of T)(T, RLImGuiEditor)
+  spec.csharp:
+  - uid: RedLight.Scene.RLScene.AddToLists``1(``0,RedLight.UI.RLImGuiEditor)
+    name: AddToLists
+    href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_AddToLists__1___0_RedLight_UI_RLImGuiEditor_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: RedLight.UI.RLImGuiEditor
+    name: RLImGuiEditor
+    href: RedLight.UI.RLImGuiEditor.html
+  - name: )
+  spec.vb:
+  - uid: RedLight.Scene.RLScene.AddToLists``1(``0,RedLight.UI.RLImGuiEditor)
+    name: AddToLists
+    href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_AddToLists__1___0_RedLight_UI_RLImGuiEditor_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: RedLight.UI.RLImGuiEditor
+    name: RLImGuiEditor
+    href: RedLight.UI.RLImGuiEditor.html
+  - name: )
+- uid: RedLight.Scene.RLScene.RenderModel(RedLight.Graphics.Camera)
+  commentId: M:RedLight.Scene.RLScene.RenderModel(RedLight.Graphics.Camera)
+  parent: RedLight.Scene.RLScene
+  href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_RenderModel_RedLight_Graphics_Camera_
+  name: RenderModel(Camera)
+  nameWithType: RLScene.RenderModel(Camera)
+  fullName: RedLight.Scene.RLScene.RenderModel(RedLight.Graphics.Camera)
+  spec.csharp:
+  - uid: RedLight.Scene.RLScene.RenderModel(RedLight.Graphics.Camera)
+    name: RenderModel
+    href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_RenderModel_RedLight_Graphics_Camera_
+  - name: (
+  - uid: RedLight.Graphics.Camera
+    name: Camera
+    href: RedLight.Graphics.Camera.html
+  - name: )
+  spec.vb:
+  - uid: RedLight.Scene.RLScene.RenderModel(RedLight.Graphics.Camera)
+    name: RenderModel
+    href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_RenderModel_RedLight_Graphics_Camera_
+  - name: (
+  - uid: RedLight.Graphics.Camera
+    name: Camera
+    href: RedLight.Graphics.Camera.html
+  - name: )
+- uid: RedLight.Scene.RLScene.BeforeEditorRender(RedLight.UI.RLImGuiEditor,RedLight.Graphics.Camera)
+  commentId: M:RedLight.Scene.RLScene.BeforeEditorRender(RedLight.UI.RLImGuiEditor,RedLight.Graphics.Camera)
+  parent: RedLight.Scene.RLScene
+  href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_BeforeEditorRender_RedLight_UI_RLImGuiEditor_RedLight_Graphics_Camera_
+  name: BeforeEditorRender(RLImGuiEditor, Camera)
+  nameWithType: RLScene.BeforeEditorRender(RLImGuiEditor, Camera)
+  fullName: RedLight.Scene.RLScene.BeforeEditorRender(RedLight.UI.RLImGuiEditor, RedLight.Graphics.Camera)
+  spec.csharp:
+  - uid: RedLight.Scene.RLScene.BeforeEditorRender(RedLight.UI.RLImGuiEditor,RedLight.Graphics.Camera)
+    name: BeforeEditorRender
+    href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_BeforeEditorRender_RedLight_UI_RLImGuiEditor_RedLight_Graphics_Camera_
+  - name: (
+  - uid: RedLight.UI.RLImGuiEditor
+    name: RLImGuiEditor
+    href: RedLight.UI.RLImGuiEditor.html
+  - name: ','
+  - name: " "
+  - uid: RedLight.Graphics.Camera
+    name: Camera
+    href: RedLight.Graphics.Camera.html
+  - name: )
+  spec.vb:
+  - uid: RedLight.Scene.RLScene.BeforeEditorRender(RedLight.UI.RLImGuiEditor,RedLight.Graphics.Camera)
+    name: BeforeEditorRender
+    href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_BeforeEditorRender_RedLight_UI_RLImGuiEditor_RedLight_Graphics_Camera_
+  - name: (
+  - uid: RedLight.UI.RLImGuiEditor
+    name: RLImGuiEditor
+    href: RedLight.UI.RLImGuiEditor.html
+  - name: ','
+  - name: " "
+  - uid: RedLight.Graphics.Camera
+    name: Camera
+    href: RedLight.Graphics.Camera.html
+  - name: )
+- uid: RedLight.Scene.RLScene.AfterEditorRender(RedLight.UI.RLImGuiEditor)
+  commentId: M:RedLight.Scene.RLScene.AfterEditorRender(RedLight.UI.RLImGuiEditor)
+  parent: RedLight.Scene.RLScene
+  href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_AfterEditorRender_RedLight_UI_RLImGuiEditor_
+  name: AfterEditorRender(RLImGuiEditor)
+  nameWithType: RLScene.AfterEditorRender(RLImGuiEditor)
+  fullName: RedLight.Scene.RLScene.AfterEditorRender(RedLight.UI.RLImGuiEditor)
+  spec.csharp:
+  - uid: RedLight.Scene.RLScene.AfterEditorRender(RedLight.UI.RLImGuiEditor)
+    name: AfterEditorRender
+    href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_AfterEditorRender_RedLight_UI_RLImGuiEditor_
+  - name: (
+  - uid: RedLight.UI.RLImGuiEditor
+    name: RLImGuiEditor
+    href: RedLight.UI.RLImGuiEditor.html
+  - name: )
+  spec.vb:
+  - uid: RedLight.Scene.RLScene.AfterEditorRender(RedLight.UI.RLImGuiEditor)
+    name: AfterEditorRender
+    href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_AfterEditorRender_RedLight_UI_RLImGuiEditor_
+  - name: (
+  - uid: RedLight.UI.RLImGuiEditor
+    name: RLImGuiEditor
+    href: RedLight.UI.RLImGuiEditor.html
+  - name: )
 - uid: System.Object.Equals(System.Object)
   commentId: M:System.Object.Equals(System.Object)
   parent: System.Object
@@ -820,12 +952,47 @@ references:
   - uid: RedLight.Input
     name: Input
     href: RedLight.Input.html
-- uid: ExampleGame.TestingScene1.Graphics*
-  commentId: Overload:ExampleGame.TestingScene1.Graphics
-  href: ExampleGame.TestingScene1.html#ExampleGame_TestingScene1_Graphics
-  name: Graphics
-  nameWithType: TestingScene1.Graphics
-  fullName: ExampleGame.TestingScene1.Graphics
+- uid: RedLight.Scene.RLScene.AddToLists``1(``0,RedLight.UI.RLImGuiEditor)
+  commentId: M:RedLight.Scene.RLScene.AddToLists``1(``0,RedLight.UI.RLImGuiEditor)
+  href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_AddToLists__1___0_RedLight_UI_RLImGuiEditor_
+  name: AddToLists<T>(T, RLImGuiEditor)
+  nameWithType: RLScene.AddToLists<T>(T, RLImGuiEditor)
+  fullName: RedLight.Scene.RLScene.AddToLists<T>(T, RedLight.UI.RLImGuiEditor)
+  nameWithType.vb: RLScene.AddToLists(Of T)(T, RLImGuiEditor)
+  fullName.vb: RedLight.Scene.RLScene.AddToLists(Of T)(T, RedLight.UI.RLImGuiEditor)
+  name.vb: AddToLists(Of T)(T, RLImGuiEditor)
+  spec.csharp:
+  - uid: RedLight.Scene.RLScene.AddToLists``1(``0,RedLight.UI.RLImGuiEditor)
+    name: AddToLists
+    href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_AddToLists__1___0_RedLight_UI_RLImGuiEditor_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: RedLight.UI.RLImGuiEditor
+    name: RLImGuiEditor
+    href: RedLight.UI.RLImGuiEditor.html
+  - name: )
+  spec.vb:
+  - uid: RedLight.Scene.RLScene.AddToLists``1(``0,RedLight.UI.RLImGuiEditor)
+    name: AddToLists
+    href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_AddToLists__1___0_RedLight_UI_RLImGuiEditor_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: RedLight.UI.RLImGuiEditor
+    name: RLImGuiEditor
+    href: RedLight.UI.RLImGuiEditor.html
+  - name: )
 - uid: RedLight.Scene.RLScene.Graphics
   commentId: P:RedLight.Scene.RLScene.Graphics
   parent: RedLight.Scene.RLScene
@@ -833,6 +1000,12 @@ references:
   name: Graphics
   nameWithType: RLScene.Graphics
   fullName: RedLight.Scene.RLScene.Graphics
+- uid: ExampleGame.TestingScene1.Graphics*
+  commentId: Overload:ExampleGame.TestingScene1.Graphics
+  href: ExampleGame.TestingScene1.html#ExampleGame_TestingScene1_Graphics
+  name: Graphics
+  nameWithType: TestingScene1.Graphics
+  fullName: ExampleGame.TestingScene1.Graphics
 - uid: RedLight.Graphics.RLGraphics
   commentId: T:RedLight.Graphics.RLGraphics
   parent: RedLight.Graphics
@@ -862,12 +1035,6 @@ references:
   - uid: RedLight.Graphics
     name: Graphics
     href: RedLight.Graphics.html
-- uid: ExampleGame.TestingScene1.SceneManager*
-  commentId: Overload:ExampleGame.TestingScene1.SceneManager
-  href: ExampleGame.TestingScene1.html#ExampleGame_TestingScene1_SceneManager
-  name: SceneManager
-  nameWithType: TestingScene1.SceneManager
-  fullName: ExampleGame.TestingScene1.SceneManager
 - uid: RedLight.Scene.RLScene.SceneManager
   commentId: P:RedLight.Scene.RLScene.SceneManager
   parent: RedLight.Scene.RLScene
@@ -875,6 +1042,12 @@ references:
   name: SceneManager
   nameWithType: RLScene.SceneManager
   fullName: RedLight.Scene.RLScene.SceneManager
+- uid: ExampleGame.TestingScene1.SceneManager*
+  commentId: Overload:ExampleGame.TestingScene1.SceneManager
+  href: ExampleGame.TestingScene1.html#ExampleGame_TestingScene1_SceneManager
+  name: SceneManager
+  nameWithType: TestingScene1.SceneManager
+  fullName: ExampleGame.TestingScene1.SceneManager
 - uid: RedLight.Scene.SceneManager
   commentId: T:RedLight.Scene.SceneManager
   parent: RedLight.Scene
@@ -882,12 +1055,6 @@ references:
   name: SceneManager
   nameWithType: SceneManager
   fullName: RedLight.Scene.SceneManager
-- uid: ExampleGame.TestingScene1.ShaderManager*
-  commentId: Overload:ExampleGame.TestingScene1.ShaderManager
-  href: ExampleGame.TestingScene1.html#ExampleGame_TestingScene1_ShaderManager
-  name: ShaderManager
-  nameWithType: TestingScene1.ShaderManager
-  fullName: ExampleGame.TestingScene1.ShaderManager
 - uid: RedLight.Scene.RLScene.ShaderManager
   commentId: P:RedLight.Scene.RLScene.ShaderManager
   parent: RedLight.Scene.RLScene
@@ -895,6 +1062,12 @@ references:
   name: ShaderManager
   nameWithType: RLScene.ShaderManager
   fullName: RedLight.Scene.RLScene.ShaderManager
+- uid: ExampleGame.TestingScene1.ShaderManager*
+  commentId: Overload:ExampleGame.TestingScene1.ShaderManager
+  href: ExampleGame.TestingScene1.html#ExampleGame_TestingScene1_ShaderManager
+  name: ShaderManager
+  nameWithType: TestingScene1.ShaderManager
+  fullName: ExampleGame.TestingScene1.ShaderManager
 - uid: RedLight.Graphics.ShaderManager
   commentId: T:RedLight.Graphics.ShaderManager
   parent: RedLight.Graphics
@@ -902,12 +1075,6 @@ references:
   name: ShaderManager
   nameWithType: ShaderManager
   fullName: RedLight.Graphics.ShaderManager
-- uid: ExampleGame.TestingScene1.TextureManager*
-  commentId: Overload:ExampleGame.TestingScene1.TextureManager
-  href: ExampleGame.TestingScene1.html#ExampleGame_TestingScene1_TextureManager
-  name: TextureManager
-  nameWithType: TestingScene1.TextureManager
-  fullName: ExampleGame.TestingScene1.TextureManager
 - uid: RedLight.Scene.RLScene.TextureManager
   commentId: P:RedLight.Scene.RLScene.TextureManager
   parent: RedLight.Scene.RLScene
@@ -915,6 +1082,12 @@ references:
   name: TextureManager
   nameWithType: RLScene.TextureManager
   fullName: RedLight.Scene.RLScene.TextureManager
+- uid: ExampleGame.TestingScene1.TextureManager*
+  commentId: Overload:ExampleGame.TestingScene1.TextureManager
+  href: ExampleGame.TestingScene1.html#ExampleGame_TestingScene1_TextureManager
+  name: TextureManager
+  nameWithType: TestingScene1.TextureManager
+  fullName: ExampleGame.TestingScene1.TextureManager
 - uid: RedLight.Graphics.TextureManager
   commentId: T:RedLight.Graphics.TextureManager
   parent: RedLight.Graphics
@@ -922,12 +1095,6 @@ references:
   name: TextureManager
   nameWithType: TextureManager
   fullName: RedLight.Graphics.TextureManager
-- uid: ExampleGame.TestingScene1.InputManager*
-  commentId: Overload:ExampleGame.TestingScene1.InputManager
-  href: ExampleGame.TestingScene1.html#ExampleGame_TestingScene1_InputManager
-  name: InputManager
-  nameWithType: TestingScene1.InputManager
-  fullName: ExampleGame.TestingScene1.InputManager
 - uid: RedLight.Scene.RLScene.InputManager
   commentId: P:RedLight.Scene.RLScene.InputManager
   parent: RedLight.Scene.RLScene
@@ -935,6 +1102,12 @@ references:
   name: InputManager
   nameWithType: RLScene.InputManager
   fullName: RedLight.Scene.RLScene.InputManager
+- uid: ExampleGame.TestingScene1.InputManager*
+  commentId: Overload:ExampleGame.TestingScene1.InputManager
+  href: ExampleGame.TestingScene1.html#ExampleGame_TestingScene1_InputManager
+  name: InputManager
+  nameWithType: TestingScene1.InputManager
+  fullName: ExampleGame.TestingScene1.InputManager
 - uid: RedLight.Input.InputManager
   commentId: T:RedLight.Input.InputManager
   parent: RedLight.Input
@@ -942,12 +1115,6 @@ references:
   name: InputManager
   nameWithType: InputManager
   fullName: RedLight.Input.InputManager
-- uid: ExampleGame.TestingScene1.Engine*
-  commentId: Overload:ExampleGame.TestingScene1.Engine
-  href: ExampleGame.TestingScene1.html#ExampleGame_TestingScene1_Engine
-  name: Engine
-  nameWithType: TestingScene1.Engine
-  fullName: ExampleGame.TestingScene1.Engine
 - uid: RedLight.Scene.RLScene.Engine
   commentId: P:RedLight.Scene.RLScene.Engine
   parent: RedLight.Scene.RLScene
@@ -955,6 +1122,12 @@ references:
   name: Engine
   nameWithType: RLScene.Engine
   fullName: RedLight.Scene.RLScene.Engine
+- uid: ExampleGame.TestingScene1.Engine*
+  commentId: Overload:ExampleGame.TestingScene1.Engine
+  href: ExampleGame.TestingScene1.html#ExampleGame_TestingScene1_Engine
+  name: Engine
+  nameWithType: TestingScene1.Engine
+  fullName: ExampleGame.TestingScene1.Engine
 - uid: RedLight.RLEngine
   commentId: T:RedLight.RLEngine
   parent: RedLight
@@ -1079,12 +1252,6 @@ references:
     name: Generic
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.collections.generic
-- uid: ExampleGame.TestingScene1.PhysicsSystem*
-  commentId: Overload:ExampleGame.TestingScene1.PhysicsSystem
-  href: ExampleGame.TestingScene1.html#ExampleGame_TestingScene1_PhysicsSystem
-  name: PhysicsSystem
-  nameWithType: TestingScene1.PhysicsSystem
-  fullName: ExampleGame.TestingScene1.PhysicsSystem
 - uid: RedLight.Scene.RLScene.PhysicsSystem
   commentId: P:RedLight.Scene.RLScene.PhysicsSystem
   parent: RedLight.Scene.RLScene
@@ -1092,6 +1259,12 @@ references:
   name: PhysicsSystem
   nameWithType: RLScene.PhysicsSystem
   fullName: RedLight.Scene.RLScene.PhysicsSystem
+- uid: ExampleGame.TestingScene1.PhysicsSystem*
+  commentId: Overload:ExampleGame.TestingScene1.PhysicsSystem
+  href: ExampleGame.TestingScene1.html#ExampleGame_TestingScene1_PhysicsSystem
+  name: PhysicsSystem
+  nameWithType: TestingScene1.PhysicsSystem
+  fullName: ExampleGame.TestingScene1.PhysicsSystem
 - uid: RedLight.Physics.PhysicsSystem
   commentId: T:RedLight.Physics.PhysicsSystem
   parent: RedLight.Physics
@@ -1121,6 +1294,13 @@ references:
   - uid: RedLight.Physics
     name: Physics
     href: RedLight.Physics.html
+- uid: RedLight.Scene.RLScene.LightManager
+  commentId: P:RedLight.Scene.RLScene.LightManager
+  parent: RedLight.Scene.RLScene
+  href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_LightManager
+  name: LightManager
+  nameWithType: RLScene.LightManager
+  fullName: RedLight.Scene.RLScene.LightManager
 - uid: ExampleGame.TestingScene1.LightManager*
   commentId: Overload:ExampleGame.TestingScene1.LightManager
   href: ExampleGame.TestingScene1.html#ExampleGame_TestingScene1_LightManager
@@ -1156,12 +1336,6 @@ references:
   - uid: RedLight.Lighting
     name: Lighting
     href: RedLight.Lighting.html
-- uid: ExampleGame.TestingScene1.OnLoad*
-  commentId: Overload:ExampleGame.TestingScene1.OnLoad
-  href: ExampleGame.TestingScene1.html#ExampleGame_TestingScene1_OnLoad
-  name: OnLoad
-  nameWithType: TestingScene1.OnLoad
-  fullName: ExampleGame.TestingScene1.OnLoad
 - uid: RedLight.Scene.RLScene.OnLoad
   commentId: M:RedLight.Scene.RLScene.OnLoad
   parent: RedLight.Scene.RLScene
@@ -1181,12 +1355,12 @@ references:
     href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_OnLoad
   - name: (
   - name: )
-- uid: ExampleGame.TestingScene1.OnUpdate*
-  commentId: Overload:ExampleGame.TestingScene1.OnUpdate
-  href: ExampleGame.TestingScene1.html#ExampleGame_TestingScene1_OnUpdate_System_Double_
-  name: OnUpdate
-  nameWithType: TestingScene1.OnUpdate
-  fullName: ExampleGame.TestingScene1.OnUpdate
+- uid: ExampleGame.TestingScene1.OnLoad*
+  commentId: Overload:ExampleGame.TestingScene1.OnLoad
+  href: ExampleGame.TestingScene1.html#ExampleGame_TestingScene1_OnLoad
+  name: OnLoad
+  nameWithType: TestingScene1.OnLoad
+  fullName: ExampleGame.TestingScene1.OnLoad
 - uid: RedLight.Scene.RLScene.OnUpdate(System.Double)
   commentId: M:RedLight.Scene.RLScene.OnUpdate(System.Double)
   parent: RedLight.Scene.RLScene
@@ -1218,6 +1392,12 @@ references:
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.double
   - name: )
+- uid: ExampleGame.TestingScene1.OnUpdate*
+  commentId: Overload:ExampleGame.TestingScene1.OnUpdate
+  href: ExampleGame.TestingScene1.html#ExampleGame_TestingScene1_OnUpdate_System_Double_
+  name: OnUpdate
+  nameWithType: TestingScene1.OnUpdate
+  fullName: ExampleGame.TestingScene1.OnUpdate
 - uid: System.Double
   commentId: T:System.Double
   parent: System
@@ -1229,12 +1409,6 @@ references:
   nameWithType.vb: Double
   fullName.vb: Double
   name.vb: Double
-- uid: ExampleGame.TestingScene1.OnRender*
-  commentId: Overload:ExampleGame.TestingScene1.OnRender
-  href: ExampleGame.TestingScene1.html#ExampleGame_TestingScene1_OnRender_System_Double_
-  name: OnRender
-  nameWithType: TestingScene1.OnRender
-  fullName: ExampleGame.TestingScene1.OnRender
 - uid: RedLight.Scene.RLScene.OnRender(System.Double)
   commentId: M:RedLight.Scene.RLScene.OnRender(System.Double)
   parent: RedLight.Scene.RLScene
@@ -1266,6 +1440,12 @@ references:
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.double
   - name: )
+- uid: ExampleGame.TestingScene1.OnRender*
+  commentId: Overload:ExampleGame.TestingScene1.OnRender
+  href: ExampleGame.TestingScene1.html#ExampleGame_TestingScene1_OnRender_System_Double_
+  name: OnRender
+  nameWithType: TestingScene1.OnRender
+  fullName: ExampleGame.TestingScene1.OnRender
 - uid: ExampleGame.TestingScene1.OnKeyDown*
   commentId: Overload:ExampleGame.TestingScene1.OnKeyDown
   href: ExampleGame.TestingScene1.html#ExampleGame_TestingScene1_OnKeyDown_Silk_NET_Input_IKeyboard_Silk_NET_Input_Key_System_Int32_

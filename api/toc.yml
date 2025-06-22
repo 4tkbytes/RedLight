@@ -68,6 +68,9 @@ items:
   - uid: RedLight.Graphics.Mesh
     name: Mesh
     type: Class
+  - uid: RedLight.Graphics.ModelType
+    name: ModelType
+    type: Enum
   - uid: RedLight.Graphics.RLGraphics
     name: RLGraphics
     type: Class
@@ -124,6 +127,12 @@ items:
   name: RedLight.Lighting
   type: Namespace
   items:
+  - uid: RedLight.Lighting.Attenuation
+    name: Attenuation
+    type: Struct
+  - uid: RedLight.Lighting.Attenuation.DefaultValues
+    name: Attenuation.DefaultValues
+    type: Struct
   - uid: RedLight.Lighting.LightManager
     name: LightManager
     type: Class
@@ -141,9 +150,6 @@ items:
     type: Struct
   - uid: RedLight.Lighting.RLLight
     name: RLLight
-    type: Class
-  - uid: RedLight.Lighting.Sun
-    name: Sun
     type: Class
 - uid: RedLight.Physics
   name: RedLight.Physics
@@ -170,7 +176,7 @@ items:
     type: Enum
   - uid: RedLight.Scene.RLScene
     name: RLScene
-    type: Interface
+    type: Class
   - uid: RedLight.Scene.SceneManager
     name: SceneManager
     type: Class
@@ -215,9 +221,6 @@ items:
   - uid: RedLight.UI.ImGui.ImGuiFontConfig
     name: ImGuiFontConfig
     type: Struct
-  - uid: RedLight.UI.ImGui.RLGuizmo
-    name: RLGuizmo
-    type: Class
   - uid: RedLight.UI.ImGui.TextureCoordinate
     name: TextureCoordinate
     type: Enum

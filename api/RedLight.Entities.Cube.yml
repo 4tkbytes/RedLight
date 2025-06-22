@@ -5,8 +5,9 @@ items:
   id: Cube
   parent: RedLight.Entities
   children:
-  - RedLight.Entities.Cube.#ctor(RedLight.Graphics.RLGraphics,System.Boolean)
-  - RedLight.Entities.Cube.#ctor(RedLight.Graphics.RLGraphics,System.String,System.Boolean)
+  - RedLight.Entities.Cube.#ctor(System.Boolean)
+  - RedLight.Entities.Cube.#ctor(System.String,System.Boolean)
+  - RedLight.Entities.Cube.CreateLightCube(System.String,System.String)
   langs:
   - csharp
   - vb
@@ -21,7 +22,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Cube
     path: src/RedLight/Entities/Cube.cs
-    startLine: 9
+    startLine: 11
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -43,6 +44,7 @@ items:
   - RedLight.Entities.Entity._scaleDefault
   - RedLight.Entities.Entity.Velocity
   - RedLight.Entities.Entity.ApplyGravity
+  - RedLight.Entities.Entity.EnablePhysics
   - RedLight.Entities.Entity.Mass
   - RedLight.Entities.Entity.FrictionCoefficient
   - RedLight.Entities.Entity.BoundingBoxMin
@@ -58,6 +60,7 @@ items:
   - RedLight.Entities.Entity.UseImGuizmo
   - RedLight.Entities.Entity.GuizmoOperation
   - RedLight.Entities.Entity.GuizmoMode
+  - RedLight.Entities.Entity.ModelType
   - RedLight.Entities.Entity.Model
   - RedLight.Entities.Entity.ModelMatrix
   - RedLight.Entities.Entity.Position
@@ -78,8 +81,7 @@ items:
   - RedLight.Entities.Entity.SetHitboxConfig(RedLight.Entities.HitboxConfig)
   - RedLight.Entities.Entity.EnableImGuizmo(Hexa.NET.ImGuizmo.ImGuizmoOperation,Hexa.NET.ImGuizmo.ImGuizmoMode)
   - RedLight.Entities.Entity.DisableImGuizmo
-  - RedLight.Entities.Entity.RenderImGuizmo(RedLight.Graphics.Camera,System.Numerics.Vector2,System.Numerics.Vector2)
-  - RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.RLGraphics,RedLight.Graphics.Camera)
+  - RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.Camera)
   - RedLight.Entities.Entity.SetRotationX(System.Single)
   - RedLight.Entities.Entity.SetRotationY(System.Single)
   - RedLight.Entities.Entity.SetRotationZ(System.Single)
@@ -100,16 +102,16 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
-- uid: RedLight.Entities.Cube.#ctor(RedLight.Graphics.RLGraphics,System.Boolean)
-  commentId: M:RedLight.Entities.Cube.#ctor(RedLight.Graphics.RLGraphics,System.Boolean)
-  id: '#ctor(RedLight.Graphics.RLGraphics,System.Boolean)'
+- uid: RedLight.Entities.Cube.#ctor(System.Boolean)
+  commentId: M:RedLight.Entities.Cube.#ctor(System.Boolean)
+  id: '#ctor(System.Boolean)'
   parent: RedLight.Entities.Cube
   langs:
   - csharp
   - vb
-  name: Cube(RLGraphics, bool)
-  nameWithType: Cube.Cube(RLGraphics, bool)
-  fullName: RedLight.Entities.Cube.Cube(RedLight.Graphics.RLGraphics, bool)
+  name: Cube(bool)
+  nameWithType: Cube.Cube(bool)
+  fullName: RedLight.Entities.Cube.Cube(bool)
   type: Constructor
   source:
     remote:
@@ -118,32 +120,30 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: .ctor
     path: src/RedLight/Entities/Cube.cs
-    startLine: 11
+    startLine: 13
   assemblies:
   - RedLight
   namespace: RedLight.Entities
   syntax:
-    content: public Cube(RLGraphics graphics, bool applyGravity = true)
+    content: public Cube(bool applyGravity = true)
     parameters:
-    - id: graphics
-      type: RedLight.Graphics.RLGraphics
     - id: applyGravity
       type: System.Boolean
-    content.vb: Public Sub New(graphics As RLGraphics, applyGravity As Boolean = True)
+    content.vb: Public Sub New(applyGravity As Boolean = True)
   overload: RedLight.Entities.Cube.#ctor*
-  nameWithType.vb: Cube.New(RLGraphics, Boolean)
-  fullName.vb: RedLight.Entities.Cube.New(RedLight.Graphics.RLGraphics, Boolean)
-  name.vb: New(RLGraphics, Boolean)
-- uid: RedLight.Entities.Cube.#ctor(RedLight.Graphics.RLGraphics,System.String,System.Boolean)
-  commentId: M:RedLight.Entities.Cube.#ctor(RedLight.Graphics.RLGraphics,System.String,System.Boolean)
-  id: '#ctor(RedLight.Graphics.RLGraphics,System.String,System.Boolean)'
+  nameWithType.vb: Cube.New(Boolean)
+  fullName.vb: RedLight.Entities.Cube.New(Boolean)
+  name.vb: New(Boolean)
+- uid: RedLight.Entities.Cube.#ctor(System.String,System.Boolean)
+  commentId: M:RedLight.Entities.Cube.#ctor(System.String,System.Boolean)
+  id: '#ctor(System.String,System.Boolean)'
   parent: RedLight.Entities.Cube
   langs:
   - csharp
   - vb
-  name: Cube(RLGraphics, string, bool)
-  nameWithType: Cube.Cube(RLGraphics, string, bool)
-  fullName: RedLight.Entities.Cube.Cube(RedLight.Graphics.RLGraphics, string, bool)
+  name: Cube(string, bool)
+  nameWithType: Cube.Cube(string, bool)
+  fullName: RedLight.Entities.Cube.Cube(string, bool)
   type: Constructor
   source:
     remote:
@@ -152,24 +152,58 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: .ctor
     path: src/RedLight/Entities/Cube.cs
-    startLine: 16
+    startLine: 18
   assemblies:
   - RedLight
   namespace: RedLight.Entities
   syntax:
-    content: public Cube(RLGraphics graphics, string name, bool applyGravity = true)
+    content: public Cube(string name, bool applyGravity = true)
     parameters:
-    - id: graphics
-      type: RedLight.Graphics.RLGraphics
     - id: name
       type: System.String
     - id: applyGravity
       type: System.Boolean
-    content.vb: Public Sub New(graphics As RLGraphics, name As String, applyGravity As Boolean = True)
+    content.vb: Public Sub New(name As String, applyGravity As Boolean = True)
   overload: RedLight.Entities.Cube.#ctor*
-  nameWithType.vb: Cube.New(RLGraphics, String, Boolean)
-  fullName.vb: RedLight.Entities.Cube.New(RedLight.Graphics.RLGraphics, String, Boolean)
-  name.vb: New(RLGraphics, String, Boolean)
+  nameWithType.vb: Cube.New(String, Boolean)
+  fullName.vb: RedLight.Entities.Cube.New(String, Boolean)
+  name.vb: New(String, Boolean)
+- uid: RedLight.Entities.Cube.CreateLightCube(System.String,System.String)
+  commentId: M:RedLight.Entities.Cube.CreateLightCube(System.String,System.String)
+  id: CreateLightCube(System.String,System.String)
+  parent: RedLight.Entities.Cube
+  langs:
+  - csharp
+  - vb
+  name: CreateLightCube(string, string)
+  nameWithType: Cube.CreateLightCube(string, string)
+  fullName: RedLight.Entities.Cube.CreateLightCube(string, string)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Entities/Cube.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: CreateLightCube
+    path: src/RedLight/Entities/Cube.cs
+    startLine: 33
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: public static Cube CreateLightCube(string name, string shaderId)
+    parameters:
+    - id: name
+      type: System.String
+    - id: shaderId
+      type: System.String
+    return:
+      type: RedLight.Entities.Cube
+    content.vb: Public Shared Function CreateLightCube(name As String, shaderId As String) As Cube
+  overload: RedLight.Entities.Cube.CreateLightCube*
+  nameWithType.vb: Cube.CreateLightCube(String, String)
+  fullName.vb: RedLight.Entities.Cube.CreateLightCube(String, String)
+  name.vb: CreateLightCube(String, String)
 references:
 - uid: RedLight.Entities
   commentId: N:RedLight.Entities
@@ -253,6 +287,13 @@ references:
   name: ApplyGravity
   nameWithType: Entity.ApplyGravity
   fullName: RedLight.Entities.Entity.ApplyGravity
+- uid: RedLight.Entities.Entity.EnablePhysics
+  commentId: P:RedLight.Entities.Entity.EnablePhysics
+  parent: RedLight.Entities.Entity
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_EnablePhysics
+  name: EnablePhysics
+  nameWithType: Entity.EnablePhysics
+  fullName: RedLight.Entities.Entity.EnablePhysics
 - uid: RedLight.Entities.Entity.Mass
   commentId: P:RedLight.Entities.Entity.Mass
   parent: RedLight.Entities.Entity
@@ -358,6 +399,13 @@ references:
   name: GuizmoMode
   nameWithType: Entity.GuizmoMode
   fullName: RedLight.Entities.Entity.GuizmoMode
+- uid: RedLight.Entities.Entity.ModelType
+  commentId: P:RedLight.Entities.Entity.ModelType
+  parent: RedLight.Entities.Entity
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_ModelType
+  name: ModelType
+  nameWithType: Entity.ModelType
+  fullName: RedLight.Entities.Entity.ModelType
 - uid: RedLight.Entities.Entity.Model
   commentId: P:RedLight.Entities.Entity.Model
   parent: RedLight.Entities.Entity
@@ -827,87 +875,27 @@ references:
     href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_DisableImGuizmo
   - name: (
   - name: )
-- uid: RedLight.Entities.Entity.RenderImGuizmo(RedLight.Graphics.Camera,System.Numerics.Vector2,System.Numerics.Vector2)
-  commentId: M:RedLight.Entities.Entity.RenderImGuizmo(RedLight.Graphics.Camera,System.Numerics.Vector2,System.Numerics.Vector2)
+- uid: RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.Camera)
+  commentId: M:RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.Camera)
   parent: RedLight.Entities.Entity
-  isExternal: true
-  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_RenderImGuizmo_RedLight_Graphics_Camera_System_Numerics_Vector2_System_Numerics_Vector2_
-  name: RenderImGuizmo(Camera, Vector2, Vector2)
-  nameWithType: Entity.RenderImGuizmo(Camera, Vector2, Vector2)
-  fullName: RedLight.Entities.Entity.RenderImGuizmo(RedLight.Graphics.Camera, System.Numerics.Vector2, System.Numerics.Vector2)
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_DrawBoundingBox_RedLight_Graphics_Camera_
+  name: DrawBoundingBox(Camera)
+  nameWithType: Entity.DrawBoundingBox(Camera)
+  fullName: RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.Camera)
   spec.csharp:
-  - uid: RedLight.Entities.Entity.RenderImGuizmo(RedLight.Graphics.Camera,System.Numerics.Vector2,System.Numerics.Vector2)
-    name: RenderImGuizmo
-    href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_RenderImGuizmo_RedLight_Graphics_Camera_System_Numerics_Vector2_System_Numerics_Vector2_
-  - name: (
-  - uid: RedLight.Graphics.Camera
-    name: Camera
-    href: RedLight.Graphics.Camera.html
-  - name: ','
-  - name: " "
-  - uid: System.Numerics.Vector2
-    name: Vector2
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.numerics.vector2
-  - name: ','
-  - name: " "
-  - uid: System.Numerics.Vector2
-    name: Vector2
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.numerics.vector2
-  - name: )
-  spec.vb:
-  - uid: RedLight.Entities.Entity.RenderImGuizmo(RedLight.Graphics.Camera,System.Numerics.Vector2,System.Numerics.Vector2)
-    name: RenderImGuizmo
-    href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_RenderImGuizmo_RedLight_Graphics_Camera_System_Numerics_Vector2_System_Numerics_Vector2_
-  - name: (
-  - uid: RedLight.Graphics.Camera
-    name: Camera
-    href: RedLight.Graphics.Camera.html
-  - name: ','
-  - name: " "
-  - uid: System.Numerics.Vector2
-    name: Vector2
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.numerics.vector2
-  - name: ','
-  - name: " "
-  - uid: System.Numerics.Vector2
-    name: Vector2
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.numerics.vector2
-  - name: )
-- uid: RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.RLGraphics,RedLight.Graphics.Camera)
-  commentId: M:RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.RLGraphics,RedLight.Graphics.Camera)
-  parent: RedLight.Entities.Entity
-  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_DrawBoundingBox_RedLight_Graphics_RLGraphics_RedLight_Graphics_Camera_
-  name: DrawBoundingBox(RLGraphics, Camera)
-  nameWithType: Entity.DrawBoundingBox(RLGraphics, Camera)
-  fullName: RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.RLGraphics, RedLight.Graphics.Camera)
-  spec.csharp:
-  - uid: RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.RLGraphics,RedLight.Graphics.Camera)
+  - uid: RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.Camera)
     name: DrawBoundingBox
-    href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_DrawBoundingBox_RedLight_Graphics_RLGraphics_RedLight_Graphics_Camera_
+    href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_DrawBoundingBox_RedLight_Graphics_Camera_
   - name: (
-  - uid: RedLight.Graphics.RLGraphics
-    name: RLGraphics
-    href: RedLight.Graphics.RLGraphics.html
-  - name: ','
-  - name: " "
   - uid: RedLight.Graphics.Camera
     name: Camera
     href: RedLight.Graphics.Camera.html
   - name: )
   spec.vb:
-  - uid: RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.RLGraphics,RedLight.Graphics.Camera)
+  - uid: RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.Camera)
     name: DrawBoundingBox
-    href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_DrawBoundingBox_RedLight_Graphics_RLGraphics_RedLight_Graphics_Camera_
+    href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_DrawBoundingBox_RedLight_Graphics_Camera_
   - name: (
-  - uid: RedLight.Graphics.RLGraphics
-    name: RLGraphics
-    href: RedLight.Graphics.RLGraphics.html
-  - name: ','
-  - name: " "
   - uid: RedLight.Graphics.Camera
     name: Camera
     href: RedLight.Graphics.Camera.html
@@ -1447,20 +1435,13 @@ references:
   fullName: System
 - uid: RedLight.Entities.Cube.#ctor*
   commentId: Overload:RedLight.Entities.Cube.#ctor
-  href: RedLight.Entities.Cube.html#RedLight_Entities_Cube__ctor_RedLight_Graphics_RLGraphics_System_Boolean_
+  href: RedLight.Entities.Cube.html#RedLight_Entities_Cube__ctor_System_Boolean_
   name: Cube
   nameWithType: Cube.Cube
   fullName: RedLight.Entities.Cube.Cube
   nameWithType.vb: Cube.New
   fullName.vb: RedLight.Entities.Cube.New
   name.vb: New
-- uid: RedLight.Graphics.RLGraphics
-  commentId: T:RedLight.Graphics.RLGraphics
-  parent: RedLight.Graphics
-  href: RedLight.Graphics.RLGraphics.html
-  name: RLGraphics
-  nameWithType: RLGraphics
-  fullName: RedLight.Graphics.RLGraphics
 - uid: System.Boolean
   commentId: T:System.Boolean
   parent: System
@@ -1472,28 +1453,6 @@ references:
   nameWithType.vb: Boolean
   fullName.vb: Boolean
   name.vb: Boolean
-- uid: RedLight.Graphics
-  commentId: N:RedLight.Graphics
-  href: RedLight.html
-  name: RedLight.Graphics
-  nameWithType: RedLight.Graphics
-  fullName: RedLight.Graphics
-  spec.csharp:
-  - uid: RedLight
-    name: RedLight
-    href: RedLight.html
-  - name: .
-  - uid: RedLight.Graphics
-    name: Graphics
-    href: RedLight.Graphics.html
-  spec.vb:
-  - uid: RedLight
-    name: RedLight
-    href: RedLight.html
-  - name: .
-  - uid: RedLight.Graphics
-    name: Graphics
-    href: RedLight.Graphics.html
 - uid: System.String
   commentId: T:System.String
   parent: System
@@ -1505,3 +1464,16 @@ references:
   nameWithType.vb: String
   fullName.vb: String
   name.vb: String
+- uid: RedLight.Entities.Cube.CreateLightCube*
+  commentId: Overload:RedLight.Entities.Cube.CreateLightCube
+  href: RedLight.Entities.Cube.html#RedLight_Entities_Cube_CreateLightCube_System_String_System_String_
+  name: CreateLightCube
+  nameWithType: Cube.CreateLightCube
+  fullName: RedLight.Entities.Cube.CreateLightCube
+- uid: RedLight.Entities.Cube
+  commentId: T:RedLight.Entities.Cube
+  parent: RedLight.Entities
+  href: RedLight.Entities.Cube.html
+  name: Cube
+  nameWithType: Cube
+  fullName: RedLight.Entities.Cube

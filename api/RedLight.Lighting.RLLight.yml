@@ -5,15 +5,17 @@ items:
   id: RLLight
   parent: RedLight.Lighting
   children:
-  - RedLight.Lighting.RLLight.#ctor(System.String,RedLight.Lighting.LightType,System.Numerics.Vector3,System.Drawing.Color,System.Single)
+  - RedLight.Lighting.RLLight.Attenuation
   - RedLight.Lighting.RLLight.Colour
   - RedLight.Lighting.RLLight.CreateDirectionalLight(System.String,System.Numerics.Vector3,System.Drawing.Color,System.Single)
   - RedLight.Lighting.RLLight.CreatePointLight(System.String,System.Numerics.Vector3,System.Drawing.Color,System.Single)
-  - RedLight.Lighting.RLLight.CreateSpotLight(System.String,System.Numerics.Vector3,System.Numerics.Vector3,System.Drawing.Color,System.Single)
+  - RedLight.Lighting.RLLight.CreateSpotLight(System.String,System.Numerics.Vector3,System.Numerics.Vector3,System.Drawing.Color,System.Single,System.Single,System.Single)
   - RedLight.Lighting.RLLight.Direction
+  - RedLight.Lighting.RLLight.InnerCutoff
   - RedLight.Lighting.RLLight.Intensity
   - RedLight.Lighting.RLLight.IsEnabled
   - RedLight.Lighting.RLLight.Name
+  - RedLight.Lighting.RLLight.OuterCutoff
   - RedLight.Lighting.RLLight.Position
   - RedLight.Lighting.RLLight.Type
   langs:
@@ -30,7 +32,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: RLLight
     path: src/RedLight/Lighting/RLLight.cs
-    startLine: 6
+    startLine: 7
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -65,7 +67,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Name
     path: src/RedLight/Lighting/RLLight.cs
-    startLine: 8
+    startLine: 9
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -94,7 +96,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Type
     path: src/RedLight/Lighting/RLLight.cs
-    startLine: 9
+    startLine: 10
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -105,35 +107,6 @@ items:
       type: RedLight.Lighting.LightType
     content.vb: Public Property Type As LightType
   overload: RedLight.Lighting.RLLight.Type*
-- uid: RedLight.Lighting.RLLight.Position
-  commentId: P:RedLight.Lighting.RLLight.Position
-  id: Position
-  parent: RedLight.Lighting.RLLight
-  langs:
-  - csharp
-  - vb
-  name: Position
-  nameWithType: RLLight.Position
-  fullName: RedLight.Lighting.RLLight.Position
-  type: Property
-  source:
-    remote:
-      path: src/RedLight/Lighting/RLLight.cs
-      branch: main
-      repo: git@github.com:4tkbytes/RedLight
-    id: Position
-    path: src/RedLight/Lighting/RLLight.cs
-    startLine: 10
-  assemblies:
-  - RedLight
-  namespace: RedLight.Lighting
-  syntax:
-    content: public Vector3 Position { get; set; }
-    parameters: []
-    return:
-      type: System.Numerics.Vector3
-    content.vb: Public Property Position As Vector3
-  overload: RedLight.Lighting.RLLight.Position*
 - uid: RedLight.Lighting.RLLight.Direction
   commentId: P:RedLight.Lighting.RLLight.Direction
   id: Direction
@@ -157,12 +130,41 @@ items:
   - RedLight
   namespace: RedLight.Lighting
   syntax:
-    content: public Vector3 Direction { get; set; }
+    content: public Vector3? Direction { get; set; }
     parameters: []
     return:
-      type: System.Numerics.Vector3
-    content.vb: Public Property Direction As Vector3
+      type: System.Nullable{System.Numerics.Vector3}
+    content.vb: Public Property Direction As Vector3?
   overload: RedLight.Lighting.RLLight.Direction*
+- uid: RedLight.Lighting.RLLight.Position
+  commentId: P:RedLight.Lighting.RLLight.Position
+  id: Position
+  parent: RedLight.Lighting.RLLight
+  langs:
+  - csharp
+  - vb
+  name: Position
+  nameWithType: RLLight.Position
+  fullName: RedLight.Lighting.RLLight.Position
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Lighting/RLLight.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Position
+    path: src/RedLight/Lighting/RLLight.cs
+    startLine: 12
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public Vector3? Position { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Numerics.Vector3}
+    content.vb: Public Property Position As Vector3?
+  overload: RedLight.Lighting.RLLight.Position*
 - uid: RedLight.Lighting.RLLight.Colour
   commentId: P:RedLight.Lighting.RLLight.Colour
   id: Colour
@@ -181,7 +183,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Colour
     path: src/RedLight/Lighting/RLLight.cs
-    startLine: 12
+    startLine: 13
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -210,7 +212,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Intensity
     path: src/RedLight/Lighting/RLLight.cs
-    startLine: 13
+    startLine: 14
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -221,6 +223,93 @@ items:
       type: System.Single
     content.vb: Public Property Intensity As Single
   overload: RedLight.Lighting.RLLight.Intensity*
+- uid: RedLight.Lighting.RLLight.Attenuation
+  commentId: P:RedLight.Lighting.RLLight.Attenuation
+  id: Attenuation
+  parent: RedLight.Lighting.RLLight
+  langs:
+  - csharp
+  - vb
+  name: Attenuation
+  nameWithType: RLLight.Attenuation
+  fullName: RedLight.Lighting.RLLight.Attenuation
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Lighting/RLLight.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Attenuation
+    path: src/RedLight/Lighting/RLLight.cs
+    startLine: 15
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public Attenuation Attenuation { get; set; }
+    parameters: []
+    return:
+      type: RedLight.Lighting.Attenuation
+    content.vb: Public Property Attenuation As Attenuation
+  overload: RedLight.Lighting.RLLight.Attenuation*
+- uid: RedLight.Lighting.RLLight.InnerCutoff
+  commentId: P:RedLight.Lighting.RLLight.InnerCutoff
+  id: InnerCutoff
+  parent: RedLight.Lighting.RLLight
+  langs:
+  - csharp
+  - vb
+  name: InnerCutoff
+  nameWithType: RLLight.InnerCutoff
+  fullName: RedLight.Lighting.RLLight.InnerCutoff
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Lighting/RLLight.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: InnerCutoff
+    path: src/RedLight/Lighting/RLLight.cs
+    startLine: 16
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public float InnerCutoff { get; set; }
+    parameters: []
+    return:
+      type: System.Single
+    content.vb: Public Property InnerCutoff As Single
+  overload: RedLight.Lighting.RLLight.InnerCutoff*
+- uid: RedLight.Lighting.RLLight.OuterCutoff
+  commentId: P:RedLight.Lighting.RLLight.OuterCutoff
+  id: OuterCutoff
+  parent: RedLight.Lighting.RLLight
+  langs:
+  - csharp
+  - vb
+  name: OuterCutoff
+  nameWithType: RLLight.OuterCutoff
+  fullName: RedLight.Lighting.RLLight.OuterCutoff
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Lighting/RLLight.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: OuterCutoff
+    path: src/RedLight/Lighting/RLLight.cs
+    startLine: 17
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public float OuterCutoff { get; set; }
+    parameters: []
+    return:
+      type: System.Single
+    content.vb: Public Property OuterCutoff As Single
+  overload: RedLight.Lighting.RLLight.OuterCutoff*
 - uid: RedLight.Lighting.RLLight.IsEnabled
   commentId: P:RedLight.Lighting.RLLight.IsEnabled
   id: IsEnabled
@@ -239,7 +328,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: IsEnabled
     path: src/RedLight/Lighting/RLLight.cs
-    startLine: 15
+    startLine: 19
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -250,46 +339,6 @@ items:
       type: System.Boolean
     content.vb: Public Property IsEnabled As Boolean
   overload: RedLight.Lighting.RLLight.IsEnabled*
-- uid: RedLight.Lighting.RLLight.#ctor(System.String,RedLight.Lighting.LightType,System.Numerics.Vector3,System.Drawing.Color,System.Single)
-  commentId: M:RedLight.Lighting.RLLight.#ctor(System.String,RedLight.Lighting.LightType,System.Numerics.Vector3,System.Drawing.Color,System.Single)
-  id: '#ctor(System.String,RedLight.Lighting.LightType,System.Numerics.Vector3,System.Drawing.Color,System.Single)'
-  parent: RedLight.Lighting.RLLight
-  langs:
-  - csharp
-  - vb
-  name: RLLight(string, LightType, Vector3, Color, float)
-  nameWithType: RLLight.RLLight(string, LightType, Vector3, Color, float)
-  fullName: RedLight.Lighting.RLLight.RLLight(string, RedLight.Lighting.LightType, System.Numerics.Vector3, System.Drawing.Color, float)
-  type: Constructor
-  source:
-    remote:
-      path: src/RedLight/Lighting/RLLight.cs
-      branch: main
-      repo: git@github.com:4tkbytes/RedLight
-    id: .ctor
-    path: src/RedLight/Lighting/RLLight.cs
-    startLine: 17
-  assemblies:
-  - RedLight
-  namespace: RedLight.Lighting
-  syntax:
-    content: public RLLight(string name, LightType type, Vector3 position, Color color, float intensity = 1)
-    parameters:
-    - id: name
-      type: System.String
-    - id: type
-      type: RedLight.Lighting.LightType
-    - id: position
-      type: System.Numerics.Vector3
-    - id: color
-      type: System.Drawing.Color
-    - id: intensity
-      type: System.Single
-    content.vb: Public Sub New(name As String, type As LightType, position As Vector3, color As Color, intensity As Single = 1)
-  overload: RedLight.Lighting.RLLight.#ctor*
-  nameWithType.vb: RLLight.New(String, LightType, Vector3, Color, Single)
-  fullName.vb: RedLight.Lighting.RLLight.New(String, RedLight.Lighting.LightType, System.Numerics.Vector3, System.Drawing.Color, Single)
-  name.vb: New(String, LightType, Vector3, Color, Single)
 - uid: RedLight.Lighting.RLLight.CreateDirectionalLight(System.String,System.Numerics.Vector3,System.Drawing.Color,System.Single)
   commentId: M:RedLight.Lighting.RLLight.CreateDirectionalLight(System.String,System.Numerics.Vector3,System.Drawing.Color,System.Single)
   id: CreateDirectionalLight(System.String,System.Numerics.Vector3,System.Drawing.Color,System.Single)
@@ -308,12 +357,12 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: CreateDirectionalLight
     path: src/RedLight/Lighting/RLLight.cs
-    startLine: 27
+    startLine: 31
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
   syntax:
-    content: public static RLLight CreateDirectionalLight(string name, Vector3 direction, Color color, float intensity = 1)
+    content: public static RLLight CreateDirectionalLight(string name, Vector3 direction, Color color, float intensity = 2)
     parameters:
     - id: name
       type: System.String
@@ -325,7 +374,7 @@ items:
       type: System.Single
     return:
       type: RedLight.Lighting.RLLight
-    content.vb: Public Shared Function CreateDirectionalLight(name As String, direction As Vector3, color As Color, intensity As Single = 1) As RLLight
+    content.vb: Public Shared Function CreateDirectionalLight(name As String, direction As Vector3, color As Color, intensity As Single = 2) As RLLight
   overload: RedLight.Lighting.RLLight.CreateDirectionalLight*
   nameWithType.vb: RLLight.CreateDirectionalLight(String, Vector3, Color, Single)
   fullName.vb: RedLight.Lighting.RLLight.CreateDirectionalLight(String, System.Numerics.Vector3, System.Drawing.Color, Single)
@@ -348,12 +397,12 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: CreatePointLight
     path: src/RedLight/Lighting/RLLight.cs
-    startLine: 35
+    startLine: 39
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
   syntax:
-    content: public static RLLight CreatePointLight(string name, Vector3 position, Color color, float intensity = 1)
+    content: public static RLLight CreatePointLight(string name, Vector3 position, Color color, float intensity = 2)
     parameters:
     - id: name
       type: System.String
@@ -365,21 +414,21 @@ items:
       type: System.Single
     return:
       type: RedLight.Lighting.RLLight
-    content.vb: Public Shared Function CreatePointLight(name As String, position As Vector3, color As Color, intensity As Single = 1) As RLLight
+    content.vb: Public Shared Function CreatePointLight(name As String, position As Vector3, color As Color, intensity As Single = 2) As RLLight
   overload: RedLight.Lighting.RLLight.CreatePointLight*
   nameWithType.vb: RLLight.CreatePointLight(String, Vector3, Color, Single)
   fullName.vb: RedLight.Lighting.RLLight.CreatePointLight(String, System.Numerics.Vector3, System.Drawing.Color, Single)
   name.vb: CreatePointLight(String, Vector3, Color, Single)
-- uid: RedLight.Lighting.RLLight.CreateSpotLight(System.String,System.Numerics.Vector3,System.Numerics.Vector3,System.Drawing.Color,System.Single)
-  commentId: M:RedLight.Lighting.RLLight.CreateSpotLight(System.String,System.Numerics.Vector3,System.Numerics.Vector3,System.Drawing.Color,System.Single)
-  id: CreateSpotLight(System.String,System.Numerics.Vector3,System.Numerics.Vector3,System.Drawing.Color,System.Single)
+- uid: RedLight.Lighting.RLLight.CreateSpotLight(System.String,System.Numerics.Vector3,System.Numerics.Vector3,System.Drawing.Color,System.Single,System.Single,System.Single)
+  commentId: M:RedLight.Lighting.RLLight.CreateSpotLight(System.String,System.Numerics.Vector3,System.Numerics.Vector3,System.Drawing.Color,System.Single,System.Single,System.Single)
+  id: CreateSpotLight(System.String,System.Numerics.Vector3,System.Numerics.Vector3,System.Drawing.Color,System.Single,System.Single,System.Single)
   parent: RedLight.Lighting.RLLight
   langs:
   - csharp
   - vb
-  name: CreateSpotLight(string, Vector3, Vector3, Color, float)
-  nameWithType: RLLight.CreateSpotLight(string, Vector3, Vector3, Color, float)
-  fullName: RedLight.Lighting.RLLight.CreateSpotLight(string, System.Numerics.Vector3, System.Numerics.Vector3, System.Drawing.Color, float)
+  name: CreateSpotLight(string, Vector3, Vector3, Color, float, float, float)
+  nameWithType: RLLight.CreateSpotLight(string, Vector3, Vector3, Color, float, float, float)
+  fullName: RedLight.Lighting.RLLight.CreateSpotLight(string, System.Numerics.Vector3, System.Numerics.Vector3, System.Drawing.Color, float, float, float)
   type: Method
   source:
     remote:
@@ -388,30 +437,34 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: CreateSpotLight
     path: src/RedLight/Lighting/RLLight.cs
-    startLine: 40
+    startLine: 44
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
   syntax:
-    content: public static RLLight CreateSpotLight(string name, Vector3 position, Vector3 direction, Color color, float intensity = 1)
+    content: public static RLLight CreateSpotLight(string name, Vector3 direction, Vector3 position, Color color, float intensity = 2, float innerCutoffAngle = 12.5, float outerCutoffAngle = 17.5)
     parameters:
     - id: name
       type: System.String
-    - id: position
-      type: System.Numerics.Vector3
     - id: direction
+      type: System.Numerics.Vector3
+    - id: position
       type: System.Numerics.Vector3
     - id: color
       type: System.Drawing.Color
     - id: intensity
       type: System.Single
+    - id: innerCutoffAngle
+      type: System.Single
+    - id: outerCutoffAngle
+      type: System.Single
     return:
       type: RedLight.Lighting.RLLight
-    content.vb: Public Shared Function CreateSpotLight(name As String, position As Vector3, direction As Vector3, color As Color, intensity As Single = 1) As RLLight
+    content.vb: Public Shared Function CreateSpotLight(name As String, direction As Vector3, position As Vector3, color As Color, intensity As Single = 2, innerCutoffAngle As Single = 12.5, outerCutoffAngle As Single = 17.5) As RLLight
   overload: RedLight.Lighting.RLLight.CreateSpotLight*
-  nameWithType.vb: RLLight.CreateSpotLight(String, Vector3, Vector3, Color, Single)
-  fullName.vb: RedLight.Lighting.RLLight.CreateSpotLight(String, System.Numerics.Vector3, System.Numerics.Vector3, System.Drawing.Color, Single)
-  name.vb: CreateSpotLight(String, Vector3, Vector3, Color, Single)
+  nameWithType.vb: RLLight.CreateSpotLight(String, Vector3, Vector3, Color, Single, Single, Single)
+  fullName.vb: RedLight.Lighting.RLLight.CreateSpotLight(String, System.Numerics.Vector3, System.Numerics.Vector3, System.Drawing.Color, Single, Single, Single)
+  name.vb: CreateSpotLight(String, Vector3, Vector3, Color, Single, Single, Single)
 references:
 - uid: RedLight.Lighting
   commentId: N:RedLight.Lighting
@@ -702,12 +755,72 @@ references:
   name: LightType
   nameWithType: LightType
   fullName: RedLight.Lighting.LightType
+- uid: RedLight.Lighting.RLLight.Direction*
+  commentId: Overload:RedLight.Lighting.RLLight.Direction
+  href: RedLight.Lighting.RLLight.html#RedLight_Lighting_RLLight_Direction
+  name: Direction
+  nameWithType: RLLight.Direction
+  fullName: RedLight.Lighting.RLLight.Direction
+- uid: System.Nullable{System.Numerics.Vector3}
+  commentId: T:System.Nullable{System.Numerics.Vector3}
+  parent: System
+  definition: System.Nullable`1
+  href: https://learn.microsoft.com/dotnet/api/system.numerics.vector3
+  name: Vector3?
+  nameWithType: Vector3?
+  fullName: System.Numerics.Vector3?
+  spec.csharp:
+  - uid: System.Numerics.Vector3
+    name: Vector3
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.numerics.vector3
+  - name: '?'
+  spec.vb:
+  - uid: System.Numerics.Vector3
+    name: Vector3
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.numerics.vector3
+  - name: '?'
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
 - uid: RedLight.Lighting.RLLight.Position*
   commentId: Overload:RedLight.Lighting.RLLight.Position
   href: RedLight.Lighting.RLLight.html#RedLight_Lighting_RLLight_Position
   name: Position
   nameWithType: RLLight.Position
   fullName: RedLight.Lighting.RLLight.Position
+- uid: RedLight.Lighting.RLLight.Colour*
+  commentId: Overload:RedLight.Lighting.RLLight.Colour
+  href: RedLight.Lighting.RLLight.html#RedLight_Lighting_RLLight_Colour
+  name: Colour
+  nameWithType: RLLight.Colour
+  fullName: RedLight.Lighting.RLLight.Colour
 - uid: System.Numerics.Vector3
   commentId: T:System.Numerics.Vector3
   parent: System.Numerics
@@ -743,18 +856,6 @@ references:
     name: Numerics
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.numerics
-- uid: RedLight.Lighting.RLLight.Direction*
-  commentId: Overload:RedLight.Lighting.RLLight.Direction
-  href: RedLight.Lighting.RLLight.html#RedLight_Lighting_RLLight_Direction
-  name: Direction
-  nameWithType: RLLight.Direction
-  fullName: RedLight.Lighting.RLLight.Direction
-- uid: RedLight.Lighting.RLLight.Colour*
-  commentId: Overload:RedLight.Lighting.RLLight.Colour
-  href: RedLight.Lighting.RLLight.html#RedLight_Lighting_RLLight_Colour
-  name: Colour
-  nameWithType: RLLight.Colour
-  fullName: RedLight.Lighting.RLLight.Colour
 - uid: RedLight.Lighting.RLLight.Intensity*
   commentId: Overload:RedLight.Lighting.RLLight.Intensity
   href: RedLight.Lighting.RLLight.html#RedLight_Lighting_RLLight_Intensity
@@ -772,6 +873,31 @@ references:
   nameWithType.vb: Single
   fullName.vb: Single
   name.vb: Single
+- uid: RedLight.Lighting.RLLight.Attenuation*
+  commentId: Overload:RedLight.Lighting.RLLight.Attenuation
+  href: RedLight.Lighting.RLLight.html#RedLight_Lighting_RLLight_Attenuation
+  name: Attenuation
+  nameWithType: RLLight.Attenuation
+  fullName: RedLight.Lighting.RLLight.Attenuation
+- uid: RedLight.Lighting.Attenuation
+  commentId: T:RedLight.Lighting.Attenuation
+  parent: RedLight.Lighting
+  href: RedLight.Lighting.Attenuation.html
+  name: Attenuation
+  nameWithType: Attenuation
+  fullName: RedLight.Lighting.Attenuation
+- uid: RedLight.Lighting.RLLight.InnerCutoff*
+  commentId: Overload:RedLight.Lighting.RLLight.InnerCutoff
+  href: RedLight.Lighting.RLLight.html#RedLight_Lighting_RLLight_InnerCutoff
+  name: InnerCutoff
+  nameWithType: RLLight.InnerCutoff
+  fullName: RedLight.Lighting.RLLight.InnerCutoff
+- uid: RedLight.Lighting.RLLight.OuterCutoff*
+  commentId: Overload:RedLight.Lighting.RLLight.OuterCutoff
+  href: RedLight.Lighting.RLLight.html#RedLight_Lighting_RLLight_OuterCutoff
+  name: OuterCutoff
+  nameWithType: RLLight.OuterCutoff
+  fullName: RedLight.Lighting.RLLight.OuterCutoff
 - uid: RedLight.Lighting.RLLight.IsEnabled*
   commentId: Overload:RedLight.Lighting.RLLight.IsEnabled
   href: RedLight.Lighting.RLLight.html#RedLight_Lighting_RLLight_IsEnabled
@@ -789,15 +915,12 @@ references:
   nameWithType.vb: Boolean
   fullName.vb: Boolean
   name.vb: Boolean
-- uid: RedLight.Lighting.RLLight.#ctor*
-  commentId: Overload:RedLight.Lighting.RLLight.#ctor
-  href: RedLight.Lighting.RLLight.html#RedLight_Lighting_RLLight__ctor_System_String_RedLight_Lighting_LightType_System_Numerics_Vector3_System_Drawing_Color_System_Single_
-  name: RLLight
-  nameWithType: RLLight.RLLight
-  fullName: RedLight.Lighting.RLLight.RLLight
-  nameWithType.vb: RLLight.New
-  fullName.vb: RedLight.Lighting.RLLight.New
-  name.vb: New
+- uid: RedLight.Lighting.RLLight.CreateDirectionalLight*
+  commentId: Overload:RedLight.Lighting.RLLight.CreateDirectionalLight
+  href: RedLight.Lighting.RLLight.html#RedLight_Lighting_RLLight_CreateDirectionalLight_System_String_System_Numerics_Vector3_System_Drawing_Color_System_Single_
+  name: CreateDirectionalLight
+  nameWithType: RLLight.CreateDirectionalLight
+  fullName: RedLight.Lighting.RLLight.CreateDirectionalLight
 - uid: System.Drawing.Color
   commentId: T:System.Drawing.Color
   parent: System.Drawing
@@ -806,6 +929,13 @@ references:
   name: Color
   nameWithType: Color
   fullName: System.Drawing.Color
+- uid: RedLight.Lighting.RLLight
+  commentId: T:RedLight.Lighting.RLLight
+  parent: RedLight.Lighting
+  href: RedLight.Lighting.RLLight.html
+  name: RLLight
+  nameWithType: RLLight
+  fullName: RedLight.Lighting.RLLight
 - uid: System.Drawing
   commentId: N:System.Drawing
   isExternal: true
@@ -833,19 +963,6 @@ references:
     name: Drawing
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.drawing
-- uid: RedLight.Lighting.RLLight.CreateDirectionalLight*
-  commentId: Overload:RedLight.Lighting.RLLight.CreateDirectionalLight
-  href: RedLight.Lighting.RLLight.html#RedLight_Lighting_RLLight_CreateDirectionalLight_System_String_System_Numerics_Vector3_System_Drawing_Color_System_Single_
-  name: CreateDirectionalLight
-  nameWithType: RLLight.CreateDirectionalLight
-  fullName: RedLight.Lighting.RLLight.CreateDirectionalLight
-- uid: RedLight.Lighting.RLLight
-  commentId: T:RedLight.Lighting.RLLight
-  parent: RedLight.Lighting
-  href: RedLight.Lighting.RLLight.html
-  name: RLLight
-  nameWithType: RLLight
-  fullName: RedLight.Lighting.RLLight
 - uid: RedLight.Lighting.RLLight.CreatePointLight*
   commentId: Overload:RedLight.Lighting.RLLight.CreatePointLight
   href: RedLight.Lighting.RLLight.html#RedLight_Lighting_RLLight_CreatePointLight_System_String_System_Numerics_Vector3_System_Drawing_Color_System_Single_
@@ -854,7 +971,7 @@ references:
   fullName: RedLight.Lighting.RLLight.CreatePointLight
 - uid: RedLight.Lighting.RLLight.CreateSpotLight*
   commentId: Overload:RedLight.Lighting.RLLight.CreateSpotLight
-  href: RedLight.Lighting.RLLight.html#RedLight_Lighting_RLLight_CreateSpotLight_System_String_System_Numerics_Vector3_System_Numerics_Vector3_System_Drawing_Color_System_Single_
+  href: RedLight.Lighting.RLLight.html#RedLight_Lighting_RLLight_CreateSpotLight_System_String_System_Numerics_Vector3_System_Numerics_Vector3_System_Drawing_Color_System_Single_System_Single_System_Single_
   name: CreateSpotLight
   nameWithType: RLLight.CreateSpotLight
   fullName: RedLight.Lighting.RLLight.CreateSpotLight

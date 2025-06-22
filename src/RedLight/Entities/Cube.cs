@@ -1,4 +1,6 @@
+using System.Numerics;
 using RedLight.Graphics;
+using RedLight.Scene;
 using RedLight.Utils;
 
 namespace RedLight.Entities;
@@ -9,14 +11,14 @@ namespace RedLight.Entities;
 /// </summary>
 public class Cube : SimpleShape
 {
-    public Cube(RLGraphics graphics, bool applyGravity = true)
-        : this(graphics, "cube", applyGravity)
+    public Cube(bool applyGravity = true)
+        : this("cube", applyGravity)
     {
     }
 
-    public Cube(RLGraphics graphics, string name, bool applyGravity = true) 
+    public Cube(string name, bool applyGravity = true) 
         : base(
-            new RLModel(graphics, RLFiles.GetResourcePath("RedLight.Resources.Models.Basic.cube.model"), TextureManager.Instance, name)
+            new RLModel(SceneManager.Instance.GetCurrentScene().Graphics, RLFiles.GetResourcePath("RedLight.Resources.Models.Basic.cube.model"), TextureManager.Instance, name)
                 .AttachShader(ShaderManager.Instance.Get("lit"))
                 .AttachTexture(TextureManager.Instance.Get("no-texture")),
             applyGravity)
@@ -27,5 +29,14 @@ public class Cube : SimpleShape
         );
         
         ApplyHitboxConfig();
+    }
+
+    public static Cube CreateLightCube(string name, string shaderId)
+    {
+        var cube = new Cube(name, false);
+        cube.SetScale(new Vector3(0.5f));
+        cube.Model.AttachShader(ShaderManager.Instance.Get(shaderId));
+        cube.ModelType = ModelType.Light;
+        return cube;
     }
 }

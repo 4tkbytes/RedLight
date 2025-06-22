@@ -8,6 +8,7 @@ items:
   - RedLight.Graphics.ConcreteTransformable`1
   - RedLight.Graphics.Framebuffer
   - RedLight.Graphics.Mesh
+  - RedLight.Graphics.ModelType
   - RedLight.Graphics.RLGraphics
   - RedLight.Graphics.RLModel
   - RedLight.Graphics.RLShader
@@ -58,6 +59,13 @@ references:
   name: Mesh
   nameWithType: Mesh
   fullName: RedLight.Graphics.Mesh
+- uid: RedLight.Graphics.ModelType
+  commentId: T:RedLight.Graphics.ModelType
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.ModelType.html
+  name: ModelType
+  nameWithType: ModelType
+  fullName: RedLight.Graphics.ModelType
 - uid: RedLight.Graphics.RLGraphics
   commentId: T:RedLight.Graphics.RLGraphics
   parent: RedLight.Graphics

@@ -25,7 +25,7 @@ public class Player: Entity
     bool IsSprinting = false;
     private bool hasJumped;
 
-    public Player(Camera camera, Transformable<RLModel> model, HitboxConfig hitboxConfig = null) : base(model.Target)
+    public Player(Camera camera, Transformable<RLModel> model, HitboxConfig hitboxConfig = null) : base(model.Target, ModelType.Entity)
     {
         Camera = camera;
     

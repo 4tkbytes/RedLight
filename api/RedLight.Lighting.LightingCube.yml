@@ -5,15 +5,20 @@ items:
   id: LightingCube
   parent: RedLight.Lighting
   children:
-  - RedLight.Lighting.LightingCube.#ctor(RedLight.Graphics.RLGraphics,RedLight.Lighting.LightManager,System.String,System.String,System.Drawing.Color,RedLight.Lighting.LightType)
+  - RedLight.Lighting.LightingCube.CreateDirectionalLightCube(RedLight.Lighting.LightManager,System.String,System.String,System.Numerics.Vector3,System.Drawing.Color)
+  - RedLight.Lighting.LightingCube.CreatePointLightCube(RedLight.Lighting.LightManager,System.String,System.String,System.Numerics.Vector3,System.Drawing.Color,RedLight.Lighting.Attenuation)
+  - RedLight.Lighting.LightingCube.CreateSpotLightCube(RedLight.Lighting.LightManager,System.String,System.String,RedLight.Graphics.Camera,System.Drawing.Color,RedLight.Lighting.Attenuation)
+  - RedLight.Lighting.LightingCube.CreateSpotLightCube(RedLight.Lighting.LightManager,System.String,System.String,System.Numerics.Vector3,System.Numerics.Vector3,System.Drawing.Color,RedLight.Lighting.Attenuation)
   - RedLight.Lighting.LightingCube.Cube
   - RedLight.Lighting.LightingCube.Light
   - RedLight.Lighting.LightingCube.Name
   - RedLight.Lighting.LightingCube.Render(RedLight.Graphics.Camera)
   - RedLight.Lighting.LightingCube.Rotate(System.Single,System.Numerics.Vector3)
   - RedLight.Lighting.LightingCube.Scale(System.Numerics.Vector3)
+  - RedLight.Lighting.LightingCube.SetVisible(System.Boolean)
   - RedLight.Lighting.LightingCube.Translate(System.Numerics.Vector3)
-  - RedLight.Lighting.LightingCube.Update
+  - RedLight.Lighting.LightingCube.Update(RedLight.Graphics.Camera)
+  - RedLight.Lighting.LightingCube.Visible
   langs:
   - csharp
   - vb
@@ -28,7 +33,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: LightingCube
     path: src/RedLight/Lighting/LightingCube.cs
-    startLine: 7
+    startLine: 9
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -63,7 +68,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Light
     path: src/RedLight/Lighting/LightingCube.cs
-    startLine: 13
+    startLine: 16
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -90,7 +95,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Cube
     path: src/RedLight/Lighting/LightingCube.cs
-    startLine: 14
+    startLine: 17
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -117,7 +122,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Name
     path: src/RedLight/Lighting/LightingCube.cs
-    startLine: 15
+    startLine: 18
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -126,48 +131,272 @@ items:
     return:
       type: System.String
     content.vb: Public Name As String
-- uid: RedLight.Lighting.LightingCube.#ctor(RedLight.Graphics.RLGraphics,RedLight.Lighting.LightManager,System.String,System.String,System.Drawing.Color,RedLight.Lighting.LightType)
-  commentId: M:RedLight.Lighting.LightingCube.#ctor(RedLight.Graphics.RLGraphics,RedLight.Lighting.LightManager,System.String,System.String,System.Drawing.Color,RedLight.Lighting.LightType)
-  id: '#ctor(RedLight.Graphics.RLGraphics,RedLight.Lighting.LightManager,System.String,System.String,System.Drawing.Color,RedLight.Lighting.LightType)'
+- uid: RedLight.Lighting.LightingCube.Visible
+  commentId: P:RedLight.Lighting.LightingCube.Visible
+  id: Visible
   parent: RedLight.Lighting.LightingCube
   langs:
   - csharp
   - vb
-  name: LightingCube(RLGraphics, LightManager, string, string, Color, LightType)
-  nameWithType: LightingCube.LightingCube(RLGraphics, LightManager, string, string, Color, LightType)
-  fullName: RedLight.Lighting.LightingCube.LightingCube(RedLight.Graphics.RLGraphics, RedLight.Lighting.LightManager, string, string, System.Drawing.Color, RedLight.Lighting.LightType)
-  type: Constructor
+  name: Visible
+  nameWithType: LightingCube.Visible
+  fullName: RedLight.Lighting.LightingCube.Visible
+  type: Property
   source:
     remote:
       path: src/RedLight/Lighting/LightingCube.cs
       branch: main
       repo: git@github.com:4tkbytes/RedLight
-    id: .ctor
+    id: Visible
     path: src/RedLight/Lighting/LightingCube.cs
-    startLine: 17
+    startLine: 20
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
   syntax:
-    content: public LightingCube(RLGraphics graphics, LightManager lightManager, string name, string shaderId, Color colour, LightType lightType)
+    content: public bool Visible { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Visible As Boolean
+  overload: RedLight.Lighting.LightingCube.Visible*
+- uid: RedLight.Lighting.LightingCube.SetVisible(System.Boolean)
+  commentId: M:RedLight.Lighting.LightingCube.SetVisible(System.Boolean)
+  id: SetVisible(System.Boolean)
+  parent: RedLight.Lighting.LightingCube
+  langs:
+  - csharp
+  - vb
+  name: SetVisible(bool)
+  nameWithType: LightingCube.SetVisible(bool)
+  fullName: RedLight.Lighting.LightingCube.SetVisible(bool)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightingCube.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: SetVisible
+    path: src/RedLight/Lighting/LightingCube.cs
+    startLine: 26
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public void SetVisible(bool visible)
     parameters:
-    - id: graphics
-      type: RedLight.Graphics.RLGraphics
+    - id: visible
+      type: System.Boolean
+    content.vb: Public Sub SetVisible(visible As Boolean)
+  overload: RedLight.Lighting.LightingCube.SetVisible*
+  nameWithType.vb: LightingCube.SetVisible(Boolean)
+  fullName.vb: RedLight.Lighting.LightingCube.SetVisible(Boolean)
+  name.vb: SetVisible(Boolean)
+- uid: RedLight.Lighting.LightingCube.CreateDirectionalLightCube(RedLight.Lighting.LightManager,System.String,System.String,System.Numerics.Vector3,System.Drawing.Color)
+  commentId: M:RedLight.Lighting.LightingCube.CreateDirectionalLightCube(RedLight.Lighting.LightManager,System.String,System.String,System.Numerics.Vector3,System.Drawing.Color)
+  id: CreateDirectionalLightCube(RedLight.Lighting.LightManager,System.String,System.String,System.Numerics.Vector3,System.Drawing.Color)
+  parent: RedLight.Lighting.LightingCube
+  langs:
+  - csharp
+  - vb
+  name: CreateDirectionalLightCube(LightManager, string, string, Vector3, Color)
+  nameWithType: LightingCube.CreateDirectionalLightCube(LightManager, string, string, Vector3, Color)
+  fullName: RedLight.Lighting.LightingCube.CreateDirectionalLightCube(RedLight.Lighting.LightManager, string, string, System.Numerics.Vector3, System.Drawing.Color)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightingCube.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: CreateDirectionalLightCube
+    path: src/RedLight/Lighting/LightingCube.cs
+    startLine: 70
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public static LightingCube CreateDirectionalLightCube(LightManager lightManager, string name, string shaderId, Vector3 direction, Color colour)
+    parameters:
     - id: lightManager
       type: RedLight.Lighting.LightManager
     - id: name
       type: System.String
     - id: shaderId
       type: System.String
+    - id: direction
+      type: System.Numerics.Vector3
     - id: colour
       type: System.Drawing.Color
-    - id: lightType
-      type: RedLight.Lighting.LightType
-    content.vb: Public Sub New(graphics As RLGraphics, lightManager As LightManager, name As String, shaderId As String, colour As Color, lightType As LightType)
-  overload: RedLight.Lighting.LightingCube.#ctor*
-  nameWithType.vb: LightingCube.New(RLGraphics, LightManager, String, String, Color, LightType)
-  fullName.vb: RedLight.Lighting.LightingCube.New(RedLight.Graphics.RLGraphics, RedLight.Lighting.LightManager, String, String, System.Drawing.Color, RedLight.Lighting.LightType)
-  name.vb: New(RLGraphics, LightManager, String, String, Color, LightType)
+    return:
+      type: RedLight.Lighting.LightingCube
+    content.vb: Public Shared Function CreateDirectionalLightCube(lightManager As LightManager, name As String, shaderId As String, direction As Vector3, colour As Color) As LightingCube
+  overload: RedLight.Lighting.LightingCube.CreateDirectionalLightCube*
+  nameWithType.vb: LightingCube.CreateDirectionalLightCube(LightManager, String, String, Vector3, Color)
+  fullName.vb: RedLight.Lighting.LightingCube.CreateDirectionalLightCube(RedLight.Lighting.LightManager, String, String, System.Numerics.Vector3, System.Drawing.Color)
+  name.vb: CreateDirectionalLightCube(LightManager, String, String, Vector3, Color)
+- uid: RedLight.Lighting.LightingCube.CreatePointLightCube(RedLight.Lighting.LightManager,System.String,System.String,System.Numerics.Vector3,System.Drawing.Color,RedLight.Lighting.Attenuation)
+  commentId: M:RedLight.Lighting.LightingCube.CreatePointLightCube(RedLight.Lighting.LightManager,System.String,System.String,System.Numerics.Vector3,System.Drawing.Color,RedLight.Lighting.Attenuation)
+  id: CreatePointLightCube(RedLight.Lighting.LightManager,System.String,System.String,System.Numerics.Vector3,System.Drawing.Color,RedLight.Lighting.Attenuation)
+  parent: RedLight.Lighting.LightingCube
+  langs:
+  - csharp
+  - vb
+  name: CreatePointLightCube(LightManager, string, string, Vector3, Color, Attenuation)
+  nameWithType: LightingCube.CreatePointLightCube(LightManager, string, string, Vector3, Color, Attenuation)
+  fullName: RedLight.Lighting.LightingCube.CreatePointLightCube(RedLight.Lighting.LightManager, string, string, System.Numerics.Vector3, System.Drawing.Color, RedLight.Lighting.Attenuation)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightingCube.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: CreatePointLightCube
+    path: src/RedLight/Lighting/LightingCube.cs
+    startLine: 76
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public static LightingCube CreatePointLightCube(LightManager lightManager, string name, string shaderId, Vector3 position, Color colour, Attenuation attenuation)
+    parameters:
+    - id: lightManager
+      type: RedLight.Lighting.LightManager
+    - id: name
+      type: System.String
+    - id: shaderId
+      type: System.String
+    - id: position
+      type: System.Numerics.Vector3
+    - id: colour
+      type: System.Drawing.Color
+    - id: attenuation
+      type: RedLight.Lighting.Attenuation
+    return:
+      type: RedLight.Lighting.LightingCube
+    content.vb: Public Shared Function CreatePointLightCube(lightManager As LightManager, name As String, shaderId As String, position As Vector3, colour As Color, attenuation As Attenuation) As LightingCube
+  overload: RedLight.Lighting.LightingCube.CreatePointLightCube*
+  nameWithType.vb: LightingCube.CreatePointLightCube(LightManager, String, String, Vector3, Color, Attenuation)
+  fullName.vb: RedLight.Lighting.LightingCube.CreatePointLightCube(RedLight.Lighting.LightManager, String, String, System.Numerics.Vector3, System.Drawing.Color, RedLight.Lighting.Attenuation)
+  name.vb: CreatePointLightCube(LightManager, String, String, Vector3, Color, Attenuation)
+- uid: RedLight.Lighting.LightingCube.CreateSpotLightCube(RedLight.Lighting.LightManager,System.String,System.String,System.Numerics.Vector3,System.Numerics.Vector3,System.Drawing.Color,RedLight.Lighting.Attenuation)
+  commentId: M:RedLight.Lighting.LightingCube.CreateSpotLightCube(RedLight.Lighting.LightManager,System.String,System.String,System.Numerics.Vector3,System.Numerics.Vector3,System.Drawing.Color,RedLight.Lighting.Attenuation)
+  id: CreateSpotLightCube(RedLight.Lighting.LightManager,System.String,System.String,System.Numerics.Vector3,System.Numerics.Vector3,System.Drawing.Color,RedLight.Lighting.Attenuation)
+  parent: RedLight.Lighting.LightingCube
+  langs:
+  - csharp
+  - vb
+  name: CreateSpotLightCube(LightManager, string, string, Vector3, Vector3, Color, Attenuation)
+  nameWithType: LightingCube.CreateSpotLightCube(LightManager, string, string, Vector3, Vector3, Color, Attenuation)
+  fullName: RedLight.Lighting.LightingCube.CreateSpotLightCube(RedLight.Lighting.LightManager, string, string, System.Numerics.Vector3, System.Numerics.Vector3, System.Drawing.Color, RedLight.Lighting.Attenuation)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightingCube.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: CreateSpotLightCube
+    path: src/RedLight/Lighting/LightingCube.cs
+    startLine: 82
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public static LightingCube CreateSpotLightCube(LightManager lightManager, string name, string shaderId, Vector3 position, Vector3 direction, Color colour, Attenuation attenuation)
+    parameters:
+    - id: lightManager
+      type: RedLight.Lighting.LightManager
+    - id: name
+      type: System.String
+    - id: shaderId
+      type: System.String
+    - id: position
+      type: System.Numerics.Vector3
+    - id: direction
+      type: System.Numerics.Vector3
+    - id: colour
+      type: System.Drawing.Color
+    - id: attenuation
+      type: RedLight.Lighting.Attenuation
+    return:
+      type: RedLight.Lighting.LightingCube
+    content.vb: Public Shared Function CreateSpotLightCube(lightManager As LightManager, name As String, shaderId As String, position As Vector3, direction As Vector3, colour As Color, attenuation As Attenuation) As LightingCube
+  overload: RedLight.Lighting.LightingCube.CreateSpotLightCube*
+  nameWithType.vb: LightingCube.CreateSpotLightCube(LightManager, String, String, Vector3, Vector3, Color, Attenuation)
+  fullName.vb: RedLight.Lighting.LightingCube.CreateSpotLightCube(RedLight.Lighting.LightManager, String, String, System.Numerics.Vector3, System.Numerics.Vector3, System.Drawing.Color, RedLight.Lighting.Attenuation)
+  name.vb: CreateSpotLightCube(LightManager, String, String, Vector3, Vector3, Color, Attenuation)
+- uid: RedLight.Lighting.LightingCube.CreateSpotLightCube(RedLight.Lighting.LightManager,System.String,System.String,RedLight.Graphics.Camera,System.Drawing.Color,RedLight.Lighting.Attenuation)
+  commentId: M:RedLight.Lighting.LightingCube.CreateSpotLightCube(RedLight.Lighting.LightManager,System.String,System.String,RedLight.Graphics.Camera,System.Drawing.Color,RedLight.Lighting.Attenuation)
+  id: CreateSpotLightCube(RedLight.Lighting.LightManager,System.String,System.String,RedLight.Graphics.Camera,System.Drawing.Color,RedLight.Lighting.Attenuation)
+  parent: RedLight.Lighting.LightingCube
+  langs:
+  - csharp
+  - vb
+  name: CreateSpotLightCube(LightManager, string, string, Camera, Color, Attenuation)
+  nameWithType: LightingCube.CreateSpotLightCube(LightManager, string, string, Camera, Color, Attenuation)
+  fullName: RedLight.Lighting.LightingCube.CreateSpotLightCube(RedLight.Lighting.LightManager, string, string, RedLight.Graphics.Camera, System.Drawing.Color, RedLight.Lighting.Attenuation)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightingCube.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: CreateSpotLightCube
+    path: src/RedLight/Lighting/LightingCube.cs
+    startLine: 88
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public static LightingCube CreateSpotLightCube(LightManager lightManager, string name, string shaderId, Camera camera, Color colour, Attenuation attenuation)
+    parameters:
+    - id: lightManager
+      type: RedLight.Lighting.LightManager
+    - id: name
+      type: System.String
+    - id: shaderId
+      type: System.String
+    - id: camera
+      type: RedLight.Graphics.Camera
+    - id: colour
+      type: System.Drawing.Color
+    - id: attenuation
+      type: RedLight.Lighting.Attenuation
+    return:
+      type: RedLight.Lighting.LightingCube
+    content.vb: Public Shared Function CreateSpotLightCube(lightManager As LightManager, name As String, shaderId As String, camera As Camera, colour As Color, attenuation As Attenuation) As LightingCube
+  overload: RedLight.Lighting.LightingCube.CreateSpotLightCube*
+  nameWithType.vb: LightingCube.CreateSpotLightCube(LightManager, String, String, Camera, Color, Attenuation)
+  fullName.vb: RedLight.Lighting.LightingCube.CreateSpotLightCube(RedLight.Lighting.LightManager, String, String, RedLight.Graphics.Camera, System.Drawing.Color, RedLight.Lighting.Attenuation)
+  name.vb: CreateSpotLightCube(LightManager, String, String, Camera, Color, Attenuation)
+- uid: RedLight.Lighting.LightingCube.Update(RedLight.Graphics.Camera)
+  commentId: M:RedLight.Lighting.LightingCube.Update(RedLight.Graphics.Camera)
+  id: Update(RedLight.Graphics.Camera)
+  parent: RedLight.Lighting.LightingCube
+  langs:
+  - csharp
+  - vb
+  name: Update(Camera)
+  nameWithType: LightingCube.Update(Camera)
+  fullName: RedLight.Lighting.LightingCube.Update(RedLight.Graphics.Camera)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightingCube.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Update
+    path: src/RedLight/Lighting/LightingCube.cs
+    startLine: 94
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public void Update(Camera camera = null)
+    parameters:
+    - id: camera
+      type: RedLight.Graphics.Camera
+    content.vb: Public Sub Update(camera As Camera = Nothing)
+  overload: RedLight.Lighting.LightingCube.Update*
 - uid: RedLight.Lighting.LightingCube.Render(RedLight.Graphics.Camera)
   commentId: M:RedLight.Lighting.LightingCube.Render(RedLight.Graphics.Camera)
   id: Render(RedLight.Graphics.Camera)
@@ -186,7 +415,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Render
     path: src/RedLight/Lighting/LightingCube.cs
-    startLine: 42
+    startLine: 110
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -197,32 +426,6 @@ items:
       type: RedLight.Graphics.Camera
     content.vb: Public Sub Render(camera As Camera)
   overload: RedLight.Lighting.LightingCube.Render*
-- uid: RedLight.Lighting.LightingCube.Update
-  commentId: M:RedLight.Lighting.LightingCube.Update
-  id: Update
-  parent: RedLight.Lighting.LightingCube
-  langs:
-  - csharp
-  - vb
-  name: Update()
-  nameWithType: LightingCube.Update()
-  fullName: RedLight.Lighting.LightingCube.Update()
-  type: Method
-  source:
-    remote:
-      path: src/RedLight/Lighting/LightingCube.cs
-      branch: main
-      repo: git@github.com:4tkbytes/RedLight
-    id: Update
-    path: src/RedLight/Lighting/LightingCube.cs
-    startLine: 50
-  assemblies:
-  - RedLight
-  namespace: RedLight.Lighting
-  syntax:
-    content: public void Update()
-    content.vb: Public Sub Update()
-  overload: RedLight.Lighting.LightingCube.Update*
 - uid: RedLight.Lighting.LightingCube.Translate(System.Numerics.Vector3)
   commentId: M:RedLight.Lighting.LightingCube.Translate(System.Numerics.Vector3)
   id: Translate(System.Numerics.Vector3)
@@ -241,7 +444,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Translate
     path: src/RedLight/Lighting/LightingCube.cs
-    startLine: 55
+    startLine: 120
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -270,7 +473,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Rotate
     path: src/RedLight/Lighting/LightingCube.cs
-    startLine: 60
+    startLine: 125
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -304,7 +507,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Scale
     path: src/RedLight/Lighting/LightingCube.cs
-    startLine: 65
+    startLine: 130
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -622,22 +825,35 @@ references:
   nameWithType.vb: String
   fullName.vb: String
   name.vb: String
-- uid: RedLight.Lighting.LightingCube.#ctor*
-  commentId: Overload:RedLight.Lighting.LightingCube.#ctor
-  href: RedLight.Lighting.LightingCube.html#RedLight_Lighting_LightingCube__ctor_RedLight_Graphics_RLGraphics_RedLight_Lighting_LightManager_System_String_System_String_System_Drawing_Color_RedLight_Lighting_LightType_
-  name: LightingCube
-  nameWithType: LightingCube.LightingCube
-  fullName: RedLight.Lighting.LightingCube.LightingCube
-  nameWithType.vb: LightingCube.New
-  fullName.vb: RedLight.Lighting.LightingCube.New
-  name.vb: New
-- uid: RedLight.Graphics.RLGraphics
-  commentId: T:RedLight.Graphics.RLGraphics
-  parent: RedLight.Graphics
-  href: RedLight.Graphics.RLGraphics.html
-  name: RLGraphics
-  nameWithType: RLGraphics
-  fullName: RedLight.Graphics.RLGraphics
+- uid: RedLight.Lighting.LightingCube.Visible*
+  commentId: Overload:RedLight.Lighting.LightingCube.Visible
+  href: RedLight.Lighting.LightingCube.html#RedLight_Lighting_LightingCube_Visible
+  name: Visible
+  nameWithType: LightingCube.Visible
+  fullName: RedLight.Lighting.LightingCube.Visible
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: RedLight.Lighting.LightingCube.SetVisible*
+  commentId: Overload:RedLight.Lighting.LightingCube.SetVisible
+  href: RedLight.Lighting.LightingCube.html#RedLight_Lighting_LightingCube_SetVisible_System_Boolean_
+  name: SetVisible
+  nameWithType: LightingCube.SetVisible
+  fullName: RedLight.Lighting.LightingCube.SetVisible
+- uid: RedLight.Lighting.LightingCube.CreateDirectionalLightCube*
+  commentId: Overload:RedLight.Lighting.LightingCube.CreateDirectionalLightCube
+  href: RedLight.Lighting.LightingCube.html#RedLight_Lighting_LightingCube_CreateDirectionalLightCube_RedLight_Lighting_LightManager_System_String_System_String_System_Numerics_Vector3_System_Drawing_Color_
+  name: CreateDirectionalLightCube
+  nameWithType: LightingCube.CreateDirectionalLightCube
+  fullName: RedLight.Lighting.LightingCube.CreateDirectionalLightCube
 - uid: RedLight.Lighting.LightManager
   commentId: T:RedLight.Lighting.LightManager
   parent: RedLight.Lighting
@@ -645,95 +861,6 @@ references:
   name: LightManager
   nameWithType: LightManager
   fullName: RedLight.Lighting.LightManager
-- uid: System.Drawing.Color
-  commentId: T:System.Drawing.Color
-  parent: System.Drawing
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.drawing.color
-  name: Color
-  nameWithType: Color
-  fullName: System.Drawing.Color
-- uid: RedLight.Lighting.LightType
-  commentId: T:RedLight.Lighting.LightType
-  parent: RedLight.Lighting
-  href: RedLight.Lighting.LightType.html
-  name: LightType
-  nameWithType: LightType
-  fullName: RedLight.Lighting.LightType
-- uid: RedLight.Graphics
-  commentId: N:RedLight.Graphics
-  href: RedLight.html
-  name: RedLight.Graphics
-  nameWithType: RedLight.Graphics
-  fullName: RedLight.Graphics
-  spec.csharp:
-  - uid: RedLight
-    name: RedLight
-    href: RedLight.html
-  - name: .
-  - uid: RedLight.Graphics
-    name: Graphics
-    href: RedLight.Graphics.html
-  spec.vb:
-  - uid: RedLight
-    name: RedLight
-    href: RedLight.html
-  - name: .
-  - uid: RedLight.Graphics
-    name: Graphics
-    href: RedLight.Graphics.html
-- uid: System.Drawing
-  commentId: N:System.Drawing
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system
-  name: System.Drawing
-  nameWithType: System.Drawing
-  fullName: System.Drawing
-  spec.csharp:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.Drawing
-    name: Drawing
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.drawing
-  spec.vb:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.Drawing
-    name: Drawing
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.drawing
-- uid: RedLight.Lighting.LightingCube.Render*
-  commentId: Overload:RedLight.Lighting.LightingCube.Render
-  href: RedLight.Lighting.LightingCube.html#RedLight_Lighting_LightingCube_Render_RedLight_Graphics_Camera_
-  name: Render
-  nameWithType: LightingCube.Render
-  fullName: RedLight.Lighting.LightingCube.Render
-- uid: RedLight.Graphics.Camera
-  commentId: T:RedLight.Graphics.Camera
-  parent: RedLight.Graphics
-  href: RedLight.Graphics.Camera.html
-  name: Camera
-  nameWithType: Camera
-  fullName: RedLight.Graphics.Camera
-- uid: RedLight.Lighting.LightingCube.Update*
-  commentId: Overload:RedLight.Lighting.LightingCube.Update
-  href: RedLight.Lighting.LightingCube.html#RedLight_Lighting_LightingCube_Update
-  name: Update
-  nameWithType: LightingCube.Update
-  fullName: RedLight.Lighting.LightingCube.Update
-- uid: RedLight.Lighting.LightingCube.Translate*
-  commentId: Overload:RedLight.Lighting.LightingCube.Translate
-  href: RedLight.Lighting.LightingCube.html#RedLight_Lighting_LightingCube_Translate_System_Numerics_Vector3_
-  name: Translate
-  nameWithType: LightingCube.Translate
-  fullName: RedLight.Lighting.LightingCube.Translate
 - uid: System.Numerics.Vector3
   commentId: T:System.Numerics.Vector3
   parent: System.Numerics
@@ -742,6 +869,21 @@ references:
   name: Vector3
   nameWithType: Vector3
   fullName: System.Numerics.Vector3
+- uid: System.Drawing.Color
+  commentId: T:System.Drawing.Color
+  parent: System.Drawing
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.drawing.color
+  name: Color
+  nameWithType: Color
+  fullName: System.Drawing.Color
+- uid: RedLight.Lighting.LightingCube
+  commentId: T:RedLight.Lighting.LightingCube
+  parent: RedLight.Lighting
+  href: RedLight.Lighting.LightingCube.html
+  name: LightingCube
+  nameWithType: LightingCube
+  fullName: RedLight.Lighting.LightingCube
 - uid: System.Numerics
   commentId: N:System.Numerics
   isExternal: true
@@ -769,6 +911,99 @@ references:
     name: Numerics
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.numerics
+- uid: System.Drawing
+  commentId: N:System.Drawing
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Drawing
+  nameWithType: System.Drawing
+  fullName: System.Drawing
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Drawing
+    name: Drawing
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.drawing
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Drawing
+    name: Drawing
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.drawing
+- uid: RedLight.Lighting.LightingCube.CreatePointLightCube*
+  commentId: Overload:RedLight.Lighting.LightingCube.CreatePointLightCube
+  href: RedLight.Lighting.LightingCube.html#RedLight_Lighting_LightingCube_CreatePointLightCube_RedLight_Lighting_LightManager_System_String_System_String_System_Numerics_Vector3_System_Drawing_Color_RedLight_Lighting_Attenuation_
+  name: CreatePointLightCube
+  nameWithType: LightingCube.CreatePointLightCube
+  fullName: RedLight.Lighting.LightingCube.CreatePointLightCube
+- uid: RedLight.Lighting.Attenuation
+  commentId: T:RedLight.Lighting.Attenuation
+  parent: RedLight.Lighting
+  href: RedLight.Lighting.Attenuation.html
+  name: Attenuation
+  nameWithType: Attenuation
+  fullName: RedLight.Lighting.Attenuation
+- uid: RedLight.Lighting.LightingCube.CreateSpotLightCube*
+  commentId: Overload:RedLight.Lighting.LightingCube.CreateSpotLightCube
+  href: RedLight.Lighting.LightingCube.html#RedLight_Lighting_LightingCube_CreateSpotLightCube_RedLight_Lighting_LightManager_System_String_System_String_System_Numerics_Vector3_System_Numerics_Vector3_System_Drawing_Color_RedLight_Lighting_Attenuation_
+  name: CreateSpotLightCube
+  nameWithType: LightingCube.CreateSpotLightCube
+  fullName: RedLight.Lighting.LightingCube.CreateSpotLightCube
+- uid: RedLight.Graphics.Camera
+  commentId: T:RedLight.Graphics.Camera
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.Camera.html
+  name: Camera
+  nameWithType: Camera
+  fullName: RedLight.Graphics.Camera
+- uid: RedLight.Graphics
+  commentId: N:RedLight.Graphics
+  href: RedLight.html
+  name: RedLight.Graphics
+  nameWithType: RedLight.Graphics
+  fullName: RedLight.Graphics
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Graphics
+    name: Graphics
+    href: RedLight.Graphics.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Graphics
+    name: Graphics
+    href: RedLight.Graphics.html
+- uid: RedLight.Lighting.LightingCube.Update*
+  commentId: Overload:RedLight.Lighting.LightingCube.Update
+  href: RedLight.Lighting.LightingCube.html#RedLight_Lighting_LightingCube_Update_RedLight_Graphics_Camera_
+  name: Update
+  nameWithType: LightingCube.Update
+  fullName: RedLight.Lighting.LightingCube.Update
+- uid: RedLight.Lighting.LightingCube.Render*
+  commentId: Overload:RedLight.Lighting.LightingCube.Render
+  href: RedLight.Lighting.LightingCube.html#RedLight_Lighting_LightingCube_Render_RedLight_Graphics_Camera_
+  name: Render
+  nameWithType: LightingCube.Render
+  fullName: RedLight.Lighting.LightingCube.Render
+- uid: RedLight.Lighting.LightingCube.Translate*
+  commentId: Overload:RedLight.Lighting.LightingCube.Translate
+  href: RedLight.Lighting.LightingCube.html#RedLight_Lighting_LightingCube_Translate_System_Numerics_Vector3_
+  name: Translate
+  nameWithType: LightingCube.Translate
+  fullName: RedLight.Lighting.LightingCube.Translate
 - uid: RedLight.Lighting.LightingCube.Rotate*
   commentId: Overload:RedLight.Lighting.LightingCube.Rotate
   href: RedLight.Lighting.LightingCube.html#RedLight_Lighting_LightingCube_Rotate_System_Single_System_Numerics_Vector3_

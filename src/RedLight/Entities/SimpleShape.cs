@@ -15,7 +15,7 @@ public abstract class SimpleShape : Entity
     /// <param name="hitboxConfig">Optional hitbox configuration</param>
     /// <param name="applyGravity">Whether to apply gravity to this shape</param>
     protected SimpleShape(RLModel model, HitboxConfig hitboxConfig = null, bool applyGravity = true)
-        : base(model, applyGravity)
+        : base(model, ModelType.Entity, applyGravity)
     {
         // If a hitbox config is provided, use it
         if (hitboxConfig != null)
@@ -30,7 +30,7 @@ public abstract class SimpleShape : Entity
     /// </summary>
     /// <param name="model">The RLModel for this shape</param>
     /// <param name="applyGravity">Whether to apply gravity to this shape</param>
-    protected SimpleShape(RLModel model, bool applyGravity = true)
+    internal SimpleShape(RLModel model, bool applyGravity = true)
         : this(model, null, applyGravity)
     {
     }

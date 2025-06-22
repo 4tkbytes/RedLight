@@ -12,6 +12,7 @@ items:
   - RedLight.Graphics.ShaderManager.GetShaderDetailsForDebugging(System.UInt32)
   - RedLight.Graphics.ShaderManager.HasUniform(System.String,System.String)
   - RedLight.Graphics.ShaderManager.Instance
+  - RedLight.Graphics.ShaderManager.SetUniformIfExists``1(System.String,System.String,``0)
   - RedLight.Graphics.ShaderManager.SetUniform``1(System.String,System.String,``0)
   - RedLight.Graphics.ShaderManager.TryAdd(System.String,RedLight.Graphics.RLShader,RedLight.Graphics.RLShader)
   - RedLight.Graphics.ShaderManager.TryAdd(System.String,RedLight.Graphics.RLShaderBundle)
@@ -299,21 +300,20 @@ items:
     it will search it up for you.
   example: []
   syntax:
-    content: public void SetUniform<T>(string shaderId, string name, T value)
+    content: public void SetUniform<T>(string shaderId, string uniform, T value)
     parameters:
     - id: shaderId
       type: System.String
       description: ''
-    - id: name
+    - id: uniform
       type: System.String
-      description: ''
     - id: value
       type: '{T}'
       description: ''
     typeParameters:
     - id: T
       description: ''
-    content.vb: Public Sub SetUniform(Of T)(shaderId As String, name As String, value As T)
+    content.vb: Public Sub SetUniform(Of T)(shaderId As String, uniform As String, value As T)
   overload: RedLight.Graphics.ShaderManager.SetUniform*
   nameWithType.vb: ShaderManager.SetUniform(Of T)(String, String, T)
   fullName.vb: RedLight.Graphics.ShaderManager.SetUniform(Of T)(String, String, T)
@@ -343,21 +343,59 @@ items:
   summary: Checks if a uniform with the given name exists in the shader program
   example: []
   syntax:
-    content: public bool HasUniform(string shaderId, string name)
+    content: public bool HasUniform(string shaderId, string uniform)
     parameters:
     - id: shaderId
       type: System.String
-    - id: name
+    - id: uniform
       type: System.String
       description: The name of the uniform to check
     return:
       type: System.Boolean
       description: True if the uniform exists, false otherwise
-    content.vb: Public Function HasUniform(shaderId As String, name As String) As Boolean
+    content.vb: Public Function HasUniform(shaderId As String, uniform As String) As Boolean
   overload: RedLight.Graphics.ShaderManager.HasUniform*
   nameWithType.vb: ShaderManager.HasUniform(String, String)
   fullName.vb: RedLight.Graphics.ShaderManager.HasUniform(String, String)
   name.vb: HasUniform(String, String)
+- uid: RedLight.Graphics.ShaderManager.SetUniformIfExists``1(System.String,System.String,``0)
+  commentId: M:RedLight.Graphics.ShaderManager.SetUniformIfExists``1(System.String,System.String,``0)
+  id: SetUniformIfExists``1(System.String,System.String,``0)
+  parent: RedLight.Graphics.ShaderManager
+  langs:
+  - csharp
+  - vb
+  name: SetUniformIfExists<T>(string, string, T)
+  nameWithType: ShaderManager.SetUniformIfExists<T>(string, string, T)
+  fullName: RedLight.Graphics.ShaderManager.SetUniformIfExists<T>(string, string, T)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/ShaderManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: SetUniformIfExists
+    path: src/RedLight/Graphics/ShaderManager.cs
+    startLine: 150
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public void SetUniformIfExists<T>(string shaderId, string uniform, T value)
+    parameters:
+    - id: shaderId
+      type: System.String
+    - id: uniform
+      type: System.String
+    - id: value
+      type: '{T}'
+    typeParameters:
+    - id: T
+    content.vb: Public Sub SetUniformIfExists(Of T)(shaderId As String, uniform As String, value As T)
+  overload: RedLight.Graphics.ShaderManager.SetUniformIfExists*
+  nameWithType.vb: ShaderManager.SetUniformIfExists(Of T)(String, String, T)
+  fullName.vb: RedLight.Graphics.ShaderManager.SetUniformIfExists(Of T)(String, String, T)
+  name.vb: SetUniformIfExists(Of T)(String, String, T)
 - uid: RedLight.Graphics.ShaderManager.GetProgramHandleString(System.String)
   commentId: M:RedLight.Graphics.ShaderManager.GetProgramHandleString(System.String)
   id: GetProgramHandleString(System.String)
@@ -376,7 +414,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: GetProgramHandleString
     path: src/RedLight/Graphics/ShaderManager.cs
-    startLine: 150
+    startLine: 156
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -410,7 +448,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: FindShaderIdByProgramHandle
     path: src/RedLight/Graphics/ShaderManager.cs
-    startLine: 161
+    startLine: 167
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -448,7 +486,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: GetShaderDetailsForDebugging
     path: src/RedLight/Graphics/ShaderManager.cs
-    startLine: 178
+    startLine: 184
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -830,6 +868,12 @@ references:
   nameWithType.vb: Boolean
   fullName.vb: Boolean
   name.vb: Boolean
+- uid: RedLight.Graphics.ShaderManager.SetUniformIfExists*
+  commentId: Overload:RedLight.Graphics.ShaderManager.SetUniformIfExists
+  href: RedLight.Graphics.ShaderManager.html#RedLight_Graphics_ShaderManager_SetUniformIfExists__1_System_String_System_String___0_
+  name: SetUniformIfExists
+  nameWithType: ShaderManager.SetUniformIfExists
+  fullName: RedLight.Graphics.ShaderManager.SetUniformIfExists
 - uid: RedLight.Graphics.ShaderManager.GetProgramHandleString*
   commentId: Overload:RedLight.Graphics.ShaderManager.GetProgramHandleString
   href: RedLight.Graphics.ShaderManager.html#RedLight_Graphics_ShaderManager_GetProgramHandleString_System_String_

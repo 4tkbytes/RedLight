@@ -25,6 +25,7 @@ items:
 references:
 - uid: RedLight.Entities.Cube
   commentId: T:RedLight.Entities.Cube
+  parent: RedLight.Entities
   href: RedLight.Entities.Cube.html
   name: Cube
   nameWithType: Cube

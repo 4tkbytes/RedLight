@@ -414,7 +414,7 @@ public class RLModel
 
         if (textures.Count == 0)
         {
-            Log.Warning($"No texture found for mesh '{mesh->MName}' in model '{Name}'. Mesh will render without texture.");
+            Log.Debug($"[WARNING] No texture found for mesh '{mesh->MName}' in model '{Name}'. Mesh will render without texture.");
         }
 
         if (textures.Count <= 1)
