@@ -93,7 +93,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 
         if (_editor.IsEditorMode)
         {
-            _editor.SetModelList(ObjectModels);
+            _editor.SetModelList(ObjectModels, activeCamera);
         }
 
         if (_editor.IsEditorMode)
@@ -116,7 +116,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         }
         
         Graphics.Clear();
-        Graphics.ClearColour(Color.MidnightBlue);
+        Graphics.ClearColour(Color.CornflowerBlue);
 
         foreach (var model in ObjectModels)
         {
@@ -265,17 +265,17 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         LightManager = new LightManager();
 
         // // create new light cube with a sun-like yellow/white color
-        // lightingCube = LightingCube.CreateDirectionalLightCube(Graphics, LightManager, "lightCube", "light_cube",
-        //     RLConstants.RL_SUN_DIRECTION, Color.FromArgb(255, 255, 253, 231));
+        lightingCube = LightingCube.CreateDirectionalLightCube(Graphics, LightManager, "lightCube", "light_cube",
+            RLConstants.RL_SUN_DIRECTION, Color.FromArgb(255, 255, 253, 231));
         //
-        lightingCube = LightingCube.CreatePointLightCube(Graphics, LightManager, "lightCube", "light_cube",
-            RLConstants.RL_SUN_DIRECTION, Color.FromArgb(255, 255, 253, 231), Attenuation.DefaultValues.Range50);
+        // lightingCube = LightingCube.CreatePointLightCube(Graphics, LightManager, "lightCube", "light_cube",
+        //     RLConstants.RL_SUN_DIRECTION, Color.FromArgb(255, 255, 253, 231), Attenuation.DefaultValues.Range50);
         
         // // Position doesn't matter much for directional lights, but still good to place it high
-        // lightingCube.Cube.Translate(new Vector3(0, 20, 0));
+        // lightingCube.Cube.Translate(new Vector3(0, 0, 0));
 
         // Set a direction that mimics sunlight from above at an angle
-        // lightingCube.Light.Direction = RLConstants.RL_SUN_DIRECTION;
+        lightingCube.Light.Direction = RLConstants.RL_SUN_DIRECTION;
     }
 
     private void AddPhysics()

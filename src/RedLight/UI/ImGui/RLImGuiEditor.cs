@@ -1,12 +1,14 @@
-﻿using System.Numerics;
+﻿using System.Diagnostics;
+using System.Numerics;
 using Hexa.NET.ImGui;
+using Hexa.NET.ImGuizmo;
 using RedLight.Entities;
 using RedLight.UI.ImGui;
 using Silk.NET.Input;
-using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
 using Serilog;
 using RedLight.Graphics;
+using RedLight.Utils;
 using Framebuffer = RedLight.Graphics.Framebuffer;
 
 namespace RedLight.UI;
@@ -26,6 +28,12 @@ public class RLImGuiEditor
     private List<Entity> _modelList = new();
     private Entity _selectedModel = null;
     private int _selectedModelIndex = -1;
+    
+    // ImGuizmo shenanigans
+    private Camera _camera;
+    private ImGuizmoOperation _currentGizmoOperation = ImGuizmoOperation.Translate;
+    private ImGuizmoMode _currentGizmoMode = ImGuizmoMode.Local;
+
 
 
     public Framebuffer GameFramebuffer => _gameFramebuffer;
@@ -46,6 +54,14 @@ public class RLImGuiEditor
             null,
             () => Hexa.NET.ImGui.ImGui.GetIO().ConfigFlags |= ImGuiConfigFlags.DockingEnable
             );
+        
+        ImGuizmo.SetImGuiContext(_imGuiController.Context);
+        
+        ImGuizmo.Enable(true);
+        ImGuizmo.SetDrawlist();
+        ImGuizmo.SetOrthographic(false);
+        ImGuizmo.SetRect(Hexa.NET.ImGui.ImGui.GetWindowPos().X, Hexa.NET.ImGui.ImGui.GetWindowPos().Y,
+            Hexa.NET.ImGui.ImGui.GetWindowSize().X, Hexa.NET.ImGui.ImGui.GetWindowSize().Y);
         
         _gameFramebuffer = new Framebuffer(graphics, (int)_viewportSize.X, (int)_viewportSize.Y);
         Log.Debug("RLImGuiEditor initialized");
@@ -73,9 +89,11 @@ public class RLImGuiEditor
         Log.Debug("Editor mode set to: {EditorMode}", _editorMode);
     }
     
-    public void SetModelList(List<Entity> models)
+    public void SetModelList(List<Entity> models, Camera activeCamera)
     {
         _modelList = models;
+        _camera = activeCamera;
+        
         // Reset selection if current selection is no longer valid
         if (_selectedModel != null && !_modelList.Contains(_selectedModel))
         {
@@ -188,6 +206,12 @@ public class RLImGuiEditor
                 if (global::Hexa.NET.ImGui.ImGui.MenuItem("Documentation"))
                 {
                     Log.Debug("Help -> Documentation clicked");
+                    string url = "https://4tkbytes.github.io/RedLight/";
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = url,
+                        UseShellExecute = true
+                    });
                 }
                 
                 global::Hexa.NET.ImGui.ImGui.EndMenu();
@@ -228,6 +252,8 @@ public class RLImGuiEditor
         RenderViewport();
         RenderModelList();
         RenderModelInspector();
+        
+        RenderImGuizmo();
 
         // Show demo window if requested
         if (_showDemoWindow)
@@ -238,29 +264,68 @@ public class RLImGuiEditor
         _imGuiController.Render();
     }
 
+    private void RenderImGuizmo()
+    {
+        // Only proceed if we have a selected model and camera
+        if (_selectedModel == null || _camera == null)
+            return;
+    
+        // Begin ImGuizmo frame
+        ImGuizmo.BeginFrame();
+    
+        // Get viewport position and size
+        var viewportPos = global::Hexa.NET.ImGui.ImGui.GetWindowPos();
+        var viewportSize = _viewportSize;
+    
+        // Set ImGuizmo drawing area to match viewport
+        ImGuizmo.SetRect(viewportPos.X, viewportPos.Y, viewportSize.X, viewportSize.Y);
+    
+        // Get necessary matrices
+        Matrix4x4 view = _camera.View;
+        Matrix4x4 projection = _camera.Projection;
+        Matrix4x4 model = _selectedModel.ModelMatrix;
+
+        // Call Manipulate to show and interact with the gizmo
+        bool matrixChanged = ImGuizmo.Manipulate(
+            ref view,
+            ref projection,
+            _currentGizmoOperation,
+            _currentGizmoMode,
+            ref model
+        );
+    
+        // Update entity if transform changed
+        if (matrixChanged)
+        {
+            // Extract transform components from the modified matrix
+            if (Matrix4x4.Decompose(model, out Vector3 scale, out Quaternion rotation, out Vector3 position))
+            {
+                // Update entity transform
+                _selectedModel.SetPosition(position);
+            
+                // Convert quaternion to euler angles if your entity uses euler angles
+                Vector3 eulerAngles = RLUtils.QuaternionToEuler(rotation);
+                _selectedModel.SetRotation(eulerAngles);
+            
+                _selectedModel.SetScale(scale);
+            }
+        }
+    }
+
     private void RenderViewport()
     {
-        // Set viewport window size and position
-        var mainViewport = global::Hexa.NET.ImGui.ImGui.GetMainViewport();
-        var viewportWidth = mainViewport.Size.X / 5;
-        var viewportHeight = mainViewport.Size.Y / 5;
-        var padding = 10.0f; // Add some padding from the edges
-    
-        global::Hexa.NET.ImGui.ImGui.SetNextWindowSize(new Vector2(viewportWidth, viewportHeight), ImGuiCond.FirstUseEver);
-        global::Hexa.NET.ImGui.ImGui.SetNextWindowPos(new Vector2(padding, global::Hexa.NET.ImGui.ImGui.GetFrameHeight() + padding), ImGuiCond.FirstUseEver);
-    
         global::Hexa.NET.ImGui.ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, Vector2.Zero);
-    
+
         if (global::Hexa.NET.ImGui.ImGui.Begin("Viewport"))
         {
             _viewportFocused = global::Hexa.NET.ImGui.ImGui.IsWindowFocused();
             _viewportHovered = global::Hexa.NET.ImGui.ImGui.IsWindowHovered();
 
             var contentRegion = global::Hexa.NET.ImGui.ImGui.GetContentRegionAvail();
-        
+
             // Update viewport size if it changed
-            if (contentRegion.X > 0 && contentRegion.Y > 0 && 
-                (Math.Abs(contentRegion.X - _viewportSize.X) > 1.0f || 
+            if (contentRegion.X > 0 && contentRegion.Y > 0 &&
+                (Math.Abs(contentRegion.X - _viewportSize.X) > 1.0f ||
                  Math.Abs(contentRegion.Y - _viewportSize.Y) > 1.0f))
             {
                 _viewportSize = contentRegion;
@@ -275,8 +340,56 @@ public class RLImGuiEditor
                 new Vector2(0, 1),
                 new Vector2(1, 0)
             );
+            
+            // IMPORTANT: Get the content area position (this is where your image is drawn)
+            var windowPos = global::Hexa.NET.ImGui.ImGui.GetWindowPos();
+            
+            // Only render gizmo if both model and camera are available
+            if (_selectedModel != null && _camera != null)
+            {
+                // Set up ImGuizmo for this frame
+                ImGuizmo.SetOrthographic(false);
+                ImGuizmo.BeginFrame();
+                
+                // Set the rect to match the exact viewport position and size
+                ImGuizmo.SetRect(
+                    windowPos.X, 
+                    windowPos.Y, 
+                    _viewportSize.X, 
+                    _viewportSize.Y
+                );
+                
+                // Set up the matrices
+                Matrix4x4 view = _camera.View;
+                Matrix4x4 projection = _camera.Projection;
+                Matrix4x4 model = _selectedModel.ModelMatrix;
+                
+                // Enable this to see debug output
+                ImGuizmo.Enable(true);
+                
+                // This is the critical call to render and interact with the gizmo
+                bool matrixChanged = ImGuizmo.Manipulate(
+                    ref view,
+                    ref projection,
+                    _currentGizmoOperation,
+                    _currentGizmoMode,
+                    ref model
+                );
+                
+                // Update model if the matrix changed
+                if (matrixChanged)
+                {
+                    if (Matrix4x4.Decompose(model, out Vector3 scale, out Quaternion rotation, out Vector3 position))
+                    {
+                        _selectedModel.SetPosition(position);
+                        Vector3 eulerAngles = RLUtils.QuaternionToEuler(rotation);
+                        _selectedModel.SetRotation(eulerAngles);
+                        _selectedModel.SetScale(scale);
+                    }
+                }
+            }
         }
-    
+
         global::Hexa.NET.ImGui.ImGui.End();
         global::Hexa.NET.ImGui.ImGui.PopStyleVar();
     }
@@ -394,6 +507,25 @@ public class RLImGuiEditor
                         Log.Debug("Updated scale for {Name}: {Scale}", modelName, _selectedModel.Scale);
                     }
                 }
+                
+                // ImGuizmo
+                global::Hexa.NET.ImGui.ImGui.Text("Gizmo Controls");
+    
+                bool isTranslate = _currentGizmoOperation == ImGuizmoOperation.Translate;
+                bool isRotate = _currentGizmoOperation == ImGuizmoOperation.Rotate;
+                bool isScale = _currentGizmoOperation == ImGuizmoOperation.Scale;
+    
+                if (global::Hexa.NET.ImGui.ImGui.RadioButton("Translate", isTranslate))
+                    _currentGizmoOperation = ImGuizmoOperation.Translate;
+        
+                global::Hexa.NET.ImGui.ImGui.SameLine();
+                if (global::Hexa.NET.ImGui.ImGui.RadioButton("Rotate", isRotate))
+                    _currentGizmoOperation = ImGuizmoOperation.Rotate;
+        
+                global::Hexa.NET.ImGui.ImGui.SameLine();
+                if (global::Hexa.NET.ImGui.ImGui.RadioButton("Scale", isScale))
+                    _currentGizmoOperation = ImGuizmoOperation.Scale;
+
 
                 // Physics section
                 if (global::Hexa.NET.ImGui.ImGui.CollapsingHeader("Physics"))
@@ -461,3 +593,4 @@ public class RLImGuiEditor
         _imGuiController?.Dispose();
     }
 }
+

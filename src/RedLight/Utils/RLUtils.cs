@@ -86,4 +86,14 @@ public static class RLUtils
     
         return (programHandle, uniformLocation);
     }
+    
+    public static Vector3 QuaternionToEuler(Quaternion q)
+    {
+        // Extract Euler angles from quaternion
+        float x = (float)Math.Atan2(2 * (q.W * q.X + q.Y * q.Z), 1 - 2 * (q.X * q.X + q.Y * q.Y));
+        float y = (float)Math.Asin(2 * (q.W * q.Y - q.Z * q.X));
+        float z = (float)Math.Atan2(2 * (q.W * q.Z + q.X * q.Y), 1 - 2 * (q.Y * q.Y + q.Z * q.Z));
+    
+        return new Vector3(x, y, z);
+    }
 }
