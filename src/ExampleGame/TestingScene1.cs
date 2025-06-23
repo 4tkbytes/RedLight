@@ -10,7 +10,6 @@ using System.Numerics;
 using RedLight.Lighting;
 using RedLight.Physics;
 using RedLight.UI;
-using RedLight.Utils;
 using Camera = RedLight.Graphics.Camera;
 using Plane = RedLight.Entities.Plane;
 
@@ -67,7 +66,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         
         lampLight.Update(player.Camera);
         flashLight.Update(player.Camera);
-    
+        
         if (useDebugCamera)
         {
             debugCamera.KeyMap(PressedKeys, (float)deltaTime);
@@ -121,6 +120,19 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
                 // keyboard shortcuts
                 case Key.R:
                     player.ResetPhysics();
+                    break;
+                case Key.F:
+                    // Toggle fog
+                    if (LightManager.Fog?.IsEnabled == true)
+                    {
+                        LightManager.DisableFog();
+                        Log.Information("Fog disabled");
+                    }
+                    else
+                    {
+                        LightManager.EnableFog(new Vector3(0.6f, 0.6f, 0.7f), 0.03f, FogType.Exponential);
+                        Log.Information("Fog enabled");
+                    }
                     break;
                 // debug logging keypad
                 case Key.Keypad0:
@@ -219,17 +231,18 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     {
         // initialise the LightManager class
         LightManager = new LightManager();
+        LightManager.SetFog(new Fog());
 
         // Create any type of light (within the enum)
         // This one is a spotlight, like a flash light
         lampLight = LightingCube.CreateSpotLightCube(LightManager, "lightCubeSpot", "light_cube", playerCamera,
             Color.AntiqueWhite, Attenuation.DefaultValues.Range50);
 
-        // // This one is a directional light, such as that of the sun
+        // This one is a directional light, such as that of the sun
         // sunLight = LightingCube.CreateDirectionalLightCube(LightManager, "lightCubeDirectional", "light_cube",
         //     RLConstants.RL_SUN_DIRECTION, Color.AntiqueWhite);
         //
-        // // This one is a point light, like a lamp
+        // This one is a point light, like a lamp
         flashLight = LightingCube.CreatePointLightCube(LightManager, "lightCubePoint", "light_cube", Vector3.Zero,
             Color.AntiqueWhite, Attenuation.DefaultValues.Range50);
     }

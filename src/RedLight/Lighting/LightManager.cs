@@ -10,6 +10,14 @@ public class LightManager
     private readonly Dictionary<string, RLLight> _lights;
     private readonly Dictionary<string, Entity> _lightCubes;
     private readonly Dictionary<string, LightingCube> _lightingCubes;
+
+    private Fog _fog;
+    
+    public Fog Fog
+    {
+        get => _fog;
+        set => _fog = value;
+    }
     
     private float _diffuse;
     private float _specular = 1;
@@ -125,7 +133,7 @@ public class LightManager
             
             if (shaderManager.HasUniform(shaderName, "material.specular"))
                 shaderManager.SetUniform(shaderName, "material.specular", 1); // Texture unit 1
-
+            
             var enabledLights = _lights.Values.Where(l => l.IsEnabled).ToList();
 
             // Apply directional light
@@ -139,6 +147,9 @@ public class LightManager
             // Apply spotlight
             var spotLight = enabledLights.FirstOrDefault(l => l.Type == LightType.Spot);
             ApplySpotLight(shaderName, spotLight, shaderManager);
+            
+            // THE FOG IS COMING THE FOG IS COMING
+            ApplyFogToShader(shaderName, shaderManager);
         }
         catch (Exception ex)
         {
@@ -388,4 +399,73 @@ public class LightManager
             Log.Verbose("Removed light: {Name}", name);
         }
     } 
+    
+    private void ApplyFogToShader(string shaderName, ShaderManager shaderManager)
+    {
+        if (_fog != null)
+        {
+            shaderManager.SetUniformIfExists(shaderName, "fog.density", _fog.Density);
+            shaderManager.SetUniformIfExists(shaderName, "fog.color", _fog.Color);
+            shaderManager.SetUniformIfExists(shaderName, "fog.start", _fog.Start);
+            shaderManager.SetUniformIfExists(shaderName, "fog.end", _fog.End);
+            shaderManager.SetUniformIfExists(shaderName, "fog.type", (int)_fog.Type);
+        }
+        else
+        {
+            // No fog - set density to 0
+            shaderManager.SetUniformIfExists(shaderName, "fog.density", 0.0f);
+            shaderManager.SetUniformIfExists(shaderName, "fog.color", Vector3.One);
+            shaderManager.SetUniformIfExists(shaderName, "fog.start", 1.0f);
+            shaderManager.SetUniformIfExists(shaderName, "fog.end", 100.0f);
+            shaderManager.SetUniformIfExists(shaderName, "fog.type", 0);
+        }
+    }
+
+    // Helper methods for setting fog
+    public void SetLinearFog(Vector3 color, float start, float end)
+    {
+        _fog = Fog.CreateLinearFog(color, start, end);
+    }
+    
+    public void SetExponentialFog(Vector3 color, float density)
+    {
+        _fog = Fog.CreateExponentialFog(color, density);
+    }
+    
+    public void SetFog(Fog fog)
+    {
+        _fog = fog;
+        Log.Debug("Fog updated: Density={Density}, Type={Type}", fog.Density, fog.Type);
+    }
+
+    public void EnableFog(Vector3 color, float density = 0.1f, FogType type = FogType.Linear)
+    {
+        if (_fog == null)
+        {
+            _fog = new Fog();
+        }
+    
+        _fog.Color = color;
+        _fog.Density = density;
+        _fog.Type = type;
+    
+        Log.Debug("Fog enabled with density: {Density}", density);
+    }
+
+    public void DisableFog()
+    {
+        if (_fog != null)
+        {
+            _fog.Disable();
+            Log.Debug("Fog disabled");
+        }
+    }
+
+    public void SetFogDensity(float density)
+    {
+        if (_fog != null)
+        {
+            _fog.Density = density;
+        }
+    }
 }

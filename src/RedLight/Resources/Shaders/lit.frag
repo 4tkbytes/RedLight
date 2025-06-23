@@ -42,6 +42,15 @@ struct SpotLight {
     vec3 specular;
 };
 
+// Fog structure
+struct Fog {
+    vec3 color;
+    float density;
+    float start;
+    float end;
+    int type; // 0 = linear, 1 = exponential, 2 = exponential squared
+};
+
 #define NR_POINT_LIGHTS 4
 
 in vec3 FragPos;
@@ -53,11 +62,13 @@ uniform DirLight dirLight;
 uniform PointLight pointLights[NR_POINT_LIGHTS];
 uniform SpotLight spotLight;
 uniform Material material;
+uniform Fog fog;
 
 // function prototypes
 vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir);
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
 vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
+float CalcFogFactor(float distance);
 
 void main()
 {
@@ -65,21 +76,45 @@ void main()
     vec3 norm = normalize(Normal);
     vec3 viewDir = normalize(viewPos - FragPos);
 
-    // == =====================================================
-    // Our lighting is set up in 3 phases: directional, point lights and an optional flashlight
-    // For each phase, a calculate function is defined that calculates the corresponding color
-    // per lamp. In the main() function we take all the calculated colors and sum them up for
-    // this fragment's final color.
-    // == =====================================================
-    // phase 1: directional lighting
+    // Calculate lighting
     vec3 result = CalcDirLight(dirLight, norm, viewDir);
-    // phase 2: point lights
     for(int i = 0; i < NR_POINT_LIGHTS; i++)
     result += CalcPointLight(pointLights[i], norm, FragPos, viewDir);
-    // phase 3: spot light
     result += CalcSpotLight(spotLight, norm, FragPos, viewDir);
 
-    FragColor = vec4(result, 1.0);
+    // Apply fog
+    float distance = length(viewPos - FragPos);
+    float fogFactor = CalcFogFactor(distance);
+
+    // Mix lighting result with fog color
+    vec3 finalColor = mix(fog.color, result, fogFactor);
+
+    FragColor = vec4(finalColor, 1.0);
+}
+
+// Calculate fog factor based on distance and fog type
+float CalcFogFactor(float distance)
+{
+    float fogFactor = 1.0;
+
+    if (fog.density <= 0.0) {
+        return 1.0; // No fog
+    }
+
+    if (fog.type == 0) {
+        // Linear fog
+        fogFactor = (fog.end - distance) / (fog.end - fog.start);
+    }
+    else if (fog.type == 1) {
+        // Exponential fog
+        fogFactor = exp(-fog.density * distance);
+    }
+    else if (fog.type == 2) {
+        // Exponential squared fog
+        fogFactor = exp(-pow(fog.density * distance, 2.0));
+    }
+
+    return clamp(fogFactor, 0.0, 1.0);
 }
 
 // calculates the color when using a directional light.
