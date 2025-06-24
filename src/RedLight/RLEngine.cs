@@ -51,9 +51,12 @@ public class RLEngine
 
     public RLEngine(int width, int height, string title, RLScene startingScene, string[] args)
     {
+        Console.WriteLine("Parsing arguments");
         ParseArguments(args);
+        Console.WriteLine("Init logger");
         InitialiseLogger(logStrength);
-        
+
+        Console.WriteLine("Init python");
         // yeah yeah, complain all you want but there are some
         // features that use Python like kubi
         PythonSetup.Initialize();
@@ -321,6 +324,6 @@ public class RLEngine
 
     private void Cleanup()
     {
-        // PythonSetup.Shutdown();
+        PythonSetup.Shutdown();
     }
 }
