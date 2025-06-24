@@ -23,12 +23,12 @@ public class RLImGuiEditor
     private bool _viewportFocused = false;
     private bool _viewportHovered = false;
     private bool _editorMode = false;
-    
+
     // Model inspector properties
     private List<Entity> _modelList = new();
     private Entity _selectedModel = null;
     private int _selectedModelIndex = -1;
-    
+
     // ImGuizmo shenanigans
     private Camera _camera;
     private ImGuizmoOperation _currentGizmoOperation = ImGuizmoOperation.Translate;
@@ -46,23 +46,23 @@ public class RLImGuiEditor
     {
         var gl = graphics.OpenGL;
         _engine = engine;
-        
+
         _imGuiController = new ImGuiController(
-            gl, 
-            view, 
-            input, 
+            gl,
+            view,
+            input,
             null,
             () => Hexa.NET.ImGui.ImGui.GetIO().ConfigFlags |= ImGuiConfigFlags.DockingEnable
             );
-        
+
         ImGuizmo.SetImGuiContext(_imGuiController.Context);
-        
+
         ImGuizmo.Enable(true);
         ImGuizmo.SetDrawlist();
         ImGuizmo.SetOrthographic(false);
         ImGuizmo.SetRect(Hexa.NET.ImGui.ImGui.GetWindowPos().X, Hexa.NET.ImGui.ImGui.GetWindowPos().Y,
             Hexa.NET.ImGui.ImGui.GetWindowSize().X, Hexa.NET.ImGui.ImGui.GetWindowSize().Y);
-        
+
         _gameFramebuffer = new Framebuffer(graphics, (int)_viewportSize.X, (int)_viewportSize.Y);
         Log.Debug("RLImGuiEditor initialized");
     }
@@ -88,12 +88,12 @@ public class RLImGuiEditor
         _editorMode = enabled;
         Log.Debug("Editor mode set to: {EditorMode}", _editorMode);
     }
-    
+
     public void SetModelList(List<Entity> models, Camera activeCamera)
     {
         _modelList = models;
         _camera = activeCamera;
-        
+
         // Reset selection if current selection is no longer valid
         if (_selectedModel != null && !_modelList.Contains(_selectedModel))
         {
@@ -101,7 +101,7 @@ public class RLImGuiEditor
             _selectedModelIndex = -1;
         }
     }
-    
+
     public Entity GetSelectedModel() => _selectedModel;
 
     public void Render()
@@ -121,25 +121,25 @@ public class RLImGuiEditor
                 {
                     Log.Debug("File -> New clicked");
                 }
-                
+
                 if (global::Hexa.NET.ImGui.ImGui.MenuItem("Open"))
                 {
                     Log.Debug("File -> Open clicked");
                 }
-                
+
                 if (global::Hexa.NET.ImGui.ImGui.MenuItem("Save"))
                 {
                     Log.Debug("File -> Save clicked");
                 }
-                
+
                 global::Hexa.NET.ImGui.ImGui.Separator();
-                
+
                 if (global::Hexa.NET.ImGui.ImGui.MenuItem("Quit"))
                 {
                     Log.Debug("File -> Quit clicked");
                     _engine.Window.Quit();
                 }
-                
+
                 global::Hexa.NET.ImGui.ImGui.EndMenu();
             }
 
@@ -149,49 +149,49 @@ public class RLImGuiEditor
                 {
                     Log.Debug("Edit -> Undo clicked");
                 }
-                
+
                 if (global::Hexa.NET.ImGui.ImGui.MenuItem("Redo"))
                 {
                     Log.Debug("Edit -> Redo clicked");
                 }
-                
+
                 global::Hexa.NET.ImGui.ImGui.Separator();
-                
+
                 if (global::Hexa.NET.ImGui.ImGui.MenuItem("Cut"))
                 {
                     Log.Debug("Edit -> Cut clicked");
                 }
-                
+
                 if (global::Hexa.NET.ImGui.ImGui.MenuItem("Copy"))
                 {
                     Log.Debug("Edit -> Copy clicked");
                 }
-                
+
                 if (global::Hexa.NET.ImGui.ImGui.MenuItem("Paste"))
                 {
                     Log.Debug("Edit -> Paste clicked");
                 }
-                
+
                 global::Hexa.NET.ImGui.ImGui.EndMenu();
             }
 
             if (global::Hexa.NET.ImGui.ImGui.BeginMenu("View"))
             {
                 global::Hexa.NET.ImGui.ImGui.MenuItem("Show Demo Window", "", ref _showDemoWindow);
-                
+
                 if (global::Hexa.NET.ImGui.ImGui.MenuItem("Reset Layout"))
                 {
                     Log.Debug("View -> Reset Layout clicked");
                 }
-                
+
                 global::Hexa.NET.ImGui.ImGui.Separator();
-                
+
                 if (global::Hexa.NET.ImGui.ImGui.MenuItem("Exit Editor", "F12"))
                 {
                     SetEditorMode(false);
                     Log.Debug("View -> Exit Editor clicked");
                 }
-                
+
                 global::Hexa.NET.ImGui.ImGui.EndMenu();
             }
 
@@ -201,7 +201,7 @@ public class RLImGuiEditor
                 {
                     Log.Debug("Help -> About clicked");
                 }
-                
+
                 if (global::Hexa.NET.ImGui.ImGui.MenuItem("Documentation"))
                 {
                     Log.Debug("Help -> Documentation clicked");
@@ -212,7 +212,7 @@ public class RLImGuiEditor
                         UseShellExecute = true
                     });
                 }
-                
+
                 global::Hexa.NET.ImGui.ImGui.EndMenu();
             }
 
@@ -222,28 +222,28 @@ public class RLImGuiEditor
         // Create dockspace for organized layout
         var dockspaceId = global::Hexa.NET.ImGui.ImGui.GetID("MainDockSpace");
         var mainViewport = global::Hexa.NET.ImGui.ImGui.GetMainViewport();
-        
+
         // Set dockspace position to be below the menu bar
         var menuBarHeight = global::Hexa.NET.ImGui.ImGui.GetFrameHeight();
         var dockspacePos = new Vector2(mainViewport.Pos.X, mainViewport.Pos.Y + menuBarHeight);
         var dockspaceSize = new Vector2(mainViewport.Size.X, mainViewport.Size.Y - menuBarHeight);
-        
+
         global::Hexa.NET.ImGui.ImGui.SetNextWindowPos(dockspacePos);
         global::Hexa.NET.ImGui.ImGui.SetNextWindowSize(dockspaceSize);
         global::Hexa.NET.ImGui.ImGui.SetNextWindowViewport(mainViewport.ID);
-        
+
         var dockspaceFlags = ImGuiWindowFlags.MenuBar | ImGuiWindowFlags.NoDocking |
                             ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoCollapse |
                             ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoMove |
                             ImGuiWindowFlags.NoBringToFrontOnFocus | ImGuiWindowFlags.NoNavFocus;
-        
+
         global::Hexa.NET.ImGui.ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0.0f);
         global::Hexa.NET.ImGui.ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 0.0f);
         global::Hexa.NET.ImGui.ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, Vector2.Zero);
-        
+
         global::Hexa.NET.ImGui.ImGui.Begin("DockSpace", dockspaceFlags);
         global::Hexa.NET.ImGui.ImGui.PopStyleVar(3);
-        
+
         global::Hexa.NET.ImGui.ImGui.DockSpace(dockspaceId, Vector2.Zero, ImGuiDockNodeFlags.None);
         global::Hexa.NET.ImGui.ImGui.End();
 
@@ -251,7 +251,7 @@ public class RLImGuiEditor
         RenderViewport();
         RenderModelList();
         RenderModelInspector();
-        
+
         RenderImGuizmo();
 
         // Show demo window if requested
@@ -268,17 +268,17 @@ public class RLImGuiEditor
         // Only proceed if we have a selected model and camera
         if (_selectedModel == null || _camera == null)
             return;
-    
+
         // Begin ImGuizmo frame
         ImGuizmo.BeginFrame();
-    
+
         // Get viewport position and size
         var viewportPos = global::Hexa.NET.ImGui.ImGui.GetWindowPos();
         var viewportSize = _viewportSize;
-    
+
         // Set ImGuizmo drawing area to match viewport
         ImGuizmo.SetRect(viewportPos.X, viewportPos.Y, viewportSize.X, viewportSize.Y);
-    
+
         // Get necessary matrices
         Matrix4x4 view = _camera.View;
         Matrix4x4 projection = _camera.Projection;
@@ -292,7 +292,7 @@ public class RLImGuiEditor
             _currentGizmoMode,
             ref model
         );
-    
+
         // Update entity if transform changed
         if (matrixChanged)
         {
@@ -301,11 +301,11 @@ public class RLImGuiEditor
             {
                 // Update entity transform
                 _selectedModel.SetPosition(position);
-            
+
                 // Convert quaternion to euler angles if your entity uses euler angles
                 Vector3 eulerAngles = RLUtils.QuaternionToEuler(rotation);
                 _selectedModel.SetRotation(eulerAngles);
-            
+
                 _selectedModel.SetScale(scale);
             }
         }
@@ -339,33 +339,33 @@ public class RLImGuiEditor
                 new Vector2(0, 1),
                 new Vector2(1, 0)
             );
-            
+
             // IMPORTANT: Get the content area position (this is where your image is drawn)
             var windowPos = global::Hexa.NET.ImGui.ImGui.GetWindowPos();
-            
+
             // Only render gizmo if both model and camera are available
             if (_selectedModel != null && _camera != null)
             {
                 // Set up ImGuizmo for this frame
                 ImGuizmo.SetOrthographic(false);
                 ImGuizmo.BeginFrame();
-                
+
                 // Set the rect to match the exact viewport position and size
                 ImGuizmo.SetRect(
-                    windowPos.X, 
-                    windowPos.Y, 
-                    _viewportSize.X, 
+                    windowPos.X,
+                    windowPos.Y,
+                    _viewportSize.X,
                     _viewportSize.Y
                 );
-                
+
                 // Set up the matrices
                 Matrix4x4 view = _camera.View;
                 Matrix4x4 projection = _camera.Projection;
                 Matrix4x4 model = _selectedModel.ModelMatrix;
-                
+
                 // Enable this to see debug output
                 ImGuizmo.Enable(true);
-                
+
                 // This is the critical call to render and interact with the gizmo
                 bool matrixChanged = ImGuizmo.Manipulate(
                     ref view,
@@ -374,7 +374,7 @@ public class RLImGuiEditor
                     _currentGizmoMode,
                     ref model
                 );
-                
+
                 // Update model if the matrix changed
                 if (matrixChanged)
                 {
@@ -405,55 +405,55 @@ public class RLImGuiEditor
                 var model = _modelList[i];
                 var modelName = !string.IsNullOrEmpty(model.Name) ? model.Name : $"Object_{i}";
                 var modelType = model.GetType().Name;
-                
+
                 // Create selectable item
                 var isSelected = _selectedModelIndex == i;
                 var displayText = $"{modelName} ({modelType})";
-                
+
                 if (global::Hexa.NET.ImGui.ImGui.Selectable(displayText, isSelected))
                 {
                     _selectedModelIndex = i;
                     _selectedModel = model;
                     Log.Debug("Selected model: {Name} ({Type})", modelName, modelType);
                 }
-                
+
                 // Right-click context menu
                 if (global::Hexa.NET.ImGui.ImGui.BeginPopupContextItem($"context_{i}"))
                 {
                     global::Hexa.NET.ImGui.ImGui.Text($"Actions for {modelName}");
                     global::Hexa.NET.ImGui.ImGui.Separator();
-                    
+
                     if (global::Hexa.NET.ImGui.ImGui.MenuItem("Focus on Object"))
                     {
                         Log.Debug("Focus on object: {Name}", modelName);
                         // TODO: Implement camera focus on object
                     }
-                    
+
                     if (global::Hexa.NET.ImGui.ImGui.MenuItem("Toggle Hitbox"))
                     {
                         model.ToggleHitbox();
                         Log.Debug("Toggled hitbox for: {Name}", modelName);
                     }
-                    
+
                     if (global::Hexa.NET.ImGui.ImGui.MenuItem("Duplicate"))
                     {
                         Log.Debug("Duplicate object: {Name}", modelName);
                         // TODO: Implement object duplication
                     }
-                    
+
                     global::Hexa.NET.ImGui.ImGui.Separator();
-                    
+
                     if (global::Hexa.NET.ImGui.ImGui.MenuItem("Delete", "Del"))
                     {
                         Log.Debug("Delete object: {Name}", modelName);
                         // TODO: Implement object deletion
                     }
-                    
+
                     global::Hexa.NET.ImGui.ImGui.EndPopup();
                 }
             }
         }
-        
+
         global::Hexa.NET.ImGui.ImGui.End();
     }
 
@@ -482,10 +482,10 @@ public class RLImGuiEditor
 
                     // Rotation (in degrees for easier editing)
                     var rotation = _selectedModel.Rotation;
-                    var rotDegrees = new float[] { 
-                        float.RadiansToDegrees(rotation.X), 
-                        float.RadiansToDegrees(rotation.Y), 
-                        float.RadiansToDegrees(rotation.Z) 
+                    var rotDegrees = new float[] {
+                        float.RadiansToDegrees(rotation.X),
+                        float.RadiansToDegrees(rotation.Y),
+                        float.RadiansToDegrees(rotation.Z)
                     };
                     if (global::Hexa.NET.ImGui.ImGui.DragFloat3("Rotation", ref rotDegrees[0], 1.0f))
                     {
@@ -506,21 +506,21 @@ public class RLImGuiEditor
                         Log.Debug("Updated scale for {Name}: {Scale}", modelName, _selectedModel.Scale);
                     }
                 }
-                
+
                 // ImGuizmo
                 global::Hexa.NET.ImGui.ImGui.Text("Gizmo Controls");
-    
+
                 bool isTranslate = _currentGizmoOperation == ImGuizmoOperation.Translate;
                 bool isRotate = _currentGizmoOperation == ImGuizmoOperation.Rotate;
                 bool isScale = _currentGizmoOperation == ImGuizmoOperation.Scale;
-    
+
                 if (global::Hexa.NET.ImGui.ImGui.RadioButton("Translate", isTranslate))
                     _currentGizmoOperation = ImGuizmoOperation.Translate;
-        
+
                 global::Hexa.NET.ImGui.ImGui.SameLine();
                 if (global::Hexa.NET.ImGui.ImGui.RadioButton("Rotate", isRotate))
                     _currentGizmoOperation = ImGuizmoOperation.Rotate;
-        
+
                 global::Hexa.NET.ImGui.ImGui.SameLine();
                 if (global::Hexa.NET.ImGui.ImGui.RadioButton("Scale", isScale))
                     _currentGizmoOperation = ImGuizmoOperation.Scale;
@@ -530,14 +530,14 @@ public class RLImGuiEditor
                 if (global::Hexa.NET.ImGui.ImGui.CollapsingHeader("Physics"))
                 {
                     global::Hexa.NET.ImGui.ImGui.Text($"Has Physics: {_selectedModel.PhysicsSystem != null}");
-                    
+
                     if (_selectedModel.PhysicsSystem != null)
                     {
                         // Mass
                         if (_selectedModel is Entity entity)
                         {
                             global::Hexa.NET.ImGui.ImGui.Text($"Mass: {entity.Mass:F2}");
-                            
+
                             // Friction coefficient
                             var friction = entity.FrictionCoefficient;
                             if (global::Hexa.NET.ImGui.ImGui.DragFloat("Friction", ref friction, 0.1f, 0.0f, 10.0f))
@@ -547,7 +547,7 @@ public class RLImGuiEditor
                             }
                         }
                     }
-                    
+
                     // Hitbox toggle
                     var showHitbox = _selectedModel.IsHitboxShown;
                     if (global::Hexa.NET.ImGui.ImGui.Checkbox("Show Hitbox", ref showHitbox))
@@ -564,7 +564,7 @@ public class RLImGuiEditor
                 if (global::Hexa.NET.ImGui.ImGui.CollapsingHeader("Rendering"))
                 {
                     // global::Hexa.NET.ImGui.ImGui.Text($"Visible: {_selectedModel.IsVisible}");
-                    
+
                     // Shader information
                     if (_selectedModel.Model?.AttachedShader != null)
                     {
@@ -582,7 +582,7 @@ public class RLImGuiEditor
                 global::Hexa.NET.ImGui.ImGui.Text("Select an object from the Scene Objects panel");
             }
         }
-        
+
         global::Hexa.NET.ImGui.ImGui.End();
     }
 

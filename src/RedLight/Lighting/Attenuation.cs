@@ -18,10 +18,10 @@ public struct Attenuation
     public float Calculate(out float attenuation, out float luminosity)
     {
         attenuation = Constant + Linear * Range + Quadratic * float.Pow(Range, 2);
-        luminosity = 1/attenuation;
+        luminosity = 1 / attenuation;
         return luminosity;
     }
-    
+
     public readonly struct DefaultValues
     {
         public static readonly Attenuation Range3250 = new Attenuation(3250f, 0.0014f, 0.000007f);
@@ -35,5 +35,5 @@ public struct Attenuation
         public static readonly Attenuation Range32 = new Attenuation(32f, 0.14f, 0.07f);
         public static readonly Attenuation Range13 = new Attenuation(13f, 0.35f, 0.44f);
     }
-    
+
 }

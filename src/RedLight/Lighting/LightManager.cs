@@ -12,17 +12,17 @@ public class LightManager
     private readonly Dictionary<string, LightingCube> _lightingCubes;
 
     private Fog _fog;
-    
+
     public Fog Fog
     {
         get => _fog;
         set => _fog = value;
     }
-    
+
     private float _diffuse;
     private float _specular = 1;
     private float _shininess = 32f;
-    
+
     public float Specular
     {
         get => _specular;
@@ -47,7 +47,7 @@ public class LightManager
         _lightCubes = new();
         _lightingCubes = new();
     }
-    
+
     public void AddLightingCube(string lightName, LightingCube lightingCube)
     {
         _lightingCubes.Add(lightName, lightingCube);
@@ -60,7 +60,7 @@ public class LightManager
         {
             Log.Warning("Light with name {Name} already exists. Replacing.", light.Name);
         }
-        
+
         _lights[light.Name] = light;
         Log.Verbose("Added light: {Name} of type {Type}", light.Name, light.Type);
     }
@@ -97,7 +97,7 @@ public class LightManager
             light.Colour = color;
         }
     }
-    
+
     public void UpdateLightDirection(string name, Vector3 direction)
     {
         if (_lights.TryGetValue(name, out var light))
@@ -113,7 +113,7 @@ public class LightManager
             light.IsEnabled = enabled;
         }
     }
-    
+
     public void ApplyLightsToShader(Vector3 viewPosition, Entity entity = null, string shaderName = "lit")
     {
         var shaderManager = ShaderManager.Instance;
@@ -127,24 +127,24 @@ public class LightManager
             // Set material properties
             if (shaderManager.HasUniform(shaderName, "material.shininess"))
                 shaderManager.SetUniform(shaderName, "material.shininess", _shininess);
-            
+
             if (shaderManager.HasUniform(shaderName, "material.diffuse"))
                 shaderManager.SetUniform(shaderName, "material.diffuse", 0); // Texture unit 0
-            
+
             if (shaderManager.HasUniform(shaderName, "material.specular"))
                 shaderManager.SetUniform(shaderName, "material.specular", 1); // Texture unit 1
-            
+
             if (entity != null)
             {
                 if (shaderManager.HasUniform(shaderName, "material.reflectivity"))
                     shaderManager.SetUniform(shaderName, "material.reflectivity", entity.Reflectivity);
-                
+
                 if (shaderManager.HasUniform(shaderName, "enableReflection"))
                     shaderManager.SetUniform(shaderName, "enableReflection", entity.EnableReflection);
-                
+
                 if (shaderManager.HasUniform(shaderName, "material.refractiveIndex"))
                     shaderManager.SetUniform(shaderName, "material.refractiveIndex", entity.RefractiveIndex);
-                
+
                 if (shaderManager.HasUniform(shaderName, "enableRefraction"))
                     shaderManager.SetUniform(shaderName, "enableRefraction", entity.EnableRefraction);
             }
@@ -152,16 +152,16 @@ public class LightManager
             {
                 if (shaderManager.HasUniform(shaderName, "material.reflectivity"))
                     shaderManager.SetUniform(shaderName, "material.reflectivity", 0.0f);
-                
+
                 if (shaderManager.HasUniform(shaderName, "enableReflection"))
                     shaderManager.SetUniform(shaderName, "enableReflection", false);
             }
-        
+
             // Set skybox texture unit
             if (shaderManager.HasUniform(shaderName, "skybox"))
                 shaderManager.SetUniform(shaderName, "skybox", 2);
 
-            
+
             var enabledLights = _lights.Values.Where(l => l.IsEnabled).ToList();
 
             // Apply directional light
@@ -175,7 +175,7 @@ public class LightManager
             // Apply spotlight
             var spotLight = enabledLights.FirstOrDefault(l => l.Type == LightType.Spot);
             ApplySpotLight(shaderName, spotLight, shaderManager);
-            
+
             // THE FOG IS COMING THE FOG IS COMING
             ApplyFogToShader(shaderName, shaderManager);
         }
@@ -188,7 +188,7 @@ public class LightManager
     private void ApplyDirectionalLight(string shaderName, RLLight? light, ShaderManager shaderManager)
     {
         string prefix = "dirLight";
-        
+
         if (light != null)
         {
             shaderManager.SetUniformIfExists(shaderName, $"{prefix}.direction", light.Direction ?? Vector3.UnitY);
@@ -211,7 +211,7 @@ public class LightManager
         for (int i = 0; i < 4; i++) // NR_POINT_LIGHTS = 4
         {
             string prefix = $"pointLights[{i}]";
-            
+
             if (i < lights.Count)
             {
                 var light = lights[i];
@@ -240,7 +240,7 @@ public class LightManager
     private void ApplySpotLight(string shaderName, RLLight? light, ShaderManager shaderManager)
     {
         string prefix = "spotLight";
-        
+
         if (light != null)
         {
             shaderManager.SetUniformIfExists(shaderName, $"{prefix}.position", light.Position ?? Vector3.Zero);
@@ -292,14 +292,14 @@ public class LightManager
             Log.Error("Error applying light cube shader {ShaderName} for light {LightName}: {Error}", shaderName, lightName, ex.Message);
         }
     }
-    
+
     public void RenderAllLightCubes(Camera camera)
     {
         foreach (var kvp in _lightingCubes)
         {
             var lightName = kvp.Key;
             var lightingCube = kvp.Value;
-            
+
             // Only render if the light exists and is enabled
             if (_lights.TryGetValue(lightName, out var light) && light.IsEnabled)
             {
@@ -307,14 +307,14 @@ public class LightManager
             }
         }
     }
-    
+
     public void UpdateAllLightCubes(Camera playerCamera = null)
     {
         foreach (var kvp in _lightingCubes)
         {
             var lightName = kvp.Key;
             var lightingCube = kvp.Value;
-            
+
             if (_lights.TryGetValue(lightName, out var light))
             {
                 // For spotlight following player camera
@@ -376,7 +376,7 @@ public class LightManager
     public IEnumerable<Entity> GetAllLightCubes() => _lightCubes.Values;
     public IEnumerable<LightingCube> GetAllLightingCubes() => _lightingCubes.Values;
 
-    
+
     public void DisableAllLights()
     {
         foreach (var light in _lights.Values)
@@ -384,7 +384,7 @@ public class LightManager
             light.IsEnabled = false;
         }
     }
-    
+
     public void EnableAllLights()
     {
         foreach (var light in _lights.Values)
@@ -392,7 +392,7 @@ public class LightManager
             light.IsEnabled = true;
         }
     }
-    
+
     // Set visibility for all light cubes
     public void SetAllLightCubesVisible(bool visible)
     {
@@ -426,8 +426,8 @@ public class LightManager
             _lightingCubes.Remove(name); // Also remove lighting cube
             Log.Verbose("Removed light: {Name}", name);
         }
-    } 
-    
+    }
+
     private void ApplyFogToShader(string shaderName, ShaderManager shaderManager)
     {
         if (_fog != null)
@@ -454,12 +454,12 @@ public class LightManager
     {
         _fog = Fog.CreateLinearFog(color, start, end);
     }
-    
+
     public void SetExponentialFog(Vector3 color, float density)
     {
         _fog = Fog.CreateExponentialFog(color, density);
     }
-    
+
     public void SetFog(Fog fog)
     {
         _fog = fog;
@@ -472,11 +472,11 @@ public class LightManager
         {
             _fog = new Fog();
         }
-    
+
         _fog.Color = color;
         _fog.Density = density;
         _fog.Type = type;
-    
+
         Log.Debug("Fog enabled with density: {Density}", density);
     }
 

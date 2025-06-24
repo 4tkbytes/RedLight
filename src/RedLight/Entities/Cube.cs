@@ -16,7 +16,7 @@ public class Cube : SimpleShape
     {
     }
 
-    public Cube(string name, bool applyGravity = true) 
+    public Cube(string name, bool applyGravity = true)
         : base(
             new RLModel(SceneManager.Instance.GetCurrentScene().Graphics, RLFiles.GetResourcePath("RedLight.Resources.Models.Basic.cube.model"), TextureManager.Instance, name)
                 .AttachShader(ShaderManager.Instance.Get("lit"))
@@ -27,7 +27,7 @@ public class Cube : SimpleShape
             size: 1.0f,
             groundOffset: 0.5f
         );
-        
+
         ApplyHitboxConfig();
     }
 

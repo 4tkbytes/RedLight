@@ -34,7 +34,7 @@ public class Text
     public FreeTypeText FT_Text;
 
     private Dictionary<char, Characters> characters;
-    
+
     /// <summary>
     /// 
     /// </summary>
@@ -47,7 +47,7 @@ public class Text
         ShaderManager.Instance.TryAdd("text",
             new RLShaderBundle(graphics, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.text.vert"),
                 RLFiles.GetResourceAsString("RedLight.Resources.Shaders.text.vert")));
-        
+
         unsafe
         {
             var lib = FT_Text.Library;
@@ -164,8 +164,8 @@ public class TextManager
     private static readonly Lazy<TextManager> _instance = new(() => new TextManager());
     public static TextManager Instance => _instance.Value;
     private TextManager() { }
-    
+
     public Dictionary<string, Text> characters = new();
-    
-    
+
+
 }

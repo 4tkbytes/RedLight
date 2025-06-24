@@ -14,7 +14,7 @@ public abstract class Transformable<T>
     private T target;
     private bool defaultSet;
     private Matrix4x4 modelDefault = Matrix4x4.Identity;
-    
+
     public Vector3 eulerAngles = new Vector3(0, 0, 0);
     public Matrix4x4 ModelMatrix { get; private set; } = Matrix4x4.Identity;
 
@@ -71,19 +71,19 @@ public abstract class Transformable<T>
         Log.Verbose("Scaled mesh");
         return this;
     }
-    
+
     public Transformable<T> SetPosition(Vector3 position)
     {
         // Create a new model matrix preserving rotation and scale, but with new position
         Matrix4x4 newModel = ModelMatrix;
-    
+
         // Update only the translation components
         newModel.M41 = position.X;
         newModel.M42 = position.Y;
         newModel.M43 = position.Z;
-    
+
         ModelMatrix = newModel;
-    
+
         Log.Verbose("Set position to {Position}", position);
         return this;
     }
@@ -145,7 +145,7 @@ public abstract class Transformable<T>
             throw new Exception("Unable to release lock state as it has not been created");
         defaultSet = false;
         Log.Debug("Lock state has been released");
-        
+
         return this;
     }
 

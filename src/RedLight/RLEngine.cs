@@ -24,7 +24,7 @@ public class RLEngine
     /// Wrapper class containing different graphics backend APIs
     /// </summary>
     public RLGraphics Graphics { get; private set; }
-    
+
     /// <summary>
     /// Log strength used by Serilog. By default, the log strength is 0 (normal) however
     /// you are able to change it with program arguments.
@@ -68,7 +68,7 @@ public class RLEngine
         Log.Debug("Window has been created");
         Graphics = new RLGraphics();
         Log.Debug("Graphics has been initialised");
-        
+
         Window.Window.Load += () =>
         {
             Graphics.OpenGL = Window.Window.CreateOpenGL();
@@ -76,9 +76,9 @@ public class RLEngine
 
             var input = SceneManager.Instance.input.CreateInput();
             Log.Debug("Input context created");
-            
+
             SetupFullscreen();
-            
+
             if (startingScene != null)
             {
                 Log.Debug("Starting scene initialisation: {Scene}", startingScene.GetType());
@@ -88,7 +88,7 @@ public class RLEngine
                     Log.Debug("Creating initial physics system for starting scene");
                     startingScene.PhysicsSystem = new PhysicsSystem();
                 }
-                
+
                 Log.Debug("Scene is switching to {A}", startingScene);
                 SceneManager.Instance.SwitchScene(startingScene);
             }
@@ -97,7 +97,7 @@ public class RLEngine
                 Log.Error("Starting scene is null");
             }
         };
-        
+
         Window.Window.FramebufferResize += OnFramebufferResize;
         Window.Window.StateChanged += OnWindowStateChanged;
 
@@ -117,10 +117,10 @@ public class RLEngine
     private void OnWindowStateChanged(WindowState newState)
     {
         Log.Debug("Window state changed to: {State}", newState);
-        
+
         // Update isFullscreen based on the new window state
         isFullscreen = newState == WindowState.Fullscreen;
-        
+
         // Store windowed position and size when switching from fullscreen to windowed
         if (!isFullscreen && (newState == WindowState.Normal || newState == WindowState.Maximized))
         {
@@ -133,9 +133,9 @@ public class RLEngine
     }
     private void SetupFullscreen()
     {
-        Log.Debug("SetupFullscreen called, isFullscreen: {IsFullscreen}, WindowState: {State}", 
+        Log.Debug("SetupFullscreen called, isFullscreen: {IsFullscreen}, WindowState: {State}",
             isFullscreen, Window.Window.WindowState);
-          
+
         if (isFullscreen)
         {
             switch (Window.Window.WindowState)
@@ -160,7 +160,7 @@ public class RLEngine
                     Log.Debug("Already in fullscreen mode");
                     // Force viewport update for fullscreen
                     Graphics.OpenGL.Viewport(Window.Window.FramebufferSize);
-                    Log.Debug("Forced viewport update to fullscreen size: {Width}x{Height}", 
+                    Log.Debug("Forced viewport update to fullscreen size: {Width}x{Height}",
                         Window.Window.FramebufferSize.X, Window.Window.FramebufferSize.Y);
                     break;
                 default:
@@ -207,7 +207,7 @@ public class RLEngine
             .WriteTo.File("logs/log.txt",
                 rollingInterval: RollingInterval.Day,
                 rollOnFileSizeLimit: false);
-            
+
         if (console != null)
         {
             loggerConfig.WriteTo.ImGuiConsole(console);
@@ -228,22 +228,22 @@ public class RLEngine
         {
             Log.Information("ImGui Logger Sink has been created");
         }
-      
+
     }
-    
+
     public void ToggleFullscreen()
     {
-        Log.Debug("Toggling fullscreen. Current state: isFullscreen={IsFullscreen}, WindowState={State}", 
+        Log.Debug("Toggling fullscreen. Current state: isFullscreen={IsFullscreen}, WindowState={State}",
             isFullscreen, Window.Window.WindowState);
-    
+
         if (isFullscreen)
         {
-            Log.Debug("Switching to windowed mode. Restoring to size: {Width}x{Height}, position: {X},{Y}", 
+            Log.Debug("Switching to windowed mode. Restoring to size: {Width}x{Height}, position: {X},{Y}",
                 windowedSize.X, windowedSize.Y, windowedPosition.X, windowedPosition.Y);
-        
+
             Window.Window.WindowState = WindowState.Normal;
             Window.Window.Size = windowedSize;
-            
+
             var monitor = Window.Window.Monitor;
             if (monitor != null)
             {
@@ -253,28 +253,28 @@ public class RLEngine
                     (monitorSize.Y - windowedSize.Y) / 2
                 );
                 Window.Window.Position = centeredPosition;
-            
-                Log.Debug("Switching to windowed mode. Centered at position: {X},{Y} on monitor size: {MonitorWidth}x{MonitorHeight}", 
+
+                Log.Debug("Switching to windowed mode. Centered at position: {X},{Y} on monitor size: {MonitorWidth}x{MonitorHeight}",
                     centeredPosition.X, centeredPosition.Y, monitorSize.X, monitorSize.Y);
             }
             else
             {
                 // Fallback to stored position if monitor info is unavailable
                 Window.Window.Position = windowedPosition;
-                Log.Debug("Switching to windowed mode. Using stored position: {X},{Y}", 
+                Log.Debug("Switching to windowed mode. Using stored position: {X},{Y}",
                     windowedPosition.X, windowedPosition.Y);
             }
-            
+
             isFullscreen = false;
         }
         else
         {
             windowedSize = Window.Window.Size;
             windowedPosition = Window.Window.Position;
-        
-            Log.Debug("Switching to fullscreen mode. Stored windowed size: {Width}x{Height}, position: {X},{Y}", 
+
+            Log.Debug("Switching to fullscreen mode. Stored windowed size: {Width}x{Height}, position: {X},{Y}",
                 windowedSize.X, windowedSize.Y, windowedPosition.X, windowedPosition.Y);
-        
+
             Window.Window.WindowState = WindowState.Fullscreen;
             isFullscreen = true;
         }

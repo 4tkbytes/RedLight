@@ -16,9 +16,9 @@ public class Fog
     public float Start { get; set; } = 1.0f;           // Linear fog start
     public float End { get; set; } = 100.0f;           // Linear fog end
     public FogType Type { get; set; } = FogType.Linear;
-    
+
     public bool IsEnabled => Density > 0.0f;
-    
+
     public static Fog CreateLinearFog(Vector3 color, float start, float end, float density = 0.1f)
     {
         return new Fog
@@ -30,7 +30,7 @@ public class Fog
             Type = FogType.Linear
         };
     }
-    
+
     public static Fog CreateExponentialFog(Vector3 color, float density)
     {
         return new Fog
@@ -40,7 +40,7 @@ public class Fog
             Type = FogType.Exponential
         };
     }
-    
+
     public static Fog CreateExponentialSquaredFog(Vector3 color, float density)
     {
         return new Fog
@@ -50,12 +50,12 @@ public class Fog
             Type = FogType.ExponentialSquared
         };
     }
-    
+
     public void Disable()
     {
         Density = 0.0f;
     }
-    
+
     public void Enable(float density = 0.1f)
     {
         Density = density;

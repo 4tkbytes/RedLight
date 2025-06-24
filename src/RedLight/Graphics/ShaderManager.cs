@@ -21,7 +21,7 @@ public struct RLShaderBundle
     {
         Graphics.OpenGL.UseProgram(Program.ProgramHandle);
     }
-    
+
     /// <summary>
     /// A better way of setting a shaders uniform.
     /// </summary>
@@ -65,7 +65,7 @@ public class ShaderManager
             Name = id
         });
     }
-    
+
     public void TryAdd(string id, RLShaderBundle shaderBundle)
     {
         if (shaders.ContainsKey(id))
@@ -73,10 +73,10 @@ public class ShaderManager
             Log.Warning("Shader {A} exists, not re-adding shader again", id);
             return;
         }
-        
+
         shaderBundle.Program = new RLShaderProgram(shaderBundle.Graphics, shaderBundle.VertexShader, shaderBundle.FragmentShader);
         shaderBundle.Name = id;
-        
+
         shaders.Add(id, shaderBundle);
     }
 
@@ -105,13 +105,13 @@ public class ShaderManager
     {
         if (!shaders.ContainsKey(oldId))
             throw new Exception($"ID [{oldId}] does not exist");
-        
+
         var vertexShader = shaders[oldId].VertexShader;
         var fragmentShader = shaders[oldId].FragmentShader;
-        
+
         // recompile new program
         var program = new RLShaderProgram(vertexShader.graphics, vertexShader, fragmentShader);
-        
+
         shaders.Add(newId, new RLShaderBundle
         {
             VertexShader = vertexShader,
@@ -143,7 +143,7 @@ public class ShaderManager
     {
         Get(shaderId).Program.SetUniform(uniform, value);
     }
-    
+
     /// <summary>
     /// Checks if a uniform with the given name exists in the shader program
     /// </summary>
@@ -176,7 +176,7 @@ public class ShaderManager
         var shader = Get(shaderId);
         return shader.Program.ProgramHandle.ToString();
     }
-    
+
     /// <summary>
     /// Finds a shader ID by its program handle
     /// </summary>
@@ -193,7 +193,7 @@ public class ShaderManager
         }
         return null;
     }
-    
+
     /// <summary>
     /// Enhanced method to find shader details by program handle with added debugging information
     /// </summary>
@@ -205,18 +205,18 @@ public class ShaderManager
         {
             // Try to find the shader ID first
             string shaderId = FindShaderIdByProgramHandle(programHandle);
-        
+
             if (string.IsNullOrEmpty(shaderId))
             {
                 // If not found in our shaders dictionary, return a message with program handle
                 return $"[Unknown Shader Program: {programHandle}]";
             }
-        
+
             // Get the shader from the dictionary
             var shader = Get(shaderId);
             if (shader.Name == null)
                 return $"[Shader ID {shaderId} exists but shader object is null]";
-            
+
             // Return more detailed information about the shader
             return $"{shaderId} (Program: {programHandle})";
         }

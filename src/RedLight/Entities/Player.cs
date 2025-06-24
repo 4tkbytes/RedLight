@@ -5,10 +5,10 @@ using System.Numerics;
 
 namespace RedLight.Entities;
 
-public class Player: Entity
+public class Player : Entity
 {
     public Camera Camera { get; set; }
-    
+
     /// <summary>
     /// <para>Camera toggle changes between first and third person POV's.</para>
     /// 1 = First Person
@@ -28,10 +28,10 @@ public class Player: Entity
     public Player(Camera camera, Transformable<RLModel> model, HitboxConfig hitboxConfig = null) : base(model.Target, ModelType.Entity)
     {
         Camera = camera;
-    
+
         SetModel(model.ModelMatrix);
         lastModelPosition = Position;
-    
+
         if (hitboxConfig == null)
         {
             HitboxConfig = HitboxConfig.ForPlayer(
@@ -48,7 +48,7 @@ public class Player: Entity
 
         ApplyHitboxConfig();
 
-    
+
         Log.Debug("[Player] Created with initial position: {Position}, rotation: {Rotation}, scale: {Scale}",
             Position, Rotation, Scale);
         Log.Debug("[Player] Hitbox: Min={Min}, Max={Max}", DefaultBoundingBoxMin, DefaultBoundingBoxMax);
@@ -97,7 +97,7 @@ public class Player: Entity
                 "Looks like you went too far down. Don't worry, I'll reset it for you. No need to thank me, heh~");
             ResetPhysics();
         }
-        
+
         UpdateCameraPosition();
     }
 
@@ -123,20 +123,20 @@ public class Player: Entity
             IsSprinting = true;
         if (!pressedKeys.Contains(Key.ShiftLeft))
             IsSprinting = false;
-        
+
         bool isGrounded = IsGrounded();
-        
+
         bool spaceIsPressed = pressedKeys.Contains(Key.Space);
         bool shouldJump = false;
-        
+
         if ((spaceIsPressed && !spacePressed) || (spaceIsPressed && isGrounded && !wasGrounded))
             shouldJump = true;
-        
+
         spacePressed = spaceIsPressed;
 
         var horizontalDirection = new Vector3(direction.X, 0, direction.Z);
         isMoving = horizontalDirection.Length() > 0.01f;
-        
+
         float currentActualSpeed = MoveSpeed;
         if (IsSprinting && isMoving)
         {
@@ -197,7 +197,7 @@ public class Player: Entity
                 {
                     hasJumped = false;
                 }
-                
+
                 wasGrounded = isGrounded;
 
                 if (!bodyRef.Awake)
@@ -221,13 +221,13 @@ public class Player: Entity
             {
                 var bodyRef = PhysicsSystem.Simulation.Bodies.GetBodyReference(bodyHandle);
                 var currentVel = bodyRef.Velocity.Linear;
-                
+
                 var horizontalVel = new Vector3(currentVel.X, 0, currentVel.Z);
                 if (horizontalVel.Length() > 0.1f)
                 {
                     var dampingFactor = 0.1f;
                     var newHorizontalVel = horizontalVel * dampingFactor;
-                    
+
                     bodyRef.Velocity.Linear = new Vector3(
                         newHorizontalVel.X,
                         currentVel.Y, // Preserve Y velocity
@@ -237,11 +237,11 @@ public class Player: Entity
                     if (!silent) Log.Debug("[Player] Applied sliding damping, new velocity: {NewVelocity}", bodyRef.Velocity.Linear);
                 }
             }
-            
+
             isMoving = false;
         }
     }
-    
+
     private bool IsGrounded()
     {
         if (PhysicsSystem == null || !PhysicsSystem.TryGetBodyHandle(this, out var bodyHandle))
@@ -249,14 +249,14 @@ public class Player: Entity
 
         var bodyRef = PhysicsSystem.Simulation.Bodies.GetBodyReference(bodyHandle);
         var currentVel = bodyRef.Velocity.Linear;
-    
+
         // Simple ground check: if Y velocity is very small and player is not falling fast
         // You might want to implement a more sophisticated ground detection using raycasting
         bool isGrounded = Math.Abs(currentVel.Y) < 0.5f && Position.Y <= 1.0f; // Adjust threshold as needed
-    
+
         return isGrounded;
     }
-    
+
     /// <summary>
     /// Resets the player's physics state for debugging
     /// </summary>
@@ -280,7 +280,7 @@ public class Player: Entity
             SetPosition(new Vector3(0, 1, 0));
             Velocity = Vector3.Zero;
             // targetYawRotation = 0f; // Reset target rotation
-            
+
             var resetMatrix = Matrix4x4.CreateScale(Scale) * Matrix4x4.CreateTranslation(Position) * Matrix4x4.CreateRotationX(Rotation.X) * Matrix4x4.CreateRotationZ(Rotation.Z);
             SetModel(resetMatrix);
 
@@ -306,7 +306,7 @@ public class Player: Entity
         Log.Debug("[Player] Camera POV toggled: {Prev} -> {Current}", prevPOV, CameraToggle);
         UpdateCameraPosition();
     }
-    
+
     /// <summary>
     /// Updates the camera's position based on the current perspective.
     /// </summary>
@@ -326,29 +326,29 @@ public class Player: Entity
             Camera.Position = Position - Camera.Front * thirdPersonDistance + cameraOffset;
 
             var prevPos = Position;
-            
+
             // Only update rotation when player is actually moving
             if (Position != lastModelPosition && isMoving)
             {
                 // Normalize the camera yaw to be between -180 and 180 degrees
                 float normalizedYaw = NormalizeAngle(Camera.Yaw);
-                
+
                 // Convert to radians for the Y rotation (yaw)
                 float targetYRotation = -float.DegreesToRadians(normalizedYaw);
-                
+
                 // Keep X and Z rotations stable - don't let them flip
                 float currentXRotation = Rotation.X;
                 float currentZRotation = Rotation.Z;
-                
+
                 // Normalize current rotations to prevent accumulation
                 currentXRotation = NormalizeRadians(currentXRotation);
                 currentZRotation = NormalizeRadians(currentZRotation);
-                
+
                 SetRotation(new Vector3(_rotationDefault.X, targetYRotation, _rotationDefault.Z));
-                
+
                 lastModelPosition = Position;
             }
-        
+
             if (prevPos != Position)
                 Log.Verbose("[Player] Player's position changed: {Prev} -> {Current}", prevPos, Position);
 
@@ -372,7 +372,7 @@ public class Player: Entity
             angle -= 360f;
         else if (angle < -180f)
             angle += 360f;
-        
+
         return angle;
     }
 
@@ -385,16 +385,16 @@ public class Player: Entity
     {
         // Normalize to 0-2π range first
         angle = angle % (2f * MathF.PI);
-        
+
         // Convert to -π to π range
         if (angle > MathF.PI)
             angle -= 2f * MathF.PI;
         else if (angle < -MathF.PI)
             angle += 2f * MathF.PI;
-            
+
         return angle;
     }
-    
+
     /// <summary>
     /// Sets the point of view of the players camera. 
     /// </summary>

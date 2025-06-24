@@ -22,7 +22,7 @@ public class RLGraphics
     /// to improve performance and decrease the load/info from the logger. 
     /// </summary>
     public bool ShutUp { get; set; } = true;
-    
+
     /// <summary>
     /// Enabled OpenGL's Depth Text, culls the back faces and internal faces from textures. 
     /// </summary>
@@ -32,7 +32,7 @@ public class RLGraphics
         OpenGL.Enable(EnableCap.CullFace);
         OpenGL.CullFace(GLEnum.Back);
         OpenGL.FrontFace(GLEnum.Ccw);
-        
+
         OpenGL.Enable(EnableCap.Blend);
         OpenGL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
     }
@@ -57,7 +57,7 @@ public class RLGraphics
             {
                 string msg = Silk.NET.Core.Native.SilkMarshal.PtrToString((nint)message);
                 Console.WriteLine($"[GL DEBUG] {msg}");
-                
+
                 var (programHandle, uniformLocation) = RLUtils.ExtractGLErrorInfo(msg);
                 var shaderId = ShaderManager.Instance.GetShaderDetailsForDebugging((uint)programHandle);
                 Console.WriteLine($"Error in shader: {shaderId}, program: {programHandle}, uniform location: {uniformLocation}");
@@ -84,7 +84,7 @@ public class RLGraphics
     /// <param name="colour">Graphics.Colour</param>
     public void ClearColour(Color colour)
     {
-        OpenGL.ClearColor((float) colour.R/256, (float) colour.G/256, (float) colour.B/256, (float) colour.A/256);
+        OpenGL.ClearColor((float)colour.R / 256, (float)colour.G / 256, (float)colour.B / 256, (float)colour.A / 256);
     }
 
     /// <summary>
@@ -190,7 +190,7 @@ public class RLGraphics
             matrix.M31, matrix.M32, matrix.M33, matrix.M34,
             matrix.M41, matrix.M42, matrix.M43, matrix.M44);
     }
-    
+
     /// <summary>
     /// 
     /// </summary>
@@ -203,7 +203,8 @@ public class RLGraphics
         if (graphics == null)
         {
             throw new ArgumentNullException(nameof(graphics));
-        } else if (graphics.IsRendering == false)
+        }
+        else if (graphics.IsRendering == false)
         {
             throw new ApplicationException();
         }
@@ -255,7 +256,7 @@ public class RLGraphics
         var camera = new Camera(screenSize);
         return new Player(camera, model, hitboxConfig);
     }
-    
+
     /// <summary>
     /// Converts a model into a player.
     /// This specific overload includes a custom camera that can be parsed through and

@@ -59,15 +59,15 @@ public class InputManager
                 {
                     if (keyboardManager.PressedKeys == null)
                         keyboardManager.PressedKeys = new HashSet<Key>();
-                    
+
                     ChangeFullscreenToggle(key);
                 };
                 kb.KeyDown += keyboardManager.OnKeyDown;
-                
+
                 kb.KeyUp += (keyboard, key, arg3) =>
                 {
                     keyboardManager.PressedKeys.Remove(key);
-                    
+
                     ChangeFullscreenToggleReset(key);
                 };
                 kb.KeyUp += keyboardManager.OnKeyUp;
@@ -125,22 +125,22 @@ public class InputManager
         Mouse = null;
         Log.Debug("Unsubscribed from keyboard");
     }
-    
+
     public void ChangeCaptureToggle(Key key)
     {
         if (key == Key.F1)
         {
             isCaptured = !isCaptured;
-        
+
             foreach (var mouse in Context.Mice)
             {
                 IsCaptured(mouse, isCaptured);
             }
-        
+
             Log.Debug("Changing mouse capture mode [{A}]", isCaptured);
         }
     }
-    
+
     /// <summary>
     /// Checks if a mouse is captured and changes the cursor mode.
     ///
@@ -157,7 +157,7 @@ public class InputManager
         if (isCaptured)
             mouse.Cursor.CursorMode = CursorMode.Disabled;
     }
-    
+
     public void IsCaptured(IMouse mouse)
     {
         if (!isCaptured)
@@ -174,13 +174,13 @@ public class InputManager
             togglePressed = false;
         }
     }
-    
+
     public void ChangeFullscreenToggle(Key key)
     {
         if (key == Key.F11 && !fullscreenTogglePressed)
         {
             fullscreenTogglePressed = true;
-            
+
             // Get the engine instance through SceneManager
             var engine = Scene.SceneManager.Instance.GetCurrentScene()?.Engine;
             if (engine != null)

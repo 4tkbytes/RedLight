@@ -90,7 +90,7 @@ public class RLTexture
         gl.GenerateMipmap(TextureTarget.Texture2D);
         gl.BindTexture(TextureTarget.Texture2D, 0);
     }
-    
+
     /// <summary>
     /// Creates a texture from Assimp's embedded texture data
     /// </summary>
@@ -124,7 +124,7 @@ public class RLTexture
                 PixelType.UnsignedByte,
                 texelData
             );
-        
+
             Log.Debug("Created embedded texture: {Width}x{Height}", width, height);
         }
         catch (Exception ex)
@@ -230,16 +230,16 @@ public class RLTexture
     {
         if (bytePointer == null)
             return string.Empty;
-            
+
         // Find the length by searching for null terminator
         int length = 0;
         while (bytePointer[length] != 0)
             length++;
-            
+
         // If empty, return empty string
         if (length == 0)
             return string.Empty;
-            
+
         // Convert to string
         return System.Text.Encoding.UTF8.GetString(bytePointer, length);
     }

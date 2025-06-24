@@ -171,7 +171,7 @@ public class SceneManager
             "no-texture",
             new RLTexture(currentScene.Graphics, RLFiles.GetResourcePath(RLConstants.RL_NO_TEXTURE_PATH))
         );
-        
+
         // prototyping texture
         currentScene.TextureManager.TryAdd(
             "prototype",
@@ -187,12 +187,12 @@ public class SceneManager
         currentScene.ShaderManager.TryAdd("hitbox",
             new RLShader(currentScene.Graphics, ShaderType.Vertex, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.hitbox.vert")),
             new RLShader(currentScene.Graphics, ShaderType.Fragment, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.hitbox.frag")));
-        
+
         // basic shader with lighting support
         currentScene.ShaderManager.TryAdd("lit",
             new RLShader(currentScene.Graphics, ShaderType.Vertex, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.lit.vert")),
             new RLShader(currentScene.Graphics, ShaderType.Fragment, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.lit.frag")));
-        
+
         // lighting cube
         currentScene.ShaderManager.TryAdd("light_cube",
             new RLShader(currentScene.Graphics, ShaderType.Vertex, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.light_cube.vert")),
@@ -200,10 +200,10 @@ public class SceneManager
 
         Log.Debug("Subscribing to keyboard events");
         input.SubscribeToInputs(currentKeyboard, currentMouse);
-        
+
         Log.Debug("Loading current scene");
         currentScene.Load();
-        
+
         currentScene.OnLoad();
         Log.Debug("Scene fully initialized");
     }

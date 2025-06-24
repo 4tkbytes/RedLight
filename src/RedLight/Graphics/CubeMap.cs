@@ -65,16 +65,16 @@ public class CubeMap
         -1.0f, -1.0f,  1.0f,
          1.0f, -1.0f,  1.0f
     };
-    
+
     public CubeMap(RLGraphics graphics, List<CubeMapFace> faces)
     {
         _graphics = graphics;
         var gl = graphics.OpenGL;
-        
+
         LoadTexture(gl, faces);
         SetupMesh(gl);
         AddShader();
-        
+
         Log.Debug("CubeMap created with texture ID: {TextureID}", TextureID);
     }
 
@@ -98,7 +98,7 @@ public class CubeMap
         {
             fixed (float* vertices = SkyboxVertices)
             {
-                gl.BufferData(BufferTargetARB.ArrayBuffer, (nuint)(SkyboxVertices.Length * sizeof(float)), 
+                gl.BufferData(BufferTargetARB.ArrayBuffer, (nuint)(SkyboxVertices.Length * sizeof(float)),
                     vertices, BufferUsageARB.StaticDraw);
             }
         }
@@ -117,7 +117,7 @@ public class CubeMap
 
         // Disable depth writing
         gl.DepthFunc(DepthFunction.Lequal);
-        
+
         gl.UseProgram(shader.Program.ProgramHandle);
 
         // Remove translation from view matrix (keep only rotation)
@@ -139,9 +139,9 @@ public class CubeMap
         gl.ActiveTexture(TextureUnit.Texture0);
         gl.BindTexture(TextureTarget.TextureCubeMap, TextureID);
         gl.DrawArrays(PrimitiveType.Triangles, 0, 36);
-        
+
         gl.BindVertexArray(0);
-        
+
         // Re-enable depth writing
         gl.DepthFunc(DepthFunction.Less);
     }
@@ -152,7 +152,7 @@ public class CubeMap
         gl.ActiveTexture(unit);
         gl.BindTexture(TextureTarget.TextureCubeMap, TextureID);
     }
-    
+
     public void Delete()
     {
         var gl = _graphics.OpenGL;
@@ -172,10 +172,10 @@ public class CubeMap
             {
                 var directory = RLFiles.GetResourcePath(face.ResourceName);
                 ImageResult imageResult;
-                
+
                 using var fileStream = File.OpenRead(directory);
                 imageResult = ImageResult.FromStream(fileStream, ColorComponents.RedGreenBlueAlpha);
-                
+
                 unsafe
                 {
                     fixed (byte* ptr = imageResult.Data)
@@ -186,7 +186,7 @@ public class CubeMap
                             PixelFormat.Rgba, PixelType.UnsignedByte, ptr);
                     }
                 }
-                
+
                 Log.Debug("Loaded cubemap face: {Side} from {Resource}", face.Side, face.ResourceName);
             }
             catch (Exception ex)
@@ -194,17 +194,17 @@ public class CubeMap
                 Log.Error("Failed to load cubemap face {Side}: {Error}", face.Side, ex.Message);
             }
         }
-        
+
         // Set texture parameters
         gl.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureMinFilter, (int)GLEnum.Linear);
         gl.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureMagFilter, (int)GLEnum.Linear);
         gl.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapS, (int)GLEnum.ClampToEdge);
         gl.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapT, (int)GLEnum.ClampToEdge);
         gl.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapR, (int)GLEnum.ClampToEdge);
-        
+
         gl.BindTexture(TextureTarget.TextureCubeMap, 0);
     }
-    
+
     public static CubeMap CreateDefault(RLGraphics graphics)
     {
         var faces = new List<CubeMapFace>
@@ -216,7 +216,7 @@ public class CubeMap
             new() { ResourceName = "RedLight.Resources.Textures.CubeMaps.front.png", Side = CubeMapSide.Front },
             new() { ResourceName = "RedLight.Resources.Textures.CubeMaps.back.png", Side = CubeMapSide.Back }
         };
-        
+
         return new CubeMap(graphics, faces);
     }
 }

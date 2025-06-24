@@ -82,7 +82,8 @@ namespace RedLight.UI.ImGui
             var io = global::Hexa.NET.ImGui.ImGui.GetIO();
             if (imGuiFontConfig is not null)
             {
-                unsafe {
+                unsafe
+                {
                     var glyphRange = imGuiFontConfig.Value.GetGlyphRange?.Invoke(io) ?? default;
 
                     io.Fonts.AddFontFromFileTTF(imGuiFontConfig.Value.FontPath, imGuiFontConfig.Value.FontSize, null, (uint*)glyphRange.ToPointer());
@@ -159,7 +160,7 @@ namespace RedLight.UI.ImGui
             var io = global::Hexa.NET.ImGui.ImGui.GetIO();
             var imGuiKey = TranslateInputKeyToImGuiKey(keycode);
             io.AddKeyEvent(imGuiKey, down);
-            io.SetKeyEventNativeData(imGuiKey, (int) keycode, scancode);
+            io.SetKeyEventNativeData(imGuiKey, (int)keycode, scancode);
         }
 
         private void OnKeyChar(IKeyboard arg1, char arg2)
@@ -258,7 +259,7 @@ namespace RedLight.UI.ImGui
             io.MouseDown[1] = mouseState.IsButtonPressed(MouseButton.Right);
             io.MouseDown[2] = mouseState.IsButtonPressed(MouseButton.Middle);
 
-            var point = new Point((int) mouseState.Position.X, (int) mouseState.Position.Y);
+            var point = new Point((int)mouseState.Position.X, (int)mouseState.Position.Y);
             io.MousePos = new Vector2(point.X, point.Y);
 
             var wheel = mouseState.GetScrollWheels()[0];
@@ -458,18 +459,18 @@ namespace RedLight.UI.ImGui
             // Bind vertex/index buffers and setup attributes for ImDrawVert
             _gl.BindBuffer(GLEnum.ArrayBuffer, _vboHandle);
             _gl.BindBuffer(GLEnum.ElementArrayBuffer, _elementsHandle);
-            _gl.EnableVertexAttribArray((uint) _attribLocationVtxPos);
-            _gl.EnableVertexAttribArray((uint) _attribLocationVtxUV);
-            _gl.EnableVertexAttribArray((uint) _attribLocationVtxColor);
-            _gl.VertexAttribPointer((uint) _attribLocationVtxPos, 2, GLEnum.Float, false, (uint) sizeof(ImDrawVert), (void*) 0);
-            _gl.VertexAttribPointer((uint) _attribLocationVtxUV, 2, GLEnum.Float, false, (uint) sizeof(ImDrawVert), (void*) 8);
-            _gl.VertexAttribPointer((uint) _attribLocationVtxColor, 4, GLEnum.UnsignedByte, true, (uint) sizeof(ImDrawVert), (void*) 16);
+            _gl.EnableVertexAttribArray((uint)_attribLocationVtxPos);
+            _gl.EnableVertexAttribArray((uint)_attribLocationVtxUV);
+            _gl.EnableVertexAttribArray((uint)_attribLocationVtxColor);
+            _gl.VertexAttribPointer((uint)_attribLocationVtxPos, 2, GLEnum.Float, false, (uint)sizeof(ImDrawVert), (void*)0);
+            _gl.VertexAttribPointer((uint)_attribLocationVtxUV, 2, GLEnum.Float, false, (uint)sizeof(ImDrawVert), (void*)8);
+            _gl.VertexAttribPointer((uint)_attribLocationVtxColor, 4, GLEnum.UnsignedByte, true, (uint)sizeof(ImDrawVert), (void*)16);
         }
 
         private unsafe void RenderImDrawData(ImDrawDataPtr drawDataPtr)
         {
-            int framebufferWidth = (int) (drawDataPtr.DisplaySize.X * drawDataPtr.FramebufferScale.X);
-            int framebufferHeight = (int) (drawDataPtr.DisplaySize.Y * drawDataPtr.FramebufferScale.Y);
+            int framebufferWidth = (int)(drawDataPtr.DisplaySize.X * drawDataPtr.FramebufferScale.X);
+            int framebufferHeight = (int)(drawDataPtr.DisplaySize.Y * drawDataPtr.FramebufferScale.Y);
             if (framebufferWidth <= 0 || framebufferHeight <= 0)
                 return;
 
@@ -525,9 +526,9 @@ namespace RedLight.UI.ImGui
 
                 // Upload vertex/index buffers
 
-                _gl.BufferData(GLEnum.ArrayBuffer, (nuint) (cmdListPtr.VtxBuffer.Size * sizeof(ImDrawVert)), (void*) cmdListPtr.VtxBuffer.Data, GLEnum.StreamDraw);
+                _gl.BufferData(GLEnum.ArrayBuffer, (nuint)(cmdListPtr.VtxBuffer.Size * sizeof(ImDrawVert)), (void*)cmdListPtr.VtxBuffer.Data, GLEnum.StreamDraw);
                 _gl.CheckGlError($"Data Vert {n}");
-                _gl.BufferData(GLEnum.ElementArrayBuffer, (nuint) (cmdListPtr.IdxBuffer.Size * sizeof(ushort)), (void*) cmdListPtr.IdxBuffer.Data, GLEnum.StreamDraw);
+                _gl.BufferData(GLEnum.ElementArrayBuffer, (nuint)(cmdListPtr.IdxBuffer.Size * sizeof(ushort)), (void*)cmdListPtr.IdxBuffer.Data, GLEnum.StreamDraw);
                 _gl.CheckGlError($"Data Idx {n}");
 
                 for (int cmd_i = 0; cmd_i < cmdListPtr.CmdBuffer.Size; cmd_i++)
@@ -549,14 +550,14 @@ namespace RedLight.UI.ImGui
                         if (clipRect.X < framebufferWidth && clipRect.Y < framebufferHeight && clipRect.Z >= 0.0f && clipRect.W >= 0.0f)
                         {
                             // Apply scissor/clipping rectangle
-                            _gl.Scissor((int) clipRect.X, (int) (framebufferHeight - clipRect.W), (uint) (clipRect.Z - clipRect.X), (uint) (clipRect.W - clipRect.Y));
+                            _gl.Scissor((int)clipRect.X, (int)(framebufferHeight - clipRect.W), (uint)(clipRect.Z - clipRect.X), (uint)(clipRect.W - clipRect.Y));
                             _gl.CheckGlError("Scissor");
 
                             // Bind texture, Draw
-                            _gl.BindTexture(GLEnum.Texture2D, (uint) cmdPtr.TextureId.Handle);
+                            _gl.BindTexture(GLEnum.Texture2D, (uint)cmdPtr.TextureId.Handle);
                             _gl.CheckGlError("Texture");
 
-                            _gl.DrawElementsBaseVertex(GLEnum.Triangles, cmdPtr.ElemCount, GLEnum.UnsignedShort, (void*) (cmdPtr.IdxOffset * sizeof(ushort)), (int) cmdPtr.VtxOffset);
+                            _gl.DrawElementsBaseVertex(GLEnum.Triangles, cmdPtr.ElemCount, GLEnum.UnsignedShort, (void*)(cmdPtr.IdxOffset * sizeof(ushort)), (int)cmdPtr.VtxOffset);
                             _gl.CheckGlError("Draw");
                         }
                     }
@@ -568,18 +569,18 @@ namespace RedLight.UI.ImGui
             _vertexArrayObject = 0;
 
             // Restore modified GL state
-            _gl.UseProgram((uint) lastProgram);
-            _gl.BindTexture(GLEnum.Texture2D, (uint) lastTexture);
+            _gl.UseProgram((uint)lastProgram);
+            _gl.BindTexture(GLEnum.Texture2D, (uint)lastTexture);
 
-            _gl.BindSampler(0, (uint) lastSampler);
+            _gl.BindSampler(0, (uint)lastSampler);
 
-            _gl.ActiveTexture((GLEnum) lastActiveTexture);
+            _gl.ActiveTexture((GLEnum)lastActiveTexture);
 
-            _gl.BindVertexArray((uint) lastVertexArrayObject);
+            _gl.BindVertexArray((uint)lastVertexArrayObject);
 
-            _gl.BindBuffer(GLEnum.ArrayBuffer, (uint) lastArrayBuffer);
-            _gl.BlendEquationSeparate((GLEnum) lastBlendEquationRgb, (GLEnum) lastBlendEquationAlpha);
-            _gl.BlendFuncSeparate((GLEnum) lastBlendSrcRgb, (GLEnum) lastBlendDstRgb, (GLEnum) lastBlendSrcAlpha, (GLEnum) lastBlendDstAlpha);
+            _gl.BindBuffer(GLEnum.ArrayBuffer, (uint)lastArrayBuffer);
+            _gl.BlendEquationSeparate((GLEnum)lastBlendEquationRgb, (GLEnum)lastBlendEquationAlpha);
+            _gl.BlendFuncSeparate((GLEnum)lastBlendSrcRgb, (GLEnum)lastBlendDstRgb, (GLEnum)lastBlendSrcAlpha, (GLEnum)lastBlendDstAlpha);
 
             if (lastEnableBlend)
             {
@@ -636,10 +637,10 @@ namespace RedLight.UI.ImGui
                 _gl.Disable(GLEnum.PrimitiveRestart);
             }
 
-            _gl.PolygonMode(GLEnum.FrontAndBack, (GLEnum) lastPolygonMode[0]);
+            _gl.PolygonMode(GLEnum.FrontAndBack, (GLEnum)lastPolygonMode[0]);
 #endif
 
-            _gl.Scissor(lastScissorBox[0], lastScissorBox[1], (uint) lastScissorBox[2], (uint) lastScissorBox[3]);
+            _gl.Scissor(lastScissorBox[0], lastScissorBox[1], (uint)lastScissorBox[2], (uint)lastScissorBox[3]);
         }
 
         private void CreateDeviceResources()
@@ -750,10 +751,10 @@ namespace RedLight.UI.ImGui
             RecreateFontDeviceTexture();
 
             // Restore modified GL state
-            _gl.BindTexture(GLEnum.Texture2D, (uint) lastTexture);
-            _gl.BindBuffer(GLEnum.ArrayBuffer, (uint) lastArrayBuffer);
+            _gl.BindTexture(GLEnum.Texture2D, (uint)lastTexture);
+            _gl.BindBuffer(GLEnum.ArrayBuffer, (uint)lastArrayBuffer);
 
-            _gl.BindVertexArray((uint) lastVertexArray);
+            _gl.BindVertexArray((uint)lastVertexArray);
 
             _gl.CheckGlError("End of ImGui setup");
         }
@@ -784,7 +785,7 @@ namespace RedLight.UI.ImGui
             io.Fonts.SetTexID(new(_fontTexture.GlTexture));
 
             // Restore state
-            _gl.BindTexture(GLEnum.Texture2D, (uint) lastTexture);
+            _gl.BindTexture(GLEnum.Texture2D, (uint)lastTexture);
         }
 
         /// <summary>

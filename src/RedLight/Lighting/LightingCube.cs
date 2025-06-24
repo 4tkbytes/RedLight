@@ -17,18 +17,18 @@ public class LightingCube
     public RLLight Light;
     public Entity Cube;
     public string Name;
-    
-    public bool Visible 
-    { 
-        get => _visible; 
-        set => _visible = value; 
+
+    public bool Visible
+    {
+        get => _visible;
+        set => _visible = value;
     }
 
     public void SetVisible(bool visible)
     {
         _visible = visible;
     }
-    
+
     private LightingCube(LightManager lightManager, string name, string shaderId, Vector3? position, Vector3? direction, Color colour, LightType lightType, Attenuation? attenuation)
     {
         this.graphics = graphics;
@@ -50,7 +50,7 @@ public class LightingCube
                 if (direction.HasValue)
                     Light = RLLight.CreateDirectionalLight($"{Name}_light", direction.Value, colour);
                 break;
-            
+
             case LightType.Point:
                 if (position.HasValue)
                     Light = RLLight.CreatePointLight($"{Name}_light", position.Value, colour);
@@ -64,7 +64,7 @@ public class LightingCube
             default:
                 throw new ArgumentOutOfRangeException(nameof(lightType), lightType, null);
         }
-        
+
         lightManager.AddLightWithVisual(Light, Cube);
     }
 
@@ -73,7 +73,7 @@ public class LightingCube
     {
         return new LightingCube(lightManager, name, shaderId, null, direction, colour, LightType.Directional, null);
     }
-    
+
     public static LightingCube CreatePointLightCube(LightManager lightManager, string name,
         string shaderId, Vector3 position, Color colour, Attenuation attenuation)
     {
@@ -85,13 +85,13 @@ public class LightingCube
     {
         return new LightingCube(lightManager, name, shaderId, position, direction, colour, LightType.Spot, attenuation);
     }
-    
+
     public static LightingCube CreateSpotLightCube(LightManager lightManager, string name,
         string shaderId, Camera camera, Color colour, Attenuation attenuation)
     {
         return new LightingCube(lightManager, name, shaderId, camera.Position, camera.Front, colour, LightType.Spot, attenuation);
     }
-    
+
     public void Update(Camera camera = null)
     {
         lightManager.UpdateLightPosition($"{Name}_cube", Cube.Position);
@@ -113,7 +113,7 @@ public class LightingCube
         if (!_visible) return;
         graphics.Use(Cube);
         lightManager.ApplyLightCubeShader($"{Name}_cube", shaderId, ShaderManager.Instance);
-    
+
         graphics.Update(camera, Cube);
         graphics.Draw(Cube);
     }

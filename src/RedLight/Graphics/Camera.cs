@@ -26,7 +26,7 @@ public class Camera
     private float lastX = 0;
     private float lastY = 0;
     private bool firstMouse = true;
-    
+
     public float FOV { get; private set; }
     public float Near { get; private set; }
     public float Far { get; private set; }
@@ -38,7 +38,7 @@ public class Camera
         Front = Vector3.Normalize(cameraFront);
         Up = Vector3.Normalize(cameraUp);
         Projection = Matrix4x4.Add(Projection, Matrix4x4.CreatePerspectiveFieldOfView(fov, aspect, near, far));
-        
+
         FOV = fov;
         Near = near;
         Far = far;
@@ -67,7 +67,7 @@ public class Camera
     {
         cameraTarget = Position + Vector3.Normalize(Front);
         LookAt(Position, cameraTarget, Up);
-        
+
         if (!shutup)
             Log.Verbose("Updated camera target");
         return this;
@@ -121,7 +121,7 @@ public class Camera
         direction.Z = float.Sin(float.DegreesToRadians(camera.Yaw)) * float.Cos(float.DegreesToRadians(camera.Pitch));
         camera = camera.SetFront(direction);
     }
-    
+
     public Camera KeyMap(HashSet<Key> PressedKeys, float deltaTime)
     {
         float adjustedSpeed = Speed * deltaTime;
@@ -138,7 +138,7 @@ public class Camera
             Position -= Up * adjustedSpeed;
         if (PressedKeys.Contains(Key.Space))
             Position += Up * adjustedSpeed;
-        
+
         UpdateCamera();
 
         return this;
@@ -191,7 +191,7 @@ public class Camera
         UpdateCamera();
         return this;
     }
-    
+
     public Camera UpdateAspectRatio(float aspectRatio)
     {
         Projection = Matrix4x4.CreatePerspectiveFieldOfView(FOV, aspectRatio, Near, Far);

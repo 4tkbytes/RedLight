@@ -38,40 +38,40 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     private LightingCube flashLight;
     private LightingCube sunLight;
     private CubeMap skybox;
-    
+
     public override void OnLoad()
     {
         Graphics.Enable();
         Graphics.EnableDebugErrorCallback();
-        
+
         debugCamera = new Camera(Engine.Window.Size);
-        
+
         InitEditor();
         CreatePlane();
         CreatePlayer();
         var cube = CreateCube();
         CreateLight();
-        
+
         CreateSkybox();
-        
+
         AddToLists(plane);
         AddToLists(player);
         AddToLists(cube);
         // AddToLists(lampLight);
         // AddToLists(flashLight);
         AddToLists(sunLight);
-        
+
         player.ResetPhysics();
     }
 
     public override void OnUpdate(double deltaTime)
     {
         PhysicsSystem.Update((float)deltaTime);
-        
+
         // lampLight.Update(player.Camera);
         // flashLight.Update(player.Camera);
         sunLight.Update(player.Camera);
-        
+
         if (useDebugCamera)
         {
             debugCamera.KeyMap(PressedKeys, (float)deltaTime);
@@ -81,7 +81,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         {
             player.Update((float)deltaTime, PressedKeys);
         }
-        
+
         _editor.Update((float)deltaTime);
     }
 
@@ -91,12 +91,12 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         Camera activeCamera = useDebugCamera ? debugCamera : player.Camera;
 
         BeforeEditorRender(_editor, activeCamera);
-        
+
         Graphics.Clear();
         Graphics.ClearColour(Color.CornflowerBlue);
-        
+
         skybox?.Render(activeCamera);
-        
+
         RenderModel(activeCamera, skybox);
 
         LightManager.RenderAllLightCubes(activeCamera);
@@ -185,9 +185,9 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
             }
         }
     }
-    
+
     #region init for docs
-    
+
     private void InitEditor()
     {
         // create new editor instance
@@ -208,16 +208,16 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         var maxwell = Graphics.CreateModel("RedLight.Resources.Models.Maxwell.maxwell_the_cat.glb", "maxwell")
             .SetScale(new Vector3(0.05f))
             .Rotate(float.DegreesToRadians(-90.0f), Vector3.UnitX);
-        
+
         // create a camera for the player
         playerCamera = new Camera(Engine.Window.Size);
-        
+
         // Create a hitbox config (player default)
         var playerHitbox = HitboxConfig.ForPlayer();
-        
+
         // convert model into player/entity
         player = Graphics.MakePlayer(playerCamera, maxwell, playerHitbox);
-        
+
         // specific model translations + config
         player.SetRotationX(float.DegreesToRadians(-90.0f));
         player.MoveSpeed = 5f;
@@ -227,20 +227,20 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     {
         // create cube model with name
         var cube = new Cube("colliding_cube");
-        
+
         // TextureManager.Add("grass", new RLTexture("RedLight.Resources.Textures.grass.png"));
 
         // cube.Model.AttachTexture(TextureManager.Get("grass"));
-        
+
         // model translations
         cube.Translate(new Vector3(3f, 10f, 0f));
-        
+
         // physics system todo: fix this shit up
         cube.FrictionCoefficient = 5.0f;
-        
+
         // cube.SetReflection(true, 1.0f);
         // cube.SetRefraction(true, RefractiveIndex.Water);
-        
+
         return cube;
     }
 
@@ -263,7 +263,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         // lampLight = LightingCube.CreatePointLightCube(LightManager, "lightCubePoint", "light_cube", Vector3.Zero,
         //     Color.AntiqueWhite, Attenuation.DefaultValues.Range50); 
     }
-    
+
     private void CreateSkybox()
     {
         skybox = CubeMap.CreateDefault(Graphics);

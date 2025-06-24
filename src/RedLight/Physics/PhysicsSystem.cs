@@ -14,7 +14,7 @@ public delegate void CollisionEventHandler(Entity entityA, Entity entityB, Vecto
 
 public class PhysicsSystem
 {
-    
+
     // bepu shii
     public Simulation Simulation { get; private set; }
     private BufferPool bufferPool;
@@ -27,12 +27,12 @@ public class PhysicsSystem
 
     // hashset used for debugging
     private HashSet<string> _registeredEntityNames = new();
-    
+
     // collision events
     public event CollisionEventHandler? OnCollisionEnter;
     public event CollisionEventHandler? OnCollisionStay;
     public event CollisionEventHandler? OnCollisionExit;
-    
+
     private NarrowPhaseCallbacks narrowPhaseCallback;
 
     public PhysicsSystem(int threadCount = 1)
@@ -81,7 +81,7 @@ public class PhysicsSystem
         var pose = new RigidPose(new Vector3(physicsPosition.X, physicsPosition.Y, physicsPosition.Z));
 
         BodyHandle bodyHandle;
-        
+
         if (entity.ApplyGravity)
         {
             if (entity is Player)
@@ -90,25 +90,25 @@ public class PhysicsSystem
                 bodyHandle = Simulation.Bodies.Add(BodyDescription.CreateDynamic(pose, inertia, shapeIndex, 0.2f));
 
                 if (!silent)
-                    Log.Debug("Added player entity at physics position: {PhysicsPos} (offset from entity pos: {EntityPos})", 
+                    Log.Debug("Added player entity at physics position: {PhysicsPos} (offset from entity pos: {EntityPos})",
                         physicsPosition, entityPosition);
             }
             else
             {
                 var inertia = boxShape.ComputeInertia(entity.Mass);
                 bodyHandle = Simulation.Bodies.Add(BodyDescription.CreateDynamic(pose, inertia, shapeIndex, 0.01f));
-                
+
                 if (!silent)
-                    Log.Debug("Added dynamic entity: {EntityName} at physics position: {PhysicsPos}", 
+                    Log.Debug("Added dynamic entity: {EntityName} at physics position: {PhysicsPos}",
                         entity.Model?.Name, physicsPosition);
             }
         }
         else
         {
             bodyHandle = Simulation.Bodies.Add(BodyDescription.CreateKinematic(pose, shapeIndex, 0.01f));
-            
+
             if (!silent)
-                Log.Debug("Added kinematic entity: {EntityName} at physics position: {PhysicsPos}", 
+                Log.Debug("Added kinematic entity: {EntityName} at physics position: {PhysicsPos}",
                     entity.Model?.Name, physicsPosition);
         }
 
@@ -118,14 +118,14 @@ public class PhysicsSystem
         entity.PhysicsSystem = this;
 
         narrowPhaseCallback.handleToEntity = handleToEntity;
-        
+
         if (!silent)
         {
             Log.Debug("Hitbox center offset: {HitboxCenter}", hitboxCenter);
             Log.Debug("Entity added to physics system successfully");
         }
     }
-    
+
     public void RemoveEntity(Entity entity)
     {
         if (bodyHandles.TryGetValue(entity, out var bodyHandle))
@@ -168,15 +168,15 @@ public class PhysicsSystem
             // Get the physics body position
             var pose = bodyRef.Pose;
             var physicsPosition = new Vector3(pose.Position.X, pose.Position.Y, pose.Position.Z);
-        
+
             // Calculate the hitbox offset that was applied when creating the body
             var min = entity.DefaultBoundingBoxMin;
             var max = entity.DefaultBoundingBoxMax;
             var hitboxCenter = (min + max) * 0.5f;
-        
+
             // Calculate the entity position by subtracting the hitbox offset
             var entityPosition = physicsPosition - hitboxCenter;
-        
+
             // Update the entity's position
             entity.SetPosition(entityPosition);
 
@@ -222,11 +222,11 @@ public class PhysicsSystem
         // Update entity collision state
         entityA.IsColliding = true;
         entityB.IsColliding = true;
-        
+
         // Trigger collision events
         OnCollisionEnter?.Invoke(entityA, entityB, contactPoint, normal);
-        
-        if (!silent) Log.Debug("[Collision] {EntityA} collided with {EntityB} at {ContactPoint}", 
+
+        if (!silent) Log.Debug("[Collision] {EntityA} collided with {EntityB} at {ContactPoint}",
             entityA.GetType().Name, entityB.GetType().Name, contactPoint);
     }
 
@@ -243,7 +243,7 @@ public struct NarrowPhaseCallbacks : INarrowPhaseCallbacks
 {
     private PhysicsSystem physicsSystem;
     internal Dictionary<BodyHandle, Entity> handleToEntity = new();
-    
+
     public NarrowPhaseCallbacks(PhysicsSystem system)
     {
         physicsSystem = system;
@@ -266,27 +266,27 @@ public struct NarrowPhaseCallbacks : INarrowPhaseCallbacks
     {
         var bodyA = pair.A.BodyHandle;
         var bodyB = pair.B.BodyHandle;
-    
+
         float frictionA = 1.0f;
         float frictionB = 1.0f;
-    
+
         // Get friction coefficients from entities
         if (handleToEntity.TryGetValue(bodyA, out var entityA))
             frictionA = entityA.FrictionCoefficient;
-    
+
         if (handleToEntity.TryGetValue(bodyB, out var entityB))
             frictionB = entityB.FrictionCoefficient;
-    
+
         // Use the average friction between the two entities
         float combinedFriction = (frictionA + frictionB) / 2.0f;
-    
+
         pairMaterial = new PairMaterialProperties
         {
             FrictionCoefficient = combinedFriction,
             MaximumRecoveryVelocity = 1.0f,
             SpringSettings = new SpringSettings(20f, 1.0f)
         };
-    
+
         return true;
     }
 

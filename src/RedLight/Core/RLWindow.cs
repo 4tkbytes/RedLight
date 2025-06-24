@@ -11,7 +11,7 @@ public class RLWindow
     public IWindow Window { get; set; }
     public double FramesPerSecond { get; set; } = 0;
     public Vector2 Size { get; private set; }
-    
+
     public RLWindow(WindowOptions options, RLScene scene)
     {
         Window = Silk.NET.Windowing.Window.Create(options);

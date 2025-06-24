@@ -18,24 +18,24 @@ public class RLModel
     private GL _gl;
     private List<RLTexture> _texturesLoaded = new();
     private TextureManager textureManager;
-    
+
     public RLShaderBundle AttachedShader { get; private set; }
-    
+
     /// <summary>
     /// Gets the directory path where the model file is located.
     /// </summary>
     public string Directory { get; protected set; } = string.Empty;
-    
+
     /// <summary>
     /// Gets the resource path used to load the model.
     /// </summary>
     public string ResourcePath { get; private set; } = string.Empty;
-    
+
     /// <summary>
     /// Gets the collection of meshes that make up this model.
     /// </summary>
     public List<Mesh> Meshes { get; protected set; } = new();
-    
+
     /// <summary>
     /// Gets the name identifier of this model.
     /// </summary>
@@ -118,7 +118,7 @@ public class RLModel
     {
         if (!shaderAttached)
             Log.Error("No shader found for mesh [{A}]. Did you forget to attach it?", Name);
-        
+
         if (_modelTint != Color.White)
         {
             Vector4 normalizedColor = new Vector4(
@@ -139,7 +139,7 @@ public class RLModel
                 }
             }
         }
-        
+
         foreach (var mesh in Meshes)
         {
             if (mesh.program != 0)
@@ -149,7 +149,7 @@ public class RLModel
                 Log.Warning($"Mesh '{mesh.Name}' in model '{Name}' has no shader program, but model's shaderAttached is true. Skipping draw for this mesh.");
                 continue;
             }
-            
+
             mesh.Draw();
         }
     }
@@ -286,7 +286,7 @@ public class RLModel
     {
         return AttachTexture(texture, false);
     }
-    
+
     public RLModel SetColour(Color colour)
     {
         _modelTint = colour;

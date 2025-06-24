@@ -8,7 +8,6 @@ namespace RedLight.Utils;
 
 /// <summary>
 /// A static library for generating cubemaps from equirectangular images.
-/// Supports various transforms and layouts for VR and 3D applications.
 /// </summary>
 public static class Kubi
 {
@@ -89,7 +88,7 @@ public static class Kubi
         options ??= new KubiOptions();
 
         int size = options.Size ?? inputImage.Width / 4;
-        
+
         // Generate coordinate maps
         var coordinateMaps = GenerateCoordinateMaps(size, options.Transform);
 
@@ -109,7 +108,7 @@ public static class Kubi
         for (int face = 0; face < 6; face++)
         {
             faces[face] = MapFace(inputImage, coordinateMaps[face].x, coordinateMaps[face].y, size);
-            
+
             // Apply rotation if specified
             if (options.Rotations != null && options.Rotations.Length == 6)
             {
@@ -198,7 +197,7 @@ public static class Kubi
         // Create meshgrid
         float[,] xv = new float[size, size];
         float[,] yv = new float[size, size];
-        
+
         for (int i = 0; i < size; i++)
         {
             for (int j = 0; j < size; j++)
@@ -220,7 +219,7 @@ public static class Kubi
             {
                 float x = xv[i, j];
                 float y = yv[i, j];
-                
+
                 x0[i, j] = (float)Math.Atan(x);
                 y0[i, j] = (float)Math.Atan2(y, Math.Sqrt(1 + x * x));
                 x1[i, j] = (float)Math.Atan2(x, y);
@@ -232,7 +231,7 @@ public static class Kubi
 
         // Normalize and create face mappings
         var faces = new (float[,] x, float[,] y)[6];
-        
+
         // Face 0: +X
         faces[0] = CreateFaceMapping(x0, y0, 3, 1, piot, size);
         // Face 1: -X  
@@ -249,8 +248,8 @@ public static class Kubi
         return faces;
     }
 
-    private static (float[,] x, float[,] y) CreateFaceMapping(float[,] srcX, float[,] srcY, 
-        float offsetX, float offsetY, float normalizer, int size, 
+    private static (float[,] x, float[,] y) CreateFaceMapping(float[,] srcX, float[,] srcY,
+        float offsetX, float offsetY, float normalizer, int size,
         bool modX = false, bool invertY = false, bool modXOnly = false)
     {
         float[,] x = new float[size, size];
@@ -289,7 +288,7 @@ public static class Kubi
     private static Image<Rgba32> MapFace(Image<Rgba32> source, float[,] mapX, float[,] mapY, int size)
     {
         var result = new Image<Rgba32>(size, size);
-        
+
         int srcWidth = source.Width;
         int srcHeight = source.Height;
 
@@ -298,7 +297,7 @@ public static class Kubi
             for (int y = 0; y < size; y++)
             {
                 var dstRow = dstAccessor.GetRowSpan(y);
-                
+
                 for (int x = 0; x < size; x++)
                 {
                     float srcX = mapX[y, x] * srcWidth / 4.0f;
@@ -335,18 +334,18 @@ public static class Kubi
         var p22 = source[x2, y2];
 
         // Bilinear interpolation
-        float r = p11.R * (1 - fx) * (1 - fy) + p12.R * fx * (1 - fy) + 
+        float r = p11.R * (1 - fx) * (1 - fy) + p12.R * fx * (1 - fy) +
                  p21.R * (1 - fx) * fy + p22.R * fx * fy;
-        float g = p11.G * (1 - fx) * (1 - fy) + p12.G * fx * (1 - fy) + 
+        float g = p11.G * (1 - fx) * (1 - fy) + p12.G * fx * (1 - fy) +
                  p21.G * (1 - fx) * fy + p22.G * fx * fy;
-        float b = p11.B * (1 - fx) * (1 - fy) + p12.B * fx * (1 - fy) + 
+        float b = p11.B * (1 - fx) * (1 - fy) + p12.B * fx * (1 - fy) +
                  p21.B * (1 - fx) * fy + p22.B * fx * fy;
-        float a = p11.A * (1 - fx) * (1 - fy) + p12.A * fx * (1 - fy) + 
+        float a = p11.A * (1 - fx) * (1 - fy) + p12.A * fx * (1 - fy) +
                  p21.A * (1 - fx) * fy + p22.A * fx * fy;
 
-        return new Rgba32((byte)Math.Clamp(r, 0, 255), 
-                          (byte)Math.Clamp(g, 0, 255), 
-                          (byte)Math.Clamp(b, 0, 255), 
+        return new Rgba32((byte)Math.Clamp(r, 0, 255),
+                          (byte)Math.Clamp(g, 0, 255),
+                          (byte)Math.Clamp(b, 0, 255),
                           (byte)Math.Clamp(a, 0, 255));
     }
 
@@ -412,7 +411,7 @@ public static class Kubi
     private static Image<Rgba32> CreateCrossLayout(Image<Rgba32>[] faces, int size, bool leftCross)
     {
         var combined = new Image<Rgba32>(size * 4, size * 3);
-        
+
         if (leftCross)
         {
             // CrossL layout: +Y,-Y on the left
@@ -450,19 +449,19 @@ public static class Kubi
     private static Image<Rgba32> CreateHorizontalCrossLayout(Image<Rgba32>[] faces, int size)
     {
         var combined = new Image<Rgba32>(size * 3, size * 4);
-        
+
         combined.Mutate(ctx =>
         {
             ctx.DrawImage(faces[1], new Point(0, size), 1.0f);     // -X
             ctx.DrawImage(faces[4], new Point(size, size), 1.0f);  // +Z
             ctx.DrawImage(faces[0], new Point(size * 2, size), 1.0f); // +X
-            
+
             // Rotate -Z 180 degrees for horizontal cross
             var rotatedZ = faces[5].Clone();
             rotatedZ.Mutate(x => x.Rotate(180));
             ctx.DrawImage(rotatedZ, new Point(size, size * 3), 1.0f);
             rotatedZ.Dispose();
-            
+
             ctx.DrawImage(faces[2], new Point(size, 0), 1.0f);     // +Y
             ctx.DrawImage(faces[3], new Point(size, size * 2), 1.0f); // -Y
         });

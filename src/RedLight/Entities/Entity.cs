@@ -17,7 +17,7 @@ namespace RedLight.Entities;
 public abstract class Entity
 {
     private RLModel _model;
-    
+
     private Matrix4x4 _modelMatrix = Matrix4x4.Identity;
     private bool _defaultSet;
     private Matrix4x4 _modelDefault = Matrix4x4.Identity;
@@ -25,7 +25,7 @@ public abstract class Entity
     protected Vector3 _positionDefault;
     protected Vector3 _rotationDefault;
     protected Vector3 _scaleDefault;
-    
+
     public Vector3 Velocity { get; set; } = Vector3.Zero;
     public bool ApplyGravity { get; set; } = true;
     public bool EnablePhysics { get; set; } = true;
@@ -45,19 +45,19 @@ public abstract class Entity
 
     private uint vbo;
     private uint vao;
-    
+
     public PhysicsSystem PhysicsSystem;
     private HashSet<string> _registeredEntityNames = new();
-    
+
     public bool UseImGuizmo { get; set; } = false;
     public ImGuizmoOperation GuizmoOperation { get; set; } = ImGuizmoOperation.Translate;
     public ImGuizmoMode GuizmoMode { get; set; } = ImGuizmoMode.World;
-    
+
     public ModelType ModelType { get; set; }
-    
+
     public bool EnableReflection { get; set; }
     public float Reflectivity { get; set; } = 0.3f;
-    
+
     public bool EnableRefraction { get; set; }
     public float RefractiveIndex { get; set; } = Lighting.RefractiveIndex.Air;
 
@@ -152,11 +152,11 @@ public abstract class Entity
         ModelType = modelType;
         ApplyGravity = applyGravity;
         Name = model.Name;
-        
+
         // Set default bounding box
         DefaultBoundingBoxMin = new Vector3(-0.5f, 0.0f, -0.5f);
         DefaultBoundingBoxMax = new Vector3(0.5f, 1.0f, 0.5f);
-        
+
         // Initialize bounding box based on current position
         var currentPosition = Position;
         BoundingBoxMin = currentPosition + DefaultBoundingBoxMin;
@@ -204,12 +204,12 @@ public abstract class Entity
     {
         // Create a new model matrix preserving rotation and scale, but with new position
         Matrix4x4 newModel = ModelMatrix;
-        
+
         // Update only the translation components
         newModel.M41 = position.X;
         newModel.M42 = position.Y;
         newModel.M43 = position.Z;
-        
+
         ModelMatrix = newModel;
         UpdateBoundingBox();
         Log.Verbose("Set entity position to {Position}", position);
@@ -248,7 +248,7 @@ public abstract class Entity
         Log.Verbose("Set default state for entity");
         return this;
     }
-    
+
     // todo: create docs for this
     public Entity SetDefault(bool savePosition = false, bool saveRotation = false, bool saveScale = false)
     {
@@ -261,7 +261,7 @@ public abstract class Entity
             saveScale);
         return this;
     }
-    
+
     /// <summary>
     /// Reset to the previously saved default state
     /// </summary>
@@ -291,7 +291,7 @@ public abstract class Entity
         }
         return this;
     }
-    
+
     /// <summary>
     /// Update the bounding box based on current position
     /// </summary>
@@ -301,7 +301,7 @@ public abstract class Entity
         BoundingBoxMin = currentPosition + DefaultBoundingBoxMin;
         BoundingBoxMax = currentPosition + DefaultBoundingBoxMax;
     }
-    
+
     /// <summary>
     /// Set the rotation of the entity (Euler angles in radians) while preserving position and scale
     /// </summary>
@@ -310,20 +310,20 @@ public abstract class Entity
         // Decompose current matrix
         var currentPosition = Position;
         var currentScale = Scale;
-    
+
         // Rebuild matrix with new rotation
         var translationMatrix = Matrix4x4.CreateTranslation(currentPosition);
         var rotationMatrix = Matrix4x4.CreateFromYawPitchRoll(rotation.Y, rotation.X, rotation.Z);
         var scaleMatrix = Matrix4x4.CreateScale(currentScale);
-    
+
         // Combine transformations: Scale * Rotation * Translation
         ModelMatrix = scaleMatrix * rotationMatrix * translationMatrix;
-    
+
         UpdateBoundingBox();
         Log.Verbose("Set entity rotation to {Rotation}", rotation);
         return this;
     }
-    
+
     /// <summary>
     /// Set the rotation of the entity using degrees
     /// </summary>
@@ -336,16 +336,16 @@ public abstract class Entity
         );
         return SetRotation(rotationRadians);
     }
-    
+
     protected void ApplyHitboxConfig()
     {
         DefaultBoundingBoxMin = HitboxConfig.CalculateMin();
         DefaultBoundingBoxMax = HitboxConfig.CalculateMax();
-        
-        Log.Debug("Applied hitbox config for {EntityType}: Min={Min}, Max={Max}", 
+
+        Log.Debug("Applied hitbox config for {EntityType}: Min={Min}, Max={Max}",
             GetType().Name, DefaultBoundingBoxMin, DefaultBoundingBoxMax);
     }
-    
+
     public void SetHitboxConfig(HitboxConfig config)
     {
         HitboxConfig = config;
@@ -365,7 +365,7 @@ public abstract class Entity
         UseImGuizmo = false;
         return this;
     }
-    
+
     public void SetReflection(bool enabled, float reflectivity = 0.3f)
     {
         EnableReflection = enabled;
@@ -377,7 +377,7 @@ public abstract class Entity
         EnableRefraction = enabled;
         RefractiveIndex = refractiveIndex;
     }
-    
+
     /// <summary>
     /// Draws the bounding box edges in red using OpenGL lines with proper camera transformations.
     /// </summary>
@@ -385,9 +385,9 @@ public abstract class Entity
     {
         var graphics = SceneManager.Instance.GetCurrentScene().Graphics;
         var shaderBundle = ShaderManager.Instance.Get("hitbox");
-        
+
         if (!IsHitboxShown) return;
-        
+
         var gl = graphics.OpenGL;
 
         var currentPosition = Position;
@@ -400,9 +400,9 @@ public abstract class Entity
         }
 
         // Calculate bounding box based on current position
-        var min = currentPosition + DefaultBoundingBoxMin; 
+        var min = currentPosition + DefaultBoundingBoxMin;
         var max = currentPosition + DefaultBoundingBoxMax;
-        
+
         // Create vertices for a wireframe box (just the 8 corners)
         float[] vertices = new float[]
         {
@@ -432,7 +432,7 @@ public abstract class Entity
             if (!graphics.ShutUp)
                 Log.Debug("any errors after gen vao?");
             graphics.CheckGLErrors();
-            
+
             vbo = gl.GenBuffer();
             if (!graphics.ShutUp)
                 Log.Debug("any errors after gen vbo?");
@@ -443,7 +443,7 @@ public abstract class Entity
         if (!graphics.ShutUp)
             Log.Debug("any errors after bind vertex array?");
         graphics.CheckGLErrors();
-        
+
         gl.BindBuffer(BufferTargetARB.ArrayBuffer, vbo);
         if (!graphics.ShutUp)
             Log.Debug("any errors after bind buffer?");
@@ -461,7 +461,7 @@ public abstract class Entity
             }
         }
 
-        gl.EnableVertexAttribArray(0); 
+        gl.EnableVertexAttribArray(0);
         if (!graphics.ShutUp)
             Log.Debug("any errors after enable vertex attrib array");
         graphics.CheckGLErrors();
@@ -473,7 +473,7 @@ public abstract class Entity
             graphics.CheckGLErrors();
         }
 
-        gl.UseProgram(shaderBundle.Program.ProgramHandle); 
+        gl.UseProgram(shaderBundle.Program.ProgramHandle);
         if (!graphics.ShutUp)
             Log.Debug("any errors after use program?");
         graphics.CheckGLErrors();
@@ -490,7 +490,7 @@ public abstract class Entity
             if (!graphics.ShutUp)
                 Log.Debug("any errors after model matrix?");
             graphics.CheckGLErrors();
-            
+
             // View matrix
             var viewMatrix = camera.View;
             float* viewPtr = (float*)&viewMatrix;
@@ -500,7 +500,7 @@ public abstract class Entity
             if (!graphics.ShutUp)
                 Log.Debug("any errors after view matrix?");
             graphics.CheckGLErrors();
-            
+
             // Projection matrix
             var projMatrix = camera.Projection;
             float* projPtr = (float*)&projMatrix;
@@ -522,10 +522,10 @@ public abstract class Entity
 
         // Set line width for thicker lines
         gl.LineWidth(1.0f);
-        
+
         if (!graphics.ShutUp)
             Log.Debug("any errors after setting line width?");
-        
+
         graphics.CheckGLErrors();
 
         // Draw the wireframe using line segments
@@ -551,7 +551,7 @@ public abstract class Entity
 
         graphics.CheckGLErrors();
     }
-     
+
     /// <summary>
     /// Set rotation around X axis (pitch) in radians
     /// </summary>
@@ -628,12 +628,12 @@ public abstract class Entity
     /// Toggle hitbox visibility
     /// </summary>
     public void ToggleHitbox() => IsHitboxShown = !IsHitboxShown;
-    
+
     /// <summary>
     /// Checks if a defualt lock is set
     /// </summary>
     public bool IsDefaultSet() => _defaultSet;
-    
+
     public Vector3 RotationDegrees
     {
         get
