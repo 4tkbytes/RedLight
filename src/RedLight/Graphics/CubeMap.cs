@@ -170,11 +170,11 @@ public class CubeMap
         {
             try
             {
-                var imageData = RLFiles.GetResourceAsBytes(RLFiles.GetResourcePath(face.ResourceName));
+                var directory = RLFiles.GetResourcePath(face.ResourceName);
                 ImageResult imageResult;
                 
-                using var stream = new MemoryStream(imageData);
-                imageResult = ImageResult.FromStream(stream, ColorComponents.RedGreenBlueAlpha);
+                using var fileStream = File.OpenRead(directory);
+                imageResult = ImageResult.FromStream(fileStream, ColorComponents.RedGreenBlueAlpha);
                 
                 unsafe
                 {
