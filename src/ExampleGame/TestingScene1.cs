@@ -50,7 +50,6 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         CreatePlane();
         CreatePlayer();
         var cube = CreateCube();
-        cube.SetReflection(true, 1.0f);
         CreateLight();
         
         CreateSkybox();
@@ -239,6 +238,9 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         // physics system todo: fix this shit up
         cube.FrictionCoefficient = 5.0f;
         
+        // cube.SetReflection(true, 1.0f);
+        // cube.SetRefraction(true, RefractiveIndex.Water);
+        
         return cube;
     }
 
@@ -264,10 +266,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     
     private void CreateSkybox()
     {
-        // skybox = CubeMap.CreateDefault(Graphics);
-
-        skybox = CubeMap.ConvertImageToSkyboxTexture(Graphics,
-            RLFiles.GetResourcePath("RedLight.Resources.Textures.CubeMaps.citrus_orchard_road_puresky_4k.png"));
+        skybox = CubeMap.CreateDefault(Graphics);
     }
     #endregion
 }
