@@ -51,15 +51,33 @@ public class RLEngine
 
     public RLEngine(int width, int height, string title, RLScene startingScene, string[] args)
     {
-        Console.WriteLine("Parsing arguments");
         ParseArguments(args);
-        Console.WriteLine("Init logger");
         InitialiseLogger(logStrength);
 
-        Console.WriteLine("Init python");
         // yeah yeah, complain all you want but there are some
         // features that use Python like kubi
-        PythonSetup.Initialize();
+        if (PythonSetup.Initialize())
+        {
+            Log.Information("Python initialized successfully, diagnosing environment...");
+            PythonSetup.DiagnosePythonEnvironment();
+    
+            // Try to reinstall packages if they're missing
+            if (!Kubi.IsKubiAvailable())
+            {
+                Log.Warning("Kubi not available, attempting to reinstall packages...");
+                PythonSetup.ReinstallPackages();
+        
+                // Check again after reinstall
+                if (!Kubi.IsKubiAvailable())
+                {
+                    Log.Error("Kubi still not available after package reinstall");
+                }
+            }
+        }
+        else
+        {
+            Log.Error("Failed to initialize Python environment");
+        }
 
         WindowOptions options = WindowOptions.Default;
         options.Title = title;

@@ -220,77 +220,93 @@ public class CubeMap
         return new CubeMap(graphics, faces);
     }
     
-    // public static CubeMap ConvertImageToSkyboxTexture(RLGraphics graphics, string imagePath, int cubemapSize = 512, bool useKubi = true)
-    // {
-    //     if (useKubi && File.Exists(imagePath))
-    //     {
-    //         return ConvertWithKubi(graphics, imagePath, cubemapSize);
-    //     }
-    //     else
-    //     {
-    //         Log.Error("Error with converting image to skybox texture :(");
-    //         throw new InvalidOperationException();
-    //     }
-    // }
-    //
-    // public static CubeMap ConvertWithKubi(RLGraphics graphics, string imagePath, int cubemapSize = 512)
-    // {
-    //     try
-    //     {
-    //         using var kubi = new Kubi();
-    //         
-    //         // Create temporary directory for cubemap faces
-    //         string tempDir = Path.Combine(Path.GetTempPath(), "RedLight_Cubemap", Guid.NewGuid().ToString());
-    //         Directory.CreateDirectory(tempDir);
-    //         
-    //         var options = new KubiOptions
-    //         {
-    //             Size = cubemapSize,
-    //             Transform = "eac", // Use equi-angular cubemap for better quality
-    //             FaceNames = new[] { "right", "left", "top", "bottom", "front", "back" },
-    //             Resample = "bicubic" // Higher quality resampling
-    //         };
-    //         
-    //         // Generate cubemap faces
-    //         bool success = kubi.GenerateCubemapFaces(imagePath, tempDir, options);
-    //         
-    //         if (!success)
-    //         {
-    //             throw new ApplicationException("Kubi conversion failed :(");
-    //         }
-    //         
-    //         // Create CubeMap from generated faces
-    //         string baseName = Path.GetFileNameWithoutExtension(imagePath);
-    //         var faces = new List<CubeMapFace>
-    //         {
-    //             new() { ResourceName = Path.Combine(tempDir, $"{baseName}_right.png"), Side = CubeMapSide.Right },
-    //             new() { ResourceName = Path.Combine(tempDir, $"{baseName}_left.png"), Side = CubeMapSide.Left },
-    //             new() { ResourceName = Path.Combine(tempDir, $"{baseName}_top.png"), Side = CubeMapSide.Top },
-    //             new() { ResourceName = Path.Combine(tempDir, $"{baseName}_bottom.png"), Side = CubeMapSide.Bottom },
-    //             new() { ResourceName = Path.Combine(tempDir, $"{baseName}_front.png"), Side = CubeMapSide.Front },
-    //             new() { ResourceName = Path.Combine(tempDir, $"{baseName}_back.png"), Side = CubeMapSide.Back }
-    //         };
-    //         
-    //         var cubeMap = new CubeMap(graphics, faces);
-    //         
-    //         // Cleanup temporary files
-    //         try
-    //         {
-    //             Directory.Delete(tempDir, true);
-    //         }
-    //         catch (Exception ex)
-    //         {
-    //             Log.Warning("Failed to cleanup temporary directory: {Error}", ex.Message);
-    //         }
-    //         
-    //         return cubeMap;
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         Log.Error("Error using Kubi for cubemap conversion: {Error}", ex.Message);
-    //         throw new InvalidOperationException();
-    //     }
-    // }
+    public static CubeMap ConvertImageToSkyboxTexture(RLGraphics graphics, string imagePath, int cubemapSize = 512, bool useKubi = true)
+    {
+        if (useKubi && File.Exists(imagePath))
+        {
+            // First check if Python is initialized
+            if (!PythonSetup.IsInitialized)
+            {
+                Log.Error("Python environment not initialized. Call PythonSetup.Initialize() first.");
+                throw new InvalidOperationException("Python environment not initialized");
+            }
+
+            if (!Kubi.IsKubiAvailable())
+            {
+                Log.Error("Kubi dependencies not available");
+                throw new InvalidOperationException("Required Python packages (pyvips, numpy) not available for cubemap conversion");
+            }
+
+            return ConvertWithKubi(graphics, imagePath, cubemapSize);
+        }
+        else
+        {
+            Log.Error("Error with converting image to skybox texture - file not found or Kubi disabled");
+            throw new InvalidOperationException($"Cannot convert image to cubemap: file not found ({imagePath}) or Kubi disabled");
+        }
+    }
+
+    public static CubeMap ConvertWithKubi(RLGraphics graphics, string imagePath, int cubemapSize = 512)
+    {
+        try
+        {
+            // Create temporary directory for cubemap faces
+            string tempDir = Path.Combine(Path.GetTempPath(), "RedLight_Cubemap", Guid.NewGuid().ToString());
+            Directory.CreateDirectory(tempDir);
+            
+            string baseName = Path.GetFileNameWithoutExtension(imagePath);
+            string outputPath = Path.Combine(tempDir, baseName);
+            
+            var options = new Kubi.CubemapOptions
+            {
+                InputPath = imagePath,
+                OutputPath = outputPath,
+                Size = cubemapSize,
+                Transform = Kubi.Transform.EAC, // Use equi-angular cubemap for better quality
+                Layout = Kubi.Layout.Separate, // Generate individual face files
+                Resample = Kubi.Resample.Bicubic, // Higher quality resampling
+                FaceNames = new[] { "right", "left", "top", "bottom", "front", "back" }
+            };
+            
+            // Generate cubemap faces
+            bool success = Kubi.GenerateCubemap(options);
+            
+            if (!success)
+            {
+                throw new ApplicationException("Kubi conversion failed :(");
+            }
+            
+            // Create CubeMap from generated faces
+            var faces = new List<CubeMapFace>
+            {
+                new() { ResourceName = Path.Combine(tempDir, $"{baseName}_right.png"), Side = CubeMapSide.Right },
+                new() { ResourceName = Path.Combine(tempDir, $"{baseName}_left.png"), Side = CubeMapSide.Left },
+                new() { ResourceName = Path.Combine(tempDir, $"{baseName}_top.png"), Side = CubeMapSide.Top },
+                new() { ResourceName = Path.Combine(tempDir, $"{baseName}_bottom.png"), Side = CubeMapSide.Bottom },
+                new() { ResourceName = Path.Combine(tempDir, $"{baseName}_front.png"), Side = CubeMapSide.Front },
+                new() { ResourceName = Path.Combine(tempDir, $"{baseName}_back.png"), Side = CubeMapSide.Back }
+            };
+            
+            var cubeMap = new CubeMap(graphics, faces);
+            
+            // Cleanup temporary files
+            try
+            {
+                Directory.Delete(tempDir, true);
+            }
+            catch (Exception ex)
+            {
+                Log.Warning("Failed to cleanup temporary directory: {Error}", ex.Message);
+            }
+            
+            return cubeMap;
+        }
+        catch (Exception ex)
+        {
+            Log.Error("Error using Kubi for cubemap conversion: {Error}", ex.Message);
+            throw new InvalidOperationException();
+        }
+    }
 }
 
 public enum CubeMapSide

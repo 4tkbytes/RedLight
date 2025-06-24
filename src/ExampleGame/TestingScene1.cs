@@ -264,9 +264,10 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     
     private void CreateSkybox()
     {
-        skybox = CubeMap.CreateDefault(Graphics);
-        // skybox = CubeMap.ConvertImageToSkyboxTexture(Graphics,
-        //     RLFiles.GetResourcePath("RedLight.Resources.Textures.CubeMaps.citrus_orchard_road_puresky_4k.png"));
+        // skybox = CubeMap.CreateDefault(Graphics);
+
+        skybox = CubeMap.ConvertImageToSkyboxTexture(Graphics,
+            RLFiles.GetResourcePath("RedLight.Resources.Textures.CubeMaps.citrus_orchard_road_puresky_4k.png"));
     }
     #endregion
 }
