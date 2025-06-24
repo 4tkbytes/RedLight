@@ -2,6 +2,7 @@ using System.Numerics;
 using Hexa.NET.ImGui;
 using Hexa.NET.ImGuizmo;
 using RedLight.Graphics;
+using RedLight.Lighting;
 using RedLight.Physics;
 using RedLight.Scene;
 using Serilog;
@@ -56,6 +57,9 @@ public abstract class Entity
     
     public bool EnableReflection { get; set; }
     public float Reflectivity { get; set; } = 0.3f;
+    
+    public bool EnableRefraction { get; set; }
+    public float RefractiveIndex { get; set; } = Lighting.RefractiveIndex.Air;
 
     /// <summary>
     /// Direct access to the underlying RLModel
@@ -366,6 +370,12 @@ public abstract class Entity
     {
         EnableReflection = enabled;
         Reflectivity = Math.Clamp(reflectivity, 0.0f, 1.0f);
+    }
+
+    public void SetRefraction(bool enabled, float refractiveIndex = 1.0f)
+    {
+        EnableRefraction = enabled;
+        RefractiveIndex = refractiveIndex;
     }
     
     /// <summary>

@@ -5,7 +5,8 @@ struct Material {
     sampler2D diffuse;
     sampler2D specular;
     float shininess;
-    float reflectivity; // Add reflection strength
+    float reflectivity;
+    float refractiveIndex;
 };
 
 struct DirLight {
@@ -62,6 +63,7 @@ uniform Material material;
 uniform Fog fog;
 uniform samplerCube skybox; // Add skybox for reflections
 uniform bool enableReflection; // Toggle reflection on/off
+uniform bool enableRefraction; // Toggle refraction on/off
 
 // function prototypes
 vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir);
@@ -69,6 +71,7 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
 vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
 float CalcFogFactor(float distance);
 vec3 CalcReflection(vec3 normal, vec3 viewDir);
+vec3 CalcRefraction(vec3 normal, vec3 viewDir, float ior);
 
 void main()
 {
@@ -93,6 +96,12 @@ void main()
         result = mix(result, reflection, material.reflectivity);
     }
 
+    if (enableRefraction) {
+        vec3 refraction = CalcRefraction(norm, viewDir, material.refractiveIndex);
+        // Mix refraction with the current result
+        result = mix(result, refraction, 0.5); // You can make this configurable
+    }
+
     // Apply fog
     float distance = length(viewPos - FragPos);
     float fogFactor = CalcFogFactor(distance);
@@ -108,6 +117,14 @@ vec3 CalcReflection(vec3 normal, vec3 viewDir)
 {
     vec3 I = -viewDir; // Incident vector (from camera to fragment)
     vec3 R = reflect(I, normal); // Reflect around normal
+    return texture(skybox, R).rgb;
+}
+
+vec3 CalcRefraction(vec3 normal, vec3 viewDir, float ior)
+{
+    float ratio = 1.00 / ior; // Air to material ratio
+    vec3 I = -viewDir; // Incident vector (from camera to fragment)
+    vec3 R = refract(I, normal, ratio);
     return texture(skybox, R).rgb;
 }
 

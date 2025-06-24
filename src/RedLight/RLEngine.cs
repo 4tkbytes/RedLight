@@ -3,18 +3,11 @@ using RedLight.Graphics;
 using RedLight.Input;
 using RedLight.Scene;
 using RedLight.UI;
-using RedLight.Utils;
 using Serilog;
-using Silk.NET.Assimp;
-using Silk.NET.Input;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
-using System;
-using System.Diagnostics;
-using Python.Runtime;
 using RedLight.Physics;
-using ShaderType = RedLight.Graphics.ShaderType;
 
 namespace RedLight;
 
@@ -53,31 +46,6 @@ public class RLEngine
     {
         ParseArguments(args);
         InitialiseLogger(logStrength);
-
-        // yeah yeah, complain all you want but there are some
-        // features that use Python like kubi
-        if (PythonSetup.Initialize())
-        {
-            Log.Information("Python initialized successfully, diagnosing environment...");
-            PythonSetup.DiagnosePythonEnvironment();
-    
-            // Try to reinstall packages if they're missing
-            if (!Kubi.IsKubiAvailable())
-            {
-                Log.Warning("Kubi not available, attempting to reinstall packages...");
-                PythonSetup.ReinstallPackages();
-        
-                // Check again after reinstall
-                if (!Kubi.IsKubiAvailable())
-                {
-                    Log.Error("Kubi still not available after package reinstall");
-                }
-            }
-        }
-        else
-        {
-            Log.Error("Failed to initialize Python environment");
-        }
 
         WindowOptions options = WindowOptions.Default;
         options.Title = title;
@@ -335,13 +303,7 @@ public class RLEngine
         finally
         {
             Log.Information("Exiting RedLight Engine now");
-            Cleanup();
             Log.Information("Cya next time!");
         }
-    }
-
-    private void Cleanup()
-    {
-        PythonSetup.Shutdown();
     }
 }

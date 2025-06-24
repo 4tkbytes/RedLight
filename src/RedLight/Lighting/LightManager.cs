@@ -141,6 +141,12 @@ public class LightManager
                 
                 if (shaderManager.HasUniform(shaderName, "enableReflection"))
                     shaderManager.SetUniform(shaderName, "enableReflection", entity.EnableReflection);
+                
+                if (shaderManager.HasUniform(shaderName, "material.refractiveIndex"))
+                    shaderManager.SetUniform(shaderName, "material.refractiveIndex", entity.RefractiveIndex);
+                
+                if (shaderManager.HasUniform(shaderName, "enableRefraction"))
+                    shaderManager.SetUniform(shaderName, "enableRefraction", entity.EnableRefraction);
             }
             else
             {
