@@ -53,7 +53,9 @@ public abstract class Entity
     public ImGuizmoMode GuizmoMode { get; set; } = ImGuizmoMode.World;
     
     public ModelType ModelType { get; set; }
-
+    
+    public bool EnableReflection { get; set; }
+    public float Reflectivity { get; set; } = 0.3f;
 
     /// <summary>
     /// Direct access to the underlying RLModel
@@ -358,6 +360,12 @@ public abstract class Entity
     {
         UseImGuizmo = false;
         return this;
+    }
+    
+    public void SetReflection(bool enabled, float reflectivity = 0.3f)
+    {
+        EnableReflection = enabled;
+        Reflectivity = Math.Clamp(reflectivity, 0.0f, 1.0f);
     }
     
     /// <summary>

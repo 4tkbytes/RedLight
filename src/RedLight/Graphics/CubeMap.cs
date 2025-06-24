@@ -116,7 +116,7 @@ public class CubeMap
         var shader = ShaderManager.Instance.Get("skybox");
 
         // Disable depth writing
-        gl.DepthMask(false);
+        gl.DepthFunc(DepthFunction.Lequal);
         
         gl.UseProgram(shader.Program.ProgramHandle);
 
@@ -143,7 +143,7 @@ public class CubeMap
         gl.BindVertexArray(0);
         
         // Re-enable depth writing
-        gl.DepthMask(true);
+        gl.DepthFunc(DepthFunction.Less);
     }
 
     public void Bind(TextureUnit unit = TextureUnit.Texture0)
@@ -205,19 +205,91 @@ public class CubeMap
         gl.BindTexture(TextureTarget.TextureCubeMap, 0);
     }
     
-    // public static CubeMap CreateDefault(RLGraphics graphics)
+    public static CubeMap CreateDefault(RLGraphics graphics)
+    {
+        var faces = new List<CubeMapFace>
+        {
+            new() { ResourceName = "RedLight.Resources.Textures.CubeMaps.right.png", Side = CubeMapSide.Right },
+            new() { ResourceName = "RedLight.Resources.Textures.CubeMaps.left.png", Side = CubeMapSide.Left },
+            new() { ResourceName = "RedLight.Resources.Textures.CubeMaps.up.png", Side = CubeMapSide.Top },
+            new() { ResourceName = "RedLight.Resources.Textures.CubeMaps.down.png", Side = CubeMapSide.Bottom },
+            new() { ResourceName = "RedLight.Resources.Textures.CubeMaps.front.png", Side = CubeMapSide.Front },
+            new() { ResourceName = "RedLight.Resources.Textures.CubeMaps.back.png", Side = CubeMapSide.Back }
+        };
+        
+        return new CubeMap(graphics, faces);
+    }
+    
+    // public static CubeMap ConvertImageToSkyboxTexture(RLGraphics graphics, string imagePath, int cubemapSize = 512, bool useKubi = true)
     // {
-    //     var faces = new List<CubeMapFace>
+    //     if (useKubi && File.Exists(imagePath))
     //     {
-    //         new() { ResourceName = "RedLight.Resources.Textures.Skybox.right.jpg", Side = CubeMapSide.Right },
-    //         new() { ResourceName = "RedLight.Resources.Textures.Skybox.left.jpg", Side = CubeMapSide.Left },
-    //         new() { ResourceName = "RedLight.Resources.Textures.Skybox.top.jpg", Side = CubeMapSide.Top },
-    //         new() { ResourceName = "RedLight.Resources.Textures.Skybox.bottom.jpg", Side = CubeMapSide.Bottom },
-    //         new() { ResourceName = "RedLight.Resources.Textures.Skybox.front.jpg", Side = CubeMapSide.Front },
-    //         new() { ResourceName = "RedLight.Resources.Textures.Skybox.back.jpg", Side = CubeMapSide.Back }
-    //     };
-    //     
-    //     return new CubeMap(graphics, faces);
+    //         return ConvertWithKubi(graphics, imagePath, cubemapSize);
+    //     }
+    //     else
+    //     {
+    //         Log.Error("Error with converting image to skybox texture :(");
+    //         throw new InvalidOperationException();
+    //     }
+    // }
+    //
+    // public static CubeMap ConvertWithKubi(RLGraphics graphics, string imagePath, int cubemapSize = 512)
+    // {
+    //     try
+    //     {
+    //         using var kubi = new Kubi();
+    //         
+    //         // Create temporary directory for cubemap faces
+    //         string tempDir = Path.Combine(Path.GetTempPath(), "RedLight_Cubemap", Guid.NewGuid().ToString());
+    //         Directory.CreateDirectory(tempDir);
+    //         
+    //         var options = new KubiOptions
+    //         {
+    //             Size = cubemapSize,
+    //             Transform = "eac", // Use equi-angular cubemap for better quality
+    //             FaceNames = new[] { "right", "left", "top", "bottom", "front", "back" },
+    //             Resample = "bicubic" // Higher quality resampling
+    //         };
+    //         
+    //         // Generate cubemap faces
+    //         bool success = kubi.GenerateCubemapFaces(imagePath, tempDir, options);
+    //         
+    //         if (!success)
+    //         {
+    //             throw new ApplicationException("Kubi conversion failed :(");
+    //         }
+    //         
+    //         // Create CubeMap from generated faces
+    //         string baseName = Path.GetFileNameWithoutExtension(imagePath);
+    //         var faces = new List<CubeMapFace>
+    //         {
+    //             new() { ResourceName = Path.Combine(tempDir, $"{baseName}_right.png"), Side = CubeMapSide.Right },
+    //             new() { ResourceName = Path.Combine(tempDir, $"{baseName}_left.png"), Side = CubeMapSide.Left },
+    //             new() { ResourceName = Path.Combine(tempDir, $"{baseName}_top.png"), Side = CubeMapSide.Top },
+    //             new() { ResourceName = Path.Combine(tempDir, $"{baseName}_bottom.png"), Side = CubeMapSide.Bottom },
+    //             new() { ResourceName = Path.Combine(tempDir, $"{baseName}_front.png"), Side = CubeMapSide.Front },
+    //             new() { ResourceName = Path.Combine(tempDir, $"{baseName}_back.png"), Side = CubeMapSide.Back }
+    //         };
+    //         
+    //         var cubeMap = new CubeMap(graphics, faces);
+    //         
+    //         // Cleanup temporary files
+    //         try
+    //         {
+    //             Directory.Delete(tempDir, true);
+    //         }
+    //         catch (Exception ex)
+    //         {
+    //             Log.Warning("Failed to cleanup temporary directory: {Error}", ex.Message);
+    //         }
+    //         
+    //         return cubeMap;
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         Log.Error("Error using Kubi for cubemap conversion: {Error}", ex.Message);
+    //         throw new InvalidOperationException();
+    //     }
     // }
 }
 

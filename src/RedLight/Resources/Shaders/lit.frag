@@ -5,11 +5,11 @@ struct Material {
     sampler2D diffuse;
     sampler2D specular;
     float shininess;
+    float reflectivity; // Add reflection strength
 };
 
 struct DirLight {
     vec3 direction;
-
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
@@ -17,11 +17,9 @@ struct DirLight {
 
 struct PointLight {
     vec3 position;
-
     float constant;
     float linear;
     float quadratic;
-
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
@@ -32,11 +30,9 @@ struct SpotLight {
     vec3 direction;
     float cutOff;
     float outerCutOff;
-
     float constant;
     float linear;
     float quadratic;
-
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
@@ -56,6 +52,7 @@ struct Fog {
 in vec3 FragPos;
 in vec3 Normal;
 in vec2 TexCoords;
+in vec3 WorldPos; // Add this
 
 uniform vec3 viewPos;
 uniform DirLight dirLight;
@@ -63,29 +60,38 @@ uniform PointLight pointLights[NR_POINT_LIGHTS];
 uniform SpotLight spotLight;
 uniform Material material;
 uniform Fog fog;
+uniform samplerCube skybox; // Add skybox for reflections
+uniform bool enableReflection; // Toggle reflection on/off
 
 // function prototypes
 vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir);
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
 vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
 float CalcFogFactor(float distance);
+vec3 CalcReflection(vec3 normal, vec3 viewDir);
 
 void main()
 {
     // alpha and discard transparent fragments
     vec4 texColor = texture(material.diffuse, TexCoords);
     if(texColor.a < 0.1)
-        discard;
-    
+    discard;
+
     // properties
     vec3 norm = normalize(Normal);
-    vec3 viewDir = normalize(viewPos - FragPos);
+    vec3 viewDir = normalize(viewPos - WorldPos);
 
     // Calculate lighting
     vec3 result = CalcDirLight(dirLight, norm, viewDir);
     for(int i = 0; i < NR_POINT_LIGHTS; i++)
     result += CalcPointLight(pointLights[i], norm, FragPos, viewDir);
     result += CalcSpotLight(spotLight, norm, FragPos, viewDir);
+
+    // Add reflection if enabled
+    if (enableReflection) {
+        vec3 reflection = CalcReflection(norm, viewDir);
+        result = mix(result, reflection, material.reflectivity);
+    }
 
     // Apply fog
     float distance = length(viewPos - FragPos);
@@ -95,6 +101,14 @@ void main()
     vec3 finalColor = mix(fog.color, result, fogFactor);
 
     FragColor = vec4(finalColor, 1.0);
+}
+
+// Calculate reflection from skybox
+vec3 CalcReflection(vec3 normal, vec3 viewDir)
+{
+    vec3 I = -viewDir; // Incident vector (from camera to fragment)
+    vec3 R = reflect(I, normal); // Reflect around normal
+    return texture(skybox, R).rgb;
 }
 
 // Calculate fog factor based on distance and fog type

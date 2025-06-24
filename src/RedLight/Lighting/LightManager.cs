@@ -114,7 +114,7 @@ public class LightManager
         }
     }
     
-    public void ApplyLightsToShader(Vector3 viewPosition, string shaderName = "lit")
+    public void ApplyLightsToShader(Vector3 viewPosition, Entity entity = null, string shaderName = "lit")
     {
         var shaderManager = ShaderManager.Instance;
 
@@ -133,6 +133,28 @@ public class LightManager
             
             if (shaderManager.HasUniform(shaderName, "material.specular"))
                 shaderManager.SetUniform(shaderName, "material.specular", 1); // Texture unit 1
+            
+            if (entity != null)
+            {
+                if (shaderManager.HasUniform(shaderName, "material.reflectivity"))
+                    shaderManager.SetUniform(shaderName, "material.reflectivity", entity.Reflectivity);
+                
+                if (shaderManager.HasUniform(shaderName, "enableReflection"))
+                    shaderManager.SetUniform(shaderName, "enableReflection", entity.EnableReflection);
+            }
+            else
+            {
+                if (shaderManager.HasUniform(shaderName, "material.reflectivity"))
+                    shaderManager.SetUniform(shaderName, "material.reflectivity", 0.0f);
+                
+                if (shaderManager.HasUniform(shaderName, "enableReflection"))
+                    shaderManager.SetUniform(shaderName, "enableReflection", false);
+            }
+        
+            // Set skybox texture unit
+            if (shaderManager.HasUniform(shaderName, "skybox"))
+                shaderManager.SetUniform(shaderName, "skybox", 2);
+
             
             var enabledLights = _lights.Values.Where(l => l.IsEnabled).ToList();
 

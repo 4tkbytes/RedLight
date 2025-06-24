@@ -47,13 +47,13 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         debugCamera = new Camera(Engine.Window.Size);
         
         InitEditor();
-        CreateSkybox();
         CreatePlane();
         CreatePlayer();
-
         var cube = CreateCube();
-
+        cube.SetReflection(true, 1.0f);
         CreateLight();
+        
+        CreateSkybox();
         
         AddToLists(plane);
         AddToLists(player);
@@ -98,7 +98,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         
         skybox?.Render(activeCamera);
         
-        RenderModel(activeCamera);
+        RenderModel(activeCamera, skybox);
 
         LightManager.RenderAllLightCubes(activeCamera);
 
@@ -229,16 +229,16 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         // create cube model with name
         var cube = new Cube("colliding_cube");
         
-        TextureManager.Add("grass", new RLTexture("RedLight.Resources.Textures.grass.png"));
+        // TextureManager.Add("grass", new RLTexture("RedLight.Resources.Textures.grass.png"));
 
-        cube.Model.AttachTexture(TextureManager.Get("grass"));
+        // cube.Model.AttachTexture(TextureManager.Get("grass"));
         
         // model translations
         cube.Translate(new Vector3(3f, 10f, 0f));
         
         // physics system todo: fix this shit up
         cube.FrictionCoefficient = 5.0f;
-
+        
         return cube;
     }
 
@@ -264,17 +264,9 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     
     private void CreateSkybox()
     {
-        List<CubeMapFace> cubeMapFaces = new List<CubeMapFace>
-        {
-                
-            new() { ResourceName = "RedLight.Resources.Textures.CubeMaps.right.png", Side = CubeMapSide.Right },
-            new() { ResourceName = "RedLight.Resources.Textures.CubeMaps.left.png", Side = CubeMapSide.Left },
-            new() { ResourceName = "RedLight.Resources.Textures.CubeMaps.up.png", Side = CubeMapSide.Top },
-            new() { ResourceName = "RedLight.Resources.Textures.CubeMaps.down.png", Side = CubeMapSide.Bottom },
-            new() { ResourceName = "RedLight.Resources.Textures.CubeMaps.front.png", Side = CubeMapSide.Front },
-            new() { ResourceName = "RedLight.Resources.Textures.CubeMaps.back.png", Side = CubeMapSide.Back }
-        };
-        skybox = new CubeMap(Graphics, cubeMapFaces);
+        skybox = CubeMap.CreateDefault(Graphics);
+        // skybox = CubeMap.ConvertImageToSkyboxTexture(Graphics,
+        //     RLFiles.GetResourcePath("RedLight.Resources.Textures.CubeMaps.citrus_orchard_road_puresky_4k.png"));
     }
     #endregion
 }
