@@ -5,6 +5,7 @@ using RedLight.Lighting;
 using RedLight.Physics;
 using RedLight.UI;
 using Serilog;
+using Silk.NET.OpenGL;
 
 namespace RedLight.Scene;
 
@@ -104,14 +105,24 @@ public abstract class RLScene
         }
     }
 
-    public void RenderModel(Camera activeCamera)
+    public void RenderModel(Camera activeCamera, CubeMap skybox = null)
     {
+        // Bind skybox to texture unit 2 BEFORE rendering objects
+        if (skybox != null)
+        {
+            skybox.Bind(TextureUnit.Texture2);
+        }
+
         foreach (var model in ObjectModels)
         {
-            if (model.ModelType != ModelType.Light)
+            if (model.ModelType == ModelType.Light)
+            {
+                continue;
+            }
+            else
             {
                 Graphics.Use(model);
-                LightManager.ApplyLightsToShader(activeCamera.Position);
+                LightManager.ApplyLightsToShader(activeCamera.Position, model); // Pass the model for per-entity reflection
                 Graphics.Update(activeCamera, model);
                 Graphics.Draw(model);
             }

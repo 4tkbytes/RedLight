@@ -12,6 +12,7 @@ using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
 using System;
 using System.Diagnostics;
+using Python.Runtime;
 using RedLight.Physics;
 using ShaderType = RedLight.Graphics.ShaderType;
 
@@ -52,6 +53,10 @@ public class RLEngine
     {
         ParseArguments(args);
         InitialiseLogger(logStrength);
+        
+        // yeah yeah, complain all you want but there are some
+        // features that use Python like kubi
+        PythonSetup.Initialize();
 
         WindowOptions options = WindowOptions.Default;
         options.Title = title;
@@ -309,6 +314,13 @@ public class RLEngine
         finally
         {
             Log.Information("Exiting RedLight Engine now");
+            Cleanup();
+            Log.Information("Cya next time!");
         }
+    }
+
+    private void Cleanup()
+    {
+        // PythonSetup.Shutdown();
     }
 }
