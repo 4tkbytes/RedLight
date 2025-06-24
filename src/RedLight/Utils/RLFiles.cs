@@ -90,4 +90,16 @@ public static class RLFiles
         // Read the entire content of the file as a string
         return File.ReadAllText(resourcePath);
     }
+    
+    public static byte[] GetResourceAsBytes(string resourceName)
+    {
+        var assembly = Assembly.GetExecutingAssembly();
+        using var stream = assembly.GetManifestResourceStream(resourceName);
+        if (stream == null)
+            throw new FileNotFoundException($"Resource {resourceName} not found");
+    
+        using var memoryStream = new MemoryStream();
+        stream.CopyTo(memoryStream);
+        return memoryStream.ToArray();
+    }
 }

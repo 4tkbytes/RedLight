@@ -16,6 +16,23 @@ public struct RLShaderBundle
         VertexShader = new RLShader(Graphics, ShaderType.Vertex, vertexSource);
         FragmentShader = new RLShader(Graphics, ShaderType.Fragment, fragmentSource);
     }
+
+    public void Use()
+    {
+        Graphics.OpenGL.UseProgram(Program.ProgramHandle);
+    }
+    
+    /// <summary>
+    /// A better way of setting a shaders uniform.
+    /// </summary>
+    /// <param name="shaderId"></param>
+    /// <param name="name"></param>
+    /// <param name="value"></param>
+    /// <typeparam name="T"></typeparam>
+    public void SetUniform<T>(string uniform, T value)
+    {
+        Program.SetUniform(uniform, value);
+    }
 }
 
 public class ShaderManager

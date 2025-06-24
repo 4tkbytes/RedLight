@@ -78,13 +78,9 @@ public abstract class RLScene
                 
             case LightingCube lightingCube:
                 // Add lighting cube to light manager
-                LightManager.AddLightingCube(lightingCube.Name, lightingCube);
+                AddToLists(lightingCube.Light);
+                AddToLists(lightingCube.Cube);
                 
-                // Also add the cube entity to object models if it exists
-                if (lightingCube.Cube != null)
-                {
-                    ObjectModels.Add(lightingCube.Cube);
-                }
                 Log.Debug("Added lighting cube: {Name}", lightingCube.Name);
                 break;
                 

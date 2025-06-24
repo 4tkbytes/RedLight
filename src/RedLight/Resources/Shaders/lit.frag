@@ -72,6 +72,11 @@ float CalcFogFactor(float distance);
 
 void main()
 {
+    // alpha and discard transparent fragments
+    vec4 texColor = texture(material.diffuse, TexCoords);
+    if(texColor.a < 0.1)
+        discard;
+    
     // properties
     vec3 norm = normalize(Normal);
     vec3 viewDir = normalize(viewPos - FragPos);

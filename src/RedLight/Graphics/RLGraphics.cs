@@ -32,6 +32,9 @@ public class RLGraphics
         OpenGL.Enable(EnableCap.CullFace);
         OpenGL.CullFace(GLEnum.Back);
         OpenGL.FrontFace(GLEnum.Ccw);
+        
+        OpenGL.Enable(EnableCap.Blend);
+        OpenGL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
     }
 
     /// <summary>

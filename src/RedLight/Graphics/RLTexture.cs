@@ -1,3 +1,4 @@
+using RedLight.Scene;
 using RedLight.Utils;
 using Silk.NET.OpenGL;
 using StbImageSharp;
@@ -17,6 +18,15 @@ public class RLTexture
     public string Path { get; set; }
     public RLTextureType Type { get; set; }
     public string Name { get; set; }
+
+    /// <summary>
+    /// Improved version of the RLTexture constructor, with fewer parameters. Other one still works if you wish to use
+    /// it still. 
+    /// </summary>
+    /// <param name="resourceName">Something like "RedLight.Resources.Textures.no-texture.png"</param>
+    /// <param name="type"></param>
+    public RLTexture(string resourceName, RLTextureType type = RLTextureType.Diffuse) : this(SceneManager.Instance.GetCurrentScene().Graphics, RLFiles.GetResourcePath(resourceName), type)
+    { }
 
     /// <summary>
     /// This creates a new texture from the image provided. Its default type is the RLTextureType.Diffuse however

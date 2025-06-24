@@ -10,6 +10,7 @@ using System.Numerics;
 using RedLight.Lighting;
 using RedLight.Physics;
 using RedLight.UI;
+using RedLight.Utils;
 using Camera = RedLight.Graphics.Camera;
 using Plane = RedLight.Entities.Plane;
 
@@ -35,6 +36,8 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     private RLImGuiEditor _editor;
     private LightingCube lampLight;
     private LightingCube flashLight;
+    private LightingCube sunLight;
+    private CubeMap skybox;
     
     public override void OnLoad()
     {
@@ -44,6 +47,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         debugCamera = new Camera(Engine.Window.Size);
         
         InitEditor();
+        CreateSkybox();
         CreatePlane();
         CreatePlayer();
 
@@ -54,8 +58,9 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         AddToLists(plane);
         AddToLists(player);
         AddToLists(cube);
-        AddToLists(lampLight);
-        AddToLists(flashLight);
+        // AddToLists(lampLight);
+        // AddToLists(flashLight);
+        AddToLists(sunLight);
         
         player.ResetPhysics();
     }
@@ -64,8 +69,9 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     {
         PhysicsSystem.Update((float)deltaTime);
         
-        lampLight.Update(player.Camera);
-        flashLight.Update(player.Camera);
+        // lampLight.Update(player.Camera);
+        // flashLight.Update(player.Camera);
+        sunLight.Update(player.Camera);
         
         if (useDebugCamera)
         {
@@ -89,7 +95,9 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         
         Graphics.Clear();
         Graphics.ClearColour(Color.CornflowerBlue);
-
+        
+        skybox?.Render(activeCamera);
+        
         RenderModel(activeCamera);
 
         LightManager.RenderAllLightCubes(activeCamera);
@@ -122,6 +130,9 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
                     player.ResetPhysics();
                     break;
                 case Key.F:
+                    flashLight.Light.IsEnabled = !flashLight.Light.IsEnabled;
+                    break;
+                case Key.Q:
                     // Toggle fog
                     if (LightManager.Fog?.IsEnabled == true)
                     {
@@ -218,6 +229,10 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         // create cube model with name
         var cube = new Cube("colliding_cube");
         
+        TextureManager.Add("grass", new RLTexture("RedLight.Resources.Textures.grass.png"));
+
+        cube.Model.AttachTexture(TextureManager.Get("grass"));
+        
         // model translations
         cube.Translate(new Vector3(3f, 10f, 0f));
         
@@ -235,16 +250,31 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 
         // Create any type of light (within the enum)
         // This one is a spotlight, like a flash light
-        lampLight = LightingCube.CreateSpotLightCube(LightManager, "lightCubeSpot", "light_cube", playerCamera,
-            Color.AntiqueWhite, Attenuation.DefaultValues.Range50);
+        // flashLight = LightingCube.CreateSpotLightCube(LightManager, "lightCubeSpot", "light_cube", playerCamera,
+        //     Color.AntiqueWhite, Attenuation.DefaultValues.Range50);
 
         // This one is a directional light, such as that of the sun
-        // sunLight = LightingCube.CreateDirectionalLightCube(LightManager, "lightCubeDirectional", "light_cube",
-        //     RLConstants.RL_SUN_DIRECTION, Color.AntiqueWhite);
+        sunLight = LightingCube.CreateDirectionalLightCube(LightManager, "lightCubeDirectional", "light_cube",
+            RLConstants.RL_SUN_DIRECTION, Color.AntiqueWhite);
         //
         // This one is a point light, like a lamp
-        flashLight = LightingCube.CreatePointLightCube(LightManager, "lightCubePoint", "light_cube", Vector3.Zero,
-            Color.AntiqueWhite, Attenuation.DefaultValues.Range50);
+        // lampLight = LightingCube.CreatePointLightCube(LightManager, "lightCubePoint", "light_cube", Vector3.Zero,
+        //     Color.AntiqueWhite, Attenuation.DefaultValues.Range50); 
+    }
+    
+    private void CreateSkybox()
+    {
+        List<CubeMapFace> cubeMapFaces = new List<CubeMapFace>
+        {
+                
+            new() { ResourceName = "RedLight.Resources.Textures.CubeMaps.right.png", Side = CubeMapSide.Right },
+            new() { ResourceName = "RedLight.Resources.Textures.CubeMaps.left.png", Side = CubeMapSide.Left },
+            new() { ResourceName = "RedLight.Resources.Textures.CubeMaps.up.png", Side = CubeMapSide.Top },
+            new() { ResourceName = "RedLight.Resources.Textures.CubeMaps.down.png", Side = CubeMapSide.Bottom },
+            new() { ResourceName = "RedLight.Resources.Textures.CubeMaps.front.png", Side = CubeMapSide.Front },
+            new() { ResourceName = "RedLight.Resources.Textures.CubeMaps.back.png", Side = CubeMapSide.Back }
+        };
+        skybox = new CubeMap(Graphics, cubeMapFaces);
     }
     #endregion
 }
