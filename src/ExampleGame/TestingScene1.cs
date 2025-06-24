@@ -256,12 +256,12 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         //     Color.AntiqueWhite, Attenuation.DefaultValues.Range50);
 
         // This one is a directional light, such as that of the sun
-        sunLight = LightingCube.CreateDirectionalLightCube(LightManager, "lightCubeDirectional", "light_cube",
-            RLConstants.RL_SUN_DIRECTION, Color.AntiqueWhite);
+        // sunLight = LightingCube.CreateDirectionalLightCube(LightManager, "lightCubeDirectional", "light_cube",
+        //     RLConstants.RL_SUN_DIRECTION, Color.AntiqueWhite);
         //
         // This one is a point light, like a lamp
-        // lampLight = LightingCube.CreatePointLightCube(LightManager, "lightCubePoint", "light_cube", Vector3.Zero,
-        //     Color.AntiqueWhite, Attenuation.DefaultValues.Range50); 
+        sunLight = LightingCube.CreatePointLightCube(LightManager, "lightCubePoint", "light_cube", Vector3.Zero,
+            Color.AntiqueWhite, Attenuation.DefaultValues.Range50); 
     }
 
     private void CreateSkybox()
