@@ -518,7 +518,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: BeforeEditorRender
     path: src/RedLight/Scene/RLScene.cs
-    startLine: 133
+    startLine: 134
   assemblies:
   - RedLight
   namespace: RedLight.Scene
@@ -549,7 +549,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: AfterEditorRender
     path: src/RedLight/Scene/RLScene.cs
-    startLine: 160
+    startLine: 161
   assemblies:
   - RedLight
   namespace: RedLight.Scene

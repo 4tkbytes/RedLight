@@ -129,7 +129,7 @@ the physics, we must do `PhysicsSystem.Update()`.
 > expect the deltaTime to be high. 
 
 > [!TIP]
-> To calculate the Frames Per Second (FPS), it is `1000f/deltaTime`
+> To calculate the Frames Per Second (FPS), it is `1.0 / deltaTime`
 
 `player.Update()` is also an update function that (as you guessed) updates the players location, camera and almost
 everything else that needs to be updated. 

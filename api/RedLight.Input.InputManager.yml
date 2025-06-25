@@ -5,7 +5,7 @@ items:
   id: InputManager
   parent: RedLight.Input
   children:
-  - RedLight.Input.InputManager.ChangeCaptureToggle(Silk.NET.Input.Key)
+  - RedLight.Input.InputManager.ChangeCaptureToggle(Silk.NET.Input.Key,System.Nullable{Silk.NET.Input.Key})
   - RedLight.Input.InputManager.ChangeCaptureToggleReset(Silk.NET.Input.Key)
   - RedLight.Input.InputManager.ChangeFullscreenToggle(Silk.NET.Input.Key)
   - RedLight.Input.InputManager.ChangeFullscreenToggleReset(Silk.NET.Input.Key)
@@ -373,16 +373,16 @@ items:
       type: RedLight.Input.RLMouse
     content.vb: Public Sub UnsubscribeFromInputs(keyboardManager As RLKeyboard, mouseManager As RLMouse)
   overload: RedLight.Input.InputManager.UnsubscribeFromInputs*
-- uid: RedLight.Input.InputManager.ChangeCaptureToggle(Silk.NET.Input.Key)
-  commentId: M:RedLight.Input.InputManager.ChangeCaptureToggle(Silk.NET.Input.Key)
-  id: ChangeCaptureToggle(Silk.NET.Input.Key)
+- uid: RedLight.Input.InputManager.ChangeCaptureToggle(Silk.NET.Input.Key,System.Nullable{Silk.NET.Input.Key})
+  commentId: M:RedLight.Input.InputManager.ChangeCaptureToggle(Silk.NET.Input.Key,System.Nullable{Silk.NET.Input.Key})
+  id: ChangeCaptureToggle(Silk.NET.Input.Key,System.Nullable{Silk.NET.Input.Key})
   parent: RedLight.Input.InputManager
   langs:
   - csharp
   - vb
-  name: ChangeCaptureToggle(Key)
-  nameWithType: InputManager.ChangeCaptureToggle(Key)
-  fullName: RedLight.Input.InputManager.ChangeCaptureToggle(Silk.NET.Input.Key)
+  name: ChangeCaptureToggle(Key, Key?)
+  nameWithType: InputManager.ChangeCaptureToggle(Key, Key?)
+  fullName: RedLight.Input.InputManager.ChangeCaptureToggle(Silk.NET.Input.Key, Silk.NET.Input.Key?)
   type: Method
   source:
     remote:
@@ -396,11 +396,13 @@ items:
   - RedLight
   namespace: RedLight.Input
   syntax:
-    content: public void ChangeCaptureToggle(Key key)
+    content: public void ChangeCaptureToggle(Key key, Key? targetKey = null)
     parameters:
     - id: key
       type: Silk.NET.Input.Key
-    content.vb: Public Sub ChangeCaptureToggle(key As Key)
+    - id: targetKey
+      type: System.Nullable{Silk.NET.Input.Key}
+    content.vb: Public Sub ChangeCaptureToggle(key As Key, targetKey As Key? = Nothing)
   overload: RedLight.Input.InputManager.ChangeCaptureToggle*
 - uid: RedLight.Input.InputManager.IsCaptured(Silk.NET.Input.IMouse,System.Boolean)
   commentId: M:RedLight.Input.InputManager.IsCaptured(Silk.NET.Input.IMouse,System.Boolean)
@@ -420,7 +422,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: IsCaptured
     path: src/RedLight/Input/InputManager.cs
-    startLine: 151
+    startLine: 169
   assemblies:
   - RedLight
   namespace: RedLight.Input
@@ -464,7 +466,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: IsCaptured
     path: src/RedLight/Input/InputManager.cs
-    startLine: 160
+    startLine: 178
   assemblies:
   - RedLight
   namespace: RedLight.Input
@@ -493,7 +495,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: ChangeCaptureToggleReset
     path: src/RedLight/Input/InputManager.cs
-    startLine: 169
+    startLine: 187
   assemblies:
   - RedLight
   namespace: RedLight.Input
@@ -522,7 +524,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: ChangeFullscreenToggle
     path: src/RedLight/Input/InputManager.cs
-    startLine: 177
+    startLine: 195
   assemblies:
   - RedLight
   namespace: RedLight.Input
@@ -551,7 +553,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: ChangeFullscreenToggleReset
     path: src/RedLight/Input/InputManager.cs
-    startLine: 193
+    startLine: 211
   assemblies:
   - RedLight
   namespace: RedLight.Input
@@ -1143,7 +1145,7 @@ references:
   fullName: RedLight.Input.InputManager.UnsubscribeFromInputs
 - uid: RedLight.Input.InputManager.ChangeCaptureToggle*
   commentId: Overload:RedLight.Input.InputManager.ChangeCaptureToggle
-  href: RedLight.Input.InputManager.html#RedLight_Input_InputManager_ChangeCaptureToggle_Silk_NET_Input_Key_
+  href: RedLight.Input.InputManager.html#RedLight_Input_InputManager_ChangeCaptureToggle_Silk_NET_Input_Key_System_Nullable_Silk_NET_Input_Key__
   name: ChangeCaptureToggle
   nameWithType: InputManager.ChangeCaptureToggle
   fullName: RedLight.Input.InputManager.ChangeCaptureToggle
@@ -1154,6 +1156,51 @@ references:
   name: Key
   nameWithType: Key
   fullName: Silk.NET.Input.Key
+- uid: System.Nullable{Silk.NET.Input.Key}
+  commentId: T:System.Nullable{Silk.NET.Input.Key}
+  parent: System
+  definition: System.Nullable`1
+  name: Key?
+  nameWithType: Key?
+  fullName: Silk.NET.Input.Key?
+  spec.csharp:
+  - uid: Silk.NET.Input.Key
+    name: Key
+    isExternal: true
+  - name: '?'
+  spec.vb:
+  - uid: Silk.NET.Input.Key
+    name: Key
+    isExternal: true
+  - name: '?'
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
 - uid: RedLight.Input.InputManager.IsCaptured*
   commentId: Overload:RedLight.Input.InputManager.IsCaptured
   href: RedLight.Input.InputManager.html#RedLight_Input_InputManager_IsCaptured_Silk_NET_Input_IMouse_System_Boolean_

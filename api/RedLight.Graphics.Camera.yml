@@ -12,7 +12,6 @@ items:
   - RedLight.Graphics.Camera.FreeMove(System.Numerics.Vector2)
   - RedLight.Graphics.Camera.Front
   - RedLight.Graphics.Camera.KeyMap(System.Collections.Generic.HashSet{Silk.NET.Input.Key},RedLight.Entities.Player)
-  - RedLight.Graphics.Camera.KeyMap(System.Collections.Generic.HashSet{Silk.NET.Input.Key},System.Single)
   - RedLight.Graphics.Camera.LookAt(System.Numerics.Vector3,System.Numerics.Vector3,System.Numerics.Vector3,System.Boolean)
   - RedLight.Graphics.Camera.MoveBack
   - RedLight.Graphics.Camera.MoveBack(System.Single)
@@ -36,6 +35,7 @@ items:
   - RedLight.Graphics.Camera.SetSpeed(System.Single)
   - RedLight.Graphics.Camera.Speed
   - RedLight.Graphics.Camera.Up
+  - RedLight.Graphics.Camera.Update(System.Single,System.Collections.Generic.HashSet{Silk.NET.Input.Key})
   - RedLight.Graphics.Camera.UpdateAspectRatio(System.Single)
   - RedLight.Graphics.Camera.UpdateCamera(System.Boolean)
   - RedLight.Graphics.Camera.View
@@ -598,42 +598,40 @@ items:
       type: System.Numerics.Vector2
     content.vb: Public Sub FreeMove(mousePosition As Vector2)
   overload: RedLight.Graphics.Camera.FreeMove*
-- uid: RedLight.Graphics.Camera.KeyMap(System.Collections.Generic.HashSet{Silk.NET.Input.Key},System.Single)
-  commentId: M:RedLight.Graphics.Camera.KeyMap(System.Collections.Generic.HashSet{Silk.NET.Input.Key},System.Single)
-  id: KeyMap(System.Collections.Generic.HashSet{Silk.NET.Input.Key},System.Single)
+- uid: RedLight.Graphics.Camera.Update(System.Single,System.Collections.Generic.HashSet{Silk.NET.Input.Key})
+  commentId: M:RedLight.Graphics.Camera.Update(System.Single,System.Collections.Generic.HashSet{Silk.NET.Input.Key})
+  id: Update(System.Single,System.Collections.Generic.HashSet{Silk.NET.Input.Key})
   parent: RedLight.Graphics.Camera
   langs:
   - csharp
   - vb
-  name: KeyMap(HashSet<Key>, float)
-  nameWithType: Camera.KeyMap(HashSet<Key>, float)
-  fullName: RedLight.Graphics.Camera.KeyMap(System.Collections.Generic.HashSet<Silk.NET.Input.Key>, float)
+  name: Update(float, HashSet<Key>)
+  nameWithType: Camera.Update(float, HashSet<Key>)
+  fullName: RedLight.Graphics.Camera.Update(float, System.Collections.Generic.HashSet<Silk.NET.Input.Key>)
   type: Method
   source:
     remote:
       path: src/RedLight/Graphics/Camera.cs
       branch: main
       repo: git@github.com:4tkbytes/RedLight
-    id: KeyMap
+    id: Update
     path: src/RedLight/Graphics/Camera.cs
     startLine: 124
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
   syntax:
-    content: public Camera KeyMap(HashSet<Key> PressedKeys, float deltaTime)
+    content: public void Update(float deltaTime, HashSet<Key> PressedKeys)
     parameters:
-    - id: PressedKeys
-      type: System.Collections.Generic.HashSet{Silk.NET.Input.Key}
     - id: deltaTime
       type: System.Single
-    return:
-      type: RedLight.Graphics.Camera
-    content.vb: Public Function KeyMap(PressedKeys As HashSet(Of Key), deltaTime As Single) As Camera
-  overload: RedLight.Graphics.Camera.KeyMap*
-  nameWithType.vb: Camera.KeyMap(HashSet(Of Key), Single)
-  fullName.vb: RedLight.Graphics.Camera.KeyMap(System.Collections.Generic.HashSet(Of Silk.NET.Input.Key), Single)
-  name.vb: KeyMap(HashSet(Of Key), Single)
+    - id: PressedKeys
+      type: System.Collections.Generic.HashSet{Silk.NET.Input.Key}
+    content.vb: Public Sub Update(deltaTime As Single, PressedKeys As HashSet(Of Key))
+  overload: RedLight.Graphics.Camera.Update*
+  nameWithType.vb: Camera.Update(Single, HashSet(Of Key))
+  fullName.vb: RedLight.Graphics.Camera.Update(Single, System.Collections.Generic.HashSet(Of Silk.NET.Input.Key))
+  name.vb: Update(Single, HashSet(Of Key))
 - uid: RedLight.Graphics.Camera.KeyMap(System.Collections.Generic.HashSet{Silk.NET.Input.Key},RedLight.Entities.Player)
   commentId: M:RedLight.Graphics.Camera.KeyMap(System.Collections.Generic.HashSet{Silk.NET.Input.Key},RedLight.Entities.Player)
   id: KeyMap(System.Collections.Generic.HashSet{Silk.NET.Input.Key},RedLight.Entities.Player)
@@ -652,7 +650,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: KeyMap
     path: src/RedLight/Graphics/Camera.cs
-    startLine: 146
+    startLine: 149
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -688,7 +686,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: UpdateAspectRatio
     path: src/RedLight/Graphics/Camera.cs
-    startLine: 194
+    startLine: 197
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -722,7 +720,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: SetSpeed
     path: src/RedLight/Graphics/Camera.cs
-    startLine: 201
+    startLine: 204
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -756,7 +754,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: SetFront
     path: src/RedLight/Graphics/Camera.cs
-    startLine: 207
+    startLine: 210
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -787,7 +785,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: MoveForward
     path: src/RedLight/Graphics/Camera.cs
-    startLine: 213
+    startLine: 216
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -815,7 +813,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: MoveBack
     path: src/RedLight/Graphics/Camera.cs
-    startLine: 219
+    startLine: 222
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -843,7 +841,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: MoveUp
     path: src/RedLight/Graphics/Camera.cs
-    startLine: 225
+    startLine: 228
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -871,7 +869,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: MoveDown
     path: src/RedLight/Graphics/Camera.cs
-    startLine: 231
+    startLine: 234
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -899,7 +897,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: MoveLeft
     path: src/RedLight/Graphics/Camera.cs
-    startLine: 237
+    startLine: 240
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -927,7 +925,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: MoveRight
     path: src/RedLight/Graphics/Camera.cs
-    startLine: 243
+    startLine: 246
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -955,7 +953,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: MoveForward
     path: src/RedLight/Graphics/Camera.cs
-    startLine: 249
+    startLine: 252
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -989,7 +987,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: MoveBack
     path: src/RedLight/Graphics/Camera.cs
-    startLine: 255
+    startLine: 258
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -1023,7 +1021,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: MoveUp
     path: src/RedLight/Graphics/Camera.cs
-    startLine: 261
+    startLine: 264
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -1057,7 +1055,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: MoveDown
     path: src/RedLight/Graphics/Camera.cs
-    startLine: 267
+    startLine: 270
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -1091,7 +1089,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: MoveLeft
     path: src/RedLight/Graphics/Camera.cs
-    startLine: 273
+    startLine: 276
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -1125,7 +1123,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: MoveRight
     path: src/RedLight/Graphics/Camera.cs
-    startLine: 280
+    startLine: 283
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -1159,7 +1157,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: SetPosition
     path: src/RedLight/Graphics/Camera.cs
-    startLine: 287
+    startLine: 290
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -1611,12 +1609,12 @@ references:
   name: FreeMove
   nameWithType: Camera.FreeMove
   fullName: RedLight.Graphics.Camera.FreeMove
-- uid: RedLight.Graphics.Camera.KeyMap*
-  commentId: Overload:RedLight.Graphics.Camera.KeyMap
-  href: RedLight.Graphics.Camera.html#RedLight_Graphics_Camera_KeyMap_System_Collections_Generic_HashSet_Silk_NET_Input_Key__System_Single_
-  name: KeyMap
-  nameWithType: Camera.KeyMap
-  fullName: RedLight.Graphics.Camera.KeyMap
+- uid: RedLight.Graphics.Camera.Update*
+  commentId: Overload:RedLight.Graphics.Camera.Update
+  href: RedLight.Graphics.Camera.html#RedLight_Graphics_Camera_Update_System_Single_System_Collections_Generic_HashSet_Silk_NET_Input_Key__
+  name: Update
+  nameWithType: Camera.Update
+  fullName: RedLight.Graphics.Camera.Update
 - uid: System.Collections.Generic.HashSet{Silk.NET.Input.Key}
   commentId: T:System.Collections.Generic.HashSet{Silk.NET.Input.Key}
   parent: System.Collections.Generic
@@ -1715,6 +1713,12 @@ references:
     name: Generic
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: RedLight.Graphics.Camera.KeyMap*
+  commentId: Overload:RedLight.Graphics.Camera.KeyMap
+  href: RedLight.Graphics.Camera.html#RedLight_Graphics_Camera_KeyMap_System_Collections_Generic_HashSet_Silk_NET_Input_Key__RedLight_Entities_Player_
+  name: KeyMap
+  nameWithType: Camera.KeyMap
+  fullName: RedLight.Graphics.Camera.KeyMap
 - uid: RedLight.Entities.Player
   commentId: T:RedLight.Entities.Player
   parent: RedLight.Entities
