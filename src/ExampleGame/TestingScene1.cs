@@ -10,6 +10,7 @@ using System.Numerics;
 using RedLight.Lighting;
 using RedLight.Physics;
 using RedLight.UI;
+using RedLight.UI.ImGui;
 using RedLight.Utils;
 using Camera = RedLight.Graphics.Camera;
 using Plane = RedLight.Entities.Plane;

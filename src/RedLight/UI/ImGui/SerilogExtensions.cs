@@ -1,7 +1,7 @@
 ﻿using Serilog;
 using Serilog.Configuration;
 
-namespace RedLight.UI;
+namespace RedLight.UI.ImGui;
 
 public static class SerilogExtensions
 {

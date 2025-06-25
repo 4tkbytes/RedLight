@@ -8,6 +8,7 @@ using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
 using RedLight.Physics;
+using RedLight.UI.ImGui;
 
 namespace RedLight;
 

@@ -1,4 +1,4 @@
-﻿namespace RedLight.UI;
+﻿namespace RedLight.UI.ImGui;
 
 /// <summary>
 /// Manages console log entries and command history

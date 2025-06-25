@@ -4,6 +4,7 @@ using RedLight.Input;
 using RedLight.Lighting;
 using RedLight.Physics;
 using RedLight.UI;
+using RedLight.UI.ImGui;
 using Serilog;
 using Silk.NET.OpenGL;
 

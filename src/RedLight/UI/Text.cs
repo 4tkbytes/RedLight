@@ -221,7 +221,7 @@ public class TextManager
         shader.SetUniform("textColor", RLUtils.ColorToVector3(color));
     
         // ADD THIS: Set the projection matrix for 2D text rendering
-        var projection = Matrix4x4.CreateOrthographicOffCenter(0.0f, SceneManager.Instance.GetCurrentScene().Engine.Window.Size.X, 0.0f, SceneManager.Instance.GetCurrentScene().Engine.Window.Size.Y, -1.0f, 1.0f);
+        var projection = Matrix4x4.CreateOrthographicOffCenter(0.0f, SceneManager.Instance.GetCurrentScene().Engine.Window.Size.X, 0f, SceneManager.Instance.GetCurrentScene().Engine.Window.Size.Y, -1.0f, 1.0f);
         shader.SetUniform("projection", projection);
         
         gl.Enable(EnableCap.Blend);

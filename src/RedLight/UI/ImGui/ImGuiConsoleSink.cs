@@ -1,7 +1,7 @@
 ﻿using Serilog.Core;
 using Serilog.Events;
 
-namespace RedLight.UI;
+namespace RedLight.UI.ImGui;
 
 public class ImGuiConsoleSink : ILogEventSink
 {

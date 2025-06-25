@@ -3,15 +3,14 @@ using System.Numerics;
 using Hexa.NET.ImGui;
 using Hexa.NET.ImGuizmo;
 using RedLight.Entities;
-using RedLight.UI.ImGui;
-using Silk.NET.Input;
-using Silk.NET.Windowing;
-using Serilog;
 using RedLight.Graphics;
 using RedLight.Utils;
+using Serilog;
+using Silk.NET.Input;
+using Silk.NET.Windowing;
 using Framebuffer = RedLight.Graphics.Framebuffer;
 
-namespace RedLight.UI;
+namespace RedLight.UI.ImGui;
 
 public class RLImGuiEditor
 {
