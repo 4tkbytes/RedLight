@@ -55,6 +55,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         CreateLight();
         CreateSkybox();
         
+        // ui
         InitText();
 
         AddToLists(plane);
@@ -74,7 +75,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         // lampLight.Update(player.Camera);
         // flashLight.Update(player.Camera);
         sunLight.Update(player.Camera);
-
+        
         if (useDebugCamera)
         {
             debugCamera.Update((float)deltaTime, PressedKeys);
@@ -120,8 +121,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
             0.5f,
             Color.Yellow
         );
-
-
+        
         AfterEditorRender(_editor);
     }
 
