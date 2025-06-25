@@ -110,13 +110,22 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
                 model.DrawBoundingBox(activeCamera);
             }
         }
-        
-        TextManager.RenderText(Graphics,
-            $"FPS: {Engine.Window.FramesPerSecond}",
-            new Vector2(20, 20),
-            1.0f,
-            Color.White
+
+        try
+        {
+            // Render more text if needed
+            TextManager.Instance.RenderText(
+                Graphics,
+                $"FPS: {(int)Engine.Window.FramesPerSecond}",
+                new Vector2(20, 80),
+                0.8f,
+                Color.Yellow
             );
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Error rendering text");
+        }
 
         AfterEditorRender(_editor);
     }
@@ -137,9 +146,9 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
                 case Key.R:
                     player.ResetPhysics();
                     break;
-                case Key.F:
-                    flashLight.Light.IsEnabled = !flashLight.Light.IsEnabled;
-                    break;
+                // case Key.F:
+                //     flashLight.Light.IsEnabled = !flashLight.Light.IsEnabled;
+                //     break;
                 case Key.Q:
                     // Toggle fog
                     if (LightManager.Fog?.IsEnabled == true)
@@ -265,12 +274,12 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         //     Color.AntiqueWhite, Attenuation.DefaultValues.Range50);
 
         // This one is a directional light, such as that of the sun
-        // sunLight = LightingCube.CreateDirectionalLightCube(LightManager, "lightCubeDirectional", "light_cube",
-        //     RLConstants.RL_SUN_DIRECTION, Color.AntiqueWhite);
+        sunLight = LightingCube.CreateDirectionalLightCube(LightManager, "lightCubeDirectional", "light_cube",
+            RLConstants.RL_SUN_DIRECTION, Color.AntiqueWhite);
         //
         // This one is a point light, like a lamp
-        sunLight = LightingCube.CreatePointLightCube(LightManager, "lightCubePoint", "light_cube", Vector3.Zero,
-            Color.AntiqueWhite, Attenuation.DefaultValues.Range50); 
+        // sunLight = LightingCube.CreatePointLightCube(LightManager, "lightCubePoint", "light_cube", Vector3.Zero,
+        //     Color.AntiqueWhite, Attenuation.DefaultValues.Range50); 
     }
 
     private void CreateSkybox()
@@ -280,17 +289,23 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 
     private void InitText()
     {
-        // init textmanager if not already initialised
-        TextManager = TextManager.Instance;
-        
-        // set font config
-        var fontConfig = new FontConfig(0, 24);
-        
-        // add in the font file
-        font = new Font("RedLight.Resources.Fonts.arial.ttf", fontConfig);
-        
-        // add to text manager
-        TextManager.AddFont("arial", font);
+        try
+        {
+            // Create font configuration
+            var fontConfig = new FontConfig(0, 24);
+            
+            // Create a new font from your resources - make sure this file exists!
+            font = new Font("RedLight.Resources.Fonts.Arial.ttf", fontConfig);
+            
+            // Register with TextManager singleton
+            TextManager.Instance.AddFont("default", font);
+            
+            Log.Information("Text rendering initialized successfully");
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Failed to initialize text rendering");
+        }
     }
     #endregion
 }

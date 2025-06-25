@@ -7,6 +7,7 @@ using RedLight.Scene;
 using RedLight.Utils;
 using Serilog;
 using Silk.NET.OpenGL;
+using ShaderType = RedLight.Graphics.ShaderType;
 using TextureWrapMode = Silk.NET.OpenGL.TextureWrapMode;
 
 namespace RedLight.UI;
@@ -79,8 +80,10 @@ public class Font
 
                 gl.PixelStore(GLEnum.UnpackAlignment, 1);
 
-                for (char c = 'A'; c <= 'Z'; c++)
+                for (int i = 0; i <= 127; i++)
                 {
+                    char c = (char)i;
+                    
                     if (ThrowIfError(
                             FT.FT_Load_Char(face, c, FT_LOAD.FT_LOAD_RENDER),
                             "Loading Glyph",
@@ -205,23 +208,29 @@ public class TextManager
     public void RenderText(RLGraphics graphics, string text, Vector2 position, float scale, Color color)
     {
         RLShaderBundle shader = ShaderManager.Instance.Get("text");
+    
+        if (ShaderManager.Instance.TryGet("text").VertexShader == null)
+            ShaderManager.Instance.TryAdd("text",
+                new RLShader(graphics, ShaderType.Vertex, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.text.vert")),
+                new RLShader(graphics, ShaderType.Fragment, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.text.frag")));
 
         var gl = graphics.OpenGL;
         InitializeBuffers(gl);
 
         shader.Use();
         shader.SetUniform("textColor", RLUtils.ColorToVector3(color));
+    
+        // ADD THIS: Set the projection matrix for 2D text rendering
+        var projection = Matrix4x4.CreateOrthographicOffCenter(0.0f, SceneManager.Instance.GetCurrentScene().Engine.Window.Size.X, 0.0f, SceneManager.Instance.GetCurrentScene().Engine.Window.Size.Y, -1.0f, 1.0f);
+        shader.SetUniform("projection", projection);
+        
+        gl.Enable(EnableCap.Blend);
+        gl.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+    
         gl.ActiveTexture(TextureUnit.Texture0);
         gl.BindVertexArray(_vao);
 
-        // Split the font name from the text if a specific font is requested
         string fontName = "default";
-        if (text.Contains(":"))
-        {
-            var parts = text.Split(':', 2);
-            fontName = parts[0];
-            text = parts[1];
-        }
         
         // Check if the requested font exists
         if (!characters.ContainsKey(fontName))
@@ -291,6 +300,8 @@ public class TextManager
 
         gl.BindVertexArray(0);
         gl.BindTexture(GLEnum.Texture2D, 0);
+        
+        gl.Disable(EnableCap.Blend);
     }
 
     public void AddFont(string name, Font font)

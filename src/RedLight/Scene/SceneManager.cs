@@ -205,11 +205,6 @@ public class SceneManager
         currentScene.ShaderManager.TryAdd("light_cube",
             new RLShader(currentScene.Graphics, ShaderType.Vertex, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.light_cube.vert")),
             new RLShader(currentScene.Graphics, ShaderType.Fragment, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.light_cube.frag")));
-
-        // text rendering
-        currentScene.ShaderManager.TryAdd("text",
-            new RLShader(currentScene.Graphics, ShaderType.Vertex, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.text.vert")),
-            new RLShader(currentScene.Graphics, ShaderType.Fragment, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.text.frag")));
         
         Log.Debug("Subscribing to keyboard events");
         input.SubscribeToInputs(currentKeyboard, currentMouse);
