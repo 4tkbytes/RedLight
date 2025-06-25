@@ -111,22 +111,16 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
                 model.DrawBoundingBox(activeCamera);
             }
         }
+        
+        // Render more text if needed
+        TextManager.Instance.RenderText(
+            Graphics,
+            $"FPS: {(int)Engine.Window.FramesPerSecond}",
+            new Vector2(0, 0),
+            0.5f,
+            Color.Yellow
+        );
 
-        try
-        {
-            // Render more text if needed
-            TextManager.Instance.RenderText(
-                Graphics,
-                $"FPS: {(int)Engine.Window.FramesPerSecond}",
-                new Vector2(20, 80),
-                0.8f,
-                Color.Yellow
-            );
-        }
-        catch (Exception ex)
-        {
-            Log.Error(ex, "Error rendering text");
-        }
 
         AfterEditorRender(_editor);
     }
@@ -295,7 +289,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
             var fontConfig = new FontConfig(0, 24);
             
             // Create a new font from your resources - make sure this file exists!
-            font = new Font("RedLight.Resources.Fonts.Arial.ttf", fontConfig);
+            font = new Font("RedLight.Resources.Fonts.RobotoMono-Regular.ttf", fontConfig);
             
             // Register with TextManager singleton
             TextManager.Instance.AddFont("default", font);

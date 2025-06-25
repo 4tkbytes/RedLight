@@ -33,6 +33,7 @@ public struct FontConfig
 public class Font
 {
     public FreeTypeText FT_Text;
+    public FontConfig Config { get; private set; }
 
     private Dictionary<char, Characters> characters = new Dictionary<char, Characters>();
 
@@ -45,6 +46,8 @@ public class Font
     {
         var shaderManager = ShaderManager.Instance;
         var graphics = SceneManager.Instance.GetCurrentScene().Graphics;
+        
+        Config = fontConfig;
 
         ShaderManager.Instance.TryAdd("text",
             new RLShaderBundle(graphics, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.text.vert"),
@@ -172,6 +175,7 @@ public class TextManager
 {
     // singleton stuff
     private static readonly Lazy<TextManager> _instance = new(() => new TextManager());
+    public readonly Vector2 DefaultFontSize = new(15, 20);
     public static TextManager Instance => _instance.Value;
     private TextManager() 
     {
@@ -247,8 +251,13 @@ public class TextManager
         var font = characters[fontName];
         var fontChars = font.GetCharacters();
 
+        var fontSize = DefaultFontSize;
+        fontSize *= new Vector2(scale);
+
         float x = position.X;
-        float y = position.Y;
+        float y = SceneManager.Instance.GetCurrentScene().Engine.Window.Size.Y 
+                  - fontSize.Y
+                  - position.Y;
 
         // Iterate through all characters
         foreach (var c in text)
