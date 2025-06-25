@@ -1,3 +1,5 @@
+using System.Drawing;
+using RedLight.Utils;
 using Serilog;
 using Silk.NET.OpenGL;
 
@@ -153,6 +155,9 @@ public class RLShaderProgram
                 break;
             case bool b:
                 gl.Uniform1(location, b ? 1 : 0);
+                break;
+            case Color color:
+                SetUniform(name, RLUtils.ColorToVector3(color));
                 break;
             default:
                 throw new NotSupportedException($"Uniform type {typeof(T)} is not supported.");

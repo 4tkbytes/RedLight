@@ -14,6 +14,7 @@ using RedLight.UI.ImGui;
 using RedLight.Utils;
 using Camera = RedLight.Graphics.Camera;
 using Plane = RedLight.Entities.Plane;
+using Rectangle = System.Drawing.Rectangle;
 
 namespace ExampleGame;
 
@@ -41,6 +42,8 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     private LightingCube sunLight;
     private CubeMap skybox;
     private Font font;
+    private Rectangle rect;
+    
     public override void OnLoad()
     {
         Graphics.Enable();

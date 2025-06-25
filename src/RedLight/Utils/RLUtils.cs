@@ -96,4 +96,11 @@ public static class RLUtils
 
         return new Vector3(x, y, z);
     }
+    
+    internal enum VectorRotationAxis
+    {
+        X,
+        Y,
+        Z
+    }
 }
