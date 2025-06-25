@@ -1,6 +1,7 @@
 using RedLight.Graphics;
 using RedLight.Input;
 using RedLight.Physics;
+using RedLight.UI;
 using RedLight.Utils;
 using Serilog;
 using ShaderType = RedLight.Graphics.ShaderType;
@@ -165,6 +166,13 @@ public class SceneManager
             currentScene.PhysicsSystem = new PhysicsSystem();
             Log.Debug("Physics system created and assigned to scene: {IsNull}", currentScene.PhysicsSystem == null);
         }
+        
+        if (currentScene.TextManager == null)
+        {
+            Log.Debug("Creating new Text Manager for scene");
+            currentScene.TextManager = TextManager.Instance;
+            Log.Debug("Text manager created and assigned to scene: {IsNull}", currentScene.TextManager == null);
+        }
 
         // default no texture path
         currentScene.TextureManager.TryAdd(
@@ -198,6 +206,11 @@ public class SceneManager
             new RLShader(currentScene.Graphics, ShaderType.Vertex, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.light_cube.vert")),
             new RLShader(currentScene.Graphics, ShaderType.Fragment, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.light_cube.frag")));
 
+        // text rendering
+        currentScene.ShaderManager.TryAdd("text",
+            new RLShader(currentScene.Graphics, ShaderType.Vertex, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.text.vert")),
+            new RLShader(currentScene.Graphics, ShaderType.Fragment, RLFiles.GetResourceAsString("RedLight.Resources.Shaders.text.frag")));
+        
         Log.Debug("Subscribing to keyboard events");
         input.SubscribeToInputs(currentKeyboard, currentMouse);
 

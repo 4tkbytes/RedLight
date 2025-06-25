@@ -52,6 +52,7 @@
         <Content Include="Resources\Shaders\**\*" CopyToOutputDirectory="Always" />
         <Content Include="Resources\Textures\**\*" CopyToOutputDirectory="Always" />
         <Content Include="Resources\Models\**\*" CopyToOutputDirectory="Always" />
+        <Content Include="Resources\Fonts\**\*" CopyToOutputDirectory="Always" />
     </ItemGroup>
 
     <ItemGroup>

@@ -27,6 +27,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     public HashSet<Key> PressedKeys { get; set; } = new();
     public override PhysicsSystem PhysicsSystem { get; set; }
     public override LightManager LightManager { get; set; }
+    public override TextManager TextManager { get; set; }
 
     private Player player;
     private Plane plane;
@@ -38,7 +39,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     private LightingCube flashLight;
     private LightingCube sunLight;
     private CubeMap skybox;
-
+    private Font font;
     public override void OnLoad()
     {
         Graphics.Enable();
@@ -51,8 +52,9 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         CreatePlayer();
         var cube = CreateCube();
         CreateLight();
-
         CreateSkybox();
+        
+        InitText();
 
         AddToLists(plane);
         AddToLists(player);
@@ -108,6 +110,13 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
                 model.DrawBoundingBox(activeCamera);
             }
         }
+        
+        TextManager.RenderText(Graphics,
+            $"FPS: {Engine.Window.FramesPerSecond}",
+            new Vector2(20, 20),
+            1.0f,
+            Color.White
+            );
 
         AfterEditorRender(_editor);
     }
@@ -267,6 +276,21 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     private void CreateSkybox()
     {
         skybox = CubeMap.CreateDefault(Graphics);
+    }
+
+    private void InitText()
+    {
+        // init textmanager if not already initialised
+        TextManager = TextManager.Instance;
+        
+        // set font config
+        var fontConfig = new FontConfig(0, 24);
+        
+        // add in the font file
+        font = new Font("RedLight.Resources.Fonts.arial.ttf", fontConfig);
+        
+        // add to text manager
+        TextManager.AddFont("arial", font);
     }
     #endregion
 }

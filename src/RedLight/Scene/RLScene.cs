@@ -19,6 +19,7 @@ public abstract class RLScene
     public abstract InputManager InputManager { get; set; }
     public abstract PhysicsSystem PhysicsSystem { get; set; }
     public abstract LightManager LightManager { get; set; }
+    public abstract TextManager TextManager { get; set; }
 
 
     public List<Entity> ObjectModels = new();
