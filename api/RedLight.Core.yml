@@ -1,0 +1,46 @@
+### YamlMime:ManagedReference
+items:
+- uid: RedLight.Core
+  commentId: N:RedLight.Core
+  id: RedLight.Core
+  children:
+  - RedLight.Core.RLWindow
+  langs:
+  - csharp
+  - vb
+  name: RedLight.Core
+  nameWithType: RedLight.Core
+  fullName: RedLight.Core
+  type: Namespace
+  assemblies:
+  - RedLight
+references:
+- uid: RedLight.Core.RLWindow
+  commentId: T:RedLight.Core.RLWindow
+  parent: RedLight.Core
+  href: RedLight.Core.RLWindow.html
+  name: RLWindow
+  nameWithType: RLWindow
+  fullName: RedLight.Core.RLWindow
+- uid: RedLight.Core
+  commentId: N:RedLight.Core
+  href: RedLight.html
+  name: RedLight.Core
+  nameWithType: RedLight.Core
+  fullName: RedLight.Core
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Core
+    name: Core
+    href: RedLight.Core.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Core
+    name: Core
+    href: RedLight.Core.html

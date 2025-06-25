@@ -1,0 +1,705 @@
+### YamlMime:ManagedReference
+items:
+- uid: RedLight.Graphics.RLTexture
+  commentId: T:RedLight.Graphics.RLTexture
+  id: RLTexture
+  parent: RedLight.Graphics
+  children:
+  - RedLight.Graphics.RLTexture.#ctor(RedLight.Graphics.RLGraphics,Silk.NET.Assimp.Texel*,System.Int32,System.Int32,RedLight.Graphics.RLTextureType)
+  - RedLight.Graphics.RLTexture.#ctor(RedLight.Graphics.RLGraphics,Silk.NET.Assimp.Texture*,RedLight.Graphics.RLTextureType)
+  - RedLight.Graphics.RLTexture.#ctor(RedLight.Graphics.RLGraphics,System.String,RedLight.Graphics.RLTextureType)
+  - RedLight.Graphics.RLTexture.#ctor(System.String,RedLight.Graphics.RLTextureType)
+  - RedLight.Graphics.RLTexture.Handle
+  - RedLight.Graphics.RLTexture.Name
+  - RedLight.Graphics.RLTexture.Path
+  - RedLight.Graphics.RLTexture.Type
+  langs:
+  - csharp
+  - vb
+  name: RLTexture
+  nameWithType: RLTexture
+  fullName: RedLight.Graphics.RLTexture
+  type: Class
+  source:
+    remote:
+      path: src/RedLight/Graphics/RLTexture.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: RLTexture
+    path: src/RedLight/Graphics/RLTexture.cs
+    startLine: 11
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public class RLTexture
+    content.vb: Public Class RLTexture
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: RedLight.Graphics.RLTexture.Handle
+  commentId: P:RedLight.Graphics.RLTexture.Handle
+  id: Handle
+  parent: RedLight.Graphics.RLTexture
+  langs:
+  - csharp
+  - vb
+  name: Handle
+  nameWithType: RLTexture.Handle
+  fullName: RedLight.Graphics.RLTexture.Handle
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Graphics/RLTexture.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Handle
+    path: src/RedLight/Graphics/RLTexture.cs
+    startLine: 16
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public uint Handle { get; set; }
+    parameters: []
+    return:
+      type: System.UInt32
+    content.vb: Public Property Handle As UInteger
+  overload: RedLight.Graphics.RLTexture.Handle*
+- uid: RedLight.Graphics.RLTexture.Path
+  commentId: P:RedLight.Graphics.RLTexture.Path
+  id: Path
+  parent: RedLight.Graphics.RLTexture
+  langs:
+  - csharp
+  - vb
+  name: Path
+  nameWithType: RLTexture.Path
+  fullName: RedLight.Graphics.RLTexture.Path
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Graphics/RLTexture.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Path
+    path: src/RedLight/Graphics/RLTexture.cs
+    startLine: 17
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public string Path { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Path As String
+  overload: RedLight.Graphics.RLTexture.Path*
+- uid: RedLight.Graphics.RLTexture.Type
+  commentId: P:RedLight.Graphics.RLTexture.Type
+  id: Type
+  parent: RedLight.Graphics.RLTexture
+  langs:
+  - csharp
+  - vb
+  name: Type
+  nameWithType: RLTexture.Type
+  fullName: RedLight.Graphics.RLTexture.Type
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Graphics/RLTexture.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Type
+    path: src/RedLight/Graphics/RLTexture.cs
+    startLine: 18
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public RLTextureType Type { get; set; }
+    parameters: []
+    return:
+      type: RedLight.Graphics.RLTextureType
+    content.vb: Public Property Type As RLTextureType
+  overload: RedLight.Graphics.RLTexture.Type*
+- uid: RedLight.Graphics.RLTexture.Name
+  commentId: P:RedLight.Graphics.RLTexture.Name
+  id: Name
+  parent: RedLight.Graphics.RLTexture
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: RLTexture.Name
+  fullName: RedLight.Graphics.RLTexture.Name
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Graphics/RLTexture.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Name
+    path: src/RedLight/Graphics/RLTexture.cs
+    startLine: 19
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public string Name { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Name As String
+  overload: RedLight.Graphics.RLTexture.Name*
+- uid: RedLight.Graphics.RLTexture.#ctor(System.String,RedLight.Graphics.RLTextureType)
+  commentId: M:RedLight.Graphics.RLTexture.#ctor(System.String,RedLight.Graphics.RLTextureType)
+  id: '#ctor(System.String,RedLight.Graphics.RLTextureType)'
+  parent: RedLight.Graphics.RLTexture
+  langs:
+  - csharp
+  - vb
+  name: RLTexture(string, RLTextureType)
+  nameWithType: RLTexture.RLTexture(string, RLTextureType)
+  fullName: RedLight.Graphics.RLTexture.RLTexture(string, RedLight.Graphics.RLTextureType)
+  type: Constructor
+  source:
+    remote:
+      path: src/RedLight/Graphics/RLTexture.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: .ctor
+    path: src/RedLight/Graphics/RLTexture.cs
+    startLine: 27
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  summary: >-
+    Improved version of the RLTexture constructor, with fewer parameters. Other one still works if you wish to use
+
+    it still.
+  example: []
+  syntax:
+    content: public RLTexture(string resourceName, RLTextureType type = RLTextureType.Diffuse)
+    parameters:
+    - id: resourceName
+      type: System.String
+      description: Something like "RedLight.Resources.Textures.no-texture.png"
+    - id: type
+      type: RedLight.Graphics.RLTextureType
+      description: ''
+    content.vb: Public Sub New(resourceName As String, type As RLTextureType = RLTextureType.Diffuse)
+  overload: RedLight.Graphics.RLTexture.#ctor*
+  nameWithType.vb: RLTexture.New(String, RLTextureType)
+  fullName.vb: RedLight.Graphics.RLTexture.New(String, RedLight.Graphics.RLTextureType)
+  name.vb: New(String, RLTextureType)
+- uid: RedLight.Graphics.RLTexture.#ctor(RedLight.Graphics.RLGraphics,System.String,RedLight.Graphics.RLTextureType)
+  commentId: M:RedLight.Graphics.RLTexture.#ctor(RedLight.Graphics.RLGraphics,System.String,RedLight.Graphics.RLTextureType)
+  id: '#ctor(RedLight.Graphics.RLGraphics,System.String,RedLight.Graphics.RLTextureType)'
+  parent: RedLight.Graphics.RLTexture
+  langs:
+  - csharp
+  - vb
+  name: RLTexture(RLGraphics, string, RLTextureType)
+  nameWithType: RLTexture.RLTexture(RLGraphics, string, RLTextureType)
+  fullName: RedLight.Graphics.RLTexture.RLTexture(RedLight.Graphics.RLGraphics, string, RedLight.Graphics.RLTextureType)
+  type: Constructor
+  source:
+    remote:
+      path: src/RedLight/Graphics/RLTexture.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: .ctor
+    path: src/RedLight/Graphics/RLTexture.cs
+    startLine: 37
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  summary: >-
+    This creates a new texture from the image provided. Its default type is the RLTextureType.Diffuse however
+
+    you are able to change it to your liking.
+  example: []
+  syntax:
+    content: public RLTexture(RLGraphics graphics, string directory, RLTextureType type = RLTextureType.Diffuse)
+    parameters:
+    - id: graphics
+      type: RedLight.Graphics.RLGraphics
+      description: ''
+    - id: directory
+      type: System.String
+      description: Something like RLFiles.GetResourcePath("RedLight.Resources.Textures.no-texture.png")
+    - id: type
+      type: RedLight.Graphics.RLTextureType
+      description: ''
+    content.vb: Public Sub New(graphics As RLGraphics, directory As String, type As RLTextureType = RLTextureType.Diffuse)
+  overload: RedLight.Graphics.RLTexture.#ctor*
+  nameWithType.vb: RLTexture.New(RLGraphics, String, RLTextureType)
+  fullName.vb: RedLight.Graphics.RLTexture.New(RedLight.Graphics.RLGraphics, String, RedLight.Graphics.RLTextureType)
+  name.vb: New(RLGraphics, String, RLTextureType)
+- uid: RedLight.Graphics.RLTexture.#ctor(RedLight.Graphics.RLGraphics,Silk.NET.Assimp.Texel*,System.Int32,System.Int32,RedLight.Graphics.RLTextureType)
+  commentId: M:RedLight.Graphics.RLTexture.#ctor(RedLight.Graphics.RLGraphics,Silk.NET.Assimp.Texel*,System.Int32,System.Int32,RedLight.Graphics.RLTextureType)
+  id: '#ctor(RedLight.Graphics.RLGraphics,Silk.NET.Assimp.Texel*,System.Int32,System.Int32,RedLight.Graphics.RLTextureType)'
+  parent: RedLight.Graphics.RLTexture
+  langs:
+  - csharp
+  - vb
+  name: RLTexture(RLGraphics, Texel*, int, int, RLTextureType)
+  nameWithType: RLTexture.RLTexture(RLGraphics, Texel*, int, int, RLTextureType)
+  fullName: RedLight.Graphics.RLTexture.RLTexture(RedLight.Graphics.RLGraphics, Silk.NET.Assimp.Texel*, int, int, RedLight.Graphics.RLTextureType)
+  type: Constructor
+  source:
+    remote:
+      path: src/RedLight/Graphics/RLTexture.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: .ctor
+    path: src/RedLight/Graphics/RLTexture.cs
+    startLine: 101
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  summary: Creates a texture from Assimp's embedded texture data
+  example: []
+  syntax:
+    content: public RLTexture(RLGraphics graphics, Texel* texelData, int width, int height, RLTextureType type = RLTextureType.Diffuse)
+    parameters:
+    - id: graphics
+      type: RedLight.Graphics.RLGraphics
+      description: Graphics context
+    - id: texelData
+      type: Silk.NET.Assimp.Texel*
+      description: Pointer to Assimp's Texel data
+    - id: width
+      type: System.Int32
+      description: Texture width
+    - id: height
+      type: System.Int32
+      description: Texture height
+    - id: type
+      type: RedLight.Graphics.RLTextureType
+      description: Texture type
+    content.vb: Public Sub New(graphics As RLGraphics, texelData As Texel*, width As Integer, height As Integer, type As RLTextureType = RLTextureType.Diffuse)
+  overload: RedLight.Graphics.RLTexture.#ctor*
+  nameWithType.vb: RLTexture.New(RLGraphics, Texel*, Integer, Integer, RLTextureType)
+  fullName.vb: RedLight.Graphics.RLTexture.New(RedLight.Graphics.RLGraphics, Silk.NET.Assimp.Texel*, Integer, Integer, RedLight.Graphics.RLTextureType)
+  name.vb: New(RLGraphics, Texel*, Integer, Integer, RLTextureType)
+- uid: RedLight.Graphics.RLTexture.#ctor(RedLight.Graphics.RLGraphics,Silk.NET.Assimp.Texture*,RedLight.Graphics.RLTextureType)
+  commentId: M:RedLight.Graphics.RLTexture.#ctor(RedLight.Graphics.RLGraphics,Silk.NET.Assimp.Texture*,RedLight.Graphics.RLTextureType)
+  id: '#ctor(RedLight.Graphics.RLGraphics,Silk.NET.Assimp.Texture*,RedLight.Graphics.RLTextureType)'
+  parent: RedLight.Graphics.RLTexture
+  langs:
+  - csharp
+  - vb
+  name: RLTexture(RLGraphics, Texture*, RLTextureType)
+  nameWithType: RLTexture.RLTexture(RLGraphics, Texture*, RLTextureType)
+  fullName: RedLight.Graphics.RLTexture.RLTexture(RedLight.Graphics.RLGraphics, Silk.NET.Assimp.Texture*, RedLight.Graphics.RLTextureType)
+  type: Constructor
+  source:
+    remote:
+      path: src/RedLight/Graphics/RLTexture.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: .ctor
+    path: src/RedLight/Graphics/RLTexture.cs
+    startLine: 149
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  summary: Creates a texture from Assimp's embedded texture data
+  example: []
+  syntax:
+    content: public RLTexture(RLGraphics graphics, Texture* embTexture, RLTextureType type = RLTextureType.Diffuse)
+    parameters:
+    - id: graphics
+      type: RedLight.Graphics.RLGraphics
+      description: Graphics context
+    - id: embTexture
+      type: Silk.NET.Assimp.Texture*
+      description: Pointer to Assimp's embedded texture
+    - id: type
+      type: RedLight.Graphics.RLTextureType
+      description: Texture type
+    content.vb: Public Sub New(graphics As RLGraphics, embTexture As Texture*, type As RLTextureType = RLTextureType.Diffuse)
+  overload: RedLight.Graphics.RLTexture.#ctor*
+  nameWithType.vb: RLTexture.New(RLGraphics, Texture*, RLTextureType)
+  fullName.vb: RedLight.Graphics.RLTexture.New(RedLight.Graphics.RLGraphics, Silk.NET.Assimp.Texture*, RedLight.Graphics.RLTextureType)
+  name.vb: New(RLGraphics, Texture*, RLTextureType)
+references:
+- uid: RedLight.Graphics
+  commentId: N:RedLight.Graphics
+  href: RedLight.html
+  name: RedLight.Graphics
+  nameWithType: RedLight.Graphics
+  fullName: RedLight.Graphics
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Graphics
+    name: Graphics
+    href: RedLight.Graphics.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Graphics
+    name: Graphics
+    href: RedLight.Graphics.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: RedLight.Graphics.RLTexture.Handle*
+  commentId: Overload:RedLight.Graphics.RLTexture.Handle
+  href: RedLight.Graphics.RLTexture.html#RedLight_Graphics_RLTexture_Handle
+  name: Handle
+  nameWithType: RLTexture.Handle
+  fullName: RedLight.Graphics.RLTexture.Handle
+- uid: System.UInt32
+  commentId: T:System.UInt32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint32
+  name: uint
+  nameWithType: uint
+  fullName: uint
+  nameWithType.vb: UInteger
+  fullName.vb: UInteger
+  name.vb: UInteger
+- uid: RedLight.Graphics.RLTexture.Path*
+  commentId: Overload:RedLight.Graphics.RLTexture.Path
+  href: RedLight.Graphics.RLTexture.html#RedLight_Graphics_RLTexture_Path
+  name: Path
+  nameWithType: RLTexture.Path
+  fullName: RedLight.Graphics.RLTexture.Path
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: RedLight.Graphics.RLTexture.Type*
+  commentId: Overload:RedLight.Graphics.RLTexture.Type
+  href: RedLight.Graphics.RLTexture.html#RedLight_Graphics_RLTexture_Type
+  name: Type
+  nameWithType: RLTexture.Type
+  fullName: RedLight.Graphics.RLTexture.Type
+- uid: RedLight.Graphics.RLTextureType
+  commentId: T:RedLight.Graphics.RLTextureType
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.RLTextureType.html
+  name: RLTextureType
+  nameWithType: RLTextureType
+  fullName: RedLight.Graphics.RLTextureType
+- uid: RedLight.Graphics.RLTexture.Name*
+  commentId: Overload:RedLight.Graphics.RLTexture.Name
+  href: RedLight.Graphics.RLTexture.html#RedLight_Graphics_RLTexture_Name
+  name: Name
+  nameWithType: RLTexture.Name
+  fullName: RedLight.Graphics.RLTexture.Name
+- uid: RedLight.Graphics.RLTexture.#ctor*
+  commentId: Overload:RedLight.Graphics.RLTexture.#ctor
+  href: RedLight.Graphics.RLTexture.html#RedLight_Graphics_RLTexture__ctor_System_String_RedLight_Graphics_RLTextureType_
+  name: RLTexture
+  nameWithType: RLTexture.RLTexture
+  fullName: RedLight.Graphics.RLTexture.RLTexture
+  nameWithType.vb: RLTexture.New
+  fullName.vb: RedLight.Graphics.RLTexture.New
+  name.vb: New
+- uid: RedLight.Graphics.RLGraphics
+  commentId: T:RedLight.Graphics.RLGraphics
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.RLGraphics.html
+  name: RLGraphics
+  nameWithType: RLGraphics
+  fullName: RedLight.Graphics.RLGraphics
+- uid: Silk.NET.Assimp.Texel*
+  isExternal: true
+  name: Texel*
+  nameWithType: Texel*
+  fullName: Silk.NET.Assimp.Texel*
+  spec.csharp:
+  - uid: Silk.NET.Assimp.Texel
+    name: Texel
+    isExternal: true
+  - name: '*'
+  spec.vb:
+  - uid: Silk.NET.Assimp.Texel
+    name: Texel
+    isExternal: true
+  - name: '*'
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Silk.NET.Assimp.Texture*
+  isExternal: true
+  name: Texture*
+  nameWithType: Texture*
+  fullName: Silk.NET.Assimp.Texture*
+  spec.csharp:
+  - uid: Silk.NET.Assimp.Texture
+    name: Texture
+    isExternal: true
+  - name: '*'
+  spec.vb:
+  - uid: Silk.NET.Assimp.Texture
+    name: Texture
+    isExternal: true
+  - name: '*'

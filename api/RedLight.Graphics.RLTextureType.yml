@@ -1,0 +1,222 @@
+### YamlMime:ManagedReference
+items:
+- uid: RedLight.Graphics.RLTextureType
+  commentId: T:RedLight.Graphics.RLTextureType
+  id: RLTextureType
+  parent: RedLight.Graphics
+  children:
+  - RedLight.Graphics.RLTextureType.Diffuse
+  - RedLight.Graphics.RLTextureType.Height
+  - RedLight.Graphics.RLTextureType.Metallic
+  - RedLight.Graphics.RLTextureType.Normal
+  - RedLight.Graphics.RLTextureType.Roughness
+  - RedLight.Graphics.RLTextureType.Specular
+  langs:
+  - csharp
+  - vb
+  name: RLTextureType
+  nameWithType: RLTextureType
+  fullName: RedLight.Graphics.RLTextureType
+  type: Enum
+  source:
+    remote:
+      path: src/RedLight/Graphics/RLTexture.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: RLTextureType
+    path: src/RedLight/Graphics/RLTexture.cs
+    startLine: 251
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  summary: This is just the different Texture Types you can use.
+  example: []
+  syntax:
+    content: public enum RLTextureType
+    content.vb: Public Enum RLTextureType
+- uid: RedLight.Graphics.RLTextureType.Diffuse
+  commentId: F:RedLight.Graphics.RLTextureType.Diffuse
+  id: Diffuse
+  parent: RedLight.Graphics.RLTextureType
+  langs:
+  - csharp
+  - vb
+  name: Diffuse
+  nameWithType: RLTextureType.Diffuse
+  fullName: RedLight.Graphics.RLTextureType.Diffuse
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Graphics/RLTexture.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Diffuse
+    path: src/RedLight/Graphics/RLTexture.cs
+    startLine: 253
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: Diffuse = 0
+    return:
+      type: RedLight.Graphics.RLTextureType
+- uid: RedLight.Graphics.RLTextureType.Specular
+  commentId: F:RedLight.Graphics.RLTextureType.Specular
+  id: Specular
+  parent: RedLight.Graphics.RLTextureType
+  langs:
+  - csharp
+  - vb
+  name: Specular
+  nameWithType: RLTextureType.Specular
+  fullName: RedLight.Graphics.RLTextureType.Specular
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Graphics/RLTexture.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Specular
+    path: src/RedLight/Graphics/RLTexture.cs
+    startLine: 254
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: Specular = 1
+    return:
+      type: RedLight.Graphics.RLTextureType
+- uid: RedLight.Graphics.RLTextureType.Normal
+  commentId: F:RedLight.Graphics.RLTextureType.Normal
+  id: Normal
+  parent: RedLight.Graphics.RLTextureType
+  langs:
+  - csharp
+  - vb
+  name: Normal
+  nameWithType: RLTextureType.Normal
+  fullName: RedLight.Graphics.RLTextureType.Normal
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Graphics/RLTexture.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Normal
+    path: src/RedLight/Graphics/RLTexture.cs
+    startLine: 255
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: Normal = 2
+    return:
+      type: RedLight.Graphics.RLTextureType
+- uid: RedLight.Graphics.RLTextureType.Height
+  commentId: F:RedLight.Graphics.RLTextureType.Height
+  id: Height
+  parent: RedLight.Graphics.RLTextureType
+  langs:
+  - csharp
+  - vb
+  name: Height
+  nameWithType: RLTextureType.Height
+  fullName: RedLight.Graphics.RLTextureType.Height
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Graphics/RLTexture.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Height
+    path: src/RedLight/Graphics/RLTexture.cs
+    startLine: 256
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: Height = 3
+    return:
+      type: RedLight.Graphics.RLTextureType
+- uid: RedLight.Graphics.RLTextureType.Metallic
+  commentId: F:RedLight.Graphics.RLTextureType.Metallic
+  id: Metallic
+  parent: RedLight.Graphics.RLTextureType
+  langs:
+  - csharp
+  - vb
+  name: Metallic
+  nameWithType: RLTextureType.Metallic
+  fullName: RedLight.Graphics.RLTextureType.Metallic
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Graphics/RLTexture.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Metallic
+    path: src/RedLight/Graphics/RLTexture.cs
+    startLine: 257
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: Metallic = 4
+    return:
+      type: RedLight.Graphics.RLTextureType
+- uid: RedLight.Graphics.RLTextureType.Roughness
+  commentId: F:RedLight.Graphics.RLTextureType.Roughness
+  id: Roughness
+  parent: RedLight.Graphics.RLTextureType
+  langs:
+  - csharp
+  - vb
+  name: Roughness
+  nameWithType: RLTextureType.Roughness
+  fullName: RedLight.Graphics.RLTextureType.Roughness
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Graphics/RLTexture.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Roughness
+    path: src/RedLight/Graphics/RLTexture.cs
+    startLine: 258
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: Roughness = 5
+    return:
+      type: RedLight.Graphics.RLTextureType
+references:
+- uid: RedLight.Graphics
+  commentId: N:RedLight.Graphics
+  href: RedLight.html
+  name: RedLight.Graphics
+  nameWithType: RedLight.Graphics
+  fullName: RedLight.Graphics
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Graphics
+    name: Graphics
+    href: RedLight.Graphics.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Graphics
+    name: Graphics
+    href: RedLight.Graphics.html
+- uid: RedLight.Graphics.RLTextureType
+  commentId: T:RedLight.Graphics.RLTextureType
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.RLTextureType.html
+  name: RLTextureType
+  nameWithType: RLTextureType
+  fullName: RedLight.Graphics.RLTextureType

@@ -1,0 +1,2970 @@
+### YamlMime:ManagedReference
+items:
+- uid: RedLight.Entities.Entity
+  commentId: T:RedLight.Entities.Entity
+  id: Entity
+  parent: RedLight.Entities
+  children:
+  - RedLight.Entities.Entity.#ctor(RedLight.Graphics.RLModel,RedLight.Graphics.ModelType,System.Boolean)
+  - RedLight.Entities.Entity.AbsoluteReset
+  - RedLight.Entities.Entity.ApplyGravity
+  - RedLight.Entities.Entity.ApplyHitboxConfig
+  - RedLight.Entities.Entity.BoundingBoxMax
+  - RedLight.Entities.Entity.BoundingBoxMin
+  - RedLight.Entities.Entity.DefaultBoundingBoxMax
+  - RedLight.Entities.Entity.DefaultBoundingBoxMin
+  - RedLight.Entities.Entity.DefaultRotation
+  - RedLight.Entities.Entity.DisableImGuizmo
+  - RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.Camera)
+  - RedLight.Entities.Entity.EnableImGuizmo(Hexa.NET.ImGuizmo.ImGuizmoOperation,Hexa.NET.ImGuizmo.ImGuizmoMode)
+  - RedLight.Entities.Entity.EnablePhysics
+  - RedLight.Entities.Entity.EnableReflection
+  - RedLight.Entities.Entity.EnableRefraction
+  - RedLight.Entities.Entity.FrictionCoefficient
+  - RedLight.Entities.Entity.GuizmoMode
+  - RedLight.Entities.Entity.GuizmoOperation
+  - RedLight.Entities.Entity.HideHitbox
+  - RedLight.Entities.Entity.HitboxConfig
+  - RedLight.Entities.Entity.IsColliding
+  - RedLight.Entities.Entity.IsDefaultSet
+  - RedLight.Entities.Entity.IsHitboxShown
+  - RedLight.Entities.Entity.Mass
+  - RedLight.Entities.Entity.Model
+  - RedLight.Entities.Entity.ModelMatrix
+  - RedLight.Entities.Entity.ModelType
+  - RedLight.Entities.Entity.Name
+  - RedLight.Entities.Entity.ObjectCollisionSides
+  - RedLight.Entities.Entity.PhysicsSystem
+  - RedLight.Entities.Entity.Position
+  - RedLight.Entities.Entity.Reflectivity
+  - RedLight.Entities.Entity.RefractiveIndex
+  - RedLight.Entities.Entity.Reset(System.Boolean)
+  - RedLight.Entities.Entity.Rotate(System.Single,System.Numerics.Vector3)
+  - RedLight.Entities.Entity.Rotation
+  - RedLight.Entities.Entity.RotationDegrees
+  - RedLight.Entities.Entity.Scale
+  - RedLight.Entities.Entity.SetDefault
+  - RedLight.Entities.Entity.SetDefault(System.Boolean,System.Boolean,System.Boolean)
+  - RedLight.Entities.Entity.SetHitboxConfig(RedLight.Entities.HitboxConfig)
+  - RedLight.Entities.Entity.SetModel(System.Numerics.Matrix4x4)
+  - RedLight.Entities.Entity.SetPosition(System.Numerics.Vector3)
+  - RedLight.Entities.Entity.SetReflection(System.Boolean,System.Single)
+  - RedLight.Entities.Entity.SetRefraction(System.Boolean,System.Single)
+  - RedLight.Entities.Entity.SetRotation(System.Numerics.Vector3)
+  - RedLight.Entities.Entity.SetRotationDegrees(System.Numerics.Vector3)
+  - RedLight.Entities.Entity.SetRotationX(System.Single)
+  - RedLight.Entities.Entity.SetRotationY(System.Single)
+  - RedLight.Entities.Entity.SetRotationZ(System.Single)
+  - RedLight.Entities.Entity.SetScale(System.Numerics.Vector3)
+  - RedLight.Entities.Entity.SetScaleX(System.Single)
+  - RedLight.Entities.Entity.SetScaleY(System.Single)
+  - RedLight.Entities.Entity.SetScaleZ(System.Single)
+  - RedLight.Entities.Entity.SetUniformScale(System.Single)
+  - RedLight.Entities.Entity.ShowHitbox
+  - RedLight.Entities.Entity.ToggleHitbox
+  - RedLight.Entities.Entity.Translate(System.Numerics.Vector3)
+  - RedLight.Entities.Entity.UseImGuizmo
+  - RedLight.Entities.Entity.Velocity
+  - RedLight.Entities.Entity._positionDefault
+  - RedLight.Entities.Entity._rotationDefault
+  - RedLight.Entities.Entity._scaleDefault
+  langs:
+  - csharp
+  - vb
+  name: Entity
+  nameWithType: Entity
+  fullName: RedLight.Entities.Entity
+  type: Class
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Entity
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 16
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  summary: >-
+    Base class for all entities in the game world.
+
+    Provides physics, collision detection, and transformation capabilities.
+  example: []
+  syntax:
+    content: public abstract class Entity
+    content.vb: Public MustInherit Class Entity
+  inheritance:
+  - System.Object
+  derivedClasses:
+  - RedLight.Entities.Player
+  - RedLight.Entities.SimpleShape
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: RedLight.Entities.Entity._positionDefault
+  commentId: F:RedLight.Entities.Entity._positionDefault
+  id: _positionDefault
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: _positionDefault
+  nameWithType: Entity._positionDefault
+  fullName: RedLight.Entities.Entity._positionDefault
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: _positionDefault
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 24
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: protected Vector3 _positionDefault
+    return:
+      type: System.Numerics.Vector3
+    content.vb: Protected _positionDefault As Vector3
+- uid: RedLight.Entities.Entity._rotationDefault
+  commentId: F:RedLight.Entities.Entity._rotationDefault
+  id: _rotationDefault
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: _rotationDefault
+  nameWithType: Entity._rotationDefault
+  fullName: RedLight.Entities.Entity._rotationDefault
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: _rotationDefault
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 25
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: protected Vector3 _rotationDefault
+    return:
+      type: System.Numerics.Vector3
+    content.vb: Protected _rotationDefault As Vector3
+- uid: RedLight.Entities.Entity._scaleDefault
+  commentId: F:RedLight.Entities.Entity._scaleDefault
+  id: _scaleDefault
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: _scaleDefault
+  nameWithType: Entity._scaleDefault
+  fullName: RedLight.Entities.Entity._scaleDefault
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: _scaleDefault
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 26
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: protected Vector3 _scaleDefault
+    return:
+      type: System.Numerics.Vector3
+    content.vb: Protected _scaleDefault As Vector3
+- uid: RedLight.Entities.Entity.Velocity
+  commentId: P:RedLight.Entities.Entity.Velocity
+  id: Velocity
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: Velocity
+  nameWithType: Entity.Velocity
+  fullName: RedLight.Entities.Entity.Velocity
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Velocity
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 28
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: public Vector3 Velocity { get; set; }
+    parameters: []
+    return:
+      type: System.Numerics.Vector3
+    content.vb: Public Property Velocity As Vector3
+  overload: RedLight.Entities.Entity.Velocity*
+- uid: RedLight.Entities.Entity.ApplyGravity
+  commentId: P:RedLight.Entities.Entity.ApplyGravity
+  id: ApplyGravity
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: ApplyGravity
+  nameWithType: Entity.ApplyGravity
+  fullName: RedLight.Entities.Entity.ApplyGravity
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: ApplyGravity
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 29
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: public bool ApplyGravity { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ApplyGravity As Boolean
+  overload: RedLight.Entities.Entity.ApplyGravity*
+- uid: RedLight.Entities.Entity.EnablePhysics
+  commentId: P:RedLight.Entities.Entity.EnablePhysics
+  id: EnablePhysics
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: EnablePhysics
+  nameWithType: Entity.EnablePhysics
+  fullName: RedLight.Entities.Entity.EnablePhysics
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: EnablePhysics
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 30
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: public bool EnablePhysics { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property EnablePhysics As Boolean
+  overload: RedLight.Entities.Entity.EnablePhysics*
+- uid: RedLight.Entities.Entity.Mass
+  commentId: P:RedLight.Entities.Entity.Mass
+  id: Mass
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: Mass
+  nameWithType: Entity.Mass
+  fullName: RedLight.Entities.Entity.Mass
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Mass
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 31
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: public float Mass { get; set; }
+    parameters: []
+    return:
+      type: System.Single
+    content.vb: Public Property Mass As Single
+  overload: RedLight.Entities.Entity.Mass*
+- uid: RedLight.Entities.Entity.FrictionCoefficient
+  commentId: P:RedLight.Entities.Entity.FrictionCoefficient
+  id: FrictionCoefficient
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: FrictionCoefficient
+  nameWithType: Entity.FrictionCoefficient
+  fullName: RedLight.Entities.Entity.FrictionCoefficient
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: FrictionCoefficient
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 32
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: public float FrictionCoefficient { get; set; }
+    parameters: []
+    return:
+      type: System.Single
+    content.vb: Public Property FrictionCoefficient As Single
+  overload: RedLight.Entities.Entity.FrictionCoefficient*
+- uid: RedLight.Entities.Entity.BoundingBoxMin
+  commentId: P:RedLight.Entities.Entity.BoundingBoxMin
+  id: BoundingBoxMin
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: BoundingBoxMin
+  nameWithType: Entity.BoundingBoxMin
+  fullName: RedLight.Entities.Entity.BoundingBoxMin
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: BoundingBoxMin
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 34
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: public Vector3 BoundingBoxMin { get; set; }
+    parameters: []
+    return:
+      type: System.Numerics.Vector3
+    content.vb: Public Property BoundingBoxMin As Vector3
+  overload: RedLight.Entities.Entity.BoundingBoxMin*
+- uid: RedLight.Entities.Entity.BoundingBoxMax
+  commentId: P:RedLight.Entities.Entity.BoundingBoxMax
+  id: BoundingBoxMax
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: BoundingBoxMax
+  nameWithType: Entity.BoundingBoxMax
+  fullName: RedLight.Entities.Entity.BoundingBoxMax
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: BoundingBoxMax
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 35
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: public Vector3 BoundingBoxMax { get; set; }
+    parameters: []
+    return:
+      type: System.Numerics.Vector3
+    content.vb: Public Property BoundingBoxMax As Vector3
+  overload: RedLight.Entities.Entity.BoundingBoxMax*
+- uid: RedLight.Entities.Entity.DefaultBoundingBoxMin
+  commentId: P:RedLight.Entities.Entity.DefaultBoundingBoxMin
+  id: DefaultBoundingBoxMin
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: DefaultBoundingBoxMin
+  nameWithType: Entity.DefaultBoundingBoxMin
+  fullName: RedLight.Entities.Entity.DefaultBoundingBoxMin
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: DefaultBoundingBoxMin
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 36
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: public Vector3 DefaultBoundingBoxMin { get; set; }
+    parameters: []
+    return:
+      type: System.Numerics.Vector3
+    content.vb: Public Property DefaultBoundingBoxMin As Vector3
+  overload: RedLight.Entities.Entity.DefaultBoundingBoxMin*
+- uid: RedLight.Entities.Entity.DefaultBoundingBoxMax
+  commentId: P:RedLight.Entities.Entity.DefaultBoundingBoxMax
+  id: DefaultBoundingBoxMax
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: DefaultBoundingBoxMax
+  nameWithType: Entity.DefaultBoundingBoxMax
+  fullName: RedLight.Entities.Entity.DefaultBoundingBoxMax
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: DefaultBoundingBoxMax
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 37
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: public Vector3 DefaultBoundingBoxMax { get; set; }
+    parameters: []
+    return:
+      type: System.Numerics.Vector3
+    content.vb: Public Property DefaultBoundingBoxMax As Vector3
+  overload: RedLight.Entities.Entity.DefaultBoundingBoxMax*
+- uid: RedLight.Entities.Entity.HitboxConfig
+  commentId: P:RedLight.Entities.Entity.HitboxConfig
+  id: HitboxConfig
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: HitboxConfig
+  nameWithType: Entity.HitboxConfig
+  fullName: RedLight.Entities.Entity.HitboxConfig
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: HitboxConfig
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 38
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: public HitboxConfig HitboxConfig { get; protected set; }
+    parameters: []
+    return:
+      type: RedLight.Entities.HitboxConfig
+    content.vb: Public Property HitboxConfig As HitboxConfig
+  overload: RedLight.Entities.Entity.HitboxConfig*
+- uid: RedLight.Entities.Entity.ObjectCollisionSides
+  commentId: P:RedLight.Entities.Entity.ObjectCollisionSides
+  id: ObjectCollisionSides
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: ObjectCollisionSides
+  nameWithType: Entity.ObjectCollisionSides
+  fullName: RedLight.Entities.Entity.ObjectCollisionSides
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: ObjectCollisionSides
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 39
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: public HashSet<CollisionSide> ObjectCollisionSides { get; set; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.HashSet{RedLight.Entities.CollisionSide}
+    content.vb: Public Property ObjectCollisionSides As HashSet(Of CollisionSide)
+  overload: RedLight.Entities.Entity.ObjectCollisionSides*
+- uid: RedLight.Entities.Entity.IsColliding
+  commentId: P:RedLight.Entities.Entity.IsColliding
+  id: IsColliding
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: IsColliding
+  nameWithType: Entity.IsColliding
+  fullName: RedLight.Entities.Entity.IsColliding
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: IsColliding
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 40
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: public bool IsColliding { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property IsColliding As Boolean
+  overload: RedLight.Entities.Entity.IsColliding*
+- uid: RedLight.Entities.Entity.IsHitboxShown
+  commentId: P:RedLight.Entities.Entity.IsHitboxShown
+  id: IsHitboxShown
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: IsHitboxShown
+  nameWithType: Entity.IsHitboxShown
+  fullName: RedLight.Entities.Entity.IsHitboxShown
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: IsHitboxShown
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 41
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: public bool IsHitboxShown { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property IsHitboxShown As Boolean
+  overload: RedLight.Entities.Entity.IsHitboxShown*
+- uid: RedLight.Entities.Entity.Name
+  commentId: P:RedLight.Entities.Entity.Name
+  id: Name
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: Entity.Name
+  fullName: RedLight.Entities.Entity.Name
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Name
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 43
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: public string Name { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Name As String
+  overload: RedLight.Entities.Entity.Name*
+- uid: RedLight.Entities.Entity.PhysicsSystem
+  commentId: F:RedLight.Entities.Entity.PhysicsSystem
+  id: PhysicsSystem
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: PhysicsSystem
+  nameWithType: Entity.PhysicsSystem
+  fullName: RedLight.Entities.Entity.PhysicsSystem
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: PhysicsSystem
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 48
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: public PhysicsSystem PhysicsSystem
+    return:
+      type: RedLight.Physics.PhysicsSystem
+    content.vb: Public PhysicsSystem As PhysicsSystem
+- uid: RedLight.Entities.Entity.UseImGuizmo
+  commentId: P:RedLight.Entities.Entity.UseImGuizmo
+  id: UseImGuizmo
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: UseImGuizmo
+  nameWithType: Entity.UseImGuizmo
+  fullName: RedLight.Entities.Entity.UseImGuizmo
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: UseImGuizmo
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 51
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: public bool UseImGuizmo { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property UseImGuizmo As Boolean
+  overload: RedLight.Entities.Entity.UseImGuizmo*
+- uid: RedLight.Entities.Entity.GuizmoOperation
+  commentId: P:RedLight.Entities.Entity.GuizmoOperation
+  id: GuizmoOperation
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: GuizmoOperation
+  nameWithType: Entity.GuizmoOperation
+  fullName: RedLight.Entities.Entity.GuizmoOperation
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: GuizmoOperation
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 52
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: public ImGuizmoOperation GuizmoOperation { get; set; }
+    parameters: []
+    return:
+      type: Hexa.NET.ImGuizmo.ImGuizmoOperation
+    content.vb: Public Property GuizmoOperation As ImGuizmoOperation
+  overload: RedLight.Entities.Entity.GuizmoOperation*
+- uid: RedLight.Entities.Entity.GuizmoMode
+  commentId: P:RedLight.Entities.Entity.GuizmoMode
+  id: GuizmoMode
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: GuizmoMode
+  nameWithType: Entity.GuizmoMode
+  fullName: RedLight.Entities.Entity.GuizmoMode
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: GuizmoMode
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 53
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: public ImGuizmoMode GuizmoMode { get; set; }
+    parameters: []
+    return:
+      type: Hexa.NET.ImGuizmo.ImGuizmoMode
+    content.vb: Public Property GuizmoMode As ImGuizmoMode
+  overload: RedLight.Entities.Entity.GuizmoMode*
+- uid: RedLight.Entities.Entity.ModelType
+  commentId: P:RedLight.Entities.Entity.ModelType
+  id: ModelType
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: ModelType
+  nameWithType: Entity.ModelType
+  fullName: RedLight.Entities.Entity.ModelType
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: ModelType
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 55
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: public ModelType ModelType { get; set; }
+    parameters: []
+    return:
+      type: RedLight.Graphics.ModelType
+    content.vb: Public Property ModelType As ModelType
+  overload: RedLight.Entities.Entity.ModelType*
+- uid: RedLight.Entities.Entity.EnableReflection
+  commentId: P:RedLight.Entities.Entity.EnableReflection
+  id: EnableReflection
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: EnableReflection
+  nameWithType: Entity.EnableReflection
+  fullName: RedLight.Entities.Entity.EnableReflection
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: EnableReflection
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 57
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: public bool EnableReflection { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property EnableReflection As Boolean
+  overload: RedLight.Entities.Entity.EnableReflection*
+- uid: RedLight.Entities.Entity.Reflectivity
+  commentId: P:RedLight.Entities.Entity.Reflectivity
+  id: Reflectivity
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: Reflectivity
+  nameWithType: Entity.Reflectivity
+  fullName: RedLight.Entities.Entity.Reflectivity
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Reflectivity
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 58
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: public float Reflectivity { get; set; }
+    parameters: []
+    return:
+      type: System.Single
+    content.vb: Public Property Reflectivity As Single
+  overload: RedLight.Entities.Entity.Reflectivity*
+- uid: RedLight.Entities.Entity.EnableRefraction
+  commentId: P:RedLight.Entities.Entity.EnableRefraction
+  id: EnableRefraction
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: EnableRefraction
+  nameWithType: Entity.EnableRefraction
+  fullName: RedLight.Entities.Entity.EnableRefraction
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: EnableRefraction
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 60
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: public bool EnableRefraction { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property EnableRefraction As Boolean
+  overload: RedLight.Entities.Entity.EnableRefraction*
+- uid: RedLight.Entities.Entity.RefractiveIndex
+  commentId: P:RedLight.Entities.Entity.RefractiveIndex
+  id: RefractiveIndex
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: RefractiveIndex
+  nameWithType: Entity.RefractiveIndex
+  fullName: RedLight.Entities.Entity.RefractiveIndex
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: RefractiveIndex
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 61
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: public float RefractiveIndex { get; set; }
+    parameters: []
+    return:
+      type: System.Single
+    content.vb: Public Property RefractiveIndex As Single
+  overload: RedLight.Entities.Entity.RefractiveIndex*
+- uid: RedLight.Entities.Entity.Model
+  commentId: P:RedLight.Entities.Entity.Model
+  id: Model
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: Model
+  nameWithType: Entity.Model
+  fullName: RedLight.Entities.Entity.Model
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Model
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 66
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  summary: Direct access to the underlying RLModel
+  example: []
+  syntax:
+    content: public RLModel Model { get; protected set; }
+    parameters: []
+    return:
+      type: RedLight.Graphics.RLModel
+    content.vb: Public Property Model As RLModel
+  overload: RedLight.Entities.Entity.Model*
+- uid: RedLight.Entities.Entity.ModelMatrix
+  commentId: P:RedLight.Entities.Entity.ModelMatrix
+  id: ModelMatrix
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: ModelMatrix
+  nameWithType: Entity.ModelMatrix
+  fullName: RedLight.Entities.Entity.ModelMatrix
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: ModelMatrix
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 75
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  summary: The transformation matrix for this entity
+  example: []
+  syntax:
+    content: public Matrix4x4 ModelMatrix { get; }
+    parameters: []
+    return:
+      type: System.Numerics.Matrix4x4
+    content.vb: Public Property ModelMatrix As Matrix4x4
+  overload: RedLight.Entities.Entity.ModelMatrix*
+- uid: RedLight.Entities.Entity.Position
+  commentId: P:RedLight.Entities.Entity.Position
+  id: Position
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: Position
+  nameWithType: Entity.Position
+  fullName: RedLight.Entities.Entity.Position
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Position
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 84
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  summary: Current position of the entity
+  example: []
+  syntax:
+    content: public Vector3 Position { get; set; }
+    parameters: []
+    return:
+      type: System.Numerics.Vector3
+    content.vb: Public Property Position As Vector3
+  overload: RedLight.Entities.Entity.Position*
+- uid: RedLight.Entities.Entity.Scale
+  commentId: P:RedLight.Entities.Entity.Scale
+  id: Scale
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: Scale
+  nameWithType: Entity.Scale
+  fullName: RedLight.Entities.Entity.Scale
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Scale
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 93
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  summary: Current scale of the entity
+  example: []
+  syntax:
+    content: public Vector3 Scale { get; set; }
+    parameters: []
+    return:
+      type: System.Numerics.Vector3
+    content.vb: Public Property Scale As Vector3
+  overload: RedLight.Entities.Entity.Scale*
+- uid: RedLight.Entities.Entity.Rotation
+  commentId: P:RedLight.Entities.Entity.Rotation
+  id: Rotation
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: Rotation
+  nameWithType: Entity.Rotation
+  fullName: RedLight.Entities.Entity.Rotation
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Rotation
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 108
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  summary: Current rotation of the entity (Euler angles)
+  example: []
+  syntax:
+    content: public Vector3 Rotation { get; set; }
+    parameters: []
+    return:
+      type: System.Numerics.Vector3
+    content.vb: Public Property Rotation As Vector3
+  overload: RedLight.Entities.Entity.Rotation*
+- uid: RedLight.Entities.Entity.#ctor(RedLight.Graphics.RLModel,RedLight.Graphics.ModelType,System.Boolean)
+  commentId: M:RedLight.Entities.Entity.#ctor(RedLight.Graphics.RLModel,RedLight.Graphics.ModelType,System.Boolean)
+  id: '#ctor(RedLight.Graphics.RLModel,RedLight.Graphics.ModelType,System.Boolean)'
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: Entity(RLModel, ModelType, bool)
+  nameWithType: Entity.Entity(RLModel, ModelType, bool)
+  fullName: RedLight.Entities.Entity.Entity(RedLight.Graphics.RLModel, RedLight.Graphics.ModelType, bool)
+  type: Constructor
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: .ctor
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 148
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: protected Entity(RLModel model, ModelType modelType, bool applyGravity = true)
+    parameters:
+    - id: model
+      type: RedLight.Graphics.RLModel
+    - id: modelType
+      type: RedLight.Graphics.ModelType
+    - id: applyGravity
+      type: System.Boolean
+    content.vb: Protected Sub New(model As RLModel, modelType As ModelType, applyGravity As Boolean = True)
+  overload: RedLight.Entities.Entity.#ctor*
+  nameWithType.vb: Entity.New(RLModel, ModelType, Boolean)
+  fullName.vb: RedLight.Entities.Entity.New(RedLight.Graphics.RLModel, RedLight.Graphics.ModelType, Boolean)
+  name.vb: New(RLModel, ModelType, Boolean)
+- uid: RedLight.Entities.Entity.Translate(System.Numerics.Vector3)
+  commentId: M:RedLight.Entities.Entity.Translate(System.Numerics.Vector3)
+  id: Translate(System.Numerics.Vector3)
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: Translate(Vector3)
+  nameWithType: Entity.Translate(Vector3)
+  fullName: RedLight.Entities.Entity.Translate(System.Numerics.Vector3)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Translate
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 169
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  summary: Translate the entity by the specified vector
+  example: []
+  syntax:
+    content: public Entity Translate(Vector3 translation)
+    parameters:
+    - id: translation
+      type: System.Numerics.Vector3
+    return:
+      type: RedLight.Entities.Entity
+    content.vb: Public Function Translate(translation As Vector3) As Entity
+  overload: RedLight.Entities.Entity.Translate*
+- uid: RedLight.Entities.Entity.Rotate(System.Single,System.Numerics.Vector3)
+  commentId: M:RedLight.Entities.Entity.Rotate(System.Single,System.Numerics.Vector3)
+  id: Rotate(System.Single,System.Numerics.Vector3)
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: Rotate(float, Vector3)
+  nameWithType: Entity.Rotate(float, Vector3)
+  fullName: RedLight.Entities.Entity.Rotate(float, System.Numerics.Vector3)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Rotate
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 180
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  summary: Rotate the entity by the specified angle around the given axis
+  example: []
+  syntax:
+    content: public Entity Rotate(float radians, Vector3 axis)
+    parameters:
+    - id: radians
+      type: System.Single
+    - id: axis
+      type: System.Numerics.Vector3
+    return:
+      type: RedLight.Entities.Entity
+    content.vb: Public Function Rotate(radians As Single, axis As Vector3) As Entity
+  overload: RedLight.Entities.Entity.Rotate*
+  nameWithType.vb: Entity.Rotate(Single, Vector3)
+  fullName.vb: RedLight.Entities.Entity.Rotate(Single, System.Numerics.Vector3)
+  name.vb: Rotate(Single, Vector3)
+- uid: RedLight.Entities.Entity.SetScale(System.Numerics.Vector3)
+  commentId: M:RedLight.Entities.Entity.SetScale(System.Numerics.Vector3)
+  id: SetScale(System.Numerics.Vector3)
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: SetScale(Vector3)
+  nameWithType: Entity.SetScale(Vector3)
+  fullName: RedLight.Entities.Entity.SetScale(System.Numerics.Vector3)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: SetScale
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 192
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  summary: Set the scale of the entity
+  example: []
+  syntax:
+    content: public Entity SetScale(Vector3 scale)
+    parameters:
+    - id: scale
+      type: System.Numerics.Vector3
+    return:
+      type: RedLight.Entities.Entity
+    content.vb: Public Function SetScale(scale As Vector3) As Entity
+  overload: RedLight.Entities.Entity.SetScale*
+- uid: RedLight.Entities.Entity.SetPosition(System.Numerics.Vector3)
+  commentId: M:RedLight.Entities.Entity.SetPosition(System.Numerics.Vector3)
+  id: SetPosition(System.Numerics.Vector3)
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: SetPosition(Vector3)
+  nameWithType: Entity.SetPosition(Vector3)
+  fullName: RedLight.Entities.Entity.SetPosition(System.Numerics.Vector3)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: SetPosition
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 202
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  summary: Set the position of the entity
+  example: []
+  syntax:
+    content: public Entity SetPosition(Vector3 position)
+    parameters:
+    - id: position
+      type: System.Numerics.Vector3
+    return:
+      type: RedLight.Entities.Entity
+    content.vb: Public Function SetPosition(position As Vector3) As Entity
+  overload: RedLight.Entities.Entity.SetPosition*
+- uid: RedLight.Entities.Entity.SetModel(System.Numerics.Matrix4x4)
+  commentId: M:RedLight.Entities.Entity.SetModel(System.Numerics.Matrix4x4)
+  id: SetModel(System.Numerics.Matrix4x4)
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: SetModel(Matrix4x4)
+  nameWithType: Entity.SetModel(Matrix4x4)
+  fullName: RedLight.Entities.Entity.SetModel(System.Numerics.Matrix4x4)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: SetModel
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 221
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  summary: Set the model matrix directly
+  example: []
+  syntax:
+    content: public Entity SetModel(Matrix4x4 model)
+    parameters:
+    - id: model
+      type: System.Numerics.Matrix4x4
+    return:
+      type: RedLight.Entities.Entity
+    content.vb: Public Function SetModel(model As Matrix4x4) As Entity
+  overload: RedLight.Entities.Entity.SetModel*
+- uid: RedLight.Entities.Entity.AbsoluteReset
+  commentId: M:RedLight.Entities.Entity.AbsoluteReset
+  id: AbsoluteReset
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: AbsoluteReset()
+  nameWithType: Entity.AbsoluteReset()
+  fullName: RedLight.Entities.Entity.AbsoluteReset()
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: AbsoluteReset
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 231
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  summary: Reset to absolute identity matrix
+  example: []
+  syntax:
+    content: public Entity AbsoluteReset()
+    return:
+      type: RedLight.Entities.Entity
+    content.vb: Public Function AbsoluteReset() As Entity
+  overload: RedLight.Entities.Entity.AbsoluteReset*
+- uid: RedLight.Entities.Entity.SetDefault
+  commentId: M:RedLight.Entities.Entity.SetDefault
+  id: SetDefault
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: SetDefault()
+  nameWithType: Entity.SetDefault()
+  fullName: RedLight.Entities.Entity.SetDefault()
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: SetDefault
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 243
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  summary: Save the current model matrix as default
+  example: []
+  syntax:
+    content: public Entity SetDefault()
+    return:
+      type: RedLight.Entities.Entity
+    content.vb: Public Function SetDefault() As Entity
+  overload: RedLight.Entities.Entity.SetDefault*
+- uid: RedLight.Entities.Entity.SetDefault(System.Boolean,System.Boolean,System.Boolean)
+  commentId: M:RedLight.Entities.Entity.SetDefault(System.Boolean,System.Boolean,System.Boolean)
+  id: SetDefault(System.Boolean,System.Boolean,System.Boolean)
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: SetDefault(bool, bool, bool)
+  nameWithType: Entity.SetDefault(bool, bool, bool)
+  fullName: RedLight.Entities.Entity.SetDefault(bool, bool, bool)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: SetDefault
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 252
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: public Entity SetDefault(bool savePosition = false, bool saveRotation = false, bool saveScale = false)
+    parameters:
+    - id: savePosition
+      type: System.Boolean
+    - id: saveRotation
+      type: System.Boolean
+    - id: saveScale
+      type: System.Boolean
+    return:
+      type: RedLight.Entities.Entity
+    content.vb: Public Function SetDefault(savePosition As Boolean = False, saveRotation As Boolean = False, saveScale As Boolean = False) As Entity
+  overload: RedLight.Entities.Entity.SetDefault*
+  nameWithType.vb: Entity.SetDefault(Boolean, Boolean, Boolean)
+  fullName.vb: RedLight.Entities.Entity.SetDefault(Boolean, Boolean, Boolean)
+  name.vb: SetDefault(Boolean, Boolean, Boolean)
+- uid: RedLight.Entities.Entity.Reset(System.Boolean)
+  commentId: M:RedLight.Entities.Entity.Reset(System.Boolean)
+  id: Reset(System.Boolean)
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: Reset(bool)
+  nameWithType: Entity.Reset(bool)
+  fullName: RedLight.Entities.Entity.Reset(bool)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Reset
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 267
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  summary: Reset to the previously saved default state
+  example: []
+  syntax:
+    content: public Entity Reset(bool silent = true)
+    parameters:
+    - id: silent
+      type: System.Boolean
+    return:
+      type: RedLight.Entities.Entity
+    content.vb: Public Function Reset(silent As Boolean = True) As Entity
+  overload: RedLight.Entities.Entity.Reset*
+  nameWithType.vb: Entity.Reset(Boolean)
+  fullName.vb: RedLight.Entities.Entity.Reset(Boolean)
+  name.vb: Reset(Boolean)
+- uid: RedLight.Entities.Entity.SetRotation(System.Numerics.Vector3)
+  commentId: M:RedLight.Entities.Entity.SetRotation(System.Numerics.Vector3)
+  id: SetRotation(System.Numerics.Vector3)
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: SetRotation(Vector3)
+  nameWithType: Entity.SetRotation(Vector3)
+  fullName: RedLight.Entities.Entity.SetRotation(System.Numerics.Vector3)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: SetRotation
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 307
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  summary: Set the rotation of the entity (Euler angles in radians) while preserving position and scale
+  example: []
+  syntax:
+    content: public Entity SetRotation(Vector3 rotation)
+    parameters:
+    - id: rotation
+      type: System.Numerics.Vector3
+    return:
+      type: RedLight.Entities.Entity
+    content.vb: Public Function SetRotation(rotation As Vector3) As Entity
+  overload: RedLight.Entities.Entity.SetRotation*
+- uid: RedLight.Entities.Entity.SetRotationDegrees(System.Numerics.Vector3)
+  commentId: M:RedLight.Entities.Entity.SetRotationDegrees(System.Numerics.Vector3)
+  id: SetRotationDegrees(System.Numerics.Vector3)
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: SetRotationDegrees(Vector3)
+  nameWithType: Entity.SetRotationDegrees(Vector3)
+  fullName: RedLight.Entities.Entity.SetRotationDegrees(System.Numerics.Vector3)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: SetRotationDegrees
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 329
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  summary: Set the rotation of the entity using degrees
+  example: []
+  syntax:
+    content: public Entity SetRotationDegrees(Vector3 rotationDegrees)
+    parameters:
+    - id: rotationDegrees
+      type: System.Numerics.Vector3
+    return:
+      type: RedLight.Entities.Entity
+    content.vb: Public Function SetRotationDegrees(rotationDegrees As Vector3) As Entity
+  overload: RedLight.Entities.Entity.SetRotationDegrees*
+- uid: RedLight.Entities.Entity.ApplyHitboxConfig
+  commentId: M:RedLight.Entities.Entity.ApplyHitboxConfig
+  id: ApplyHitboxConfig
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: ApplyHitboxConfig()
+  nameWithType: Entity.ApplyHitboxConfig()
+  fullName: RedLight.Entities.Entity.ApplyHitboxConfig()
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: ApplyHitboxConfig
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 339
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: protected void ApplyHitboxConfig()
+    content.vb: Protected Sub ApplyHitboxConfig()
+  overload: RedLight.Entities.Entity.ApplyHitboxConfig*
+- uid: RedLight.Entities.Entity.SetHitboxConfig(RedLight.Entities.HitboxConfig)
+  commentId: M:RedLight.Entities.Entity.SetHitboxConfig(RedLight.Entities.HitboxConfig)
+  id: SetHitboxConfig(RedLight.Entities.HitboxConfig)
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: SetHitboxConfig(HitboxConfig)
+  nameWithType: Entity.SetHitboxConfig(HitboxConfig)
+  fullName: RedLight.Entities.Entity.SetHitboxConfig(RedLight.Entities.HitboxConfig)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: SetHitboxConfig
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 348
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: public void SetHitboxConfig(HitboxConfig config)
+    parameters:
+    - id: config
+      type: RedLight.Entities.HitboxConfig
+    content.vb: Public Sub SetHitboxConfig(config As HitboxConfig)
+  overload: RedLight.Entities.Entity.SetHitboxConfig*
+- uid: RedLight.Entities.Entity.EnableImGuizmo(Hexa.NET.ImGuizmo.ImGuizmoOperation,Hexa.NET.ImGuizmo.ImGuizmoMode)
+  commentId: M:RedLight.Entities.Entity.EnableImGuizmo(Hexa.NET.ImGuizmo.ImGuizmoOperation,Hexa.NET.ImGuizmo.ImGuizmoMode)
+  id: EnableImGuizmo(Hexa.NET.ImGuizmo.ImGuizmoOperation,Hexa.NET.ImGuizmo.ImGuizmoMode)
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: EnableImGuizmo(ImGuizmoOperation, ImGuizmoMode)
+  nameWithType: Entity.EnableImGuizmo(ImGuizmoOperation, ImGuizmoMode)
+  fullName: RedLight.Entities.Entity.EnableImGuizmo(Hexa.NET.ImGuizmo.ImGuizmoOperation, Hexa.NET.ImGuizmo.ImGuizmoMode)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: EnableImGuizmo
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 354
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: public Entity EnableImGuizmo(ImGuizmoOperation operation = ImGuizmoOperation.Translate, ImGuizmoMode mode = ImGuizmoMode.World)
+    parameters:
+    - id: operation
+      type: Hexa.NET.ImGuizmo.ImGuizmoOperation
+    - id: mode
+      type: Hexa.NET.ImGuizmo.ImGuizmoMode
+    return:
+      type: RedLight.Entities.Entity
+    content.vb: Public Function EnableImGuizmo(operation As ImGuizmoOperation = ImGuizmoOperation.Translate, mode As ImGuizmoMode = ImGuizmoMode.World) As Entity
+  overload: RedLight.Entities.Entity.EnableImGuizmo*
+- uid: RedLight.Entities.Entity.DisableImGuizmo
+  commentId: M:RedLight.Entities.Entity.DisableImGuizmo
+  id: DisableImGuizmo
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: DisableImGuizmo()
+  nameWithType: Entity.DisableImGuizmo()
+  fullName: RedLight.Entities.Entity.DisableImGuizmo()
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: DisableImGuizmo
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 362
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: public Entity DisableImGuizmo()
+    return:
+      type: RedLight.Entities.Entity
+    content.vb: Public Function DisableImGuizmo() As Entity
+  overload: RedLight.Entities.Entity.DisableImGuizmo*
+- uid: RedLight.Entities.Entity.SetReflection(System.Boolean,System.Single)
+  commentId: M:RedLight.Entities.Entity.SetReflection(System.Boolean,System.Single)
+  id: SetReflection(System.Boolean,System.Single)
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: SetReflection(bool, float)
+  nameWithType: Entity.SetReflection(bool, float)
+  fullName: RedLight.Entities.Entity.SetReflection(bool, float)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: SetReflection
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 368
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: public void SetReflection(bool enabled, float reflectivity = 0.3)
+    parameters:
+    - id: enabled
+      type: System.Boolean
+    - id: reflectivity
+      type: System.Single
+    content.vb: Public Sub SetReflection(enabled As Boolean, reflectivity As Single = 0.3)
+  overload: RedLight.Entities.Entity.SetReflection*
+  nameWithType.vb: Entity.SetReflection(Boolean, Single)
+  fullName.vb: RedLight.Entities.Entity.SetReflection(Boolean, Single)
+  name.vb: SetReflection(Boolean, Single)
+- uid: RedLight.Entities.Entity.SetRefraction(System.Boolean,System.Single)
+  commentId: M:RedLight.Entities.Entity.SetRefraction(System.Boolean,System.Single)
+  id: SetRefraction(System.Boolean,System.Single)
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: SetRefraction(bool, float)
+  nameWithType: Entity.SetRefraction(bool, float)
+  fullName: RedLight.Entities.Entity.SetRefraction(bool, float)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: SetRefraction
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 374
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: public void SetRefraction(bool enabled, float refractiveIndex = 1)
+    parameters:
+    - id: enabled
+      type: System.Boolean
+    - id: refractiveIndex
+      type: System.Single
+    content.vb: Public Sub SetRefraction(enabled As Boolean, refractiveIndex As Single = 1)
+  overload: RedLight.Entities.Entity.SetRefraction*
+  nameWithType.vb: Entity.SetRefraction(Boolean, Single)
+  fullName.vb: RedLight.Entities.Entity.SetRefraction(Boolean, Single)
+  name.vb: SetRefraction(Boolean, Single)
+- uid: RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.Camera)
+  commentId: M:RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.Camera)
+  id: DrawBoundingBox(RedLight.Graphics.Camera)
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: DrawBoundingBox(Camera)
+  nameWithType: Entity.DrawBoundingBox(Camera)
+  fullName: RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.Camera)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: DrawBoundingBox
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 383
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  summary: Draws the bounding box edges in red using OpenGL lines with proper camera transformations.
+  example: []
+  syntax:
+    content: public void DrawBoundingBox(Camera camera)
+    parameters:
+    - id: camera
+      type: RedLight.Graphics.Camera
+    content.vb: Public Sub DrawBoundingBox(camera As Camera)
+  overload: RedLight.Entities.Entity.DrawBoundingBox*
+- uid: RedLight.Entities.Entity.SetRotationX(System.Single)
+  commentId: M:RedLight.Entities.Entity.SetRotationX(System.Single)
+  id: SetRotationX(System.Single)
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: SetRotationX(float)
+  nameWithType: Entity.SetRotationX(float)
+  fullName: RedLight.Entities.Entity.SetRotationX(float)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: SetRotationX
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 557
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  summary: Set rotation around X axis (pitch) in radians
+  example: []
+  syntax:
+    content: public Entity SetRotationX(float radians)
+    parameters:
+    - id: radians
+      type: System.Single
+    return:
+      type: RedLight.Entities.Entity
+    content.vb: Public Function SetRotationX(radians As Single) As Entity
+  overload: RedLight.Entities.Entity.SetRotationX*
+  nameWithType.vb: Entity.SetRotationX(Single)
+  fullName.vb: RedLight.Entities.Entity.SetRotationX(Single)
+  name.vb: SetRotationX(Single)
+- uid: RedLight.Entities.Entity.SetRotationY(System.Single)
+  commentId: M:RedLight.Entities.Entity.SetRotationY(System.Single)
+  id: SetRotationY(System.Single)
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: SetRotationY(float)
+  nameWithType: Entity.SetRotationY(float)
+  fullName: RedLight.Entities.Entity.SetRotationY(float)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: SetRotationY
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 566
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  summary: Set rotation around Y axis (yaw) in radians
+  example: []
+  syntax:
+    content: public Entity SetRotationY(float radians)
+    parameters:
+    - id: radians
+      type: System.Single
+    return:
+      type: RedLight.Entities.Entity
+    content.vb: Public Function SetRotationY(radians As Single) As Entity
+  overload: RedLight.Entities.Entity.SetRotationY*
+  nameWithType.vb: Entity.SetRotationY(Single)
+  fullName.vb: RedLight.Entities.Entity.SetRotationY(Single)
+  name.vb: SetRotationY(Single)
+- uid: RedLight.Entities.Entity.SetRotationZ(System.Single)
+  commentId: M:RedLight.Entities.Entity.SetRotationZ(System.Single)
+  id: SetRotationZ(System.Single)
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: SetRotationZ(float)
+  nameWithType: Entity.SetRotationZ(float)
+  fullName: RedLight.Entities.Entity.SetRotationZ(float)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: SetRotationZ
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 575
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  summary: Set rotation around Z axis (roll) in radians
+  example: []
+  syntax:
+    content: public Entity SetRotationZ(float radians)
+    parameters:
+    - id: radians
+      type: System.Single
+    return:
+      type: RedLight.Entities.Entity
+    content.vb: Public Function SetRotationZ(radians As Single) As Entity
+  overload: RedLight.Entities.Entity.SetRotationZ*
+  nameWithType.vb: Entity.SetRotationZ(Single)
+  fullName.vb: RedLight.Entities.Entity.SetRotationZ(Single)
+  name.vb: SetRotationZ(Single)
+- uid: RedLight.Entities.Entity.SetScaleX(System.Single)
+  commentId: M:RedLight.Entities.Entity.SetScaleX(System.Single)
+  id: SetScaleX(System.Single)
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: SetScaleX(float)
+  nameWithType: Entity.SetScaleX(float)
+  fullName: RedLight.Entities.Entity.SetScaleX(float)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: SetScaleX
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 584
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  summary: Set scale on X axis only
+  example: []
+  syntax:
+    content: public Entity SetScaleX(float scaleX)
+    parameters:
+    - id: scaleX
+      type: System.Single
+    return:
+      type: RedLight.Entities.Entity
+    content.vb: Public Function SetScaleX(scaleX As Single) As Entity
+  overload: RedLight.Entities.Entity.SetScaleX*
+  nameWithType.vb: Entity.SetScaleX(Single)
+  fullName.vb: RedLight.Entities.Entity.SetScaleX(Single)
+  name.vb: SetScaleX(Single)
+- uid: RedLight.Entities.Entity.SetScaleY(System.Single)
+  commentId: M:RedLight.Entities.Entity.SetScaleY(System.Single)
+  id: SetScaleY(System.Single)
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: SetScaleY(float)
+  nameWithType: Entity.SetScaleY(float)
+  fullName: RedLight.Entities.Entity.SetScaleY(float)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: SetScaleY
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 593
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  summary: Set scale on Y axis only
+  example: []
+  syntax:
+    content: public Entity SetScaleY(float scaleY)
+    parameters:
+    - id: scaleY
+      type: System.Single
+    return:
+      type: RedLight.Entities.Entity
+    content.vb: Public Function SetScaleY(scaleY As Single) As Entity
+  overload: RedLight.Entities.Entity.SetScaleY*
+  nameWithType.vb: Entity.SetScaleY(Single)
+  fullName.vb: RedLight.Entities.Entity.SetScaleY(Single)
+  name.vb: SetScaleY(Single)
+- uid: RedLight.Entities.Entity.SetScaleZ(System.Single)
+  commentId: M:RedLight.Entities.Entity.SetScaleZ(System.Single)
+  id: SetScaleZ(System.Single)
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: SetScaleZ(float)
+  nameWithType: Entity.SetScaleZ(float)
+  fullName: RedLight.Entities.Entity.SetScaleZ(float)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: SetScaleZ
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 602
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  summary: Set scale on Z axis only
+  example: []
+  syntax:
+    content: public Entity SetScaleZ(float scaleZ)
+    parameters:
+    - id: scaleZ
+      type: System.Single
+    return:
+      type: RedLight.Entities.Entity
+    content.vb: Public Function SetScaleZ(scaleZ As Single) As Entity
+  overload: RedLight.Entities.Entity.SetScaleZ*
+  nameWithType.vb: Entity.SetScaleZ(Single)
+  fullName.vb: RedLight.Entities.Entity.SetScaleZ(Single)
+  name.vb: SetScaleZ(Single)
+- uid: RedLight.Entities.Entity.SetUniformScale(System.Single)
+  commentId: M:RedLight.Entities.Entity.SetUniformScale(System.Single)
+  id: SetUniformScale(System.Single)
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: SetUniformScale(float)
+  nameWithType: Entity.SetUniformScale(float)
+  fullName: RedLight.Entities.Entity.SetUniformScale(float)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: SetUniformScale
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 611
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  summary: Set uniform scale (all axes the same)
+  example: []
+  syntax:
+    content: public Entity SetUniformScale(float uniformScale)
+    parameters:
+    - id: uniformScale
+      type: System.Single
+    return:
+      type: RedLight.Entities.Entity
+    content.vb: Public Function SetUniformScale(uniformScale As Single) As Entity
+  overload: RedLight.Entities.Entity.SetUniformScale*
+  nameWithType.vb: Entity.SetUniformScale(Single)
+  fullName.vb: RedLight.Entities.Entity.SetUniformScale(Single)
+  name.vb: SetUniformScale(Single)
+- uid: RedLight.Entities.Entity.ShowHitbox
+  commentId: M:RedLight.Entities.Entity.ShowHitbox
+  id: ShowHitbox
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: ShowHitbox()
+  nameWithType: Entity.ShowHitbox()
+  fullName: RedLight.Entities.Entity.ShowHitbox()
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: ShowHitbox
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 619
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  summary: Show the hitbox visualization
+  example: []
+  syntax:
+    content: public void ShowHitbox()
+    content.vb: Public Sub ShowHitbox()
+  overload: RedLight.Entities.Entity.ShowHitbox*
+- uid: RedLight.Entities.Entity.HideHitbox
+  commentId: M:RedLight.Entities.Entity.HideHitbox
+  id: HideHitbox
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: HideHitbox()
+  nameWithType: Entity.HideHitbox()
+  fullName: RedLight.Entities.Entity.HideHitbox()
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: HideHitbox
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 624
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  summary: Hide the hitbox visualization
+  example: []
+  syntax:
+    content: public void HideHitbox()
+    content.vb: Public Sub HideHitbox()
+  overload: RedLight.Entities.Entity.HideHitbox*
+- uid: RedLight.Entities.Entity.ToggleHitbox
+  commentId: M:RedLight.Entities.Entity.ToggleHitbox
+  id: ToggleHitbox
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: ToggleHitbox()
+  nameWithType: Entity.ToggleHitbox()
+  fullName: RedLight.Entities.Entity.ToggleHitbox()
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: ToggleHitbox
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 629
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  summary: Toggle hitbox visibility
+  example: []
+  syntax:
+    content: public void ToggleHitbox()
+    content.vb: Public Sub ToggleHitbox()
+  overload: RedLight.Entities.Entity.ToggleHitbox*
+- uid: RedLight.Entities.Entity.IsDefaultSet
+  commentId: M:RedLight.Entities.Entity.IsDefaultSet
+  id: IsDefaultSet
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: IsDefaultSet()
+  nameWithType: Entity.IsDefaultSet()
+  fullName: RedLight.Entities.Entity.IsDefaultSet()
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: IsDefaultSet
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 634
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  summary: Checks if a defualt lock is set
+  example: []
+  syntax:
+    content: public bool IsDefaultSet()
+    return:
+      type: System.Boolean
+    content.vb: Public Function IsDefaultSet() As Boolean
+  overload: RedLight.Entities.Entity.IsDefaultSet*
+- uid: RedLight.Entities.Entity.RotationDegrees
+  commentId: P:RedLight.Entities.Entity.RotationDegrees
+  id: RotationDegrees
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: RotationDegrees
+  nameWithType: Entity.RotationDegrees
+  fullName: RedLight.Entities.Entity.RotationDegrees
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: RotationDegrees
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 636
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: public Vector3 RotationDegrees { get; set; }
+    parameters: []
+    return:
+      type: System.Numerics.Vector3
+    content.vb: Public Property RotationDegrees As Vector3
+  overload: RedLight.Entities.Entity.RotationDegrees*
+- uid: RedLight.Entities.Entity.DefaultRotation
+  commentId: P:RedLight.Entities.Entity.DefaultRotation
+  id: DefaultRotation
+  parent: RedLight.Entities.Entity
+  langs:
+  - csharp
+  - vb
+  name: DefaultRotation
+  nameWithType: Entity.DefaultRotation
+  fullName: RedLight.Entities.Entity.DefaultRotation
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Entities/Entity.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: DefaultRotation
+    path: src/RedLight/Entities/Entity.cs
+    startLine: 650
+  assemblies:
+  - RedLight
+  namespace: RedLight.Entities
+  syntax:
+    content: public Vector3 DefaultRotation { get; set; }
+    parameters: []
+    return:
+      type: System.Numerics.Vector3
+    content.vb: Public Property DefaultRotation As Vector3
+  overload: RedLight.Entities.Entity.DefaultRotation*
+references:
+- uid: RedLight.Entities
+  commentId: N:RedLight.Entities
+  href: RedLight.html
+  name: RedLight.Entities
+  nameWithType: RedLight.Entities
+  fullName: RedLight.Entities
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Entities
+    name: Entities
+    href: RedLight.Entities.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Entities
+    name: Entities
+    href: RedLight.Entities.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Numerics.Vector3
+  commentId: T:System.Numerics.Vector3
+  parent: System.Numerics
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.numerics.vector3
+  name: Vector3
+  nameWithType: Vector3
+  fullName: System.Numerics.Vector3
+- uid: System.Numerics
+  commentId: N:System.Numerics
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Numerics
+  nameWithType: System.Numerics
+  fullName: System.Numerics
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Numerics
+    name: Numerics
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.numerics
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Numerics
+    name: Numerics
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.numerics
+- uid: RedLight.Entities.Entity.Velocity*
+  commentId: Overload:RedLight.Entities.Entity.Velocity
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_Velocity
+  name: Velocity
+  nameWithType: Entity.Velocity
+  fullName: RedLight.Entities.Entity.Velocity
+- uid: RedLight.Entities.Entity.ApplyGravity*
+  commentId: Overload:RedLight.Entities.Entity.ApplyGravity
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_ApplyGravity
+  name: ApplyGravity
+  nameWithType: Entity.ApplyGravity
+  fullName: RedLight.Entities.Entity.ApplyGravity
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: RedLight.Entities.Entity.EnablePhysics*
+  commentId: Overload:RedLight.Entities.Entity.EnablePhysics
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_EnablePhysics
+  name: EnablePhysics
+  nameWithType: Entity.EnablePhysics
+  fullName: RedLight.Entities.Entity.EnablePhysics
+- uid: RedLight.Entities.Entity.Mass*
+  commentId: Overload:RedLight.Entities.Entity.Mass
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_Mass
+  name: Mass
+  nameWithType: Entity.Mass
+  fullName: RedLight.Entities.Entity.Mass
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.single
+  name: float
+  nameWithType: float
+  fullName: float
+  nameWithType.vb: Single
+  fullName.vb: Single
+  name.vb: Single
+- uid: RedLight.Entities.Entity.FrictionCoefficient*
+  commentId: Overload:RedLight.Entities.Entity.FrictionCoefficient
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_FrictionCoefficient
+  name: FrictionCoefficient
+  nameWithType: Entity.FrictionCoefficient
+  fullName: RedLight.Entities.Entity.FrictionCoefficient
+- uid: RedLight.Entities.Entity.BoundingBoxMin*
+  commentId: Overload:RedLight.Entities.Entity.BoundingBoxMin
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_BoundingBoxMin
+  name: BoundingBoxMin
+  nameWithType: Entity.BoundingBoxMin
+  fullName: RedLight.Entities.Entity.BoundingBoxMin
+- uid: RedLight.Entities.Entity.BoundingBoxMax*
+  commentId: Overload:RedLight.Entities.Entity.BoundingBoxMax
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_BoundingBoxMax
+  name: BoundingBoxMax
+  nameWithType: Entity.BoundingBoxMax
+  fullName: RedLight.Entities.Entity.BoundingBoxMax
+- uid: RedLight.Entities.Entity.DefaultBoundingBoxMin*
+  commentId: Overload:RedLight.Entities.Entity.DefaultBoundingBoxMin
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_DefaultBoundingBoxMin
+  name: DefaultBoundingBoxMin
+  nameWithType: Entity.DefaultBoundingBoxMin
+  fullName: RedLight.Entities.Entity.DefaultBoundingBoxMin
+- uid: RedLight.Entities.Entity.DefaultBoundingBoxMax*
+  commentId: Overload:RedLight.Entities.Entity.DefaultBoundingBoxMax
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_DefaultBoundingBoxMax
+  name: DefaultBoundingBoxMax
+  nameWithType: Entity.DefaultBoundingBoxMax
+  fullName: RedLight.Entities.Entity.DefaultBoundingBoxMax
+- uid: RedLight.Entities.Entity.HitboxConfig*
+  commentId: Overload:RedLight.Entities.Entity.HitboxConfig
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_HitboxConfig
+  name: HitboxConfig
+  nameWithType: Entity.HitboxConfig
+  fullName: RedLight.Entities.Entity.HitboxConfig
+- uid: RedLight.Entities.HitboxConfig
+  commentId: T:RedLight.Entities.HitboxConfig
+  parent: RedLight.Entities
+  href: RedLight.Entities.HitboxConfig.html
+  name: HitboxConfig
+  nameWithType: HitboxConfig
+  fullName: RedLight.Entities.HitboxConfig
+- uid: RedLight.Entities.Entity.ObjectCollisionSides*
+  commentId: Overload:RedLight.Entities.Entity.ObjectCollisionSides
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_ObjectCollisionSides
+  name: ObjectCollisionSides
+  nameWithType: Entity.ObjectCollisionSides
+  fullName: RedLight.Entities.Entity.ObjectCollisionSides
+- uid: System.Collections.Generic.HashSet{RedLight.Entities.CollisionSide}
+  commentId: T:System.Collections.Generic.HashSet{RedLight.Entities.CollisionSide}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.HashSet`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  name: HashSet<CollisionSide>
+  nameWithType: HashSet<CollisionSide>
+  fullName: System.Collections.Generic.HashSet<RedLight.Entities.CollisionSide>
+  nameWithType.vb: HashSet(Of CollisionSide)
+  fullName.vb: System.Collections.Generic.HashSet(Of RedLight.Entities.CollisionSide)
+  name.vb: HashSet(Of CollisionSide)
+  spec.csharp:
+  - uid: System.Collections.Generic.HashSet`1
+    name: HashSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  - name: <
+  - uid: RedLight.Entities.CollisionSide
+    name: CollisionSide
+    href: RedLight.Entities.CollisionSide.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.HashSet`1
+    name: HashSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: RedLight.Entities.CollisionSide
+    name: CollisionSide
+    href: RedLight.Entities.CollisionSide.html
+  - name: )
+- uid: System.Collections.Generic.HashSet`1
+  commentId: T:System.Collections.Generic.HashSet`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  name: HashSet<T>
+  nameWithType: HashSet<T>
+  fullName: System.Collections.Generic.HashSet<T>
+  nameWithType.vb: HashSet(Of T)
+  fullName.vb: System.Collections.Generic.HashSet(Of T)
+  name.vb: HashSet(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.HashSet`1
+    name: HashSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.HashSet`1
+    name: HashSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: RedLight.Entities.Entity.IsColliding*
+  commentId: Overload:RedLight.Entities.Entity.IsColliding
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_IsColliding
+  name: IsColliding
+  nameWithType: Entity.IsColliding
+  fullName: RedLight.Entities.Entity.IsColliding
+- uid: RedLight.Entities.Entity.IsHitboxShown*
+  commentId: Overload:RedLight.Entities.Entity.IsHitboxShown
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_IsHitboxShown
+  name: IsHitboxShown
+  nameWithType: Entity.IsHitboxShown
+  fullName: RedLight.Entities.Entity.IsHitboxShown
+- uid: RedLight.Entities.Entity.Name*
+  commentId: Overload:RedLight.Entities.Entity.Name
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_Name
+  name: Name
+  nameWithType: Entity.Name
+  fullName: RedLight.Entities.Entity.Name
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: RedLight.Physics.PhysicsSystem
+  commentId: T:RedLight.Physics.PhysicsSystem
+  parent: RedLight.Physics
+  href: RedLight.Physics.PhysicsSystem.html
+  name: PhysicsSystem
+  nameWithType: PhysicsSystem
+  fullName: RedLight.Physics.PhysicsSystem
+- uid: RedLight.Physics
+  commentId: N:RedLight.Physics
+  href: RedLight.html
+  name: RedLight.Physics
+  nameWithType: RedLight.Physics
+  fullName: RedLight.Physics
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Physics
+    name: Physics
+    href: RedLight.Physics.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Physics
+    name: Physics
+    href: RedLight.Physics.html
+- uid: RedLight.Entities.Entity.UseImGuizmo*
+  commentId: Overload:RedLight.Entities.Entity.UseImGuizmo
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_UseImGuizmo
+  name: UseImGuizmo
+  nameWithType: Entity.UseImGuizmo
+  fullName: RedLight.Entities.Entity.UseImGuizmo
+- uid: RedLight.Entities.Entity.GuizmoOperation*
+  commentId: Overload:RedLight.Entities.Entity.GuizmoOperation
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_GuizmoOperation
+  name: GuizmoOperation
+  nameWithType: Entity.GuizmoOperation
+  fullName: RedLight.Entities.Entity.GuizmoOperation
+- uid: Hexa.NET.ImGuizmo.ImGuizmoOperation
+  commentId: T:Hexa.NET.ImGuizmo.ImGuizmoOperation
+  parent: Hexa.NET.ImGuizmo
+  isExternal: true
+  name: ImGuizmoOperation
+  nameWithType: ImGuizmoOperation
+  fullName: Hexa.NET.ImGuizmo.ImGuizmoOperation
+- uid: Hexa.NET.ImGuizmo
+  commentId: N:Hexa.NET.ImGuizmo
+  isExternal: true
+  name: Hexa.NET.ImGuizmo
+  nameWithType: Hexa.NET.ImGuizmo
+  fullName: Hexa.NET.ImGuizmo
+  spec.csharp:
+  - uid: Hexa
+    name: Hexa
+    isExternal: true
+  - name: .
+  - uid: Hexa.NET
+    name: NET
+    isExternal: true
+  - name: .
+  - uid: Hexa.NET.ImGuizmo
+    name: ImGuizmo
+    isExternal: true
+  spec.vb:
+  - uid: Hexa
+    name: Hexa
+    isExternal: true
+  - name: .
+  - uid: Hexa.NET
+    name: NET
+    isExternal: true
+  - name: .
+  - uid: Hexa.NET.ImGuizmo
+    name: ImGuizmo
+    isExternal: true
+- uid: RedLight.Entities.Entity.GuizmoMode*
+  commentId: Overload:RedLight.Entities.Entity.GuizmoMode
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_GuizmoMode
+  name: GuizmoMode
+  nameWithType: Entity.GuizmoMode
+  fullName: RedLight.Entities.Entity.GuizmoMode
+- uid: Hexa.NET.ImGuizmo.ImGuizmoMode
+  commentId: T:Hexa.NET.ImGuizmo.ImGuizmoMode
+  parent: Hexa.NET.ImGuizmo
+  isExternal: true
+  name: ImGuizmoMode
+  nameWithType: ImGuizmoMode
+  fullName: Hexa.NET.ImGuizmo.ImGuizmoMode
+- uid: RedLight.Entities.Entity.ModelType*
+  commentId: Overload:RedLight.Entities.Entity.ModelType
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_ModelType
+  name: ModelType
+  nameWithType: Entity.ModelType
+  fullName: RedLight.Entities.Entity.ModelType
+- uid: RedLight.Graphics.ModelType
+  commentId: T:RedLight.Graphics.ModelType
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.ModelType.html
+  name: ModelType
+  nameWithType: ModelType
+  fullName: RedLight.Graphics.ModelType
+- uid: RedLight.Graphics
+  commentId: N:RedLight.Graphics
+  href: RedLight.html
+  name: RedLight.Graphics
+  nameWithType: RedLight.Graphics
+  fullName: RedLight.Graphics
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Graphics
+    name: Graphics
+    href: RedLight.Graphics.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Graphics
+    name: Graphics
+    href: RedLight.Graphics.html
+- uid: RedLight.Entities.Entity.EnableReflection*
+  commentId: Overload:RedLight.Entities.Entity.EnableReflection
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_EnableReflection
+  name: EnableReflection
+  nameWithType: Entity.EnableReflection
+  fullName: RedLight.Entities.Entity.EnableReflection
+- uid: RedLight.Entities.Entity.Reflectivity*
+  commentId: Overload:RedLight.Entities.Entity.Reflectivity
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_Reflectivity
+  name: Reflectivity
+  nameWithType: Entity.Reflectivity
+  fullName: RedLight.Entities.Entity.Reflectivity
+- uid: RedLight.Entities.Entity.EnableRefraction*
+  commentId: Overload:RedLight.Entities.Entity.EnableRefraction
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_EnableRefraction
+  name: EnableRefraction
+  nameWithType: Entity.EnableRefraction
+  fullName: RedLight.Entities.Entity.EnableRefraction
+- uid: RedLight.Entities.Entity.RefractiveIndex*
+  commentId: Overload:RedLight.Entities.Entity.RefractiveIndex
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_RefractiveIndex
+  name: RefractiveIndex
+  nameWithType: Entity.RefractiveIndex
+  fullName: RedLight.Entities.Entity.RefractiveIndex
+- uid: RedLight.Entities.Entity.Model*
+  commentId: Overload:RedLight.Entities.Entity.Model
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_Model
+  name: Model
+  nameWithType: Entity.Model
+  fullName: RedLight.Entities.Entity.Model
+- uid: RedLight.Graphics.RLModel
+  commentId: T:RedLight.Graphics.RLModel
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.RLModel.html
+  name: RLModel
+  nameWithType: RLModel
+  fullName: RedLight.Graphics.RLModel
+- uid: RedLight.Entities.Entity.ModelMatrix*
+  commentId: Overload:RedLight.Entities.Entity.ModelMatrix
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_ModelMatrix
+  name: ModelMatrix
+  nameWithType: Entity.ModelMatrix
+  fullName: RedLight.Entities.Entity.ModelMatrix
+- uid: System.Numerics.Matrix4x4
+  commentId: T:System.Numerics.Matrix4x4
+  parent: System.Numerics
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.numerics.matrix4x4
+  name: Matrix4x4
+  nameWithType: Matrix4x4
+  fullName: System.Numerics.Matrix4x4
+- uid: RedLight.Entities.Entity.Position*
+  commentId: Overload:RedLight.Entities.Entity.Position
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_Position
+  name: Position
+  nameWithType: Entity.Position
+  fullName: RedLight.Entities.Entity.Position
+- uid: RedLight.Entities.Entity.Scale*
+  commentId: Overload:RedLight.Entities.Entity.Scale
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_Scale
+  name: Scale
+  nameWithType: Entity.Scale
+  fullName: RedLight.Entities.Entity.Scale
+- uid: RedLight.Entities.Entity.Rotation*
+  commentId: Overload:RedLight.Entities.Entity.Rotation
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_Rotation
+  name: Rotation
+  nameWithType: Entity.Rotation
+  fullName: RedLight.Entities.Entity.Rotation
+- uid: RedLight.Entities.Entity.#ctor*
+  commentId: Overload:RedLight.Entities.Entity.#ctor
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity__ctor_RedLight_Graphics_RLModel_RedLight_Graphics_ModelType_System_Boolean_
+  name: Entity
+  nameWithType: Entity.Entity
+  fullName: RedLight.Entities.Entity.Entity
+  nameWithType.vb: Entity.New
+  fullName.vb: RedLight.Entities.Entity.New
+  name.vb: New
+- uid: RedLight.Entities.Entity.Translate*
+  commentId: Overload:RedLight.Entities.Entity.Translate
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_Translate_System_Numerics_Vector3_
+  name: Translate
+  nameWithType: Entity.Translate
+  fullName: RedLight.Entities.Entity.Translate
+- uid: RedLight.Entities.Entity
+  commentId: T:RedLight.Entities.Entity
+  parent: RedLight.Entities
+  href: RedLight.Entities.Entity.html
+  name: Entity
+  nameWithType: Entity
+  fullName: RedLight.Entities.Entity
+- uid: RedLight.Entities.Entity.Rotate*
+  commentId: Overload:RedLight.Entities.Entity.Rotate
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_Rotate_System_Single_System_Numerics_Vector3_
+  name: Rotate
+  nameWithType: Entity.Rotate
+  fullName: RedLight.Entities.Entity.Rotate
+- uid: RedLight.Entities.Entity.SetScale*
+  commentId: Overload:RedLight.Entities.Entity.SetScale
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_SetScale_System_Numerics_Vector3_
+  name: SetScale
+  nameWithType: Entity.SetScale
+  fullName: RedLight.Entities.Entity.SetScale
+- uid: RedLight.Entities.Entity.SetPosition*
+  commentId: Overload:RedLight.Entities.Entity.SetPosition
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_SetPosition_System_Numerics_Vector3_
+  name: SetPosition
+  nameWithType: Entity.SetPosition
+  fullName: RedLight.Entities.Entity.SetPosition
+- uid: RedLight.Entities.Entity.SetModel*
+  commentId: Overload:RedLight.Entities.Entity.SetModel
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_SetModel_System_Numerics_Matrix4x4_
+  name: SetModel
+  nameWithType: Entity.SetModel
+  fullName: RedLight.Entities.Entity.SetModel
+- uid: RedLight.Entities.Entity.AbsoluteReset*
+  commentId: Overload:RedLight.Entities.Entity.AbsoluteReset
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_AbsoluteReset
+  name: AbsoluteReset
+  nameWithType: Entity.AbsoluteReset
+  fullName: RedLight.Entities.Entity.AbsoluteReset
+- uid: RedLight.Entities.Entity.SetDefault*
+  commentId: Overload:RedLight.Entities.Entity.SetDefault
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_SetDefault
+  name: SetDefault
+  nameWithType: Entity.SetDefault
+  fullName: RedLight.Entities.Entity.SetDefault
+- uid: RedLight.Entities.Entity.Reset*
+  commentId: Overload:RedLight.Entities.Entity.Reset
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_Reset_System_Boolean_
+  name: Reset
+  nameWithType: Entity.Reset
+  fullName: RedLight.Entities.Entity.Reset
+- uid: RedLight.Entities.Entity.SetRotation*
+  commentId: Overload:RedLight.Entities.Entity.SetRotation
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_SetRotation_System_Numerics_Vector3_
+  name: SetRotation
+  nameWithType: Entity.SetRotation
+  fullName: RedLight.Entities.Entity.SetRotation
+- uid: RedLight.Entities.Entity.SetRotationDegrees*
+  commentId: Overload:RedLight.Entities.Entity.SetRotationDegrees
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_SetRotationDegrees_System_Numerics_Vector3_
+  name: SetRotationDegrees
+  nameWithType: Entity.SetRotationDegrees
+  fullName: RedLight.Entities.Entity.SetRotationDegrees
+- uid: RedLight.Entities.Entity.ApplyHitboxConfig*
+  commentId: Overload:RedLight.Entities.Entity.ApplyHitboxConfig
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_ApplyHitboxConfig
+  name: ApplyHitboxConfig
+  nameWithType: Entity.ApplyHitboxConfig
+  fullName: RedLight.Entities.Entity.ApplyHitboxConfig
+- uid: RedLight.Entities.Entity.SetHitboxConfig*
+  commentId: Overload:RedLight.Entities.Entity.SetHitboxConfig
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_SetHitboxConfig_RedLight_Entities_HitboxConfig_
+  name: SetHitboxConfig
+  nameWithType: Entity.SetHitboxConfig
+  fullName: RedLight.Entities.Entity.SetHitboxConfig
+- uid: RedLight.Entities.Entity.EnableImGuizmo*
+  commentId: Overload:RedLight.Entities.Entity.EnableImGuizmo
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_EnableImGuizmo_Hexa_NET_ImGuizmo_ImGuizmoOperation_Hexa_NET_ImGuizmo_ImGuizmoMode_
+  name: EnableImGuizmo
+  nameWithType: Entity.EnableImGuizmo
+  fullName: RedLight.Entities.Entity.EnableImGuizmo
+- uid: RedLight.Entities.Entity.DisableImGuizmo*
+  commentId: Overload:RedLight.Entities.Entity.DisableImGuizmo
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_DisableImGuizmo
+  name: DisableImGuizmo
+  nameWithType: Entity.DisableImGuizmo
+  fullName: RedLight.Entities.Entity.DisableImGuizmo
+- uid: RedLight.Entities.Entity.SetReflection*
+  commentId: Overload:RedLight.Entities.Entity.SetReflection
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_SetReflection_System_Boolean_System_Single_
+  name: SetReflection
+  nameWithType: Entity.SetReflection
+  fullName: RedLight.Entities.Entity.SetReflection
+- uid: RedLight.Entities.Entity.SetRefraction*
+  commentId: Overload:RedLight.Entities.Entity.SetRefraction
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_SetRefraction_System_Boolean_System_Single_
+  name: SetRefraction
+  nameWithType: Entity.SetRefraction
+  fullName: RedLight.Entities.Entity.SetRefraction
+- uid: RedLight.Entities.Entity.DrawBoundingBox*
+  commentId: Overload:RedLight.Entities.Entity.DrawBoundingBox
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_DrawBoundingBox_RedLight_Graphics_Camera_
+  name: DrawBoundingBox
+  nameWithType: Entity.DrawBoundingBox
+  fullName: RedLight.Entities.Entity.DrawBoundingBox
+- uid: RedLight.Graphics.Camera
+  commentId: T:RedLight.Graphics.Camera
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.Camera.html
+  name: Camera
+  nameWithType: Camera
+  fullName: RedLight.Graphics.Camera
+- uid: RedLight.Entities.Entity.SetRotationX*
+  commentId: Overload:RedLight.Entities.Entity.SetRotationX
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_SetRotationX_System_Single_
+  name: SetRotationX
+  nameWithType: Entity.SetRotationX
+  fullName: RedLight.Entities.Entity.SetRotationX
+- uid: RedLight.Entities.Entity.SetRotationY*
+  commentId: Overload:RedLight.Entities.Entity.SetRotationY
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_SetRotationY_System_Single_
+  name: SetRotationY
+  nameWithType: Entity.SetRotationY
+  fullName: RedLight.Entities.Entity.SetRotationY
+- uid: RedLight.Entities.Entity.SetRotationZ*
+  commentId: Overload:RedLight.Entities.Entity.SetRotationZ
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_SetRotationZ_System_Single_
+  name: SetRotationZ
+  nameWithType: Entity.SetRotationZ
+  fullName: RedLight.Entities.Entity.SetRotationZ
+- uid: RedLight.Entities.Entity.SetScaleX*
+  commentId: Overload:RedLight.Entities.Entity.SetScaleX
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_SetScaleX_System_Single_
+  name: SetScaleX
+  nameWithType: Entity.SetScaleX
+  fullName: RedLight.Entities.Entity.SetScaleX
+- uid: RedLight.Entities.Entity.SetScaleY*
+  commentId: Overload:RedLight.Entities.Entity.SetScaleY
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_SetScaleY_System_Single_
+  name: SetScaleY
+  nameWithType: Entity.SetScaleY
+  fullName: RedLight.Entities.Entity.SetScaleY
+- uid: RedLight.Entities.Entity.SetScaleZ*
+  commentId: Overload:RedLight.Entities.Entity.SetScaleZ
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_SetScaleZ_System_Single_
+  name: SetScaleZ
+  nameWithType: Entity.SetScaleZ
+  fullName: RedLight.Entities.Entity.SetScaleZ
+- uid: RedLight.Entities.Entity.SetUniformScale*
+  commentId: Overload:RedLight.Entities.Entity.SetUniformScale
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_SetUniformScale_System_Single_
+  name: SetUniformScale
+  nameWithType: Entity.SetUniformScale
+  fullName: RedLight.Entities.Entity.SetUniformScale
+- uid: RedLight.Entities.Entity.ShowHitbox*
+  commentId: Overload:RedLight.Entities.Entity.ShowHitbox
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_ShowHitbox
+  name: ShowHitbox
+  nameWithType: Entity.ShowHitbox
+  fullName: RedLight.Entities.Entity.ShowHitbox
+- uid: RedLight.Entities.Entity.HideHitbox*
+  commentId: Overload:RedLight.Entities.Entity.HideHitbox
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_HideHitbox
+  name: HideHitbox
+  nameWithType: Entity.HideHitbox
+  fullName: RedLight.Entities.Entity.HideHitbox
+- uid: RedLight.Entities.Entity.ToggleHitbox*
+  commentId: Overload:RedLight.Entities.Entity.ToggleHitbox
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_ToggleHitbox
+  name: ToggleHitbox
+  nameWithType: Entity.ToggleHitbox
+  fullName: RedLight.Entities.Entity.ToggleHitbox
+- uid: RedLight.Entities.Entity.IsDefaultSet*
+  commentId: Overload:RedLight.Entities.Entity.IsDefaultSet
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_IsDefaultSet
+  name: IsDefaultSet
+  nameWithType: Entity.IsDefaultSet
+  fullName: RedLight.Entities.Entity.IsDefaultSet
+- uid: RedLight.Entities.Entity.RotationDegrees*
+  commentId: Overload:RedLight.Entities.Entity.RotationDegrees
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_RotationDegrees
+  name: RotationDegrees
+  nameWithType: Entity.RotationDegrees
+  fullName: RedLight.Entities.Entity.RotationDegrees
+- uid: RedLight.Entities.Entity.DefaultRotation*
+  commentId: Overload:RedLight.Entities.Entity.DefaultRotation
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_DefaultRotation
+  name: DefaultRotation
+  nameWithType: Entity.DefaultRotation
+  fullName: RedLight.Entities.Entity.DefaultRotation

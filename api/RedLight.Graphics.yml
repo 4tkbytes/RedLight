@@ -1,0 +1,241 @@
+### YamlMime:ManagedReference
+items:
+- uid: RedLight.Graphics
+  commentId: N:RedLight.Graphics
+  id: RedLight.Graphics
+  children:
+  - RedLight.Graphics.Camera
+  - RedLight.Graphics.ConcreteTransformable`1
+  - RedLight.Graphics.CubeMap
+  - RedLight.Graphics.CubeMapFace
+  - RedLight.Graphics.CubeMapSide
+  - RedLight.Graphics.Framebuffer
+  - RedLight.Graphics.Mesh
+  - RedLight.Graphics.ModelType
+  - RedLight.Graphics.RLGraphics
+  - RedLight.Graphics.RLModel
+  - RedLight.Graphics.RLShader
+  - RedLight.Graphics.RLShaderBundle
+  - RedLight.Graphics.RLShaderProgram
+  - RedLight.Graphics.RLTexture
+  - RedLight.Graphics.RLTextureType
+  - RedLight.Graphics.ShaderManager
+  - RedLight.Graphics.ShaderType
+  - RedLight.Graphics.TextureManager
+  - RedLight.Graphics.TransformableExtensions
+  - RedLight.Graphics.Transformable`1
+  - RedLight.Graphics.Vertex
+  langs:
+  - csharp
+  - vb
+  name: RedLight.Graphics
+  nameWithType: RedLight.Graphics
+  fullName: RedLight.Graphics
+  type: Namespace
+  assemblies:
+  - RedLight
+references:
+- uid: RedLight.Graphics.Camera
+  commentId: T:RedLight.Graphics.Camera
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.Camera.html
+  name: Camera
+  nameWithType: Camera
+  fullName: RedLight.Graphics.Camera
+- uid: RedLight.Graphics.CubeMapFace
+  commentId: T:RedLight.Graphics.CubeMapFace
+  href: RedLight.Graphics.CubeMapFace.html
+  name: CubeMapFace
+  nameWithType: CubeMapFace
+  fullName: RedLight.Graphics.CubeMapFace
+- uid: RedLight.Graphics.CubeMap
+  commentId: T:RedLight.Graphics.CubeMap
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.CubeMap.html
+  name: CubeMap
+  nameWithType: CubeMap
+  fullName: RedLight.Graphics.CubeMap
+- uid: RedLight.Graphics.CubeMapSide
+  commentId: T:RedLight.Graphics.CubeMapSide
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.CubeMapSide.html
+  name: CubeMapSide
+  nameWithType: CubeMapSide
+  fullName: RedLight.Graphics.CubeMapSide
+- uid: RedLight.Graphics.Framebuffer
+  commentId: T:RedLight.Graphics.Framebuffer
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.Framebuffer.html
+  name: Framebuffer
+  nameWithType: Framebuffer
+  fullName: RedLight.Graphics.Framebuffer
+- uid: RedLight.Graphics.Vertex
+  commentId: T:RedLight.Graphics.Vertex
+  href: RedLight.Graphics.Vertex.html
+  name: Vertex
+  nameWithType: Vertex
+  fullName: RedLight.Graphics.Vertex
+- uid: RedLight.Graphics.Mesh
+  commentId: T:RedLight.Graphics.Mesh
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.Mesh.html
+  name: Mesh
+  nameWithType: Mesh
+  fullName: RedLight.Graphics.Mesh
+- uid: RedLight.Graphics.ModelType
+  commentId: T:RedLight.Graphics.ModelType
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.ModelType.html
+  name: ModelType
+  nameWithType: ModelType
+  fullName: RedLight.Graphics.ModelType
+- uid: RedLight.Graphics.RLGraphics
+  commentId: T:RedLight.Graphics.RLGraphics
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.RLGraphics.html
+  name: RLGraphics
+  nameWithType: RLGraphics
+  fullName: RedLight.Graphics.RLGraphics
+- uid: RedLight.Graphics.RLModel
+  commentId: T:RedLight.Graphics.RLModel
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.RLModel.html
+  name: RLModel
+  nameWithType: RLModel
+  fullName: RedLight.Graphics.RLModel
+- uid: RedLight.Graphics.RLShader
+  commentId: T:RedLight.Graphics.RLShader
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.RLShader.html
+  name: RLShader
+  nameWithType: RLShader
+  fullName: RedLight.Graphics.RLShader
+- uid: RedLight.Graphics.RLShaderProgram
+  commentId: T:RedLight.Graphics.RLShaderProgram
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.RLShaderProgram.html
+  name: RLShaderProgram
+  nameWithType: RLShaderProgram
+  fullName: RedLight.Graphics.RLShaderProgram
+- uid: RedLight.Graphics.ShaderType
+  commentId: T:RedLight.Graphics.ShaderType
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.ShaderType.html
+  name: ShaderType
+  nameWithType: ShaderType
+  fullName: RedLight.Graphics.ShaderType
+- uid: RedLight.Graphics.RLTexture
+  commentId: T:RedLight.Graphics.RLTexture
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.RLTexture.html
+  name: RLTexture
+  nameWithType: RLTexture
+  fullName: RedLight.Graphics.RLTexture
+- uid: RedLight.Graphics.RLTextureType
+  commentId: T:RedLight.Graphics.RLTextureType
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.RLTextureType.html
+  name: RLTextureType
+  nameWithType: RLTextureType
+  fullName: RedLight.Graphics.RLTextureType
+- uid: RedLight.Graphics.RLShaderBundle
+  commentId: T:RedLight.Graphics.RLShaderBundle
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.RLShaderBundle.html
+  name: RLShaderBundle
+  nameWithType: RLShaderBundle
+  fullName: RedLight.Graphics.RLShaderBundle
+- uid: RedLight.Graphics.ShaderManager
+  commentId: T:RedLight.Graphics.ShaderManager
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.ShaderManager.html
+  name: ShaderManager
+  nameWithType: ShaderManager
+  fullName: RedLight.Graphics.ShaderManager
+- uid: RedLight.Graphics.TextureManager
+  commentId: T:RedLight.Graphics.TextureManager
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.TextureManager.html
+  name: TextureManager
+  nameWithType: TextureManager
+  fullName: RedLight.Graphics.TextureManager
+- uid: RedLight.Graphics.Transformable`1
+  commentId: T:RedLight.Graphics.Transformable`1
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.Transformable-1.html
+  name: Transformable<T>
+  nameWithType: Transformable<T>
+  fullName: RedLight.Graphics.Transformable<T>
+  nameWithType.vb: Transformable(Of T)
+  fullName.vb: RedLight.Graphics.Transformable(Of T)
+  name.vb: Transformable(Of T)
+  spec.csharp:
+  - uid: RedLight.Graphics.Transformable`1
+    name: Transformable
+    href: RedLight.Graphics.Transformable-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: RedLight.Graphics.Transformable`1
+    name: Transformable
+    href: RedLight.Graphics.Transformable-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: RedLight.Graphics.ConcreteTransformable`1
+  commentId: T:RedLight.Graphics.ConcreteTransformable`1
+  href: RedLight.Graphics.ConcreteTransformable-1.html
+  name: ConcreteTransformable<T>
+  nameWithType: ConcreteTransformable<T>
+  fullName: RedLight.Graphics.ConcreteTransformable<T>
+  nameWithType.vb: ConcreteTransformable(Of T)
+  fullName.vb: RedLight.Graphics.ConcreteTransformable(Of T)
+  name.vb: ConcreteTransformable(Of T)
+  spec.csharp:
+  - uid: RedLight.Graphics.ConcreteTransformable`1
+    name: ConcreteTransformable
+    href: RedLight.Graphics.ConcreteTransformable-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: RedLight.Graphics.ConcreteTransformable`1
+    name: ConcreteTransformable
+    href: RedLight.Graphics.ConcreteTransformable-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: RedLight.Graphics.TransformableExtensions
+  commentId: T:RedLight.Graphics.TransformableExtensions
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.TransformableExtensions.html
+  name: TransformableExtensions
+  nameWithType: TransformableExtensions
+  fullName: RedLight.Graphics.TransformableExtensions
+- uid: RedLight.Graphics
+  commentId: N:RedLight.Graphics
+  href: RedLight.html
+  name: RedLight.Graphics
+  nameWithType: RedLight.Graphics
+  fullName: RedLight.Graphics
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Graphics
+    name: Graphics
+    href: RedLight.Graphics.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Graphics
+    name: Graphics
+    href: RedLight.Graphics.html

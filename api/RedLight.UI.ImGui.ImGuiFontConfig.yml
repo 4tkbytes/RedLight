@@ -1,0 +1,538 @@
+### YamlMime:ManagedReference
+items:
+- uid: RedLight.UI.ImGui.ImGuiFontConfig
+  commentId: T:RedLight.UI.ImGui.ImGuiFontConfig
+  id: ImGuiFontConfig
+  parent: RedLight.UI.ImGui
+  children:
+  - RedLight.UI.ImGui.ImGuiFontConfig.#ctor(System.String,System.Single,System.Func{Hexa.NET.ImGui.ImGuiIOPtr,System.IntPtr})
+  - RedLight.UI.ImGui.ImGuiFontConfig.FontPath
+  - RedLight.UI.ImGui.ImGuiFontConfig.FontSize
+  - RedLight.UI.ImGui.ImGuiFontConfig.GetGlyphRange
+  langs:
+  - csharp
+  - vb
+  name: ImGuiFontConfig
+  nameWithType: ImGuiFontConfig
+  fullName: RedLight.UI.ImGui.ImGuiFontConfig
+  type: Struct
+  source:
+    remote:
+      path: src/RedLight/UI/ImGui/ImGuiFontConfig.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: ImGuiFontConfig
+    path: src/RedLight/UI/ImGui/ImGuiFontConfig.cs
+    startLine: 14
+  assemblies:
+  - RedLight
+  namespace: RedLight.UI.ImGui
+  syntax:
+    content: public readonly struct ImGuiFontConfig
+    content.vb: Public Structure ImGuiFontConfig
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+- uid: RedLight.UI.ImGui.ImGuiFontConfig.#ctor(System.String,System.Single,System.Func{Hexa.NET.ImGui.ImGuiIOPtr,System.IntPtr})
+  commentId: M:RedLight.UI.ImGui.ImGuiFontConfig.#ctor(System.String,System.Single,System.Func{Hexa.NET.ImGui.ImGuiIOPtr,System.IntPtr})
+  id: '#ctor(System.String,System.Single,System.Func{Hexa.NET.ImGui.ImGuiIOPtr,System.IntPtr})'
+  parent: RedLight.UI.ImGui.ImGuiFontConfig
+  langs:
+  - csharp
+  - vb
+  name: ImGuiFontConfig(string, float, Func<ImGuiIOPtr, nint>)
+  nameWithType: ImGuiFontConfig.ImGuiFontConfig(string, float, Func<ImGuiIOPtr, nint>)
+  fullName: RedLight.UI.ImGui.ImGuiFontConfig.ImGuiFontConfig(string, float, System.Func<Hexa.NET.ImGui.ImGuiIOPtr, nint>)
+  type: Constructor
+  source:
+    remote:
+      path: src/RedLight/UI/ImGui/ImGuiFontConfig.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: .ctor
+    path: src/RedLight/UI/ImGui/ImGuiFontConfig.cs
+    startLine: 16
+  assemblies:
+  - RedLight
+  namespace: RedLight.UI.ImGui
+  syntax:
+    content: public ImGuiFontConfig(string fontPath, float fontSize, Func<ImGuiIOPtr, nint> getGlyphRange = null)
+    parameters:
+    - id: fontPath
+      type: System.String
+    - id: fontSize
+      type: System.Single
+    - id: getGlyphRange
+      type: System.Func{Hexa.NET.ImGui.ImGuiIOPtr,System.IntPtr}
+    content.vb: Public Sub New(fontPath As String, fontSize As Single, getGlyphRange As Func(Of ImGuiIOPtr, IntPtr) = Nothing)
+  overload: RedLight.UI.ImGui.ImGuiFontConfig.#ctor*
+  nameWithType.vb: ImGuiFontConfig.New(String, Single, Func(Of ImGuiIOPtr, IntPtr))
+  fullName.vb: RedLight.UI.ImGui.ImGuiFontConfig.New(String, Single, System.Func(Of Hexa.NET.ImGui.ImGuiIOPtr, System.IntPtr))
+  name.vb: New(String, Single, Func(Of ImGuiIOPtr, IntPtr))
+- uid: RedLight.UI.ImGui.ImGuiFontConfig.FontPath
+  commentId: P:RedLight.UI.ImGui.ImGuiFontConfig.FontPath
+  id: FontPath
+  parent: RedLight.UI.ImGui.ImGuiFontConfig
+  langs:
+  - csharp
+  - vb
+  name: FontPath
+  nameWithType: ImGuiFontConfig.FontPath
+  fullName: RedLight.UI.ImGui.ImGuiFontConfig.FontPath
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/UI/ImGui/ImGuiFontConfig.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: FontPath
+    path: src/RedLight/UI/ImGui/ImGuiFontConfig.cs
+    startLine: 24
+  assemblies:
+  - RedLight
+  namespace: RedLight.UI.ImGui
+  syntax:
+    content: public string FontPath { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property FontPath As String
+  overload: RedLight.UI.ImGui.ImGuiFontConfig.FontPath*
+- uid: RedLight.UI.ImGui.ImGuiFontConfig.FontSize
+  commentId: P:RedLight.UI.ImGui.ImGuiFontConfig.FontSize
+  id: FontSize
+  parent: RedLight.UI.ImGui.ImGuiFontConfig
+  langs:
+  - csharp
+  - vb
+  name: FontSize
+  nameWithType: ImGuiFontConfig.FontSize
+  fullName: RedLight.UI.ImGui.ImGuiFontConfig.FontSize
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/UI/ImGui/ImGuiFontConfig.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: FontSize
+    path: src/RedLight/UI/ImGui/ImGuiFontConfig.cs
+    startLine: 25
+  assemblies:
+  - RedLight
+  namespace: RedLight.UI.ImGui
+  syntax:
+    content: public float FontSize { get; }
+    parameters: []
+    return:
+      type: System.Single
+    content.vb: Public ReadOnly Property FontSize As Single
+  overload: RedLight.UI.ImGui.ImGuiFontConfig.FontSize*
+- uid: RedLight.UI.ImGui.ImGuiFontConfig.GetGlyphRange
+  commentId: P:RedLight.UI.ImGui.ImGuiFontConfig.GetGlyphRange
+  id: GetGlyphRange
+  parent: RedLight.UI.ImGui.ImGuiFontConfig
+  langs:
+  - csharp
+  - vb
+  name: GetGlyphRange
+  nameWithType: ImGuiFontConfig.GetGlyphRange
+  fullName: RedLight.UI.ImGui.ImGuiFontConfig.GetGlyphRange
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/UI/ImGui/ImGuiFontConfig.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: GetGlyphRange
+    path: src/RedLight/UI/ImGui/ImGuiFontConfig.cs
+    startLine: 26
+  assemblies:
+  - RedLight
+  namespace: RedLight.UI.ImGui
+  syntax:
+    content: public Func<ImGuiIOPtr, nint> GetGlyphRange { get; }
+    parameters: []
+    return:
+      type: System.Func{Hexa.NET.ImGui.ImGuiIOPtr,System.IntPtr}
+    content.vb: Public ReadOnly Property GetGlyphRange As Func(Of ImGuiIOPtr, IntPtr)
+  overload: RedLight.UI.ImGui.ImGuiFontConfig.GetGlyphRange*
+references:
+- uid: RedLight.UI.ImGui
+  commentId: N:RedLight.UI.ImGui
+  href: RedLight.html
+  name: RedLight.UI.ImGui
+  nameWithType: RedLight.UI.ImGui
+  fullName: RedLight.UI.ImGui
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.UI
+    name: UI
+    href: RedLight.UI.html
+  - name: .
+  - uid: RedLight.UI.ImGui
+    name: ImGui
+    href: RedLight.UI.ImGui.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.UI
+    name: UI
+    href: RedLight.UI.html
+  - name: .
+  - uid: RedLight.UI.ImGui
+    name: ImGui
+    href: RedLight.UI.ImGui.html
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  name: Equals(object)
+  nameWithType: ValueType.Equals(object)
+  fullName: System.ValueType.Equals(object)
+  nameWithType.vb: ValueType.Equals(Object)
+  fullName.vb: System.ValueType.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: RedLight.UI.ImGui.ImGuiFontConfig.#ctor*
+  commentId: Overload:RedLight.UI.ImGui.ImGuiFontConfig.#ctor
+  href: RedLight.UI.ImGui.ImGuiFontConfig.html#RedLight_UI_ImGui_ImGuiFontConfig__ctor_System_String_System_Single_System_Func_Hexa_NET_ImGui_ImGuiIOPtr_System_IntPtr__
+  name: ImGuiFontConfig
+  nameWithType: ImGuiFontConfig.ImGuiFontConfig
+  fullName: RedLight.UI.ImGui.ImGuiFontConfig.ImGuiFontConfig
+  nameWithType.vb: ImGuiFontConfig.New
+  fullName.vb: RedLight.UI.ImGui.ImGuiFontConfig.New
+  name.vb: New
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.single
+  name: float
+  nameWithType: float
+  fullName: float
+  nameWithType.vb: Single
+  fullName.vb: Single
+  name.vb: Single
+- uid: System.Func{Hexa.NET.ImGui.ImGuiIOPtr,System.IntPtr}
+  commentId: T:System.Func{Hexa.NET.ImGui.ImGuiIOPtr,System.IntPtr}
+  parent: System
+  definition: System.Func`2
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<ImGuiIOPtr, nint>
+  nameWithType: Func<ImGuiIOPtr, nint>
+  fullName: System.Func<Hexa.NET.ImGui.ImGuiIOPtr, nint>
+  nameWithType.vb: Func(Of ImGuiIOPtr, IntPtr)
+  fullName.vb: System.Func(Of Hexa.NET.ImGui.ImGuiIOPtr, System.IntPtr)
+  name.vb: Func(Of ImGuiIOPtr, IntPtr)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - uid: Hexa.NET.ImGui.ImGuiIOPtr
+    name: ImGuiIOPtr
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.IntPtr
+    name: nint
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.intptr
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Hexa.NET.ImGui.ImGuiIOPtr
+    name: ImGuiIOPtr
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.IntPtr
+    name: IntPtr
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.intptr
+  - name: )
+- uid: System.Func`2
+  commentId: T:System.Func`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<T, TResult>
+  nameWithType: Func<T, TResult>
+  fullName: System.Func<T, TResult>
+  nameWithType.vb: Func(Of T, TResult)
+  fullName.vb: System.Func(Of T, TResult)
+  name.vb: Func(Of T, TResult)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: RedLight.UI.ImGui.ImGuiFontConfig.FontPath*
+  commentId: Overload:RedLight.UI.ImGui.ImGuiFontConfig.FontPath
+  href: RedLight.UI.ImGui.ImGuiFontConfig.html#RedLight_UI_ImGui_ImGuiFontConfig_FontPath
+  name: FontPath
+  nameWithType: ImGuiFontConfig.FontPath
+  fullName: RedLight.UI.ImGui.ImGuiFontConfig.FontPath
+- uid: RedLight.UI.ImGui.ImGuiFontConfig.FontSize*
+  commentId: Overload:RedLight.UI.ImGui.ImGuiFontConfig.FontSize
+  href: RedLight.UI.ImGui.ImGuiFontConfig.html#RedLight_UI_ImGui_ImGuiFontConfig_FontSize
+  name: FontSize
+  nameWithType: ImGuiFontConfig.FontSize
+  fullName: RedLight.UI.ImGui.ImGuiFontConfig.FontSize
+- uid: RedLight.UI.ImGui.ImGuiFontConfig.GetGlyphRange*
+  commentId: Overload:RedLight.UI.ImGui.ImGuiFontConfig.GetGlyphRange
+  href: RedLight.UI.ImGui.ImGuiFontConfig.html#RedLight_UI_ImGui_ImGuiFontConfig_GetGlyphRange
+  name: GetGlyphRange
+  nameWithType: ImGuiFontConfig.GetGlyphRange
+  fullName: RedLight.UI.ImGui.ImGuiFontConfig.GetGlyphRange

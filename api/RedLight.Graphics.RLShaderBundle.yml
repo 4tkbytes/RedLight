@@ -1,0 +1,583 @@
+### YamlMime:ManagedReference
+items:
+- uid: RedLight.Graphics.RLShaderBundle
+  commentId: T:RedLight.Graphics.RLShaderBundle
+  id: RLShaderBundle
+  parent: RedLight.Graphics
+  children:
+  - RedLight.Graphics.RLShaderBundle.#ctor(RedLight.Graphics.RLGraphics,System.String,System.String)
+  - RedLight.Graphics.RLShaderBundle.FragmentShader
+  - RedLight.Graphics.RLShaderBundle.Graphics
+  - RedLight.Graphics.RLShaderBundle.Name
+  - RedLight.Graphics.RLShaderBundle.Program
+  - RedLight.Graphics.RLShaderBundle.SetUniform``1(System.String,``0)
+  - RedLight.Graphics.RLShaderBundle.Use
+  - RedLight.Graphics.RLShaderBundle.VertexShader
+  langs:
+  - csharp
+  - vb
+  name: RLShaderBundle
+  nameWithType: RLShaderBundle
+  fullName: RedLight.Graphics.RLShaderBundle
+  type: Struct
+  source:
+    remote:
+      path: src/RedLight/Graphics/ShaderManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: RLShaderBundle
+    path: src/RedLight/Graphics/ShaderManager.cs
+    startLine: 4
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public struct RLShaderBundle
+    content.vb: Public Structure RLShaderBundle
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+- uid: RedLight.Graphics.RLShaderBundle.Graphics
+  commentId: F:RedLight.Graphics.RLShaderBundle.Graphics
+  id: Graphics
+  parent: RedLight.Graphics.RLShaderBundle
+  langs:
+  - csharp
+  - vb
+  name: Graphics
+  nameWithType: RLShaderBundle.Graphics
+  fullName: RedLight.Graphics.RLShaderBundle.Graphics
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Graphics/ShaderManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Graphics
+    path: src/RedLight/Graphics/ShaderManager.cs
+    startLine: 6
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public RLGraphics Graphics
+    return:
+      type: RedLight.Graphics.RLGraphics
+    content.vb: Public Graphics As RLGraphics
+- uid: RedLight.Graphics.RLShaderBundle.VertexShader
+  commentId: F:RedLight.Graphics.RLShaderBundle.VertexShader
+  id: VertexShader
+  parent: RedLight.Graphics.RLShaderBundle
+  langs:
+  - csharp
+  - vb
+  name: VertexShader
+  nameWithType: RLShaderBundle.VertexShader
+  fullName: RedLight.Graphics.RLShaderBundle.VertexShader
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Graphics/ShaderManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: VertexShader
+    path: src/RedLight/Graphics/ShaderManager.cs
+    startLine: 7
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public RLShader VertexShader
+    return:
+      type: RedLight.Graphics.RLShader
+    content.vb: Public VertexShader As RLShader
+- uid: RedLight.Graphics.RLShaderBundle.FragmentShader
+  commentId: F:RedLight.Graphics.RLShaderBundle.FragmentShader
+  id: FragmentShader
+  parent: RedLight.Graphics.RLShaderBundle
+  langs:
+  - csharp
+  - vb
+  name: FragmentShader
+  nameWithType: RLShaderBundle.FragmentShader
+  fullName: RedLight.Graphics.RLShaderBundle.FragmentShader
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Graphics/ShaderManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: FragmentShader
+    path: src/RedLight/Graphics/ShaderManager.cs
+    startLine: 8
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public RLShader FragmentShader
+    return:
+      type: RedLight.Graphics.RLShader
+    content.vb: Public FragmentShader As RLShader
+- uid: RedLight.Graphics.RLShaderBundle.Program
+  commentId: F:RedLight.Graphics.RLShaderBundle.Program
+  id: Program
+  parent: RedLight.Graphics.RLShaderBundle
+  langs:
+  - csharp
+  - vb
+  name: Program
+  nameWithType: RLShaderBundle.Program
+  fullName: RedLight.Graphics.RLShaderBundle.Program
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Graphics/ShaderManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Program
+    path: src/RedLight/Graphics/ShaderManager.cs
+    startLine: 9
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public RLShaderProgram Program
+    return:
+      type: RedLight.Graphics.RLShaderProgram
+    content.vb: Public Program As RLShaderProgram
+- uid: RedLight.Graphics.RLShaderBundle.Name
+  commentId: F:RedLight.Graphics.RLShaderBundle.Name
+  id: Name
+  parent: RedLight.Graphics.RLShaderBundle
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: RLShaderBundle.Name
+  fullName: RedLight.Graphics.RLShaderBundle.Name
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Graphics/ShaderManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Name
+    path: src/RedLight/Graphics/ShaderManager.cs
+    startLine: 10
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public string Name
+    return:
+      type: System.String
+    content.vb: Public Name As String
+- uid: RedLight.Graphics.RLShaderBundle.#ctor(RedLight.Graphics.RLGraphics,System.String,System.String)
+  commentId: M:RedLight.Graphics.RLShaderBundle.#ctor(RedLight.Graphics.RLGraphics,System.String,System.String)
+  id: '#ctor(RedLight.Graphics.RLGraphics,System.String,System.String)'
+  parent: RedLight.Graphics.RLShaderBundle
+  langs:
+  - csharp
+  - vb
+  name: RLShaderBundle(RLGraphics, string, string)
+  nameWithType: RLShaderBundle.RLShaderBundle(RLGraphics, string, string)
+  fullName: RedLight.Graphics.RLShaderBundle.RLShaderBundle(RedLight.Graphics.RLGraphics, string, string)
+  type: Constructor
+  source:
+    remote:
+      path: src/RedLight/Graphics/ShaderManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: .ctor
+    path: src/RedLight/Graphics/ShaderManager.cs
+    startLine: 12
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public RLShaderBundle(RLGraphics graphics, string vertexSource, string fragmentSource)
+    parameters:
+    - id: graphics
+      type: RedLight.Graphics.RLGraphics
+    - id: vertexSource
+      type: System.String
+    - id: fragmentSource
+      type: System.String
+    content.vb: Public Sub New(graphics As RLGraphics, vertexSource As String, fragmentSource As String)
+  overload: RedLight.Graphics.RLShaderBundle.#ctor*
+  nameWithType.vb: RLShaderBundle.New(RLGraphics, String, String)
+  fullName.vb: RedLight.Graphics.RLShaderBundle.New(RedLight.Graphics.RLGraphics, String, String)
+  name.vb: New(RLGraphics, String, String)
+- uid: RedLight.Graphics.RLShaderBundle.Use
+  commentId: M:RedLight.Graphics.RLShaderBundle.Use
+  id: Use
+  parent: RedLight.Graphics.RLShaderBundle
+  langs:
+  - csharp
+  - vb
+  name: Use()
+  nameWithType: RLShaderBundle.Use()
+  fullName: RedLight.Graphics.RLShaderBundle.Use()
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/ShaderManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Use
+    path: src/RedLight/Graphics/ShaderManager.cs
+    startLine: 19
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public void Use()
+    content.vb: Public Sub Use()
+  overload: RedLight.Graphics.RLShaderBundle.Use*
+- uid: RedLight.Graphics.RLShaderBundle.SetUniform``1(System.String,``0)
+  commentId: M:RedLight.Graphics.RLShaderBundle.SetUniform``1(System.String,``0)
+  id: SetUniform``1(System.String,``0)
+  parent: RedLight.Graphics.RLShaderBundle
+  langs:
+  - csharp
+  - vb
+  name: SetUniform<T>(string, T)
+  nameWithType: RLShaderBundle.SetUniform<T>(string, T)
+  fullName: RedLight.Graphics.RLShaderBundle.SetUniform<T>(string, T)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/ShaderManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: SetUniform
+    path: src/RedLight/Graphics/ShaderManager.cs
+    startLine: 31
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  summary: A better way of setting a shaders uniform.
+  example: []
+  syntax:
+    content: public void SetUniform<T>(string uniform, T value)
+    parameters:
+    - id: uniform
+      type: System.String
+    - id: value
+      type: '{T}'
+      description: ''
+    typeParameters:
+    - id: T
+      description: ''
+    content.vb: Public Sub SetUniform(Of T)(uniform As String, value As T)
+  overload: RedLight.Graphics.RLShaderBundle.SetUniform*
+  nameWithType.vb: RLShaderBundle.SetUniform(Of T)(String, T)
+  fullName.vb: RedLight.Graphics.RLShaderBundle.SetUniform(Of T)(String, T)
+  name.vb: SetUniform(Of T)(String, T)
+references:
+- uid: RedLight.Graphics
+  commentId: N:RedLight.Graphics
+  href: RedLight.html
+  name: RedLight.Graphics
+  nameWithType: RedLight.Graphics
+  fullName: RedLight.Graphics
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Graphics
+    name: Graphics
+    href: RedLight.Graphics.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Graphics
+    name: Graphics
+    href: RedLight.Graphics.html
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  name: Equals(object)
+  nameWithType: ValueType.Equals(object)
+  fullName: System.ValueType.Equals(object)
+  nameWithType.vb: ValueType.Equals(Object)
+  fullName.vb: System.ValueType.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: RedLight.Graphics.RLGraphics
+  commentId: T:RedLight.Graphics.RLGraphics
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.RLGraphics.html
+  name: RLGraphics
+  nameWithType: RLGraphics
+  fullName: RedLight.Graphics.RLGraphics
+- uid: RedLight.Graphics.RLShader
+  commentId: T:RedLight.Graphics.RLShader
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.RLShader.html
+  name: RLShader
+  nameWithType: RLShader
+  fullName: RedLight.Graphics.RLShader
+- uid: RedLight.Graphics.RLShaderProgram
+  commentId: T:RedLight.Graphics.RLShaderProgram
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.RLShaderProgram.html
+  name: RLShaderProgram
+  nameWithType: RLShaderProgram
+  fullName: RedLight.Graphics.RLShaderProgram
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: RedLight.Graphics.RLShaderBundle.#ctor*
+  commentId: Overload:RedLight.Graphics.RLShaderBundle.#ctor
+  href: RedLight.Graphics.RLShaderBundle.html#RedLight_Graphics_RLShaderBundle__ctor_RedLight_Graphics_RLGraphics_System_String_System_String_
+  name: RLShaderBundle
+  nameWithType: RLShaderBundle.RLShaderBundle
+  fullName: RedLight.Graphics.RLShaderBundle.RLShaderBundle
+  nameWithType.vb: RLShaderBundle.New
+  fullName.vb: RedLight.Graphics.RLShaderBundle.New
+  name.vb: New
+- uid: RedLight.Graphics.RLShaderBundle.Use*
+  commentId: Overload:RedLight.Graphics.RLShaderBundle.Use
+  href: RedLight.Graphics.RLShaderBundle.html#RedLight_Graphics_RLShaderBundle_Use
+  name: Use
+  nameWithType: RLShaderBundle.Use
+  fullName: RedLight.Graphics.RLShaderBundle.Use
+- uid: RedLight.Graphics.RLShaderBundle.SetUniform*
+  commentId: Overload:RedLight.Graphics.RLShaderBundle.SetUniform
+  href: RedLight.Graphics.RLShaderBundle.html#RedLight_Graphics_RLShaderBundle_SetUniform__1_System_String___0_
+  name: SetUniform
+  nameWithType: RLShaderBundle.SetUniform
+  fullName: RedLight.Graphics.RLShaderBundle.SetUniform
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T

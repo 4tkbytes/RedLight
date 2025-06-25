@@ -1,0 +1,68 @@
+### YamlMime:ManagedReference
+items:
+- uid: RedLight.Physics
+  commentId: N:RedLight.Physics
+  id: RedLight.Physics
+  children:
+  - RedLight.Physics.CollisionEventHandler
+  - RedLight.Physics.NarrowPhaseCallbacks
+  - RedLight.Physics.PhysicsSystem
+  - RedLight.Physics.PoseIntegratorCallbacks
+  langs:
+  - csharp
+  - vb
+  name: RedLight.Physics
+  nameWithType: RedLight.Physics
+  fullName: RedLight.Physics
+  type: Namespace
+  assemblies:
+  - RedLight
+references:
+- uid: RedLight.Physics.CollisionEventHandler
+  commentId: T:RedLight.Physics.CollisionEventHandler
+  parent: RedLight.Physics
+  href: RedLight.Physics.CollisionEventHandler.html
+  name: CollisionEventHandler
+  nameWithType: CollisionEventHandler
+  fullName: RedLight.Physics.CollisionEventHandler
+- uid: RedLight.Physics.PhysicsSystem
+  commentId: T:RedLight.Physics.PhysicsSystem
+  parent: RedLight.Physics
+  href: RedLight.Physics.PhysicsSystem.html
+  name: PhysicsSystem
+  nameWithType: PhysicsSystem
+  fullName: RedLight.Physics.PhysicsSystem
+- uid: RedLight.Physics.NarrowPhaseCallbacks
+  commentId: T:RedLight.Physics.NarrowPhaseCallbacks
+  href: RedLight.Physics.NarrowPhaseCallbacks.html
+  name: NarrowPhaseCallbacks
+  nameWithType: NarrowPhaseCallbacks
+  fullName: RedLight.Physics.NarrowPhaseCallbacks
+- uid: RedLight.Physics.PoseIntegratorCallbacks
+  commentId: T:RedLight.Physics.PoseIntegratorCallbacks
+  href: RedLight.Physics.PoseIntegratorCallbacks.html
+  name: PoseIntegratorCallbacks
+  nameWithType: PoseIntegratorCallbacks
+  fullName: RedLight.Physics.PoseIntegratorCallbacks
+- uid: RedLight.Physics
+  commentId: N:RedLight.Physics
+  href: RedLight.html
+  name: RedLight.Physics
+  nameWithType: RedLight.Physics
+  fullName: RedLight.Physics
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Physics
+    name: Physics
+    href: RedLight.Physics.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Physics
+    name: Physics
+    href: RedLight.Physics.html

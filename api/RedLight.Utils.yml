@@ -1,0 +1,138 @@
+### YamlMime:ManagedReference
+items:
+- uid: RedLight.Utils
+  commentId: N:RedLight.Utils
+  id: RedLight.Utils
+  children:
+  - RedLight.Utils.Kubi
+  - RedLight.Utils.Kubi.KubiOptions
+  - RedLight.Utils.Kubi.Layout
+  - RedLight.Utils.Kubi.Transform
+  - RedLight.Utils.RLConstants
+  - RedLight.Utils.RLFiles
+  - RedLight.Utils.RLUtils
+  langs:
+  - csharp
+  - vb
+  name: RedLight.Utils
+  nameWithType: RedLight.Utils
+  fullName: RedLight.Utils
+  type: Namespace
+  assemblies:
+  - RedLight
+references:
+- uid: RedLight.Utils.Kubi
+  commentId: T:RedLight.Utils.Kubi
+  href: RedLight.Utils.Kubi.html
+  name: Kubi
+  nameWithType: Kubi
+  fullName: RedLight.Utils.Kubi
+- uid: RedLight.Utils.Kubi.Transform
+  commentId: T:RedLight.Utils.Kubi.Transform
+  parent: RedLight.Utils
+  href: RedLight.Utils.Kubi.html
+  name: Kubi.Transform
+  nameWithType: Kubi.Transform
+  fullName: RedLight.Utils.Kubi.Transform
+  spec.csharp:
+  - uid: RedLight.Utils.Kubi
+    name: Kubi
+    href: RedLight.Utils.Kubi.html
+  - name: .
+  - uid: RedLight.Utils.Kubi.Transform
+    name: Transform
+    href: RedLight.Utils.Kubi.Transform.html
+  spec.vb:
+  - uid: RedLight.Utils.Kubi
+    name: Kubi
+    href: RedLight.Utils.Kubi.html
+  - name: .
+  - uid: RedLight.Utils.Kubi.Transform
+    name: Transform
+    href: RedLight.Utils.Kubi.Transform.html
+- uid: RedLight.Utils.Kubi.Layout
+  commentId: T:RedLight.Utils.Kubi.Layout
+  parent: RedLight.Utils
+  href: RedLight.Utils.Kubi.html
+  name: Kubi.Layout
+  nameWithType: Kubi.Layout
+  fullName: RedLight.Utils.Kubi.Layout
+  spec.csharp:
+  - uid: RedLight.Utils.Kubi
+    name: Kubi
+    href: RedLight.Utils.Kubi.html
+  - name: .
+  - uid: RedLight.Utils.Kubi.Layout
+    name: Layout
+    href: RedLight.Utils.Kubi.Layout.html
+  spec.vb:
+  - uid: RedLight.Utils.Kubi
+    name: Kubi
+    href: RedLight.Utils.Kubi.html
+  - name: .
+  - uid: RedLight.Utils.Kubi.Layout
+    name: Layout
+    href: RedLight.Utils.Kubi.Layout.html
+- uid: RedLight.Utils.Kubi.KubiOptions
+  commentId: T:RedLight.Utils.Kubi.KubiOptions
+  parent: RedLight.Utils
+  href: RedLight.Utils.Kubi.html
+  name: Kubi.KubiOptions
+  nameWithType: Kubi.KubiOptions
+  fullName: RedLight.Utils.Kubi.KubiOptions
+  spec.csharp:
+  - uid: RedLight.Utils.Kubi
+    name: Kubi
+    href: RedLight.Utils.Kubi.html
+  - name: .
+  - uid: RedLight.Utils.Kubi.KubiOptions
+    name: KubiOptions
+    href: RedLight.Utils.Kubi.KubiOptions.html
+  spec.vb:
+  - uid: RedLight.Utils.Kubi
+    name: Kubi
+    href: RedLight.Utils.Kubi.html
+  - name: .
+  - uid: RedLight.Utils.Kubi.KubiOptions
+    name: KubiOptions
+    href: RedLight.Utils.Kubi.KubiOptions.html
+- uid: RedLight.Utils.RLConstants
+  commentId: T:RedLight.Utils.RLConstants
+  href: RedLight.Utils.RLConstants.html
+  name: RLConstants
+  nameWithType: RLConstants
+  fullName: RedLight.Utils.RLConstants
+- uid: RedLight.Utils.RLFiles
+  commentId: T:RedLight.Utils.RLFiles
+  href: RedLight.Utils.RLFiles.html
+  name: RLFiles
+  nameWithType: RLFiles
+  fullName: RedLight.Utils.RLFiles
+- uid: RedLight.Utils.RLUtils
+  commentId: T:RedLight.Utils.RLUtils
+  href: RedLight.Utils.RLUtils.html
+  name: RLUtils
+  nameWithType: RLUtils
+  fullName: RedLight.Utils.RLUtils
+- uid: RedLight.Utils
+  commentId: N:RedLight.Utils
+  href: RedLight.html
+  name: RedLight.Utils
+  nameWithType: RedLight.Utils
+  fullName: RedLight.Utils
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Utils
+    name: Utils
+    href: RedLight.Utils.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Utils
+    name: Utils
+    href: RedLight.Utils.html

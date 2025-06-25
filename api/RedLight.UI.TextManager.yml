@@ -1,0 +1,701 @@
+### YamlMime:ManagedReference
+items:
+- uid: RedLight.UI.TextManager
+  commentId: T:RedLight.UI.TextManager
+  id: TextManager
+  parent: RedLight.UI
+  children:
+  - RedLight.UI.TextManager.AddFont(System.String,RedLight.UI.Font)
+  - RedLight.UI.TextManager.Instance
+  - RedLight.UI.TextManager.RenderText(RedLight.Graphics.RLGraphics,System.String,System.Numerics.Vector2,System.Single,System.Drawing.Color)
+  - RedLight.UI.TextManager.characters
+  langs:
+  - csharp
+  - vb
+  name: TextManager
+  nameWithType: TextManager
+  fullName: RedLight.UI.TextManager
+  type: Class
+  source:
+    remote:
+      path: src/RedLight/UI/Text.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: TextManager
+    path: src/RedLight/UI/Text.cs
+    startLine: 170
+  assemblies:
+  - RedLight
+  namespace: RedLight.UI
+  syntax:
+    content: public class TextManager
+    content.vb: Public Class TextManager
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: RedLight.UI.TextManager.Instance
+  commentId: P:RedLight.UI.TextManager.Instance
+  id: Instance
+  parent: RedLight.UI.TextManager
+  langs:
+  - csharp
+  - vb
+  name: Instance
+  nameWithType: TextManager.Instance
+  fullName: RedLight.UI.TextManager.Instance
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/UI/Text.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Instance
+    path: src/RedLight/UI/Text.cs
+    startLine: 174
+  assemblies:
+  - RedLight
+  namespace: RedLight.UI
+  syntax:
+    content: public static TextManager Instance { get; }
+    parameters: []
+    return:
+      type: RedLight.UI.TextManager
+    content.vb: Public Shared ReadOnly Property Instance As TextManager
+  overload: RedLight.UI.TextManager.Instance*
+- uid: RedLight.UI.TextManager.characters
+  commentId: F:RedLight.UI.TextManager.characters
+  id: characters
+  parent: RedLight.UI.TextManager
+  langs:
+  - csharp
+  - vb
+  name: characters
+  nameWithType: TextManager.characters
+  fullName: RedLight.UI.TextManager.characters
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/UI/Text.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: characters
+    path: src/RedLight/UI/Text.cs
+    startLine: 181
+  assemblies:
+  - RedLight
+  namespace: RedLight.UI
+  syntax:
+    content: public Dictionary<string, Font> characters
+    return:
+      type: System.Collections.Generic.Dictionary{System.String,RedLight.UI.Font}
+    content.vb: Public characters As Dictionary(Of String, Font)
+- uid: RedLight.UI.TextManager.RenderText(RedLight.Graphics.RLGraphics,System.String,System.Numerics.Vector2,System.Single,System.Drawing.Color)
+  commentId: M:RedLight.UI.TextManager.RenderText(RedLight.Graphics.RLGraphics,System.String,System.Numerics.Vector2,System.Single,System.Drawing.Color)
+  id: RenderText(RedLight.Graphics.RLGraphics,System.String,System.Numerics.Vector2,System.Single,System.Drawing.Color)
+  parent: RedLight.UI.TextManager
+  langs:
+  - csharp
+  - vb
+  name: RenderText(RLGraphics, string, Vector2, float, Color)
+  nameWithType: TextManager.RenderText(RLGraphics, string, Vector2, float, Color)
+  fullName: RedLight.UI.TextManager.RenderText(RedLight.Graphics.RLGraphics, string, System.Numerics.Vector2, float, System.Drawing.Color)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/UI/Text.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: RenderText
+    path: src/RedLight/UI/Text.cs
+    startLine: 207
+  assemblies:
+  - RedLight
+  namespace: RedLight.UI
+  syntax:
+    content: public void RenderText(RLGraphics graphics, string text, Vector2 position, float scale, Color color)
+    parameters:
+    - id: graphics
+      type: RedLight.Graphics.RLGraphics
+    - id: text
+      type: System.String
+    - id: position
+      type: System.Numerics.Vector2
+    - id: scale
+      type: System.Single
+    - id: color
+      type: System.Drawing.Color
+    content.vb: Public Sub RenderText(graphics As RLGraphics, text As String, position As Vector2, scale As Single, color As Color)
+  overload: RedLight.UI.TextManager.RenderText*
+  nameWithType.vb: TextManager.RenderText(RLGraphics, String, Vector2, Single, Color)
+  fullName.vb: RedLight.UI.TextManager.RenderText(RedLight.Graphics.RLGraphics, String, System.Numerics.Vector2, Single, System.Drawing.Color)
+  name.vb: RenderText(RLGraphics, String, Vector2, Single, Color)
+- uid: RedLight.UI.TextManager.AddFont(System.String,RedLight.UI.Font)
+  commentId: M:RedLight.UI.TextManager.AddFont(System.String,RedLight.UI.Font)
+  id: AddFont(System.String,RedLight.UI.Font)
+  parent: RedLight.UI.TextManager
+  langs:
+  - csharp
+  - vb
+  name: AddFont(string, Font)
+  nameWithType: TextManager.AddFont(string, Font)
+  fullName: RedLight.UI.TextManager.AddFont(string, RedLight.UI.Font)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/UI/Text.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: AddFont
+    path: src/RedLight/UI/Text.cs
+    startLine: 306
+  assemblies:
+  - RedLight
+  namespace: RedLight.UI
+  syntax:
+    content: public void AddFont(string name, Font font)
+    parameters:
+    - id: name
+      type: System.String
+    - id: font
+      type: RedLight.UI.Font
+    content.vb: Public Sub AddFont(name As String, font As Font)
+  overload: RedLight.UI.TextManager.AddFont*
+  nameWithType.vb: TextManager.AddFont(String, Font)
+  fullName.vb: RedLight.UI.TextManager.AddFont(String, RedLight.UI.Font)
+  name.vb: AddFont(String, Font)
+references:
+- uid: RedLight.UI
+  commentId: N:RedLight.UI
+  href: RedLight.html
+  name: RedLight.UI
+  nameWithType: RedLight.UI
+  fullName: RedLight.UI
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.UI
+    name: UI
+    href: RedLight.UI.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.UI
+    name: UI
+    href: RedLight.UI.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: RedLight.UI.TextManager.Instance*
+  commentId: Overload:RedLight.UI.TextManager.Instance
+  href: RedLight.UI.TextManager.html#RedLight_UI_TextManager_Instance
+  name: Instance
+  nameWithType: TextManager.Instance
+  fullName: RedLight.UI.TextManager.Instance
+- uid: RedLight.UI.TextManager
+  commentId: T:RedLight.UI.TextManager
+  parent: RedLight.UI
+  href: RedLight.UI.TextManager.html
+  name: TextManager
+  nameWithType: TextManager
+  fullName: RedLight.UI.TextManager
+- uid: System.Collections.Generic.Dictionary{System.String,RedLight.UI.Font}
+  commentId: T:System.Collections.Generic.Dictionary{System.String,RedLight.UI.Font}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<string, Font>
+  nameWithType: Dictionary<string, Font>
+  fullName: System.Collections.Generic.Dictionary<string, RedLight.UI.Font>
+  nameWithType.vb: Dictionary(Of String, Font)
+  fullName.vb: System.Collections.Generic.Dictionary(Of String, RedLight.UI.Font)
+  name.vb: Dictionary(Of String, Font)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: RedLight.UI.Font
+    name: Font
+    href: RedLight.UI.Font.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: RedLight.UI.Font
+    name: Font
+    href: RedLight.UI.Font.html
+  - name: )
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: RedLight.UI.TextManager.RenderText*
+  commentId: Overload:RedLight.UI.TextManager.RenderText
+  href: RedLight.UI.TextManager.html#RedLight_UI_TextManager_RenderText_RedLight_Graphics_RLGraphics_System_String_System_Numerics_Vector2_System_Single_System_Drawing_Color_
+  name: RenderText
+  nameWithType: TextManager.RenderText
+  fullName: RedLight.UI.TextManager.RenderText
+- uid: RedLight.Graphics.RLGraphics
+  commentId: T:RedLight.Graphics.RLGraphics
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.RLGraphics.html
+  name: RLGraphics
+  nameWithType: RLGraphics
+  fullName: RedLight.Graphics.RLGraphics
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System.Numerics.Vector2
+  commentId: T:System.Numerics.Vector2
+  parent: System.Numerics
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.numerics.vector2
+  name: Vector2
+  nameWithType: Vector2
+  fullName: System.Numerics.Vector2
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.single
+  name: float
+  nameWithType: float
+  fullName: float
+  nameWithType.vb: Single
+  fullName.vb: Single
+  name.vb: Single
+- uid: System.Drawing.Color
+  commentId: T:System.Drawing.Color
+  parent: System.Drawing
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.drawing.color
+  name: Color
+  nameWithType: Color
+  fullName: System.Drawing.Color
+- uid: RedLight.Graphics
+  commentId: N:RedLight.Graphics
+  href: RedLight.html
+  name: RedLight.Graphics
+  nameWithType: RedLight.Graphics
+  fullName: RedLight.Graphics
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Graphics
+    name: Graphics
+    href: RedLight.Graphics.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Graphics
+    name: Graphics
+    href: RedLight.Graphics.html
+- uid: System.Numerics
+  commentId: N:System.Numerics
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Numerics
+  nameWithType: System.Numerics
+  fullName: System.Numerics
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Numerics
+    name: Numerics
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.numerics
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Numerics
+    name: Numerics
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.numerics
+- uid: System.Drawing
+  commentId: N:System.Drawing
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Drawing
+  nameWithType: System.Drawing
+  fullName: System.Drawing
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Drawing
+    name: Drawing
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.drawing
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Drawing
+    name: Drawing
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.drawing
+- uid: RedLight.UI.TextManager.AddFont*
+  commentId: Overload:RedLight.UI.TextManager.AddFont
+  href: RedLight.UI.TextManager.html#RedLight_UI_TextManager_AddFont_System_String_RedLight_UI_Font_
+  name: AddFont
+  nameWithType: TextManager.AddFont
+  fullName: RedLight.UI.TextManager.AddFont
+- uid: RedLight.UI.Font
+  commentId: T:RedLight.UI.Font
+  parent: RedLight.UI
+  href: RedLight.UI.Font.html
+  name: Font
+  nameWithType: Font
+  fullName: RedLight.UI.Font

@@ -1,0 +1,112 @@
+### YamlMime:ManagedReference
+items:
+- uid: RedLight.Scene.LoadingState
+  commentId: T:RedLight.Scene.LoadingState
+  id: LoadingState
+  parent: RedLight.Scene
+  children:
+  - RedLight.Scene.LoadingState.Completed
+  - RedLight.Scene.LoadingState.Loading
+  langs:
+  - csharp
+  - vb
+  name: LoadingState
+  nameWithType: LoadingState
+  fullName: RedLight.Scene.LoadingState
+  type: Enum
+  source:
+    remote:
+      path: src/RedLight/Scene/SceneManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: LoadingState
+    path: src/RedLight/Scene/SceneManager.cs
+    startLine: 242
+  assemblies:
+  - RedLight
+  namespace: RedLight.Scene
+  syntax:
+    content: public enum LoadingState
+    content.vb: Public Enum LoadingState
+- uid: RedLight.Scene.LoadingState.Loading
+  commentId: F:RedLight.Scene.LoadingState.Loading
+  id: Loading
+  parent: RedLight.Scene.LoadingState
+  langs:
+  - csharp
+  - vb
+  name: Loading
+  nameWithType: LoadingState.Loading
+  fullName: RedLight.Scene.LoadingState.Loading
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Scene/SceneManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Loading
+    path: src/RedLight/Scene/SceneManager.cs
+    startLine: 244
+  assemblies:
+  - RedLight
+  namespace: RedLight.Scene
+  syntax:
+    content: Loading = 0
+    return:
+      type: RedLight.Scene.LoadingState
+- uid: RedLight.Scene.LoadingState.Completed
+  commentId: F:RedLight.Scene.LoadingState.Completed
+  id: Completed
+  parent: RedLight.Scene.LoadingState
+  langs:
+  - csharp
+  - vb
+  name: Completed
+  nameWithType: LoadingState.Completed
+  fullName: RedLight.Scene.LoadingState.Completed
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Scene/SceneManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Completed
+    path: src/RedLight/Scene/SceneManager.cs
+    startLine: 245
+  assemblies:
+  - RedLight
+  namespace: RedLight.Scene
+  syntax:
+    content: Completed = 1
+    return:
+      type: RedLight.Scene.LoadingState
+references:
+- uid: RedLight.Scene
+  commentId: N:RedLight.Scene
+  href: RedLight.html
+  name: RedLight.Scene
+  nameWithType: RedLight.Scene
+  fullName: RedLight.Scene
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Scene
+    name: Scene
+    href: RedLight.Scene.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Scene
+    name: Scene
+    href: RedLight.Scene.html
+- uid: RedLight.Scene.LoadingState
+  commentId: T:RedLight.Scene.LoadingState
+  parent: RedLight.Scene
+  href: RedLight.Scene.LoadingState.html
+  name: LoadingState
+  nameWithType: LoadingState
+  fullName: RedLight.Scene.LoadingState
