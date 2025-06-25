@@ -188,7 +188,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     {
         if (!_editor.IsEditorMode || (_editor.IsEditorMode && _editor.IsViewportFocused))
         {
-            InputManager.IsCaptured(mouse);
+            InputManager.SetMouseCapture(mouse);
             if (InputManager.isCaptured)
             {
                 if (useDebugCamera)

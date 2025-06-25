@@ -84,7 +84,7 @@ public class InputManager
             {
                 mouse.MouseMove += (mouse1, vector2) =>
                 {
-                    IsCaptured(mouse);
+                    SetMouseCapture(mouse);
                 };
                 mouse.MouseMove += mouseManager.OnMouseMove;
             }
@@ -136,7 +136,7 @@ public class InputManager
 
                 foreach (var mouse in Context.Mice)
                 {
-                    IsCaptured(mouse, isCaptured);
+                    SetMouseCapture(mouse, isCaptured);
                 }
 
                 Log.Debug("Changing mouse capture mode [{A}]", isCaptured);
@@ -150,7 +150,7 @@ public class InputManager
 
                 foreach (var mouse in Context.Mice)
                 {
-                    IsCaptured(mouse, isCaptured);
+                    SetMouseCapture(mouse, isCaptured);
                 }
 
                 Log.Debug("Changing mouse capture mode [{A}]", isCaptured);
@@ -167,7 +167,7 @@ public class InputManager
     /// </summary>
     /// <param name="mouse">IMouse</param>
     /// <param name="isCaptured">bool</param>
-    public void IsCaptured(IMouse mouse, bool isCaptured)
+    public void SetMouseCapture(IMouse mouse, bool isCaptured)
     {
         if (!isCaptured)
             mouse.Cursor.CursorMode = CursorMode.Normal;
@@ -176,7 +176,7 @@ public class InputManager
             mouse.Cursor.CursorMode = CursorMode.Disabled;
     }
 
-    public void IsCaptured(IMouse mouse)
+    public void SetMouseCapture(IMouse mouse)
     {
         if (!isCaptured)
             mouse.Cursor.CursorMode = CursorMode.Normal;

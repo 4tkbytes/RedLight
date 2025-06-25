@@ -2,7 +2,6 @@
 using RedLight.Graphics;
 using RedLight.Input;
 using RedLight.Scene;
-using RedLight.UI;
 using Serilog;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;
@@ -47,7 +46,7 @@ public class RLEngine
     {
         ParseArguments(args);
         InitialiseLogger(logStrength);
-
+        
         WindowOptions options = WindowOptions.Default;
         options.Title = title;
         this.title = title;
