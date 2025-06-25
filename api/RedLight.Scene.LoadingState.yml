@@ -21,7 +21,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: LoadingState
     path: src/RedLight/Scene/SceneManager.cs
-    startLine: 234
+    startLine: 242
   assemblies:
   - RedLight
   namespace: RedLight.Scene
@@ -46,7 +46,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Loading
     path: src/RedLight/Scene/SceneManager.cs
-    startLine: 236
+    startLine: 244
   assemblies:
   - RedLight
   namespace: RedLight.Scene
@@ -72,7 +72,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Completed
     path: src/RedLight/Scene/SceneManager.cs
-    startLine: 237
+    startLine: 245
   assemblies:
   - RedLight
   namespace: RedLight.Scene

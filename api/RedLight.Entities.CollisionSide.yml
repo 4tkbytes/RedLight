@@ -26,7 +26,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: CollisionSide
     path: src/RedLight/Entities/Entity.cs
-    startLine: 638
+    startLine: 656
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -53,7 +53,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: None
     path: src/RedLight/Entities/Entity.cs
-    startLine: 640
+    startLine: 658
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -79,7 +79,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Top
     path: src/RedLight/Entities/Entity.cs
-    startLine: 641
+    startLine: 659
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -105,7 +105,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Bottom
     path: src/RedLight/Entities/Entity.cs
-    startLine: 642
+    startLine: 660
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -131,7 +131,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Left
     path: src/RedLight/Entities/Entity.cs
-    startLine: 643
+    startLine: 661
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -157,7 +157,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Right
     path: src/RedLight/Entities/Entity.cs
-    startLine: 644
+    startLine: 662
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -183,7 +183,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Front
     path: src/RedLight/Entities/Entity.cs
-    startLine: 645
+    startLine: 663
   assemblies:
   - RedLight
   namespace: RedLight.Entities
@@ -209,7 +209,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Back
     path: src/RedLight/Entities/Entity.cs
-    startLine: 646
+    startLine: 664
   assemblies:
   - RedLight
   namespace: RedLight.Entities

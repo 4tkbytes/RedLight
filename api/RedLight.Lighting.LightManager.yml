@@ -10,11 +10,14 @@ items:
   - RedLight.Lighting.LightManager.AddLightWithVisual(RedLight.Lighting.RLLight,RedLight.Entities.Entity)
   - RedLight.Lighting.LightManager.AddLightingCube(System.String,RedLight.Lighting.LightingCube)
   - RedLight.Lighting.LightManager.ApplyLightCubeShader(System.String,System.String,RedLight.Graphics.ShaderManager)
-  - RedLight.Lighting.LightManager.ApplyLightsToShader(System.Numerics.Vector3,System.String)
+  - RedLight.Lighting.LightManager.ApplyLightsToShader(System.Numerics.Vector3,RedLight.Entities.Entity,System.String)
   - RedLight.Lighting.LightManager.Diffuse
   - RedLight.Lighting.LightManager.DisableAllLights
+  - RedLight.Lighting.LightManager.DisableFog
   - RedLight.Lighting.LightManager.EnableAllLights
+  - RedLight.Lighting.LightManager.EnableFog(System.Numerics.Vector3,System.Single,RedLight.Lighting.FogType)
   - RedLight.Lighting.LightManager.EnableLight(System.String,System.Boolean)
+  - RedLight.Lighting.LightManager.Fog
   - RedLight.Lighting.LightManager.GetAllLightCubes
   - RedLight.Lighting.LightManager.GetAllLightingCubes
   - RedLight.Lighting.LightManager.GetAllLights
@@ -25,7 +28,11 @@ items:
   - RedLight.Lighting.LightManager.RemoveLight(System.String)
   - RedLight.Lighting.LightManager.RenderAllLightCubes(RedLight.Graphics.Camera)
   - RedLight.Lighting.LightManager.SetAllLightCubesVisible(System.Boolean)
+  - RedLight.Lighting.LightManager.SetExponentialFog(System.Numerics.Vector3,System.Single)
+  - RedLight.Lighting.LightManager.SetFog(RedLight.Lighting.Fog)
+  - RedLight.Lighting.LightManager.SetFogDensity(System.Single)
   - RedLight.Lighting.LightManager.SetLightCubeVisible(System.String,System.Boolean)
+  - RedLight.Lighting.LightManager.SetLinearFog(System.Numerics.Vector3,System.Single,System.Single)
   - RedLight.Lighting.LightManager.Shininess
   - RedLight.Lighting.LightManager.Specular
   - RedLight.Lighting.LightManager.UpdateAllLightCubes(RedLight.Graphics.Camera)
@@ -63,6 +70,35 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+- uid: RedLight.Lighting.LightManager.Fog
+  commentId: P:RedLight.Lighting.LightManager.Fog
+  id: Fog
+  parent: RedLight.Lighting.LightManager
+  langs:
+  - csharp
+  - vb
+  name: Fog
+  nameWithType: LightManager.Fog
+  fullName: RedLight.Lighting.LightManager.Fog
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Fog
+    path: src/RedLight/Lighting/LightManager.cs
+    startLine: 15
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public Fog Fog { get; set; }
+    parameters: []
+    return:
+      type: RedLight.Lighting.Fog
+    content.vb: Public Property Fog As Fog
+  overload: RedLight.Lighting.LightManager.Fog*
 - uid: RedLight.Lighting.LightManager.Specular
   commentId: P:RedLight.Lighting.LightManager.Specular
   id: Specular
@@ -81,7 +117,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Specular
     path: src/RedLight/Lighting/LightManager.cs
-    startLine: 17
+    startLine: 25
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -110,7 +146,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Diffuse
     path: src/RedLight/Lighting/LightManager.cs
-    startLine: 23
+    startLine: 31
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -139,7 +175,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Shininess
     path: src/RedLight/Lighting/LightManager.cs
-    startLine: 29
+    startLine: 37
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -168,7 +204,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: .ctor
     path: src/RedLight/Lighting/LightManager.cs
-    startLine: 35
+    startLine: 43
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -197,7 +233,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: AddLightingCube
     path: src/RedLight/Lighting/LightManager.cs
-    startLine: 42
+    startLine: 50
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -231,7 +267,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: AddLight
     path: src/RedLight/Lighting/LightManager.cs
-    startLine: 48
+    startLine: 56
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -260,7 +296,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: AddLightWithVisual
     path: src/RedLight/Lighting/LightManager.cs
-    startLine: 59
+    startLine: 67
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -291,7 +327,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: GetLight
     path: src/RedLight/Lighting/LightManager.cs
-    startLine: 66
+    startLine: 74
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -325,7 +361,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: GetLightCube
     path: src/RedLight/Lighting/LightManager.cs
-    startLine: 71
+    startLine: 79
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -359,7 +395,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: UpdateLightPosition
     path: src/RedLight/Lighting/LightManager.cs
-    startLine: 76
+    startLine: 84
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -393,7 +429,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: UpdateLightColor
     path: src/RedLight/Lighting/LightManager.cs
-    startLine: 84
+    startLine: 92
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -427,7 +463,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: UpdateLightDirection
     path: src/RedLight/Lighting/LightManager.cs
-    startLine: 92
+    startLine: 100
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -461,7 +497,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: EnableLight
     path: src/RedLight/Lighting/LightManager.cs
-    startLine: 100
+    startLine: 108
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -477,16 +513,16 @@ items:
   nameWithType.vb: LightManager.EnableLight(String, Boolean)
   fullName.vb: RedLight.Lighting.LightManager.EnableLight(String, Boolean)
   name.vb: EnableLight(String, Boolean)
-- uid: RedLight.Lighting.LightManager.ApplyLightsToShader(System.Numerics.Vector3,System.String)
-  commentId: M:RedLight.Lighting.LightManager.ApplyLightsToShader(System.Numerics.Vector3,System.String)
-  id: ApplyLightsToShader(System.Numerics.Vector3,System.String)
+- uid: RedLight.Lighting.LightManager.ApplyLightsToShader(System.Numerics.Vector3,RedLight.Entities.Entity,System.String)
+  commentId: M:RedLight.Lighting.LightManager.ApplyLightsToShader(System.Numerics.Vector3,RedLight.Entities.Entity,System.String)
+  id: ApplyLightsToShader(System.Numerics.Vector3,RedLight.Entities.Entity,System.String)
   parent: RedLight.Lighting.LightManager
   langs:
   - csharp
   - vb
-  name: ApplyLightsToShader(Vector3, string)
-  nameWithType: LightManager.ApplyLightsToShader(Vector3, string)
-  fullName: RedLight.Lighting.LightManager.ApplyLightsToShader(System.Numerics.Vector3, string)
+  name: ApplyLightsToShader(Vector3, Entity, string)
+  nameWithType: LightManager.ApplyLightsToShader(Vector3, Entity, string)
+  fullName: RedLight.Lighting.LightManager.ApplyLightsToShader(System.Numerics.Vector3, RedLight.Entities.Entity, string)
   type: Method
   source:
     remote:
@@ -495,22 +531,24 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: ApplyLightsToShader
     path: src/RedLight/Lighting/LightManager.cs
-    startLine: 108
+    startLine: 116
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
   syntax:
-    content: public void ApplyLightsToShader(Vector3 viewPosition, string shaderName = "lit")
+    content: public void ApplyLightsToShader(Vector3 viewPosition, Entity entity = null, string shaderName = "lit")
     parameters:
     - id: viewPosition
       type: System.Numerics.Vector3
+    - id: entity
+      type: RedLight.Entities.Entity
     - id: shaderName
       type: System.String
-    content.vb: Public Sub ApplyLightsToShader(viewPosition As Vector3, shaderName As String = "lit")
+    content.vb: Public Sub ApplyLightsToShader(viewPosition As Vector3, entity As Entity = Nothing, shaderName As String = "lit")
   overload: RedLight.Lighting.LightManager.ApplyLightsToShader*
-  nameWithType.vb: LightManager.ApplyLightsToShader(Vector3, String)
-  fullName.vb: RedLight.Lighting.LightManager.ApplyLightsToShader(System.Numerics.Vector3, String)
-  name.vb: ApplyLightsToShader(Vector3, String)
+  nameWithType.vb: LightManager.ApplyLightsToShader(Vector3, Entity, String)
+  fullName.vb: RedLight.Lighting.LightManager.ApplyLightsToShader(System.Numerics.Vector3, RedLight.Entities.Entity, String)
+  name.vb: ApplyLightsToShader(Vector3, Entity, String)
 - uid: RedLight.Lighting.LightManager.ApplyLightCubeShader(System.String,System.String,RedLight.Graphics.ShaderManager)
   commentId: M:RedLight.Lighting.LightManager.ApplyLightCubeShader(System.String,System.String,RedLight.Graphics.ShaderManager)
   id: ApplyLightCubeShader(System.String,System.String,RedLight.Graphics.ShaderManager)
@@ -529,7 +567,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: ApplyLightCubeShader
     path: src/RedLight/Lighting/LightManager.cs
-    startLine: 145
+    startLine: 272
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -565,7 +603,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: RenderAllLightCubes
     path: src/RedLight/Lighting/LightManager.cs
-    startLine: 168
+    startLine: 295
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -594,7 +632,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: UpdateAllLightCubes
     path: src/RedLight/Lighting/LightManager.cs
-    startLine: 183
+    startLine: 310
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -623,7 +661,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: GetAllLights
     path: src/RedLight/Lighting/LightManager.cs
-    startLine: 246
+    startLine: 373
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -651,7 +689,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: GetEnabledLights
     path: src/RedLight/Lighting/LightManager.cs
-    startLine: 247
+    startLine: 374
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -679,7 +717,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: GetAllLightCubes
     path: src/RedLight/Lighting/LightManager.cs
-    startLine: 248
+    startLine: 375
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -707,7 +745,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: GetAllLightingCubes
     path: src/RedLight/Lighting/LightManager.cs
-    startLine: 249
+    startLine: 376
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -735,7 +773,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: DisableAllLights
     path: src/RedLight/Lighting/LightManager.cs
-    startLine: 252
+    startLine: 379
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -761,7 +799,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: EnableAllLights
     path: src/RedLight/Lighting/LightManager.cs
-    startLine: 260
+    startLine: 387
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -787,7 +825,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: SetAllLightCubesVisible
     path: src/RedLight/Lighting/LightManager.cs
-    startLine: 269
+    startLine: 396
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -819,7 +857,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: SetLightCubeVisible
     path: src/RedLight/Lighting/LightManager.cs
-    startLine: 278
+    startLine: 405
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -853,7 +891,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: GetLightingCube
     path: src/RedLight/Lighting/LightManager.cs
-    startLine: 287
+    startLine: 414
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -887,7 +925,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: RemoveLight
     path: src/RedLight/Lighting/LightManager.cs
-    startLine: 293
+    startLine: 420
   assemblies:
   - RedLight
   namespace: RedLight.Lighting
@@ -901,6 +939,199 @@ items:
   nameWithType.vb: LightManager.RemoveLight(String)
   fullName.vb: RedLight.Lighting.LightManager.RemoveLight(String)
   name.vb: RemoveLight(String)
+- uid: RedLight.Lighting.LightManager.SetLinearFog(System.Numerics.Vector3,System.Single,System.Single)
+  commentId: M:RedLight.Lighting.LightManager.SetLinearFog(System.Numerics.Vector3,System.Single,System.Single)
+  id: SetLinearFog(System.Numerics.Vector3,System.Single,System.Single)
+  parent: RedLight.Lighting.LightManager
+  langs:
+  - csharp
+  - vb
+  name: SetLinearFog(Vector3, float, float)
+  nameWithType: LightManager.SetLinearFog(Vector3, float, float)
+  fullName: RedLight.Lighting.LightManager.SetLinearFog(System.Numerics.Vector3, float, float)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: SetLinearFog
+    path: src/RedLight/Lighting/LightManager.cs
+    startLine: 452
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public void SetLinearFog(Vector3 color, float start, float end)
+    parameters:
+    - id: color
+      type: System.Numerics.Vector3
+    - id: start
+      type: System.Single
+    - id: end
+      type: System.Single
+    content.vb: Public Sub SetLinearFog(color As Vector3, start As Single, [end] As Single)
+  overload: RedLight.Lighting.LightManager.SetLinearFog*
+  nameWithType.vb: LightManager.SetLinearFog(Vector3, Single, Single)
+  fullName.vb: RedLight.Lighting.LightManager.SetLinearFog(System.Numerics.Vector3, Single, Single)
+  name.vb: SetLinearFog(Vector3, Single, Single)
+- uid: RedLight.Lighting.LightManager.SetExponentialFog(System.Numerics.Vector3,System.Single)
+  commentId: M:RedLight.Lighting.LightManager.SetExponentialFog(System.Numerics.Vector3,System.Single)
+  id: SetExponentialFog(System.Numerics.Vector3,System.Single)
+  parent: RedLight.Lighting.LightManager
+  langs:
+  - csharp
+  - vb
+  name: SetExponentialFog(Vector3, float)
+  nameWithType: LightManager.SetExponentialFog(Vector3, float)
+  fullName: RedLight.Lighting.LightManager.SetExponentialFog(System.Numerics.Vector3, float)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: SetExponentialFog
+    path: src/RedLight/Lighting/LightManager.cs
+    startLine: 457
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public void SetExponentialFog(Vector3 color, float density)
+    parameters:
+    - id: color
+      type: System.Numerics.Vector3
+    - id: density
+      type: System.Single
+    content.vb: Public Sub SetExponentialFog(color As Vector3, density As Single)
+  overload: RedLight.Lighting.LightManager.SetExponentialFog*
+  nameWithType.vb: LightManager.SetExponentialFog(Vector3, Single)
+  fullName.vb: RedLight.Lighting.LightManager.SetExponentialFog(System.Numerics.Vector3, Single)
+  name.vb: SetExponentialFog(Vector3, Single)
+- uid: RedLight.Lighting.LightManager.SetFog(RedLight.Lighting.Fog)
+  commentId: M:RedLight.Lighting.LightManager.SetFog(RedLight.Lighting.Fog)
+  id: SetFog(RedLight.Lighting.Fog)
+  parent: RedLight.Lighting.LightManager
+  langs:
+  - csharp
+  - vb
+  name: SetFog(Fog)
+  nameWithType: LightManager.SetFog(Fog)
+  fullName: RedLight.Lighting.LightManager.SetFog(RedLight.Lighting.Fog)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: SetFog
+    path: src/RedLight/Lighting/LightManager.cs
+    startLine: 462
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public void SetFog(Fog fog)
+    parameters:
+    - id: fog
+      type: RedLight.Lighting.Fog
+    content.vb: Public Sub SetFog(fog As Fog)
+  overload: RedLight.Lighting.LightManager.SetFog*
+- uid: RedLight.Lighting.LightManager.EnableFog(System.Numerics.Vector3,System.Single,RedLight.Lighting.FogType)
+  commentId: M:RedLight.Lighting.LightManager.EnableFog(System.Numerics.Vector3,System.Single,RedLight.Lighting.FogType)
+  id: EnableFog(System.Numerics.Vector3,System.Single,RedLight.Lighting.FogType)
+  parent: RedLight.Lighting.LightManager
+  langs:
+  - csharp
+  - vb
+  name: EnableFog(Vector3, float, FogType)
+  nameWithType: LightManager.EnableFog(Vector3, float, FogType)
+  fullName: RedLight.Lighting.LightManager.EnableFog(System.Numerics.Vector3, float, RedLight.Lighting.FogType)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: EnableFog
+    path: src/RedLight/Lighting/LightManager.cs
+    startLine: 468
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public void EnableFog(Vector3 color, float density = 0.1, FogType type = FogType.Linear)
+    parameters:
+    - id: color
+      type: System.Numerics.Vector3
+    - id: density
+      type: System.Single
+    - id: type
+      type: RedLight.Lighting.FogType
+    content.vb: Public Sub EnableFog(color As Vector3, density As Single = 0.1, type As FogType = FogType.Linear)
+  overload: RedLight.Lighting.LightManager.EnableFog*
+  nameWithType.vb: LightManager.EnableFog(Vector3, Single, FogType)
+  fullName.vb: RedLight.Lighting.LightManager.EnableFog(System.Numerics.Vector3, Single, RedLight.Lighting.FogType)
+  name.vb: EnableFog(Vector3, Single, FogType)
+- uid: RedLight.Lighting.LightManager.DisableFog
+  commentId: M:RedLight.Lighting.LightManager.DisableFog
+  id: DisableFog
+  parent: RedLight.Lighting.LightManager
+  langs:
+  - csharp
+  - vb
+  name: DisableFog()
+  nameWithType: LightManager.DisableFog()
+  fullName: RedLight.Lighting.LightManager.DisableFog()
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: DisableFog
+    path: src/RedLight/Lighting/LightManager.cs
+    startLine: 482
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public void DisableFog()
+    content.vb: Public Sub DisableFog()
+  overload: RedLight.Lighting.LightManager.DisableFog*
+- uid: RedLight.Lighting.LightManager.SetFogDensity(System.Single)
+  commentId: M:RedLight.Lighting.LightManager.SetFogDensity(System.Single)
+  id: SetFogDensity(System.Single)
+  parent: RedLight.Lighting.LightManager
+  langs:
+  - csharp
+  - vb
+  name: SetFogDensity(float)
+  nameWithType: LightManager.SetFogDensity(float)
+  fullName: RedLight.Lighting.LightManager.SetFogDensity(float)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Lighting/LightManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: SetFogDensity
+    path: src/RedLight/Lighting/LightManager.cs
+    startLine: 491
+  assemblies:
+  - RedLight
+  namespace: RedLight.Lighting
+  syntax:
+    content: public void SetFogDensity(float density)
+    parameters:
+    - id: density
+      type: System.Single
+    content.vb: Public Sub SetFogDensity(density As Single)
+  overload: RedLight.Lighting.LightManager.SetFogDensity*
+  nameWithType.vb: LightManager.SetFogDensity(Single)
+  fullName.vb: RedLight.Lighting.LightManager.SetFogDensity(Single)
+  name.vb: SetFogDensity(Single)
 references:
 - uid: RedLight.Lighting
   commentId: N:RedLight.Lighting
@@ -1161,6 +1392,19 @@ references:
   name: System
   nameWithType: System
   fullName: System
+- uid: RedLight.Lighting.LightManager.Fog*
+  commentId: Overload:RedLight.Lighting.LightManager.Fog
+  href: RedLight.Lighting.LightManager.html#RedLight_Lighting_LightManager_Fog
+  name: Fog
+  nameWithType: LightManager.Fog
+  fullName: RedLight.Lighting.LightManager.Fog
+- uid: RedLight.Lighting.Fog
+  commentId: T:RedLight.Lighting.Fog
+  parent: RedLight.Lighting
+  href: RedLight.Lighting.Fog.html
+  name: Fog
+  nameWithType: Fog
+  fullName: RedLight.Lighting.Fog
 - uid: RedLight.Lighting.LightManager.Specular*
   commentId: Overload:RedLight.Lighting.LightManager.Specular
   href: RedLight.Lighting.LightManager.html#RedLight_Lighting_LightManager_Specular
@@ -1355,7 +1599,7 @@ references:
   name.vb: Boolean
 - uid: RedLight.Lighting.LightManager.ApplyLightsToShader*
   commentId: Overload:RedLight.Lighting.LightManager.ApplyLightsToShader
-  href: RedLight.Lighting.LightManager.html#RedLight_Lighting_LightManager_ApplyLightsToShader_System_Numerics_Vector3_System_String_
+  href: RedLight.Lighting.LightManager.html#RedLight_Lighting_LightManager_ApplyLightsToShader_System_Numerics_Vector3_RedLight_Entities_Entity_System_String_
   name: ApplyLightsToShader
   nameWithType: LightManager.ApplyLightsToShader
   fullName: RedLight.Lighting.LightManager.ApplyLightsToShader
@@ -1637,3 +1881,46 @@ references:
   name: RemoveLight
   nameWithType: LightManager.RemoveLight
   fullName: RedLight.Lighting.LightManager.RemoveLight
+- uid: RedLight.Lighting.LightManager.SetLinearFog*
+  commentId: Overload:RedLight.Lighting.LightManager.SetLinearFog
+  href: RedLight.Lighting.LightManager.html#RedLight_Lighting_LightManager_SetLinearFog_System_Numerics_Vector3_System_Single_System_Single_
+  name: SetLinearFog
+  nameWithType: LightManager.SetLinearFog
+  fullName: RedLight.Lighting.LightManager.SetLinearFog
+- uid: RedLight.Lighting.LightManager.SetExponentialFog*
+  commentId: Overload:RedLight.Lighting.LightManager.SetExponentialFog
+  href: RedLight.Lighting.LightManager.html#RedLight_Lighting_LightManager_SetExponentialFog_System_Numerics_Vector3_System_Single_
+  name: SetExponentialFog
+  nameWithType: LightManager.SetExponentialFog
+  fullName: RedLight.Lighting.LightManager.SetExponentialFog
+- uid: RedLight.Lighting.LightManager.SetFog*
+  commentId: Overload:RedLight.Lighting.LightManager.SetFog
+  href: RedLight.Lighting.LightManager.html#RedLight_Lighting_LightManager_SetFog_RedLight_Lighting_Fog_
+  name: SetFog
+  nameWithType: LightManager.SetFog
+  fullName: RedLight.Lighting.LightManager.SetFog
+- uid: RedLight.Lighting.LightManager.EnableFog*
+  commentId: Overload:RedLight.Lighting.LightManager.EnableFog
+  href: RedLight.Lighting.LightManager.html#RedLight_Lighting_LightManager_EnableFog_System_Numerics_Vector3_System_Single_RedLight_Lighting_FogType_
+  name: EnableFog
+  nameWithType: LightManager.EnableFog
+  fullName: RedLight.Lighting.LightManager.EnableFog
+- uid: RedLight.Lighting.FogType
+  commentId: T:RedLight.Lighting.FogType
+  parent: RedLight.Lighting
+  href: RedLight.Lighting.FogType.html
+  name: FogType
+  nameWithType: FogType
+  fullName: RedLight.Lighting.FogType
+- uid: RedLight.Lighting.LightManager.DisableFog*
+  commentId: Overload:RedLight.Lighting.LightManager.DisableFog
+  href: RedLight.Lighting.LightManager.html#RedLight_Lighting_LightManager_DisableFog
+  name: DisableFog
+  nameWithType: LightManager.DisableFog
+  fullName: RedLight.Lighting.LightManager.DisableFog
+- uid: RedLight.Lighting.LightManager.SetFogDensity*
+  commentId: Overload:RedLight.Lighting.LightManager.SetFogDensity
+  href: RedLight.Lighting.LightManager.html#RedLight_Lighting_LightManager_SetFogDensity_System_Single_
+  name: SetFogDensity
+  nameWithType: LightManager.SetFogDensity
+  fullName: RedLight.Lighting.LightManager.SetFogDensity

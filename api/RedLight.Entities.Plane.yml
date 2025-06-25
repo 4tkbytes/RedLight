@@ -60,6 +60,10 @@ items:
   - RedLight.Entities.Entity.GuizmoOperation
   - RedLight.Entities.Entity.GuizmoMode
   - RedLight.Entities.Entity.ModelType
+  - RedLight.Entities.Entity.EnableReflection
+  - RedLight.Entities.Entity.Reflectivity
+  - RedLight.Entities.Entity.EnableRefraction
+  - RedLight.Entities.Entity.RefractiveIndex
   - RedLight.Entities.Entity.Model
   - RedLight.Entities.Entity.ModelMatrix
   - RedLight.Entities.Entity.Position
@@ -80,6 +84,8 @@ items:
   - RedLight.Entities.Entity.SetHitboxConfig(RedLight.Entities.HitboxConfig)
   - RedLight.Entities.Entity.EnableImGuizmo(Hexa.NET.ImGuizmo.ImGuizmoOperation,Hexa.NET.ImGuizmo.ImGuizmoMode)
   - RedLight.Entities.Entity.DisableImGuizmo
+  - RedLight.Entities.Entity.SetReflection(System.Boolean,System.Single)
+  - RedLight.Entities.Entity.SetRefraction(System.Boolean,System.Single)
   - RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.Camera)
   - RedLight.Entities.Entity.SetRotationX(System.Single)
   - RedLight.Entities.Entity.SetRotationY(System.Single)
@@ -381,6 +387,34 @@ references:
   name: ModelType
   nameWithType: Entity.ModelType
   fullName: RedLight.Entities.Entity.ModelType
+- uid: RedLight.Entities.Entity.EnableReflection
+  commentId: P:RedLight.Entities.Entity.EnableReflection
+  parent: RedLight.Entities.Entity
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_EnableReflection
+  name: EnableReflection
+  nameWithType: Entity.EnableReflection
+  fullName: RedLight.Entities.Entity.EnableReflection
+- uid: RedLight.Entities.Entity.Reflectivity
+  commentId: P:RedLight.Entities.Entity.Reflectivity
+  parent: RedLight.Entities.Entity
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_Reflectivity
+  name: Reflectivity
+  nameWithType: Entity.Reflectivity
+  fullName: RedLight.Entities.Entity.Reflectivity
+- uid: RedLight.Entities.Entity.EnableRefraction
+  commentId: P:RedLight.Entities.Entity.EnableRefraction
+  parent: RedLight.Entities.Entity
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_EnableRefraction
+  name: EnableRefraction
+  nameWithType: Entity.EnableRefraction
+  fullName: RedLight.Entities.Entity.EnableRefraction
+- uid: RedLight.Entities.Entity.RefractiveIndex
+  commentId: P:RedLight.Entities.Entity.RefractiveIndex
+  parent: RedLight.Entities.Entity
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_RefractiveIndex
+  name: RefractiveIndex
+  nameWithType: Entity.RefractiveIndex
+  fullName: RedLight.Entities.Entity.RefractiveIndex
 - uid: RedLight.Entities.Entity.Model
   commentId: P:RedLight.Entities.Entity.Model
   parent: RedLight.Entities.Entity
@@ -849,6 +883,92 @@ references:
     name: DisableImGuizmo
     href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_DisableImGuizmo
   - name: (
+  - name: )
+- uid: RedLight.Entities.Entity.SetReflection(System.Boolean,System.Single)
+  commentId: M:RedLight.Entities.Entity.SetReflection(System.Boolean,System.Single)
+  parent: RedLight.Entities.Entity
+  isExternal: true
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_SetReflection_System_Boolean_System_Single_
+  name: SetReflection(bool, float)
+  nameWithType: Entity.SetReflection(bool, float)
+  fullName: RedLight.Entities.Entity.SetReflection(bool, float)
+  nameWithType.vb: Entity.SetReflection(Boolean, Single)
+  fullName.vb: RedLight.Entities.Entity.SetReflection(Boolean, Single)
+  name.vb: SetReflection(Boolean, Single)
+  spec.csharp:
+  - uid: RedLight.Entities.Entity.SetReflection(System.Boolean,System.Single)
+    name: SetReflection
+    href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_SetReflection_System_Boolean_System_Single_
+  - name: (
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
+  spec.vb:
+  - uid: RedLight.Entities.Entity.SetReflection(System.Boolean,System.Single)
+    name: SetReflection
+    href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_SetReflection_System_Boolean_System_Single_
+  - name: (
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
+- uid: RedLight.Entities.Entity.SetRefraction(System.Boolean,System.Single)
+  commentId: M:RedLight.Entities.Entity.SetRefraction(System.Boolean,System.Single)
+  parent: RedLight.Entities.Entity
+  isExternal: true
+  href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_SetRefraction_System_Boolean_System_Single_
+  name: SetRefraction(bool, float)
+  nameWithType: Entity.SetRefraction(bool, float)
+  fullName: RedLight.Entities.Entity.SetRefraction(bool, float)
+  nameWithType.vb: Entity.SetRefraction(Boolean, Single)
+  fullName.vb: RedLight.Entities.Entity.SetRefraction(Boolean, Single)
+  name.vb: SetRefraction(Boolean, Single)
+  spec.csharp:
+  - uid: RedLight.Entities.Entity.SetRefraction(System.Boolean,System.Single)
+    name: SetRefraction
+    href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_SetRefraction_System_Boolean_System_Single_
+  - name: (
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
+  spec.vb:
+  - uid: RedLight.Entities.Entity.SetRefraction(System.Boolean,System.Single)
+    name: SetRefraction
+    href: RedLight.Entities.Entity.html#RedLight_Entities_Entity_SetRefraction_System_Boolean_System_Single_
+  - name: (
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
   - name: )
 - uid: RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.Camera)
   commentId: M:RedLight.Entities.Entity.DrawBoundingBox(RedLight.Graphics.Camera)

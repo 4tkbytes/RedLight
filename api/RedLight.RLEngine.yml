@@ -10,7 +10,7 @@ items:
   - RedLight.RLEngine.AddScene(System.String,RedLight.Scene.RLScene,RedLight.Input.RLKeyboard,RedLight.Input.RLMouse)
   - RedLight.RLEngine.CreateSceneManager
   - RedLight.RLEngine.Graphics
-  - RedLight.RLEngine.InitialiseLogger(System.Int32,RedLight.UI.ConsoleLog)
+  - RedLight.RLEngine.InitialiseLogger(System.Int32,RedLight.UI.ImGui.ConsoleLog)
   - RedLight.RLEngine.Run
   - RedLight.RLEngine.ToggleFullscreen
   - RedLight.RLEngine.Window
@@ -29,7 +29,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: RLEngine
     path: src/RedLight/RLEngine.cs
-    startLine: 22
+    startLine: 17
   assemblies:
   - RedLight
   namespace: RedLight
@@ -66,7 +66,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Window
     path: src/RedLight/RLEngine.cs
-    startLine: 27
+    startLine: 22
   assemblies:
   - RedLight
   namespace: RedLight
@@ -97,7 +97,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Graphics
     path: src/RedLight/RLEngine.cs
-    startLine: 31
+    startLine: 26
   assemblies:
   - RedLight
   namespace: RedLight
@@ -128,7 +128,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: title
     path: src/RedLight/RLEngine.cs
-    startLine: 48
+    startLine: 43
   assemblies:
   - RedLight
   namespace: RedLight
@@ -155,7 +155,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: .ctor
     path: src/RedLight/RLEngine.cs
-    startLine: 50
+    startLine: 45
   assemblies:
   - RedLight
   namespace: RedLight
@@ -195,7 +195,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: AddScene
     path: src/RedLight/RLEngine.cs
-    startLine: 112
+    startLine: 107
   assemblies:
   - RedLight
   namespace: RedLight
@@ -229,7 +229,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: AddScene
     path: src/RedLight/RLEngine.cs
-    startLine: 117
+    startLine: 112
   assemblies:
   - RedLight
   namespace: RedLight
@@ -249,16 +249,16 @@ items:
   nameWithType.vb: RLEngine.AddScene(String, RLScene, RLKeyboard, RLMouse)
   fullName.vb: RedLight.RLEngine.AddScene(String, RedLight.Scene.RLScene, RedLight.Input.RLKeyboard, RedLight.Input.RLMouse)
   name.vb: AddScene(String, RLScene, RLKeyboard, RLMouse)
-- uid: RedLight.RLEngine.InitialiseLogger(System.Int32,RedLight.UI.ConsoleLog)
-  commentId: M:RedLight.RLEngine.InitialiseLogger(System.Int32,RedLight.UI.ConsoleLog)
-  id: InitialiseLogger(System.Int32,RedLight.UI.ConsoleLog)
+- uid: RedLight.RLEngine.InitialiseLogger(System.Int32,RedLight.UI.ImGui.ConsoleLog)
+  commentId: M:RedLight.RLEngine.InitialiseLogger(System.Int32,RedLight.UI.ImGui.ConsoleLog)
+  id: InitialiseLogger(System.Int32,RedLight.UI.ImGui.ConsoleLog)
   parent: RedLight.RLEngine
   langs:
   - csharp
   - vb
   name: InitialiseLogger(int, ConsoleLog)
   nameWithType: RLEngine.InitialiseLogger(int, ConsoleLog)
-  fullName: RedLight.RLEngine.InitialiseLogger(int, RedLight.UI.ConsoleLog)
+  fullName: RedLight.RLEngine.InitialiseLogger(int, RedLight.UI.ImGui.ConsoleLog)
   type: Method
   source:
     remote:
@@ -267,7 +267,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: InitialiseLogger
     path: src/RedLight/RLEngine.cs
-    startLine: 207
+    startLine: 202
   assemblies:
   - RedLight
   namespace: RedLight
@@ -277,11 +277,11 @@ items:
     - id: value
       type: System.Int32
     - id: console
-      type: RedLight.UI.ConsoleLog
+      type: RedLight.UI.ImGui.ConsoleLog
     content.vb: Public Sub InitialiseLogger(value As Integer, console As ConsoleLog = Nothing)
   overload: RedLight.RLEngine.InitialiseLogger*
   nameWithType.vb: RLEngine.InitialiseLogger(Integer, ConsoleLog)
-  fullName.vb: RedLight.RLEngine.InitialiseLogger(Integer, RedLight.UI.ConsoleLog)
+  fullName.vb: RedLight.RLEngine.InitialiseLogger(Integer, RedLight.UI.ImGui.ConsoleLog)
   name.vb: InitialiseLogger(Integer, ConsoleLog)
 - uid: RedLight.RLEngine.ToggleFullscreen
   commentId: M:RedLight.RLEngine.ToggleFullscreen
@@ -301,7 +301,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: ToggleFullscreen
     path: src/RedLight/RLEngine.cs
-    startLine: 239
+    startLine: 234
   assemblies:
   - RedLight
   namespace: RedLight
@@ -327,7 +327,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: CreateSceneManager
     path: src/RedLight/RLEngine.cs
-    startLine: 288
+    startLine: 283
   assemblies:
   - RedLight
   namespace: RedLight
@@ -355,7 +355,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Run
     path: src/RedLight/RLEngine.cs
-    startLine: 297
+    startLine: 292
   assemblies:
   - RedLight
   namespace: RedLight
@@ -804,23 +804,23 @@ references:
     href: RedLight.Input.html
 - uid: RedLight.RLEngine.InitialiseLogger*
   commentId: Overload:RedLight.RLEngine.InitialiseLogger
-  href: RedLight.RLEngine.html#RedLight_RLEngine_InitialiseLogger_System_Int32_RedLight_UI_ConsoleLog_
+  href: RedLight.RLEngine.html#RedLight_RLEngine_InitialiseLogger_System_Int32_RedLight_UI_ImGui_ConsoleLog_
   name: InitialiseLogger
   nameWithType: RLEngine.InitialiseLogger
   fullName: RedLight.RLEngine.InitialiseLogger
-- uid: RedLight.UI.ConsoleLog
-  commentId: T:RedLight.UI.ConsoleLog
-  parent: RedLight.UI
-  href: RedLight.UI.ConsoleLog.html
+- uid: RedLight.UI.ImGui.ConsoleLog
+  commentId: T:RedLight.UI.ImGui.ConsoleLog
+  parent: RedLight.UI.ImGui
+  href: RedLight.UI.ImGui.ConsoleLog.html
   name: ConsoleLog
   nameWithType: ConsoleLog
-  fullName: RedLight.UI.ConsoleLog
-- uid: RedLight.UI
-  commentId: N:RedLight.UI
+  fullName: RedLight.UI.ImGui.ConsoleLog
+- uid: RedLight.UI.ImGui
+  commentId: N:RedLight.UI.ImGui
   href: RedLight.html
-  name: RedLight.UI
-  nameWithType: RedLight.UI
-  fullName: RedLight.UI
+  name: RedLight.UI.ImGui
+  nameWithType: RedLight.UI.ImGui
+  fullName: RedLight.UI.ImGui
   spec.csharp:
   - uid: RedLight
     name: RedLight
@@ -829,6 +829,10 @@ references:
   - uid: RedLight.UI
     name: UI
     href: RedLight.UI.html
+  - name: .
+  - uid: RedLight.UI.ImGui
+    name: ImGui
+    href: RedLight.UI.ImGui.html
   spec.vb:
   - uid: RedLight
     name: RedLight
@@ -837,6 +841,10 @@ references:
   - uid: RedLight.UI
     name: UI
     href: RedLight.UI.html
+  - name: .
+  - uid: RedLight.UI.ImGui
+    name: ImGui
+    href: RedLight.UI.ImGui.html
 - uid: RedLight.RLEngine.ToggleFullscreen*
   commentId: Overload:RedLight.RLEngine.ToggleFullscreen
   href: RedLight.RLEngine.html#RedLight_RLEngine_ToggleFullscreen

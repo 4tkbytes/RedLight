@@ -5,9 +5,9 @@ items:
   id: RLScene
   parent: RedLight.Scene
   children:
-  - RedLight.Scene.RLScene.AddToLists``1(``0,RedLight.UI.RLImGuiEditor)
-  - RedLight.Scene.RLScene.AfterEditorRender(RedLight.UI.RLImGuiEditor)
-  - RedLight.Scene.RLScene.BeforeEditorRender(RedLight.UI.RLImGuiEditor,RedLight.Graphics.Camera)
+  - RedLight.Scene.RLScene.AddToLists``1(``0,RedLight.UI.ImGui.RLImGuiEditor)
+  - RedLight.Scene.RLScene.AfterEditorRender(RedLight.UI.ImGui.RLImGuiEditor)
+  - RedLight.Scene.RLScene.BeforeEditorRender(RedLight.UI.ImGui.RLImGuiEditor,RedLight.Graphics.Camera)
   - RedLight.Scene.RLScene.Engine
   - RedLight.Scene.RLScene.Graphics
   - RedLight.Scene.RLScene.InputManager
@@ -17,9 +17,10 @@ items:
   - RedLight.Scene.RLScene.OnRender(System.Double)
   - RedLight.Scene.RLScene.OnUpdate(System.Double)
   - RedLight.Scene.RLScene.PhysicsSystem
-  - RedLight.Scene.RLScene.RenderModel(RedLight.Graphics.Camera)
+  - RedLight.Scene.RLScene.RenderModel(RedLight.Graphics.Camera,RedLight.Graphics.CubeMap)
   - RedLight.Scene.RLScene.SceneManager
   - RedLight.Scene.RLScene.ShaderManager
+  - RedLight.Scene.RLScene.TextManager
   - RedLight.Scene.RLScene.TextureManager
   langs:
   - csharp
@@ -35,7 +36,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: RLScene
     path: src/RedLight/Scene/RLScene.cs
-    startLine: 10
+    startLine: 12
   assemblies:
   - RedLight
   namespace: RedLight.Scene
@@ -72,7 +73,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Engine
     path: src/RedLight/Scene/RLScene.cs
-    startLine: 12
+    startLine: 14
   assemblies:
   - RedLight
   namespace: RedLight.Scene
@@ -101,7 +102,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Graphics
     path: src/RedLight/Scene/RLScene.cs
-    startLine: 13
+    startLine: 15
   assemblies:
   - RedLight
   namespace: RedLight.Scene
@@ -130,7 +131,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: SceneManager
     path: src/RedLight/Scene/RLScene.cs
-    startLine: 14
+    startLine: 16
   assemblies:
   - RedLight
   namespace: RedLight.Scene
@@ -159,7 +160,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: ShaderManager
     path: src/RedLight/Scene/RLScene.cs
-    startLine: 15
+    startLine: 17
   assemblies:
   - RedLight
   namespace: RedLight.Scene
@@ -188,7 +189,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: TextureManager
     path: src/RedLight/Scene/RLScene.cs
-    startLine: 16
+    startLine: 18
   assemblies:
   - RedLight
   namespace: RedLight.Scene
@@ -217,7 +218,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: InputManager
     path: src/RedLight/Scene/RLScene.cs
-    startLine: 17
+    startLine: 19
   assemblies:
   - RedLight
   namespace: RedLight.Scene
@@ -246,7 +247,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: PhysicsSystem
     path: src/RedLight/Scene/RLScene.cs
-    startLine: 18
+    startLine: 20
   assemblies:
   - RedLight
   namespace: RedLight.Scene
@@ -275,7 +276,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: LightManager
     path: src/RedLight/Scene/RLScene.cs
-    startLine: 19
+    startLine: 21
   assemblies:
   - RedLight
   namespace: RedLight.Scene
@@ -286,6 +287,35 @@ items:
       type: RedLight.Lighting.LightManager
     content.vb: Public MustOverride Property LightManager As LightManager
   overload: RedLight.Scene.RLScene.LightManager*
+- uid: RedLight.Scene.RLScene.TextManager
+  commentId: P:RedLight.Scene.RLScene.TextManager
+  id: TextManager
+  parent: RedLight.Scene.RLScene
+  langs:
+  - csharp
+  - vb
+  name: TextManager
+  nameWithType: RLScene.TextManager
+  fullName: RedLight.Scene.RLScene.TextManager
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Scene/RLScene.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: TextManager
+    path: src/RedLight/Scene/RLScene.cs
+    startLine: 22
+  assemblies:
+  - RedLight
+  namespace: RedLight.Scene
+  syntax:
+    content: public abstract TextManager TextManager { get; set; }
+    parameters: []
+    return:
+      type: RedLight.UI.TextManager
+    content.vb: Public MustOverride Property TextManager As TextManager
+  overload: RedLight.Scene.RLScene.TextManager*
 - uid: RedLight.Scene.RLScene.ObjectModels
   commentId: F:RedLight.Scene.RLScene.ObjectModels
   id: ObjectModels
@@ -304,7 +334,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: ObjectModels
     path: src/RedLight/Scene/RLScene.cs
-    startLine: 22
+    startLine: 25
   assemblies:
   - RedLight
   namespace: RedLight.Scene
@@ -331,7 +361,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: OnLoad
     path: src/RedLight/Scene/RLScene.cs
-    startLine: 24
+    startLine: 27
   assemblies:
   - RedLight
   namespace: RedLight.Scene
@@ -357,7 +387,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: OnUpdate
     path: src/RedLight/Scene/RLScene.cs
-    startLine: 31
+    startLine: 34
   assemblies:
   - RedLight
   namespace: RedLight.Scene
@@ -389,7 +419,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: OnRender
     path: src/RedLight/Scene/RLScene.cs
-    startLine: 33
+    startLine: 36
   assemblies:
   - RedLight
   namespace: RedLight.Scene
@@ -403,16 +433,16 @@ items:
   nameWithType.vb: RLScene.OnRender(Double)
   fullName.vb: RedLight.Scene.RLScene.OnRender(Double)
   name.vb: OnRender(Double)
-- uid: RedLight.Scene.RLScene.AddToLists``1(``0,RedLight.UI.RLImGuiEditor)
-  commentId: M:RedLight.Scene.RLScene.AddToLists``1(``0,RedLight.UI.RLImGuiEditor)
-  id: AddToLists``1(``0,RedLight.UI.RLImGuiEditor)
+- uid: RedLight.Scene.RLScene.AddToLists``1(``0,RedLight.UI.ImGui.RLImGuiEditor)
+  commentId: M:RedLight.Scene.RLScene.AddToLists``1(``0,RedLight.UI.ImGui.RLImGuiEditor)
+  id: AddToLists``1(``0,RedLight.UI.ImGui.RLImGuiEditor)
   parent: RedLight.Scene.RLScene
   langs:
   - csharp
   - vb
   name: AddToLists<T>(T, RLImGuiEditor)
   nameWithType: RLScene.AddToLists<T>(T, RLImGuiEditor)
-  fullName: RedLight.Scene.RLScene.AddToLists<T>(T, RedLight.UI.RLImGuiEditor)
+  fullName: RedLight.Scene.RLScene.AddToLists<T>(T, RedLight.UI.ImGui.RLImGuiEditor)
   type: Method
   source:
     remote:
@@ -421,7 +451,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: AddToLists
     path: src/RedLight/Scene/RLScene.cs
-    startLine: 38
+    startLine: 41
   assemblies:
   - RedLight
   namespace: RedLight.Scene
@@ -431,24 +461,24 @@ items:
     - id: item
       type: '{T}'
     - id: _editor
-      type: RedLight.UI.RLImGuiEditor
+      type: RedLight.UI.ImGui.RLImGuiEditor
     typeParameters:
     - id: T
     content.vb: Public Sub AddToLists(Of T)(item As T, _editor As RLImGuiEditor = Nothing)
   overload: RedLight.Scene.RLScene.AddToLists*
   nameWithType.vb: RLScene.AddToLists(Of T)(T, RLImGuiEditor)
-  fullName.vb: RedLight.Scene.RLScene.AddToLists(Of T)(T, RedLight.UI.RLImGuiEditor)
+  fullName.vb: RedLight.Scene.RLScene.AddToLists(Of T)(T, RedLight.UI.ImGui.RLImGuiEditor)
   name.vb: AddToLists(Of T)(T, RLImGuiEditor)
-- uid: RedLight.Scene.RLScene.RenderModel(RedLight.Graphics.Camera)
-  commentId: M:RedLight.Scene.RLScene.RenderModel(RedLight.Graphics.Camera)
-  id: RenderModel(RedLight.Graphics.Camera)
+- uid: RedLight.Scene.RLScene.RenderModel(RedLight.Graphics.Camera,RedLight.Graphics.CubeMap)
+  commentId: M:RedLight.Scene.RLScene.RenderModel(RedLight.Graphics.Camera,RedLight.Graphics.CubeMap)
+  id: RenderModel(RedLight.Graphics.Camera,RedLight.Graphics.CubeMap)
   parent: RedLight.Scene.RLScene
   langs:
   - csharp
   - vb
-  name: RenderModel(Camera)
-  nameWithType: RLScene.RenderModel(Camera)
-  fullName: RedLight.Scene.RLScene.RenderModel(RedLight.Graphics.Camera)
+  name: RenderModel(Camera, CubeMap)
+  nameWithType: RLScene.RenderModel(Camera, CubeMap)
+  fullName: RedLight.Scene.RLScene.RenderModel(RedLight.Graphics.Camera, RedLight.Graphics.CubeMap)
   type: Method
   source:
     remote:
@@ -457,27 +487,29 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: RenderModel
     path: src/RedLight/Scene/RLScene.cs
-    startLine: 110
+    startLine: 109
   assemblies:
   - RedLight
   namespace: RedLight.Scene
   syntax:
-    content: public void RenderModel(Camera activeCamera)
+    content: public void RenderModel(Camera activeCamera, CubeMap skybox = null)
     parameters:
     - id: activeCamera
       type: RedLight.Graphics.Camera
-    content.vb: Public Sub RenderModel(activeCamera As Camera)
+    - id: skybox
+      type: RedLight.Graphics.CubeMap
+    content.vb: Public Sub RenderModel(activeCamera As Camera, skybox As CubeMap = Nothing)
   overload: RedLight.Scene.RLScene.RenderModel*
-- uid: RedLight.Scene.RLScene.BeforeEditorRender(RedLight.UI.RLImGuiEditor,RedLight.Graphics.Camera)
-  commentId: M:RedLight.Scene.RLScene.BeforeEditorRender(RedLight.UI.RLImGuiEditor,RedLight.Graphics.Camera)
-  id: BeforeEditorRender(RedLight.UI.RLImGuiEditor,RedLight.Graphics.Camera)
+- uid: RedLight.Scene.RLScene.BeforeEditorRender(RedLight.UI.ImGui.RLImGuiEditor,RedLight.Graphics.Camera)
+  commentId: M:RedLight.Scene.RLScene.BeforeEditorRender(RedLight.UI.ImGui.RLImGuiEditor,RedLight.Graphics.Camera)
+  id: BeforeEditorRender(RedLight.UI.ImGui.RLImGuiEditor,RedLight.Graphics.Camera)
   parent: RedLight.Scene.RLScene
   langs:
   - csharp
   - vb
   name: BeforeEditorRender(RLImGuiEditor, Camera)
   nameWithType: RLScene.BeforeEditorRender(RLImGuiEditor, Camera)
-  fullName: RedLight.Scene.RLScene.BeforeEditorRender(RedLight.UI.RLImGuiEditor, RedLight.Graphics.Camera)
+  fullName: RedLight.Scene.RLScene.BeforeEditorRender(RedLight.UI.ImGui.RLImGuiEditor, RedLight.Graphics.Camera)
   type: Method
   source:
     remote:
@@ -486,7 +518,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: BeforeEditorRender
     path: src/RedLight/Scene/RLScene.cs
-    startLine: 124
+    startLine: 133
   assemblies:
   - RedLight
   namespace: RedLight.Scene
@@ -494,21 +526,21 @@ items:
     content: public void BeforeEditorRender(RLImGuiEditor editor, Camera activeCamera)
     parameters:
     - id: editor
-      type: RedLight.UI.RLImGuiEditor
+      type: RedLight.UI.ImGui.RLImGuiEditor
     - id: activeCamera
       type: RedLight.Graphics.Camera
     content.vb: Public Sub BeforeEditorRender(editor As RLImGuiEditor, activeCamera As Camera)
   overload: RedLight.Scene.RLScene.BeforeEditorRender*
-- uid: RedLight.Scene.RLScene.AfterEditorRender(RedLight.UI.RLImGuiEditor)
-  commentId: M:RedLight.Scene.RLScene.AfterEditorRender(RedLight.UI.RLImGuiEditor)
-  id: AfterEditorRender(RedLight.UI.RLImGuiEditor)
+- uid: RedLight.Scene.RLScene.AfterEditorRender(RedLight.UI.ImGui.RLImGuiEditor)
+  commentId: M:RedLight.Scene.RLScene.AfterEditorRender(RedLight.UI.ImGui.RLImGuiEditor)
+  id: AfterEditorRender(RedLight.UI.ImGui.RLImGuiEditor)
   parent: RedLight.Scene.RLScene
   langs:
   - csharp
   - vb
   name: AfterEditorRender(RLImGuiEditor)
   nameWithType: RLScene.AfterEditorRender(RLImGuiEditor)
-  fullName: RedLight.Scene.RLScene.AfterEditorRender(RedLight.UI.RLImGuiEditor)
+  fullName: RedLight.Scene.RLScene.AfterEditorRender(RedLight.UI.ImGui.RLImGuiEditor)
   type: Method
   source:
     remote:
@@ -517,7 +549,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: AfterEditorRender
     path: src/RedLight/Scene/RLScene.cs
-    startLine: 151
+    startLine: 160
   assemblies:
   - RedLight
   namespace: RedLight.Scene
@@ -525,7 +557,7 @@ items:
     content: public void AfterEditorRender(RLImGuiEditor editor)
     parameters:
     - id: editor
-      type: RedLight.UI.RLImGuiEditor
+      type: RedLight.UI.ImGui.RLImGuiEditor
     content.vb: Public Sub AfterEditorRender(editor As RLImGuiEditor)
   overload: RedLight.Scene.RLScene.AfterEditorRender*
 references:
@@ -986,6 +1018,41 @@ references:
   - uid: RedLight.Lighting
     name: Lighting
     href: RedLight.Lighting.html
+- uid: RedLight.Scene.RLScene.TextManager*
+  commentId: Overload:RedLight.Scene.RLScene.TextManager
+  href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_TextManager
+  name: TextManager
+  nameWithType: RLScene.TextManager
+  fullName: RedLight.Scene.RLScene.TextManager
+- uid: RedLight.UI.TextManager
+  commentId: T:RedLight.UI.TextManager
+  parent: RedLight.UI
+  href: RedLight.UI.TextManager.html
+  name: TextManager
+  nameWithType: TextManager
+  fullName: RedLight.UI.TextManager
+- uid: RedLight.UI
+  commentId: N:RedLight.UI
+  href: RedLight.html
+  name: RedLight.UI
+  nameWithType: RedLight.UI
+  fullName: RedLight.UI
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.UI
+    name: UI
+    href: RedLight.UI.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.UI
+    name: UI
+    href: RedLight.UI.html
 - uid: System.Collections.Generic.List{RedLight.Entities.Entity}
   commentId: T:System.Collections.Generic.List{RedLight.Entities.Entity}
   parent: System.Collections.Generic
@@ -1115,7 +1182,7 @@ references:
   fullName: RedLight.Scene.RLScene.OnRender
 - uid: RedLight.Scene.RLScene.AddToLists*
   commentId: Overload:RedLight.Scene.RLScene.AddToLists
-  href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_AddToLists__1___0_RedLight_UI_RLImGuiEditor_
+  href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_AddToLists__1___0_RedLight_UI_ImGui_RLImGuiEditor_
   name: AddToLists
   nameWithType: RLScene.AddToLists
   fullName: RedLight.Scene.RLScene.AddToLists
@@ -1125,23 +1192,23 @@ references:
   name: T
   nameWithType: T
   fullName: T
-- uid: RedLight.UI.RLImGuiEditor
-  commentId: T:RedLight.UI.RLImGuiEditor
-  parent: RedLight.UI
-  href: RedLight.UI.RLImGuiEditor.html
+- uid: RedLight.UI.ImGui.RLImGuiEditor
+  commentId: T:RedLight.UI.ImGui.RLImGuiEditor
+  parent: RedLight.UI.ImGui
+  href: RedLight.UI.ImGui.RLImGuiEditor.html
   name: RLImGuiEditor
   nameWithType: RLImGuiEditor
-  fullName: RedLight.UI.RLImGuiEditor
+  fullName: RedLight.UI.ImGui.RLImGuiEditor
 - uid: T
   name: T
   nameWithType: T
   fullName: T
-- uid: RedLight.UI
-  commentId: N:RedLight.UI
+- uid: RedLight.UI.ImGui
+  commentId: N:RedLight.UI.ImGui
   href: RedLight.html
-  name: RedLight.UI
-  nameWithType: RedLight.UI
-  fullName: RedLight.UI
+  name: RedLight.UI.ImGui
+  nameWithType: RedLight.UI.ImGui
+  fullName: RedLight.UI.ImGui
   spec.csharp:
   - uid: RedLight
     name: RedLight
@@ -1150,6 +1217,10 @@ references:
   - uid: RedLight.UI
     name: UI
     href: RedLight.UI.html
+  - name: .
+  - uid: RedLight.UI.ImGui
+    name: ImGui
+    href: RedLight.UI.ImGui.html
   spec.vb:
   - uid: RedLight
     name: RedLight
@@ -1158,9 +1229,13 @@ references:
   - uid: RedLight.UI
     name: UI
     href: RedLight.UI.html
+  - name: .
+  - uid: RedLight.UI.ImGui
+    name: ImGui
+    href: RedLight.UI.ImGui.html
 - uid: RedLight.Scene.RLScene.RenderModel*
   commentId: Overload:RedLight.Scene.RLScene.RenderModel
-  href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_RenderModel_RedLight_Graphics_Camera_
+  href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_RenderModel_RedLight_Graphics_Camera_RedLight_Graphics_CubeMap_
   name: RenderModel
   nameWithType: RLScene.RenderModel
   fullName: RedLight.Scene.RLScene.RenderModel
@@ -1171,15 +1246,22 @@ references:
   name: Camera
   nameWithType: Camera
   fullName: RedLight.Graphics.Camera
+- uid: RedLight.Graphics.CubeMap
+  commentId: T:RedLight.Graphics.CubeMap
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.CubeMap.html
+  name: CubeMap
+  nameWithType: CubeMap
+  fullName: RedLight.Graphics.CubeMap
 - uid: RedLight.Scene.RLScene.BeforeEditorRender*
   commentId: Overload:RedLight.Scene.RLScene.BeforeEditorRender
-  href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_BeforeEditorRender_RedLight_UI_RLImGuiEditor_RedLight_Graphics_Camera_
+  href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_BeforeEditorRender_RedLight_UI_ImGui_RLImGuiEditor_RedLight_Graphics_Camera_
   name: BeforeEditorRender
   nameWithType: RLScene.BeforeEditorRender
   fullName: RedLight.Scene.RLScene.BeforeEditorRender
 - uid: RedLight.Scene.RLScene.AfterEditorRender*
   commentId: Overload:RedLight.Scene.RLScene.AfterEditorRender
-  href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_AfterEditorRender_RedLight_UI_RLImGuiEditor_
+  href: RedLight.Scene.RLScene.html#RedLight_Scene_RLScene_AfterEditorRender_RedLight_UI_ImGui_RLImGuiEditor_
   name: AfterEditorRender
   nameWithType: RLScene.AfterEditorRender
   fullName: RedLight.Scene.RLScene.AfterEditorRender

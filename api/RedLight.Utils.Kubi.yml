@@ -1,34 +1,35 @@
 ### YamlMime:ManagedReference
 items:
-- uid: RedLight.Utils.RLFiles
-  commentId: T:RedLight.Utils.RLFiles
-  id: RLFiles
+- uid: RedLight.Utils.Kubi
+  commentId: T:RedLight.Utils.Kubi
+  id: Kubi
   parent: RedLight.Utils
   children:
-  - RedLight.Utils.RLFiles.GetResourceAsBytes(System.String)
-  - RedLight.Utils.RLFiles.GetResourceAsString(System.String)
-  - RedLight.Utils.RLFiles.GetResourcePath(System.String)
+  - RedLight.Utils.Kubi.GenerateCubemap(SixLabors.ImageSharp.Image{SixLabors.ImageSharp.PixelFormats.Rgba32},RedLight.Utils.Kubi.KubiOptions)
+  - RedLight.Utils.Kubi.GenerateCubemap(System.String,System.String,RedLight.Utils.Kubi.KubiOptions)
   langs:
   - csharp
   - vb
-  name: RLFiles
-  nameWithType: RLFiles
-  fullName: RedLight.Utils.RLFiles
+  name: Kubi
+  nameWithType: Kubi
+  fullName: RedLight.Utils.Kubi
   type: Class
   source:
     remote:
-      path: src/RedLight/Utils/RLFiles.cs
+      path: src/RedLight/Utils/Kubi.cs
       branch: main
       repo: git@github.com:4tkbytes/RedLight
-    id: RLFiles
-    path: src/RedLight/Utils/RLFiles.cs
-    startLine: 8
+    id: Kubi
+    path: src/RedLight/Utils/Kubi.cs
+    startLine: 11
   assemblies:
   - RedLight
   namespace: RedLight.Utils
+  summary: A static library for generating cubemaps from equirectangular images.
+  example: []
   syntax:
-    content: public static class RLFiles
-    content.vb: Public Module RLFiles
+    content: public static class Kubi
+    content.vb: Public Module Kubi
   inheritance:
   - System.Object
   inheritedMembers:
@@ -39,139 +40,92 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
-- uid: RedLight.Utils.RLFiles.GetResourcePath(System.String)
-  commentId: M:RedLight.Utils.RLFiles.GetResourcePath(System.String)
-  id: GetResourcePath(System.String)
-  parent: RedLight.Utils.RLFiles
+- uid: RedLight.Utils.Kubi.GenerateCubemap(SixLabors.ImageSharp.Image{SixLabors.ImageSharp.PixelFormats.Rgba32},RedLight.Utils.Kubi.KubiOptions)
+  commentId: M:RedLight.Utils.Kubi.GenerateCubemap(SixLabors.ImageSharp.Image{SixLabors.ImageSharp.PixelFormats.Rgba32},RedLight.Utils.Kubi.KubiOptions)
+  id: GenerateCubemap(SixLabors.ImageSharp.Image{SixLabors.ImageSharp.PixelFormats.Rgba32},RedLight.Utils.Kubi.KubiOptions)
+  parent: RedLight.Utils.Kubi
   langs:
   - csharp
   - vb
-  name: GetResourcePath(string)
-  nameWithType: RLFiles.GetResourcePath(string)
-  fullName: RedLight.Utils.RLFiles.GetResourcePath(string)
+  name: GenerateCubemap(Image<Rgba32>, KubiOptions)
+  nameWithType: Kubi.GenerateCubemap(Image<Rgba32>, Kubi.KubiOptions)
+  fullName: RedLight.Utils.Kubi.GenerateCubemap(SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Rgba32>, RedLight.Utils.Kubi.KubiOptions)
   type: Method
   source:
     remote:
-      path: src/RedLight/Utils/RLFiles.cs
+      path: src/RedLight/Utils/Kubi.cs
       branch: main
       repo: git@github.com:4tkbytes/RedLight
-    id: GetResourcePath
-    path: src/RedLight/Utils/RLFiles.cs
-    startLine: 21
+    id: GenerateCubemap
+    path: src/RedLight/Utils/Kubi.cs
+    startLine: 82
   assemblies:
   - RedLight
   namespace: RedLight.Utils
-  summary: >-
-    This function gets the relative path from the resource name. It takes an input
-
-    of resourceName, formatted like "RedLight.Resources.Models.Maxwell.maxwell_the_cat.glb". The function will
-
-    then search through the Resources folder to get to {AssemblyExecutionLocation}/Resources/Models/maxwell_the_cat.glb.
-
-
-    It will then return the path of that resource, which can be used for other functions to load textures or models or more.
+  summary: Generate a cubemap from an equirectangular image
   example: []
   syntax:
-    content: public static string GetResourcePath(string resourceName)
+    content: public static Image<Rgba32>[] GenerateCubemap(Image<Rgba32> inputImage, Kubi.KubiOptions options = null)
     parameters:
-    - id: resourceName
-      type: System.String
-      description: <xref href="System.String" data-throw-if-not-resolved="false"></xref> The name of the resource
+    - id: inputImage
+      type: SixLabors.ImageSharp.Image{SixLabors.ImageSharp.PixelFormats.Rgba32}
+      description: Input equirectangular image
+    - id: options
+      type: RedLight.Utils.Kubi.KubiOptions
+      description: Configuration options
     return:
-      type: System.String
-      description: <xref href="System.String" data-throw-if-not-resolved="false"></xref> The location of the resource
-    content.vb: Public Shared Function GetResourcePath(resourceName As String) As String
-  overload: RedLight.Utils.RLFiles.GetResourcePath*
+      type: SixLabors.ImageSharp.Image{SixLabors.ImageSharp.PixelFormats.Rgba32}[]
+      description: Array of face images (6 faces) or single combined image based on layout
+    content.vb: Public Shared Function GenerateCubemap(inputImage As Image(Of Rgba32), options As Kubi.KubiOptions = Nothing) As Image(Of Rgba32)()
+  overload: RedLight.Utils.Kubi.GenerateCubemap*
   exceptions:
-  - type: System.IO.FileNotFoundException
-    commentId: T:System.IO.FileNotFoundException
-    description: ''
-  - type: System.InvalidOperationException
-    commentId: T:System.InvalidOperationException
-    description: ''
-  nameWithType.vb: RLFiles.GetResourcePath(String)
-  fullName.vb: RedLight.Utils.RLFiles.GetResourcePath(String)
-  name.vb: GetResourcePath(String)
-- uid: RedLight.Utils.RLFiles.GetResourceAsString(System.String)
-  commentId: M:RedLight.Utils.RLFiles.GetResourceAsString(System.String)
-  id: GetResourceAsString(System.String)
-  parent: RedLight.Utils.RLFiles
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: Thrown when inputImage is null
+  nameWithType.vb: Kubi.GenerateCubemap(Image(Of Rgba32), Kubi.KubiOptions)
+  fullName.vb: RedLight.Utils.Kubi.GenerateCubemap(SixLabors.ImageSharp.Image(Of SixLabors.ImageSharp.PixelFormats.Rgba32), RedLight.Utils.Kubi.KubiOptions)
+  name.vb: GenerateCubemap(Image(Of Rgba32), KubiOptions)
+- uid: RedLight.Utils.Kubi.GenerateCubemap(System.String,System.String,RedLight.Utils.Kubi.KubiOptions)
+  commentId: M:RedLight.Utils.Kubi.GenerateCubemap(System.String,System.String,RedLight.Utils.Kubi.KubiOptions)
+  id: GenerateCubemap(System.String,System.String,RedLight.Utils.Kubi.KubiOptions)
+  parent: RedLight.Utils.Kubi
   langs:
   - csharp
   - vb
-  name: GetResourceAsString(string)
-  nameWithType: RLFiles.GetResourceAsString(string)
-  fullName: RedLight.Utils.RLFiles.GetResourceAsString(string)
+  name: GenerateCubemap(string, string, KubiOptions)
+  nameWithType: Kubi.GenerateCubemap(string, string, Kubi.KubiOptions)
+  fullName: RedLight.Utils.Kubi.GenerateCubemap(string, string, RedLight.Utils.Kubi.KubiOptions)
   type: Method
   source:
     remote:
-      path: src/RedLight/Utils/RLFiles.cs
+      path: src/RedLight/Utils/Kubi.cs
       branch: main
       repo: git@github.com:4tkbytes/RedLight
-    id: GetResourceAsString
-    path: src/RedLight/Utils/RLFiles.cs
-    startLine: 84
+    id: GenerateCubemap
+    path: src/RedLight/Utils/Kubi.cs
+    startLine: 136
   assemblies:
   - RedLight
   namespace: RedLight.Utils
-  summary: >-
-    This scene fetches the resource as per its resource name. This function is typically used for shaders
-
-    to compile them, however they can be used however they like. 
-
-
-    The resource name parameter is expected to be of the type "RedLight.Resources.Shaders.basic.vert", where the 
-
-    function will travel to {AssemblyExecutionLocation}/Resources/Shaders/basic.vert.
+  summary: Generate a cubemap and save to files
   example: []
   syntax:
-    content: public static string GetResourceAsString(string resourceName)
+    content: public static void GenerateCubemap(string inputPath, string outputPath, Kubi.KubiOptions options = null)
     parameters:
-    - id: resourceName
+    - id: inputPath
       type: System.String
-      description: <xref href="System.String" data-throw-if-not-resolved="false"></xref>
-    return:
+      description: Path to input equirectangular image
+    - id: outputPath
       type: System.String
-      description: <xref href="System.String" data-throw-if-not-resolved="false"></xref> The file as a string
-    content.vb: Public Shared Function GetResourceAsString(resourceName As String) As String
-  overload: RedLight.Utils.RLFiles.GetResourceAsString*
-  nameWithType.vb: RLFiles.GetResourceAsString(String)
-  fullName.vb: RedLight.Utils.RLFiles.GetResourceAsString(String)
-  name.vb: GetResourceAsString(String)
-- uid: RedLight.Utils.RLFiles.GetResourceAsBytes(System.String)
-  commentId: M:RedLight.Utils.RLFiles.GetResourceAsBytes(System.String)
-  id: GetResourceAsBytes(System.String)
-  parent: RedLight.Utils.RLFiles
-  langs:
-  - csharp
-  - vb
-  name: GetResourceAsBytes(string)
-  nameWithType: RLFiles.GetResourceAsBytes(string)
-  fullName: RedLight.Utils.RLFiles.GetResourceAsBytes(string)
-  type: Method
-  source:
-    remote:
-      path: src/RedLight/Utils/RLFiles.cs
-      branch: main
-      repo: git@github.com:4tkbytes/RedLight
-    id: GetResourceAsBytes
-    path: src/RedLight/Utils/RLFiles.cs
-    startLine: 93
-  assemblies:
-  - RedLight
-  namespace: RedLight.Utils
-  syntax:
-    content: public static byte[] GetResourceAsBytes(string resourceName)
-    parameters:
-    - id: resourceName
-      type: System.String
-    return:
-      type: System.Byte[]
-    content.vb: Public Shared Function GetResourceAsBytes(resourceName As String) As Byte()
-  overload: RedLight.Utils.RLFiles.GetResourceAsBytes*
-  nameWithType.vb: RLFiles.GetResourceAsBytes(String)
-  fullName.vb: RedLight.Utils.RLFiles.GetResourceAsBytes(String)
-  name.vb: GetResourceAsBytes(String)
+      description: Output path (directory for separate faces, file for combined)
+    - id: options
+      type: RedLight.Utils.Kubi.KubiOptions
+      description: Configuration options
+    content.vb: Public Shared Sub GenerateCubemap(inputPath As String, outputPath As String, options As Kubi.KubiOptions = Nothing)
+  overload: RedLight.Utils.Kubi.GenerateCubemap*
+  nameWithType.vb: Kubi.GenerateCubemap(String, String, Kubi.KubiOptions)
+  fullName.vb: RedLight.Utils.Kubi.GenerateCubemap(String, String, RedLight.Utils.Kubi.KubiOptions)
+  name.vb: GenerateCubemap(String, String, KubiOptions)
 references:
 - uid: RedLight.Utils
   commentId: N:RedLight.Utils
@@ -432,6 +386,151 @@ references:
   name: System
   nameWithType: System
   fullName: System
+- uid: System.ArgumentNullException
+  commentId: T:System.ArgumentNullException
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.argumentnullexception
+  name: ArgumentNullException
+  nameWithType: ArgumentNullException
+  fullName: System.ArgumentNullException
+- uid: RedLight.Utils.Kubi.GenerateCubemap*
+  commentId: Overload:RedLight.Utils.Kubi.GenerateCubemap
+  href: RedLight.Utils.Kubi.html#RedLight_Utils_Kubi_GenerateCubemap_SixLabors_ImageSharp_Image_SixLabors_ImageSharp_PixelFormats_Rgba32__RedLight_Utils_Kubi_KubiOptions_
+  name: GenerateCubemap
+  nameWithType: Kubi.GenerateCubemap
+  fullName: RedLight.Utils.Kubi.GenerateCubemap
+- uid: SixLabors.ImageSharp.Image{SixLabors.ImageSharp.PixelFormats.Rgba32}
+  commentId: T:SixLabors.ImageSharp.Image{SixLabors.ImageSharp.PixelFormats.Rgba32}
+  parent: SixLabors.ImageSharp
+  definition: SixLabors.ImageSharp.Image`1
+  name: Image<Rgba32>
+  nameWithType: Image<Rgba32>
+  fullName: SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Rgba32>
+  nameWithType.vb: Image(Of Rgba32)
+  fullName.vb: SixLabors.ImageSharp.Image(Of SixLabors.ImageSharp.PixelFormats.Rgba32)
+  name.vb: Image(Of Rgba32)
+  spec.csharp:
+  - uid: SixLabors.ImageSharp.Image`1
+    name: Image
+    isExternal: true
+  - name: <
+  - uid: SixLabors.ImageSharp.PixelFormats.Rgba32
+    name: Rgba32
+    isExternal: true
+  - name: '>'
+  spec.vb:
+  - uid: SixLabors.ImageSharp.Image`1
+    name: Image
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: SixLabors.ImageSharp.PixelFormats.Rgba32
+    name: Rgba32
+    isExternal: true
+  - name: )
+- uid: RedLight.Utils.Kubi.KubiOptions
+  commentId: T:RedLight.Utils.Kubi.KubiOptions
+  parent: RedLight.Utils
+  href: RedLight.Utils.Kubi.html
+  name: Kubi.KubiOptions
+  nameWithType: Kubi.KubiOptions
+  fullName: RedLight.Utils.Kubi.KubiOptions
+  spec.csharp:
+  - uid: RedLight.Utils.Kubi
+    name: Kubi
+    href: RedLight.Utils.Kubi.html
+  - name: .
+  - uid: RedLight.Utils.Kubi.KubiOptions
+    name: KubiOptions
+    href: RedLight.Utils.Kubi.KubiOptions.html
+  spec.vb:
+  - uid: RedLight.Utils.Kubi
+    name: Kubi
+    href: RedLight.Utils.Kubi.html
+  - name: .
+  - uid: RedLight.Utils.Kubi.KubiOptions
+    name: KubiOptions
+    href: RedLight.Utils.Kubi.KubiOptions.html
+- uid: SixLabors.ImageSharp.Image{SixLabors.ImageSharp.PixelFormats.Rgba32}[]
+  isExternal: true
+  name: Image<Rgba32>[]
+  nameWithType: Image<Rgba32>[]
+  fullName: SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Rgba32>[]
+  nameWithType.vb: Image(Of Rgba32)()
+  fullName.vb: SixLabors.ImageSharp.Image(Of SixLabors.ImageSharp.PixelFormats.Rgba32)()
+  name.vb: Image(Of Rgba32)()
+  spec.csharp:
+  - uid: SixLabors.ImageSharp.Image`1
+    name: Image
+    isExternal: true
+  - name: <
+  - uid: SixLabors.ImageSharp.PixelFormats.Rgba32
+    name: Rgba32
+    isExternal: true
+  - name: '>'
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: SixLabors.ImageSharp.Image`1
+    name: Image
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: SixLabors.ImageSharp.PixelFormats.Rgba32
+    name: Rgba32
+    isExternal: true
+  - name: )
+  - name: (
+  - name: )
+- uid: SixLabors.ImageSharp.Image`1
+  commentId: T:SixLabors.ImageSharp.Image`1
+  isExternal: true
+  name: Image<TPixel>
+  nameWithType: Image<TPixel>
+  fullName: SixLabors.ImageSharp.Image<TPixel>
+  nameWithType.vb: Image(Of TPixel)
+  fullName.vb: SixLabors.ImageSharp.Image(Of TPixel)
+  name.vb: Image(Of TPixel)
+  spec.csharp:
+  - uid: SixLabors.ImageSharp.Image`1
+    name: Image
+    isExternal: true
+  - name: <
+  - name: TPixel
+  - name: '>'
+  spec.vb:
+  - uid: SixLabors.ImageSharp.Image`1
+    name: Image
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TPixel
+  - name: )
+- uid: SixLabors.ImageSharp
+  commentId: N:SixLabors.ImageSharp
+  isExternal: true
+  name: SixLabors.ImageSharp
+  nameWithType: SixLabors.ImageSharp
+  fullName: SixLabors.ImageSharp
+  spec.csharp:
+  - uid: SixLabors
+    name: SixLabors
+    isExternal: true
+  - name: .
+  - uid: SixLabors.ImageSharp
+    name: ImageSharp
+    isExternal: true
+  spec.vb:
+  - uid: SixLabors
+    name: SixLabors
+    isExternal: true
+  - name: .
+  - uid: SixLabors.ImageSharp
+    name: ImageSharp
+    isExternal: true
 - uid: System.String
   commentId: T:System.String
   parent: System
@@ -443,58 +542,3 @@ references:
   nameWithType.vb: String
   fullName.vb: String
   name.vb: String
-- uid: System.IO.FileNotFoundException
-  commentId: T:System.IO.FileNotFoundException
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.io.filenotfoundexception
-  name: FileNotFoundException
-  nameWithType: FileNotFoundException
-  fullName: System.IO.FileNotFoundException
-- uid: System.InvalidOperationException
-  commentId: T:System.InvalidOperationException
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.invalidoperationexception
-  name: InvalidOperationException
-  nameWithType: InvalidOperationException
-  fullName: System.InvalidOperationException
-- uid: RedLight.Utils.RLFiles.GetResourcePath*
-  commentId: Overload:RedLight.Utils.RLFiles.GetResourcePath
-  href: RedLight.Utils.RLFiles.html#RedLight_Utils_RLFiles_GetResourcePath_System_String_
-  name: GetResourcePath
-  nameWithType: RLFiles.GetResourcePath
-  fullName: RedLight.Utils.RLFiles.GetResourcePath
-- uid: RedLight.Utils.RLFiles.GetResourceAsString*
-  commentId: Overload:RedLight.Utils.RLFiles.GetResourceAsString
-  href: RedLight.Utils.RLFiles.html#RedLight_Utils_RLFiles_GetResourceAsString_System_String_
-  name: GetResourceAsString
-  nameWithType: RLFiles.GetResourceAsString
-  fullName: RedLight.Utils.RLFiles.GetResourceAsString
-- uid: RedLight.Utils.RLFiles.GetResourceAsBytes*
-  commentId: Overload:RedLight.Utils.RLFiles.GetResourceAsBytes
-  href: RedLight.Utils.RLFiles.html#RedLight_Utils_RLFiles_GetResourceAsBytes_System_String_
-  name: GetResourceAsBytes
-  nameWithType: RLFiles.GetResourceAsBytes
-  fullName: RedLight.Utils.RLFiles.GetResourceAsBytes
-- uid: System.Byte[]
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.byte
-  name: byte[]
-  nameWithType: byte[]
-  fullName: byte[]
-  nameWithType.vb: Byte()
-  fullName.vb: Byte()
-  name.vb: Byte()
-  spec.csharp:
-  - uid: System.Byte
-    name: byte
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.byte
-  - name: '['
-  - name: ']'
-  spec.vb:
-  - uid: System.Byte
-    name: Byte
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.byte
-  - name: (
-  - name: )

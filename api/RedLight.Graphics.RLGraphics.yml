@@ -199,7 +199,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: EnableDebugErrorCallback
     path: src/RedLight/Graphics/RLGraphics.cs
-    startLine: 40
+    startLine: 43
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -230,7 +230,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Clear
     path: src/RedLight/Graphics/RLGraphics.cs
-    startLine: 72
+    startLine: 75
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -258,7 +258,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: ClearColour
     path: src/RedLight/Graphics/RLGraphics.cs
-    startLine: 81
+    startLine: 84
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -290,7 +290,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: UpdateProjection
     path: src/RedLight/Graphics/RLGraphics.cs
-    startLine: 91
+    startLine: 94
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -325,7 +325,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: UpdateView
     path: src/RedLight/Graphics/RLGraphics.cs
-    startLine: 110
+    startLine: 113
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -360,7 +360,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: UpdateModel
     path: src/RedLight/Graphics/RLGraphics.cs
-    startLine: 128
+    startLine: 131
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -392,7 +392,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Update
     path: src/RedLight/Graphics/RLGraphics.cs
-    startLine: 147
+    startLine: 150
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -427,7 +427,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: CheckGLErrors
     path: src/RedLight/Graphics/RLGraphics.cs
-    startLine: 158
+    startLine: 161
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -458,7 +458,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: LogVector
     path: src/RedLight/Graphics/RLGraphics.cs
-    startLine: 170
+    startLine: 173
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -496,7 +496,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: LogMatrix4
     path: src/RedLight/Graphics/RLGraphics.cs
-    startLine: 180
+    startLine: 183
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -534,7 +534,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Stupid
     path: src/RedLight/Graphics/RLGraphics.cs
-    startLine: 197
+    startLine: 200
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -576,7 +576,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Use
     path: src/RedLight/Graphics/RLGraphics.cs
-    startLine: 213
+    startLine: 217
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -608,7 +608,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: CreateModel
     path: src/RedLight/Graphics/RLGraphics.cs
-    startLine: 234
+    startLine: 238
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -654,7 +654,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: MakePlayer
     path: src/RedLight/Graphics/RLGraphics.cs
-    startLine: 249
+    startLine: 253
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -701,7 +701,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: MakePlayer
     path: src/RedLight/Graphics/RLGraphics.cs
-    startLine: 264
+    startLine: 268
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -750,7 +750,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Begin
     path: src/RedLight/Graphics/RLGraphics.cs
-    startLine: 272
+    startLine: 276
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -778,7 +778,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: End
     path: src/RedLight/Graphics/RLGraphics.cs
-    startLine: 282
+    startLine: 286
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -806,7 +806,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Draw
     path: src/RedLight/Graphics/RLGraphics.cs
-    startLine: 293
+    startLine: 297
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -838,7 +838,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: AddModels
     path: src/RedLight/Graphics/RLGraphics.cs
-    startLine: 306
+    startLine: 310
   assemblies:
   - RedLight
   namespace: RedLight.Graphics

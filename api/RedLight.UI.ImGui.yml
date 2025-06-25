@@ -4,8 +4,12 @@ items:
   commentId: N:RedLight.UI.ImGui
   id: RedLight.UI.ImGui
   children:
+  - RedLight.UI.ImGui.ConsoleLog
+  - RedLight.UI.ImGui.ImGuiConsoleSink
   - RedLight.UI.ImGui.ImGuiController
   - RedLight.UI.ImGui.ImGuiFontConfig
+  - RedLight.UI.ImGui.RLImGuiEditor
+  - RedLight.UI.ImGui.SerilogExtensions
   - RedLight.UI.ImGui.TextureCoordinate
   langs:
   - csharp
@@ -17,6 +21,19 @@ items:
   assemblies:
   - RedLight
 references:
+- uid: RedLight.UI.ImGui.ConsoleLog
+  commentId: T:RedLight.UI.ImGui.ConsoleLog
+  parent: RedLight.UI.ImGui
+  href: RedLight.UI.ImGui.ConsoleLog.html
+  name: ConsoleLog
+  nameWithType: ConsoleLog
+  fullName: RedLight.UI.ImGui.ConsoleLog
+- uid: RedLight.UI.ImGui.ImGuiConsoleSink
+  commentId: T:RedLight.UI.ImGui.ImGuiConsoleSink
+  href: RedLight.UI.ImGui.ImGuiConsoleSink.html
+  name: ImGuiConsoleSink
+  nameWithType: ImGuiConsoleSink
+  fullName: RedLight.UI.ImGui.ImGuiConsoleSink
 - uid: RedLight.UI.ImGui.ImGuiController
   commentId: T:RedLight.UI.ImGui.ImGuiController
   href: RedLight.UI.ImGui.ImGuiController.html
@@ -30,6 +47,19 @@ references:
   name: ImGuiFontConfig
   nameWithType: ImGuiFontConfig
   fullName: RedLight.UI.ImGui.ImGuiFontConfig
+- uid: RedLight.UI.ImGui.RLImGuiEditor
+  commentId: T:RedLight.UI.ImGui.RLImGuiEditor
+  parent: RedLight.UI.ImGui
+  href: RedLight.UI.ImGui.RLImGuiEditor.html
+  name: RLImGuiEditor
+  nameWithType: RLImGuiEditor
+  fullName: RedLight.UI.ImGui.RLImGuiEditor
+- uid: RedLight.UI.ImGui.SerilogExtensions
+  commentId: T:RedLight.UI.ImGui.SerilogExtensions
+  href: RedLight.UI.ImGui.SerilogExtensions.html
+  name: SerilogExtensions
+  nameWithType: SerilogExtensions
+  fullName: RedLight.UI.ImGui.SerilogExtensions
 - uid: RedLight.UI.ImGui.TextureCoordinate
   commentId: T:RedLight.UI.ImGui.TextureCoordinate
   parent: RedLight.UI.ImGui

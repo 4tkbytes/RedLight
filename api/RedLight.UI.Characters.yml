@@ -24,7 +24,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Characters
     path: src/RedLight/UI/Text.cs
-    startLine: 140
+    startLine: 154
   assemblies:
   - RedLight
   namespace: RedLight.UI
@@ -56,7 +56,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: TextureID
     path: src/RedLight/UI/Text.cs
-    startLine: 142
+    startLine: 156
   assemblies:
   - RedLight
   namespace: RedLight.UI
@@ -83,7 +83,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Size
     path: src/RedLight/UI/Text.cs
-    startLine: 143
+    startLine: 157
   assemblies:
   - RedLight
   namespace: RedLight.UI
@@ -110,7 +110,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Bearing
     path: src/RedLight/UI/Text.cs
-    startLine: 144
+    startLine: 158
   assemblies:
   - RedLight
   namespace: RedLight.UI
@@ -137,7 +137,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Advance
     path: src/RedLight/UI/Text.cs
-    startLine: 145
+    startLine: 159
   assemblies:
   - RedLight
   namespace: RedLight.UI
@@ -164,7 +164,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: .ctor
     path: src/RedLight/UI/Text.cs
-    startLine: 147
+    startLine: 161
   assemblies:
   - RedLight
   namespace: RedLight.UI

@@ -5,13 +5,9 @@ items:
   id: RedLight.UI
   children:
   - RedLight.UI.Characters
-  - RedLight.UI.ConsoleLog
+  - RedLight.UI.Font
   - RedLight.UI.FontConfig
   - RedLight.UI.FreeTypeText
-  - RedLight.UI.ImGuiConsoleSink
-  - RedLight.UI.RLImGuiEditor
-  - RedLight.UI.SerilogExtensions
-  - RedLight.UI.Text
   - RedLight.UI.TextManager
   langs:
   - csharp
@@ -23,32 +19,6 @@ items:
   assemblies:
   - RedLight
 references:
-- uid: RedLight.UI.ConsoleLog
-  commentId: T:RedLight.UI.ConsoleLog
-  parent: RedLight.UI
-  href: RedLight.UI.ConsoleLog.html
-  name: ConsoleLog
-  nameWithType: ConsoleLog
-  fullName: RedLight.UI.ConsoleLog
-- uid: RedLight.UI.ImGuiConsoleSink
-  commentId: T:RedLight.UI.ImGuiConsoleSink
-  href: RedLight.UI.ImGuiConsoleSink.html
-  name: ImGuiConsoleSink
-  nameWithType: ImGuiConsoleSink
-  fullName: RedLight.UI.ImGuiConsoleSink
-- uid: RedLight.UI.RLImGuiEditor
-  commentId: T:RedLight.UI.RLImGuiEditor
-  parent: RedLight.UI
-  href: RedLight.UI.RLImGuiEditor.html
-  name: RLImGuiEditor
-  nameWithType: RLImGuiEditor
-  fullName: RedLight.UI.RLImGuiEditor
-- uid: RedLight.UI.SerilogExtensions
-  commentId: T:RedLight.UI.SerilogExtensions
-  href: RedLight.UI.SerilogExtensions.html
-  name: SerilogExtensions
-  nameWithType: SerilogExtensions
-  fullName: RedLight.UI.SerilogExtensions
 - uid: RedLight.UI.FreeTypeText
   commentId: T:RedLight.UI.FreeTypeText
   parent: RedLight.UI
@@ -63,12 +33,13 @@ references:
   name: FontConfig
   nameWithType: FontConfig
   fullName: RedLight.UI.FontConfig
-- uid: RedLight.UI.Text
-  commentId: T:RedLight.UI.Text
-  href: RedLight.UI.Text.html
-  name: Text
-  nameWithType: Text
-  fullName: RedLight.UI.Text
+- uid: RedLight.UI.Font
+  commentId: T:RedLight.UI.Font
+  parent: RedLight.UI
+  href: RedLight.UI.Font.html
+  name: Font
+  nameWithType: Font
+  fullName: RedLight.UI.Font
 - uid: RedLight.UI.Characters
   commentId: T:RedLight.UI.Characters
   href: RedLight.UI.Characters.html

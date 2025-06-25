@@ -1,0 +1,760 @@
+### YamlMime:ManagedReference
+items:
+- uid: RedLight.Graphics.CubeMap
+  commentId: T:RedLight.Graphics.CubeMap
+  id: CubeMap
+  parent: RedLight.Graphics
+  children:
+  - RedLight.Graphics.CubeMap.#ctor(RedLight.Graphics.RLGraphics,System.Collections.Generic.List{RedLight.Graphics.CubeMapFace})
+  - RedLight.Graphics.CubeMap.Bind(Silk.NET.OpenGL.TextureUnit)
+  - RedLight.Graphics.CubeMap.CreateDefault(RedLight.Graphics.RLGraphics)
+  - RedLight.Graphics.CubeMap.Delete
+  - RedLight.Graphics.CubeMap.Render(RedLight.Graphics.Camera)
+  - RedLight.Graphics.CubeMap.TextureID
+  - RedLight.Graphics.CubeMap.VAO
+  - RedLight.Graphics.CubeMap.VBO
+  langs:
+  - csharp
+  - vb
+  name: CubeMap
+  nameWithType: CubeMap
+  fullName: RedLight.Graphics.CubeMap
+  type: Class
+  source:
+    remote:
+      path: src/RedLight/Graphics/CubeMap.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: CubeMap
+    path: src/RedLight/Graphics/CubeMap.cs
+    startLine: 15
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public class CubeMap
+    content.vb: Public Class CubeMap
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: RedLight.Graphics.CubeMap.TextureID
+  commentId: P:RedLight.Graphics.CubeMap.TextureID
+  id: TextureID
+  parent: RedLight.Graphics.CubeMap
+  langs:
+  - csharp
+  - vb
+  name: TextureID
+  nameWithType: CubeMap.TextureID
+  fullName: RedLight.Graphics.CubeMap.TextureID
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Graphics/CubeMap.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: TextureID
+    path: src/RedLight/Graphics/CubeMap.cs
+    startLine: 17
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public uint TextureID { get; }
+    parameters: []
+    return:
+      type: System.UInt32
+    content.vb: Public Property TextureID As UInteger
+  overload: RedLight.Graphics.CubeMap.TextureID*
+- uid: RedLight.Graphics.CubeMap.VAO
+  commentId: P:RedLight.Graphics.CubeMap.VAO
+  id: VAO
+  parent: RedLight.Graphics.CubeMap
+  langs:
+  - csharp
+  - vb
+  name: VAO
+  nameWithType: CubeMap.VAO
+  fullName: RedLight.Graphics.CubeMap.VAO
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Graphics/CubeMap.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: VAO
+    path: src/RedLight/Graphics/CubeMap.cs
+    startLine: 18
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public uint VAO { get; }
+    parameters: []
+    return:
+      type: System.UInt32
+    content.vb: Public Property VAO As UInteger
+  overload: RedLight.Graphics.CubeMap.VAO*
+- uid: RedLight.Graphics.CubeMap.VBO
+  commentId: P:RedLight.Graphics.CubeMap.VBO
+  id: VBO
+  parent: RedLight.Graphics.CubeMap
+  langs:
+  - csharp
+  - vb
+  name: VBO
+  nameWithType: CubeMap.VBO
+  fullName: RedLight.Graphics.CubeMap.VBO
+  type: Property
+  source:
+    remote:
+      path: src/RedLight/Graphics/CubeMap.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: VBO
+    path: src/RedLight/Graphics/CubeMap.cs
+    startLine: 19
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public uint VBO { get; }
+    parameters: []
+    return:
+      type: System.UInt32
+    content.vb: Public Property VBO As UInteger
+  overload: RedLight.Graphics.CubeMap.VBO*
+- uid: RedLight.Graphics.CubeMap.#ctor(RedLight.Graphics.RLGraphics,System.Collections.Generic.List{RedLight.Graphics.CubeMapFace})
+  commentId: M:RedLight.Graphics.CubeMap.#ctor(RedLight.Graphics.RLGraphics,System.Collections.Generic.List{RedLight.Graphics.CubeMapFace})
+  id: '#ctor(RedLight.Graphics.RLGraphics,System.Collections.Generic.List{RedLight.Graphics.CubeMapFace})'
+  parent: RedLight.Graphics.CubeMap
+  langs:
+  - csharp
+  - vb
+  name: CubeMap(RLGraphics, List<CubeMapFace>)
+  nameWithType: CubeMap.CubeMap(RLGraphics, List<CubeMapFace>)
+  fullName: RedLight.Graphics.CubeMap.CubeMap(RedLight.Graphics.RLGraphics, System.Collections.Generic.List<RedLight.Graphics.CubeMapFace>)
+  type: Constructor
+  source:
+    remote:
+      path: src/RedLight/Graphics/CubeMap.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: .ctor
+    path: src/RedLight/Graphics/CubeMap.cs
+    startLine: 68
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public CubeMap(RLGraphics graphics, List<CubeMapFace> faces)
+    parameters:
+    - id: graphics
+      type: RedLight.Graphics.RLGraphics
+    - id: faces
+      type: System.Collections.Generic.List{RedLight.Graphics.CubeMapFace}
+    content.vb: Public Sub New(graphics As RLGraphics, faces As List(Of CubeMapFace))
+  overload: RedLight.Graphics.CubeMap.#ctor*
+  nameWithType.vb: CubeMap.New(RLGraphics, List(Of CubeMapFace))
+  fullName.vb: RedLight.Graphics.CubeMap.New(RedLight.Graphics.RLGraphics, System.Collections.Generic.List(Of RedLight.Graphics.CubeMapFace))
+  name.vb: New(RLGraphics, List(Of CubeMapFace))
+- uid: RedLight.Graphics.CubeMap.Render(RedLight.Graphics.Camera)
+  commentId: M:RedLight.Graphics.CubeMap.Render(RedLight.Graphics.Camera)
+  id: Render(RedLight.Graphics.Camera)
+  parent: RedLight.Graphics.CubeMap
+  langs:
+  - csharp
+  - vb
+  name: Render(Camera)
+  nameWithType: CubeMap.Render(Camera)
+  fullName: RedLight.Graphics.CubeMap.Render(RedLight.Graphics.Camera)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/CubeMap.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Render
+    path: src/RedLight/Graphics/CubeMap.cs
+    startLine: 112
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public void Render(Camera camera)
+    parameters:
+    - id: camera
+      type: RedLight.Graphics.Camera
+    content.vb: Public Sub Render(camera As Camera)
+  overload: RedLight.Graphics.CubeMap.Render*
+- uid: RedLight.Graphics.CubeMap.Bind(Silk.NET.OpenGL.TextureUnit)
+  commentId: M:RedLight.Graphics.CubeMap.Bind(Silk.NET.OpenGL.TextureUnit)
+  id: Bind(Silk.NET.OpenGL.TextureUnit)
+  parent: RedLight.Graphics.CubeMap
+  langs:
+  - csharp
+  - vb
+  name: Bind(TextureUnit)
+  nameWithType: CubeMap.Bind(TextureUnit)
+  fullName: RedLight.Graphics.CubeMap.Bind(Silk.NET.OpenGL.TextureUnit)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/CubeMap.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Bind
+    path: src/RedLight/Graphics/CubeMap.cs
+    startLine: 148
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public void Bind(TextureUnit unit = TextureUnit.Texture0)
+    parameters:
+    - id: unit
+      type: Silk.NET.OpenGL.TextureUnit
+    content.vb: Public Sub Bind(unit As TextureUnit = TextureUnit.Texture0)
+  overload: RedLight.Graphics.CubeMap.Bind*
+- uid: RedLight.Graphics.CubeMap.Delete
+  commentId: M:RedLight.Graphics.CubeMap.Delete
+  id: Delete
+  parent: RedLight.Graphics.CubeMap
+  langs:
+  - csharp
+  - vb
+  name: Delete()
+  nameWithType: CubeMap.Delete()
+  fullName: RedLight.Graphics.CubeMap.Delete()
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/CubeMap.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Delete
+    path: src/RedLight/Graphics/CubeMap.cs
+    startLine: 155
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public void Delete()
+    content.vb: Public Sub Delete()
+  overload: RedLight.Graphics.CubeMap.Delete*
+- uid: RedLight.Graphics.CubeMap.CreateDefault(RedLight.Graphics.RLGraphics)
+  commentId: M:RedLight.Graphics.CubeMap.CreateDefault(RedLight.Graphics.RLGraphics)
+  id: CreateDefault(RedLight.Graphics.RLGraphics)
+  parent: RedLight.Graphics.CubeMap
+  langs:
+  - csharp
+  - vb
+  name: CreateDefault(RLGraphics)
+  nameWithType: CubeMap.CreateDefault(RLGraphics)
+  fullName: RedLight.Graphics.CubeMap.CreateDefault(RedLight.Graphics.RLGraphics)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/CubeMap.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: CreateDefault
+    path: src/RedLight/Graphics/CubeMap.cs
+    startLine: 207
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public static CubeMap CreateDefault(RLGraphics graphics)
+    parameters:
+    - id: graphics
+      type: RedLight.Graphics.RLGraphics
+    return:
+      type: RedLight.Graphics.CubeMap
+    content.vb: Public Shared Function CreateDefault(graphics As RLGraphics) As CubeMap
+  overload: RedLight.Graphics.CubeMap.CreateDefault*
+references:
+- uid: RedLight.Graphics
+  commentId: N:RedLight.Graphics
+  href: RedLight.html
+  name: RedLight.Graphics
+  nameWithType: RedLight.Graphics
+  fullName: RedLight.Graphics
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Graphics
+    name: Graphics
+    href: RedLight.Graphics.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Graphics
+    name: Graphics
+    href: RedLight.Graphics.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: RedLight.Graphics.CubeMap.TextureID*
+  commentId: Overload:RedLight.Graphics.CubeMap.TextureID
+  href: RedLight.Graphics.CubeMap.html#RedLight_Graphics_CubeMap_TextureID
+  name: TextureID
+  nameWithType: CubeMap.TextureID
+  fullName: RedLight.Graphics.CubeMap.TextureID
+- uid: System.UInt32
+  commentId: T:System.UInt32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint32
+  name: uint
+  nameWithType: uint
+  fullName: uint
+  nameWithType.vb: UInteger
+  fullName.vb: UInteger
+  name.vb: UInteger
+- uid: RedLight.Graphics.CubeMap.VAO*
+  commentId: Overload:RedLight.Graphics.CubeMap.VAO
+  href: RedLight.Graphics.CubeMap.html#RedLight_Graphics_CubeMap_VAO
+  name: VAO
+  nameWithType: CubeMap.VAO
+  fullName: RedLight.Graphics.CubeMap.VAO
+- uid: RedLight.Graphics.CubeMap.VBO*
+  commentId: Overload:RedLight.Graphics.CubeMap.VBO
+  href: RedLight.Graphics.CubeMap.html#RedLight_Graphics_CubeMap_VBO
+  name: VBO
+  nameWithType: CubeMap.VBO
+  fullName: RedLight.Graphics.CubeMap.VBO
+- uid: RedLight.Graphics.CubeMap.#ctor*
+  commentId: Overload:RedLight.Graphics.CubeMap.#ctor
+  href: RedLight.Graphics.CubeMap.html#RedLight_Graphics_CubeMap__ctor_RedLight_Graphics_RLGraphics_System_Collections_Generic_List_RedLight_Graphics_CubeMapFace__
+  name: CubeMap
+  nameWithType: CubeMap.CubeMap
+  fullName: RedLight.Graphics.CubeMap.CubeMap
+  nameWithType.vb: CubeMap.New
+  fullName.vb: RedLight.Graphics.CubeMap.New
+  name.vb: New
+- uid: RedLight.Graphics.RLGraphics
+  commentId: T:RedLight.Graphics.RLGraphics
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.RLGraphics.html
+  name: RLGraphics
+  nameWithType: RLGraphics
+  fullName: RedLight.Graphics.RLGraphics
+- uid: System.Collections.Generic.List{RedLight.Graphics.CubeMapFace}
+  commentId: T:System.Collections.Generic.List{RedLight.Graphics.CubeMapFace}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<CubeMapFace>
+  nameWithType: List<CubeMapFace>
+  fullName: System.Collections.Generic.List<RedLight.Graphics.CubeMapFace>
+  nameWithType.vb: List(Of CubeMapFace)
+  fullName.vb: System.Collections.Generic.List(Of RedLight.Graphics.CubeMapFace)
+  name.vb: List(Of CubeMapFace)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: RedLight.Graphics.CubeMapFace
+    name: CubeMapFace
+    href: RedLight.Graphics.CubeMapFace.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: RedLight.Graphics.CubeMapFace
+    name: CubeMapFace
+    href: RedLight.Graphics.CubeMapFace.html
+  - name: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: RedLight.Graphics.CubeMap.Render*
+  commentId: Overload:RedLight.Graphics.CubeMap.Render
+  href: RedLight.Graphics.CubeMap.html#RedLight_Graphics_CubeMap_Render_RedLight_Graphics_Camera_
+  name: Render
+  nameWithType: CubeMap.Render
+  fullName: RedLight.Graphics.CubeMap.Render
+- uid: RedLight.Graphics.Camera
+  commentId: T:RedLight.Graphics.Camera
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.Camera.html
+  name: Camera
+  nameWithType: Camera
+  fullName: RedLight.Graphics.Camera
+- uid: RedLight.Graphics.CubeMap.Bind*
+  commentId: Overload:RedLight.Graphics.CubeMap.Bind
+  href: RedLight.Graphics.CubeMap.html#RedLight_Graphics_CubeMap_Bind_Silk_NET_OpenGL_TextureUnit_
+  name: Bind
+  nameWithType: CubeMap.Bind
+  fullName: RedLight.Graphics.CubeMap.Bind
+- uid: Silk.NET.OpenGL.TextureUnit
+  commentId: T:Silk.NET.OpenGL.TextureUnit
+  parent: Silk.NET.OpenGL
+  isExternal: true
+  name: TextureUnit
+  nameWithType: TextureUnit
+  fullName: Silk.NET.OpenGL.TextureUnit
+- uid: Silk.NET.OpenGL
+  commentId: N:Silk.NET.OpenGL
+  isExternal: true
+  name: Silk.NET.OpenGL
+  nameWithType: Silk.NET.OpenGL
+  fullName: Silk.NET.OpenGL
+  spec.csharp:
+  - uid: Silk
+    name: Silk
+    isExternal: true
+  - name: .
+  - uid: Silk.NET
+    name: NET
+    isExternal: true
+  - name: .
+  - uid: Silk.NET.OpenGL
+    name: OpenGL
+    isExternal: true
+  spec.vb:
+  - uid: Silk
+    name: Silk
+    isExternal: true
+  - name: .
+  - uid: Silk.NET
+    name: NET
+    isExternal: true
+  - name: .
+  - uid: Silk.NET.OpenGL
+    name: OpenGL
+    isExternal: true
+- uid: RedLight.Graphics.CubeMap.Delete*
+  commentId: Overload:RedLight.Graphics.CubeMap.Delete
+  href: RedLight.Graphics.CubeMap.html#RedLight_Graphics_CubeMap_Delete
+  name: Delete
+  nameWithType: CubeMap.Delete
+  fullName: RedLight.Graphics.CubeMap.Delete
+- uid: RedLight.Graphics.CubeMap.CreateDefault*
+  commentId: Overload:RedLight.Graphics.CubeMap.CreateDefault
+  href: RedLight.Graphics.CubeMap.html#RedLight_Graphics_CubeMap_CreateDefault_RedLight_Graphics_RLGraphics_
+  name: CreateDefault
+  nameWithType: CubeMap.CreateDefault
+  fullName: RedLight.Graphics.CubeMap.CreateDefault
+- uid: RedLight.Graphics.CubeMap
+  commentId: T:RedLight.Graphics.CubeMap
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.CubeMap.html
+  name: CubeMap
+  nameWithType: CubeMap
+  fullName: RedLight.Graphics.CubeMap

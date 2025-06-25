@@ -77,7 +77,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 
         if (useDebugCamera)
         {
-            debugCamera.KeyMap(PressedKeys, (float)deltaTime);
+            debugCamera.Update((float)deltaTime, PressedKeys);
         }
 
         if (!useDebugCamera)
@@ -233,12 +233,11 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 
         // Create a hitbox config (player default)
         var playerHitbox = HitboxConfig.ForPlayer();
-
+        
         // convert model into player/entity
         player = Graphics.MakePlayer(playerCamera, maxwell, playerHitbox);
 
         // specific model translations + config
-        player.SetRotationX(float.DegreesToRadians(-90.0f));
         player.MoveSpeed = 5f;
     }
 

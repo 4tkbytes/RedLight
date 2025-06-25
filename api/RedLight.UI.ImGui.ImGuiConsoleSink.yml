@@ -1,36 +1,37 @@
 ### YamlMime:ManagedReference
 items:
-- uid: RedLight.Utils.RLFiles
-  commentId: T:RedLight.Utils.RLFiles
-  id: RLFiles
-  parent: RedLight.Utils
+- uid: RedLight.UI.ImGui.ImGuiConsoleSink
+  commentId: T:RedLight.UI.ImGui.ImGuiConsoleSink
+  id: ImGuiConsoleSink
+  parent: RedLight.UI.ImGui
   children:
-  - RedLight.Utils.RLFiles.GetResourceAsBytes(System.String)
-  - RedLight.Utils.RLFiles.GetResourceAsString(System.String)
-  - RedLight.Utils.RLFiles.GetResourcePath(System.String)
+  - RedLight.UI.ImGui.ImGuiConsoleSink.#ctor(RedLight.UI.ImGui.ConsoleLog,System.IFormatProvider)
+  - RedLight.UI.ImGui.ImGuiConsoleSink.Emit(Serilog.Events.LogEvent)
   langs:
   - csharp
   - vb
-  name: RLFiles
-  nameWithType: RLFiles
-  fullName: RedLight.Utils.RLFiles
+  name: ImGuiConsoleSink
+  nameWithType: ImGuiConsoleSink
+  fullName: RedLight.UI.ImGui.ImGuiConsoleSink
   type: Class
   source:
     remote:
-      path: src/RedLight/Utils/RLFiles.cs
+      path: src/RedLight/UI/ImGui/ImGuiConsoleSink.cs
       branch: main
       repo: git@github.com:4tkbytes/RedLight
-    id: RLFiles
-    path: src/RedLight/Utils/RLFiles.cs
-    startLine: 8
+    id: ImGuiConsoleSink
+    path: src/RedLight/UI/ImGui/ImGuiConsoleSink.cs
+    startLine: 5
   assemblies:
   - RedLight
-  namespace: RedLight.Utils
+  namespace: RedLight.UI.ImGui
   syntax:
-    content: public static class RLFiles
-    content.vb: Public Module RLFiles
+    content: 'public class ImGuiConsoleSink : ILogEventSink'
+    content.vb: Public Class ImGuiConsoleSink Implements ILogEventSink
   inheritance:
   - System.Object
+  implements:
+  - Serilog.Core.ILogEventSink
   inheritedMembers:
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
@@ -39,162 +40,111 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
-- uid: RedLight.Utils.RLFiles.GetResourcePath(System.String)
-  commentId: M:RedLight.Utils.RLFiles.GetResourcePath(System.String)
-  id: GetResourcePath(System.String)
-  parent: RedLight.Utils.RLFiles
+- uid: RedLight.UI.ImGui.ImGuiConsoleSink.#ctor(RedLight.UI.ImGui.ConsoleLog,System.IFormatProvider)
+  commentId: M:RedLight.UI.ImGui.ImGuiConsoleSink.#ctor(RedLight.UI.ImGui.ConsoleLog,System.IFormatProvider)
+  id: '#ctor(RedLight.UI.ImGui.ConsoleLog,System.IFormatProvider)'
+  parent: RedLight.UI.ImGui.ImGuiConsoleSink
   langs:
   - csharp
   - vb
-  name: GetResourcePath(string)
-  nameWithType: RLFiles.GetResourcePath(string)
-  fullName: RedLight.Utils.RLFiles.GetResourcePath(string)
+  name: ImGuiConsoleSink(ConsoleLog, IFormatProvider)
+  nameWithType: ImGuiConsoleSink.ImGuiConsoleSink(ConsoleLog, IFormatProvider)
+  fullName: RedLight.UI.ImGui.ImGuiConsoleSink.ImGuiConsoleSink(RedLight.UI.ImGui.ConsoleLog, System.IFormatProvider)
+  type: Constructor
+  source:
+    remote:
+      path: src/RedLight/UI/ImGui/ImGuiConsoleSink.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: .ctor
+    path: src/RedLight/UI/ImGui/ImGuiConsoleSink.cs
+    startLine: 10
+  assemblies:
+  - RedLight
+  namespace: RedLight.UI.ImGui
+  syntax:
+    content: public ImGuiConsoleSink(ConsoleLog consoleLog, IFormatProvider formatProvider = null)
+    parameters:
+    - id: consoleLog
+      type: RedLight.UI.ImGui.ConsoleLog
+    - id: formatProvider
+      type: System.IFormatProvider
+    content.vb: Public Sub New(consoleLog As ConsoleLog, formatProvider As IFormatProvider = Nothing)
+  overload: RedLight.UI.ImGui.ImGuiConsoleSink.#ctor*
+  nameWithType.vb: ImGuiConsoleSink.New(ConsoleLog, IFormatProvider)
+  fullName.vb: RedLight.UI.ImGui.ImGuiConsoleSink.New(RedLight.UI.ImGui.ConsoleLog, System.IFormatProvider)
+  name.vb: New(ConsoleLog, IFormatProvider)
+- uid: RedLight.UI.ImGui.ImGuiConsoleSink.Emit(Serilog.Events.LogEvent)
+  commentId: M:RedLight.UI.ImGui.ImGuiConsoleSink.Emit(Serilog.Events.LogEvent)
+  id: Emit(Serilog.Events.LogEvent)
+  parent: RedLight.UI.ImGui.ImGuiConsoleSink
+  langs:
+  - csharp
+  - vb
+  name: Emit(LogEvent)
+  nameWithType: ImGuiConsoleSink.Emit(LogEvent)
+  fullName: RedLight.UI.ImGui.ImGuiConsoleSink.Emit(Serilog.Events.LogEvent)
   type: Method
   source:
     remote:
-      path: src/RedLight/Utils/RLFiles.cs
+      path: src/RedLight/UI/ImGui/ImGuiConsoleSink.cs
       branch: main
       repo: git@github.com:4tkbytes/RedLight
-    id: GetResourcePath
-    path: src/RedLight/Utils/RLFiles.cs
-    startLine: 21
+    id: Emit
+    path: src/RedLight/UI/ImGui/ImGuiConsoleSink.cs
+    startLine: 16
   assemblies:
   - RedLight
-  namespace: RedLight.Utils
-  summary: >-
-    This function gets the relative path from the resource name. It takes an input
-
-    of resourceName, formatted like "RedLight.Resources.Models.Maxwell.maxwell_the_cat.glb". The function will
-
-    then search through the Resources folder to get to {AssemblyExecutionLocation}/Resources/Models/maxwell_the_cat.glb.
-
-
-    It will then return the path of that resource, which can be used for other functions to load textures or models or more.
+  namespace: RedLight.UI.ImGui
+  summary: Emit the provided log event to the sink.
+  remarks: >-
+    Implementers should allow exceptions to propagate when event emission fails. The logger will handle
+                exceptions and produce diagnostics appropriately.
   example: []
   syntax:
-    content: public static string GetResourcePath(string resourceName)
+    content: public void Emit(LogEvent logEvent)
     parameters:
-    - id: resourceName
-      type: System.String
-      description: <xref href="System.String" data-throw-if-not-resolved="false"></xref> The name of the resource
-    return:
-      type: System.String
-      description: <xref href="System.String" data-throw-if-not-resolved="false"></xref> The location of the resource
-    content.vb: Public Shared Function GetResourcePath(resourceName As String) As String
-  overload: RedLight.Utils.RLFiles.GetResourcePath*
-  exceptions:
-  - type: System.IO.FileNotFoundException
-    commentId: T:System.IO.FileNotFoundException
-    description: ''
-  - type: System.InvalidOperationException
-    commentId: T:System.InvalidOperationException
-    description: ''
-  nameWithType.vb: RLFiles.GetResourcePath(String)
-  fullName.vb: RedLight.Utils.RLFiles.GetResourcePath(String)
-  name.vb: GetResourcePath(String)
-- uid: RedLight.Utils.RLFiles.GetResourceAsString(System.String)
-  commentId: M:RedLight.Utils.RLFiles.GetResourceAsString(System.String)
-  id: GetResourceAsString(System.String)
-  parent: RedLight.Utils.RLFiles
-  langs:
-  - csharp
-  - vb
-  name: GetResourceAsString(string)
-  nameWithType: RLFiles.GetResourceAsString(string)
-  fullName: RedLight.Utils.RLFiles.GetResourceAsString(string)
-  type: Method
-  source:
-    remote:
-      path: src/RedLight/Utils/RLFiles.cs
-      branch: main
-      repo: git@github.com:4tkbytes/RedLight
-    id: GetResourceAsString
-    path: src/RedLight/Utils/RLFiles.cs
-    startLine: 84
-  assemblies:
-  - RedLight
-  namespace: RedLight.Utils
-  summary: >-
-    This scene fetches the resource as per its resource name. This function is typically used for shaders
-
-    to compile them, however they can be used however they like. 
-
-
-    The resource name parameter is expected to be of the type "RedLight.Resources.Shaders.basic.vert", where the 
-
-    function will travel to {AssemblyExecutionLocation}/Resources/Shaders/basic.vert.
-  example: []
-  syntax:
-    content: public static string GetResourceAsString(string resourceName)
-    parameters:
-    - id: resourceName
-      type: System.String
-      description: <xref href="System.String" data-throw-if-not-resolved="false"></xref>
-    return:
-      type: System.String
-      description: <xref href="System.String" data-throw-if-not-resolved="false"></xref> The file as a string
-    content.vb: Public Shared Function GetResourceAsString(resourceName As String) As String
-  overload: RedLight.Utils.RLFiles.GetResourceAsString*
-  nameWithType.vb: RLFiles.GetResourceAsString(String)
-  fullName.vb: RedLight.Utils.RLFiles.GetResourceAsString(String)
-  name.vb: GetResourceAsString(String)
-- uid: RedLight.Utils.RLFiles.GetResourceAsBytes(System.String)
-  commentId: M:RedLight.Utils.RLFiles.GetResourceAsBytes(System.String)
-  id: GetResourceAsBytes(System.String)
-  parent: RedLight.Utils.RLFiles
-  langs:
-  - csharp
-  - vb
-  name: GetResourceAsBytes(string)
-  nameWithType: RLFiles.GetResourceAsBytes(string)
-  fullName: RedLight.Utils.RLFiles.GetResourceAsBytes(string)
-  type: Method
-  source:
-    remote:
-      path: src/RedLight/Utils/RLFiles.cs
-      branch: main
-      repo: git@github.com:4tkbytes/RedLight
-    id: GetResourceAsBytes
-    path: src/RedLight/Utils/RLFiles.cs
-    startLine: 93
-  assemblies:
-  - RedLight
-  namespace: RedLight.Utils
-  syntax:
-    content: public static byte[] GetResourceAsBytes(string resourceName)
-    parameters:
-    - id: resourceName
-      type: System.String
-    return:
-      type: System.Byte[]
-    content.vb: Public Shared Function GetResourceAsBytes(resourceName As String) As Byte()
-  overload: RedLight.Utils.RLFiles.GetResourceAsBytes*
-  nameWithType.vb: RLFiles.GetResourceAsBytes(String)
-  fullName.vb: RedLight.Utils.RLFiles.GetResourceAsBytes(String)
-  name.vb: GetResourceAsBytes(String)
+    - id: logEvent
+      type: Serilog.Events.LogEvent
+      description: The log event to write.
+    content.vb: Public Sub Emit(logEvent As LogEvent)
+  overload: RedLight.UI.ImGui.ImGuiConsoleSink.Emit*
+  seealso:
+  - linkId: Serilog.Core.IBatchedLogEventSink
+    commentId: T:Serilog.Core.IBatchedLogEventSink
+  implements:
+  - Serilog.Core.ILogEventSink.Emit(Serilog.Events.LogEvent)
 references:
-- uid: RedLight.Utils
-  commentId: N:RedLight.Utils
+- uid: RedLight.UI.ImGui
+  commentId: N:RedLight.UI.ImGui
   href: RedLight.html
-  name: RedLight.Utils
-  nameWithType: RedLight.Utils
-  fullName: RedLight.Utils
+  name: RedLight.UI.ImGui
+  nameWithType: RedLight.UI.ImGui
+  fullName: RedLight.UI.ImGui
   spec.csharp:
   - uid: RedLight
     name: RedLight
     href: RedLight.html
   - name: .
-  - uid: RedLight.Utils
-    name: Utils
-    href: RedLight.Utils.html
+  - uid: RedLight.UI
+    name: UI
+    href: RedLight.UI.html
+  - name: .
+  - uid: RedLight.UI.ImGui
+    name: ImGui
+    href: RedLight.UI.ImGui.html
   spec.vb:
   - uid: RedLight
     name: RedLight
     href: RedLight.html
   - name: .
-  - uid: RedLight.Utils
-    name: Utils
-    href: RedLight.Utils.html
+  - uid: RedLight.UI
+    name: UI
+    href: RedLight.UI.html
+  - name: .
+  - uid: RedLight.UI.ImGui
+    name: ImGui
+    href: RedLight.UI.ImGui.html
 - uid: System.Object
   commentId: T:System.Object
   parent: System
@@ -206,6 +156,13 @@ references:
   nameWithType.vb: Object
   fullName.vb: Object
   name.vb: Object
+- uid: Serilog.Core.ILogEventSink
+  commentId: T:Serilog.Core.ILogEventSink
+  parent: Serilog.Core
+  isExternal: true
+  name: ILogEventSink
+  nameWithType: ILogEventSink
+  fullName: Serilog.Core.ILogEventSink
 - uid: System.Object.Equals(System.Object)
   commentId: M:System.Object.Equals(System.Object)
   parent: System.Object
@@ -432,69 +389,115 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: System.String
-  commentId: T:System.String
+- uid: Serilog.Core
+  commentId: N:Serilog.Core
+  isExternal: true
+  name: Serilog.Core
+  nameWithType: Serilog.Core
+  fullName: Serilog.Core
+  spec.csharp:
+  - uid: Serilog
+    name: Serilog
+    isExternal: true
+  - name: .
+  - uid: Serilog.Core
+    name: Core
+    isExternal: true
+  spec.vb:
+  - uid: Serilog
+    name: Serilog
+    isExternal: true
+  - name: .
+  - uid: Serilog.Core
+    name: Core
+    isExternal: true
+- uid: RedLight.UI.ImGui.ImGuiConsoleSink.#ctor*
+  commentId: Overload:RedLight.UI.ImGui.ImGuiConsoleSink.#ctor
+  href: RedLight.UI.ImGui.ImGuiConsoleSink.html#RedLight_UI_ImGui_ImGuiConsoleSink__ctor_RedLight_UI_ImGui_ConsoleLog_System_IFormatProvider_
+  name: ImGuiConsoleSink
+  nameWithType: ImGuiConsoleSink.ImGuiConsoleSink
+  fullName: RedLight.UI.ImGui.ImGuiConsoleSink.ImGuiConsoleSink
+  nameWithType.vb: ImGuiConsoleSink.New
+  fullName.vb: RedLight.UI.ImGui.ImGuiConsoleSink.New
+  name.vb: New
+- uid: RedLight.UI.ImGui.ConsoleLog
+  commentId: T:RedLight.UI.ImGui.ConsoleLog
+  parent: RedLight.UI.ImGui
+  href: RedLight.UI.ImGui.ConsoleLog.html
+  name: ConsoleLog
+  nameWithType: ConsoleLog
+  fullName: RedLight.UI.ImGui.ConsoleLog
+- uid: System.IFormatProvider
+  commentId: T:System.IFormatProvider
   parent: System
   isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.string
-  name: string
-  nameWithType: string
-  fullName: string
-  nameWithType.vb: String
-  fullName.vb: String
-  name.vb: String
-- uid: System.IO.FileNotFoundException
-  commentId: T:System.IO.FileNotFoundException
+  href: https://learn.microsoft.com/dotnet/api/system.iformatprovider
+  name: IFormatProvider
+  nameWithType: IFormatProvider
+  fullName: System.IFormatProvider
+- uid: Serilog.Core.IBatchedLogEventSink
+  commentId: T:Serilog.Core.IBatchedLogEventSink
   isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.io.filenotfoundexception
-  name: FileNotFoundException
-  nameWithType: FileNotFoundException
-  fullName: System.IO.FileNotFoundException
-- uid: System.InvalidOperationException
-  commentId: T:System.InvalidOperationException
+  name: IBatchedLogEventSink
+  nameWithType: IBatchedLogEventSink
+  fullName: Serilog.Core.IBatchedLogEventSink
+- uid: RedLight.UI.ImGui.ImGuiConsoleSink.Emit*
+  commentId: Overload:RedLight.UI.ImGui.ImGuiConsoleSink.Emit
+  href: RedLight.UI.ImGui.ImGuiConsoleSink.html#RedLight_UI_ImGui_ImGuiConsoleSink_Emit_Serilog_Events_LogEvent_
+  name: Emit
+  nameWithType: ImGuiConsoleSink.Emit
+  fullName: RedLight.UI.ImGui.ImGuiConsoleSink.Emit
+- uid: Serilog.Core.ILogEventSink.Emit(Serilog.Events.LogEvent)
+  commentId: M:Serilog.Core.ILogEventSink.Emit(Serilog.Events.LogEvent)
+  parent: Serilog.Core.ILogEventSink
   isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.invalidoperationexception
-  name: InvalidOperationException
-  nameWithType: InvalidOperationException
-  fullName: System.InvalidOperationException
-- uid: RedLight.Utils.RLFiles.GetResourcePath*
-  commentId: Overload:RedLight.Utils.RLFiles.GetResourcePath
-  href: RedLight.Utils.RLFiles.html#RedLight_Utils_RLFiles_GetResourcePath_System_String_
-  name: GetResourcePath
-  nameWithType: RLFiles.GetResourcePath
-  fullName: RedLight.Utils.RLFiles.GetResourcePath
-- uid: RedLight.Utils.RLFiles.GetResourceAsString*
-  commentId: Overload:RedLight.Utils.RLFiles.GetResourceAsString
-  href: RedLight.Utils.RLFiles.html#RedLight_Utils_RLFiles_GetResourceAsString_System_String_
-  name: GetResourceAsString
-  nameWithType: RLFiles.GetResourceAsString
-  fullName: RedLight.Utils.RLFiles.GetResourceAsString
-- uid: RedLight.Utils.RLFiles.GetResourceAsBytes*
-  commentId: Overload:RedLight.Utils.RLFiles.GetResourceAsBytes
-  href: RedLight.Utils.RLFiles.html#RedLight_Utils_RLFiles_GetResourceAsBytes_System_String_
-  name: GetResourceAsBytes
-  nameWithType: RLFiles.GetResourceAsBytes
-  fullName: RedLight.Utils.RLFiles.GetResourceAsBytes
-- uid: System.Byte[]
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.byte
-  name: byte[]
-  nameWithType: byte[]
-  fullName: byte[]
-  nameWithType.vb: Byte()
-  fullName.vb: Byte()
-  name.vb: Byte()
+  name: Emit(LogEvent)
+  nameWithType: ILogEventSink.Emit(LogEvent)
+  fullName: Serilog.Core.ILogEventSink.Emit(Serilog.Events.LogEvent)
   spec.csharp:
-  - uid: System.Byte
-    name: byte
+  - uid: Serilog.Core.ILogEventSink.Emit(Serilog.Events.LogEvent)
+    name: Emit
     isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.byte
-  - name: '['
-  - name: ']'
-  spec.vb:
-  - uid: System.Byte
-    name: Byte
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.byte
   - name: (
+  - uid: Serilog.Events.LogEvent
+    name: LogEvent
+    isExternal: true
   - name: )
+  spec.vb:
+  - uid: Serilog.Core.ILogEventSink.Emit(Serilog.Events.LogEvent)
+    name: Emit
+    isExternal: true
+  - name: (
+  - uid: Serilog.Events.LogEvent
+    name: LogEvent
+    isExternal: true
+  - name: )
+- uid: Serilog.Events.LogEvent
+  commentId: T:Serilog.Events.LogEvent
+  parent: Serilog.Events
+  isExternal: true
+  name: LogEvent
+  nameWithType: LogEvent
+  fullName: Serilog.Events.LogEvent
+- uid: Serilog.Events
+  commentId: N:Serilog.Events
+  isExternal: true
+  name: Serilog.Events
+  nameWithType: Serilog.Events
+  fullName: Serilog.Events
+  spec.csharp:
+  - uid: Serilog
+    name: Serilog
+    isExternal: true
+  - name: .
+  - uid: Serilog.Events
+    name: Events
+    isExternal: true
+  spec.vb:
+  - uid: Serilog
+    name: Serilog
+    isExternal: true
+  - name: .
+  - uid: Serilog.Events
+    name: Events
+    isExternal: true

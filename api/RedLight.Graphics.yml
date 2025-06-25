@@ -6,6 +6,9 @@ items:
   children:
   - RedLight.Graphics.Camera
   - RedLight.Graphics.ConcreteTransformable`1
+  - RedLight.Graphics.CubeMap
+  - RedLight.Graphics.CubeMapFace
+  - RedLight.Graphics.CubeMapSide
   - RedLight.Graphics.Framebuffer
   - RedLight.Graphics.Mesh
   - RedLight.Graphics.ModelType
@@ -39,6 +42,26 @@ references:
   name: Camera
   nameWithType: Camera
   fullName: RedLight.Graphics.Camera
+- uid: RedLight.Graphics.CubeMapFace
+  commentId: T:RedLight.Graphics.CubeMapFace
+  href: RedLight.Graphics.CubeMapFace.html
+  name: CubeMapFace
+  nameWithType: CubeMapFace
+  fullName: RedLight.Graphics.CubeMapFace
+- uid: RedLight.Graphics.CubeMap
+  commentId: T:RedLight.Graphics.CubeMap
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.CubeMap.html
+  name: CubeMap
+  nameWithType: CubeMap
+  fullName: RedLight.Graphics.CubeMap
+- uid: RedLight.Graphics.CubeMapSide
+  commentId: T:RedLight.Graphics.CubeMapSide
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.CubeMapSide.html
+  name: CubeMapSide
+  nameWithType: CubeMapSide
+  fullName: RedLight.Graphics.CubeMapSide
 - uid: RedLight.Graphics.Framebuffer
   commentId: T:RedLight.Graphics.Framebuffer
   parent: RedLight.Graphics

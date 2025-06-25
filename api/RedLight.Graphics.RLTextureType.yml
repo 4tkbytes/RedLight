@@ -25,7 +25,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: RLTextureType
     path: src/RedLight/Graphics/RLTexture.cs
-    startLine: 241
+    startLine: 251
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -52,7 +52,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Diffuse
     path: src/RedLight/Graphics/RLTexture.cs
-    startLine: 243
+    startLine: 253
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -78,7 +78,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Specular
     path: src/RedLight/Graphics/RLTexture.cs
-    startLine: 244
+    startLine: 254
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -104,7 +104,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Normal
     path: src/RedLight/Graphics/RLTexture.cs
-    startLine: 245
+    startLine: 255
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -130,7 +130,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Height
     path: src/RedLight/Graphics/RLTexture.cs
-    startLine: 246
+    startLine: 256
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -156,7 +156,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Metallic
     path: src/RedLight/Graphics/RLTexture.cs
-    startLine: 247
+    startLine: 257
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -182,7 +182,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Roughness
     path: src/RedLight/Graphics/RLTexture.cs
-    startLine: 248
+    startLine: 258
   assemblies:
   - RedLight
   namespace: RedLight.Graphics

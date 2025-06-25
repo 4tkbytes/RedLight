@@ -122,7 +122,12 @@ public class Camera
         camera = camera.SetFront(direction);
     }
 
-    public Camera KeyMap(HashSet<Key> PressedKeys, float deltaTime)
+    public void Update(float deltaTime, HashSet<Key> PressedKeys)
+    {
+        KeyMap(PressedKeys, deltaTime);
+    }
+
+    private void KeyMap(HashSet<Key> PressedKeys, float deltaTime)
     {
         float adjustedSpeed = Speed * deltaTime;
 
@@ -140,8 +145,6 @@ public class Camera
             Position += Up * adjustedSpeed;
 
         UpdateCamera();
-
-        return this;
     }
 
     public Camera KeyMap(HashSet<Key> PressedKeys, Player player)

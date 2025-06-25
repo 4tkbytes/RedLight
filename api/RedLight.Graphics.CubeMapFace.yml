@@ -1,34 +1,33 @@
 ### YamlMime:ManagedReference
 items:
-- uid: RedLight.UI.FontConfig
-  commentId: T:RedLight.UI.FontConfig
-  id: FontConfig
-  parent: RedLight.UI
+- uid: RedLight.Graphics.CubeMapFace
+  commentId: T:RedLight.Graphics.CubeMapFace
+  id: CubeMapFace
+  parent: RedLight.Graphics
   children:
-  - RedLight.UI.FontConfig.#ctor(System.UInt32,System.UInt32)
-  - RedLight.UI.FontConfig.PixelHeight
-  - RedLight.UI.FontConfig.PixelWidth
+  - RedLight.Graphics.CubeMapFace.ResourceName
+  - RedLight.Graphics.CubeMapFace.Side
   langs:
   - csharp
   - vb
-  name: FontConfig
-  nameWithType: FontConfig
-  fullName: RedLight.UI.FontConfig
+  name: CubeMapFace
+  nameWithType: CubeMapFace
+  fullName: RedLight.Graphics.CubeMapFace
   type: Struct
   source:
     remote:
-      path: src/RedLight/UI/Text.cs
+      path: src/RedLight/Graphics/CubeMap.cs
       branch: main
       repo: git@github.com:4tkbytes/RedLight
-    id: FontConfig
-    path: src/RedLight/UI/Text.cs
-    startLine: 20
+    id: CubeMapFace
+    path: src/RedLight/Graphics/CubeMap.cs
+    startLine: 9
   assemblies:
   - RedLight
-  namespace: RedLight.UI
+  namespace: RedLight.Graphics
   syntax:
-    content: public struct FontConfig
-    content.vb: Public Structure FontConfig
+    content: public struct CubeMapFace
+    content.vb: Public Structure CubeMapFace
   inheritedMembers:
   - System.ValueType.Equals(System.Object)
   - System.ValueType.GetHashCode
@@ -36,117 +35,83 @@ items:
   - System.Object.Equals(System.Object,System.Object)
   - System.Object.GetType
   - System.Object.ReferenceEquals(System.Object,System.Object)
-- uid: RedLight.UI.FontConfig.PixelWidth
-  commentId: F:RedLight.UI.FontConfig.PixelWidth
-  id: PixelWidth
-  parent: RedLight.UI.FontConfig
+- uid: RedLight.Graphics.CubeMapFace.ResourceName
+  commentId: F:RedLight.Graphics.CubeMapFace.ResourceName
+  id: ResourceName
+  parent: RedLight.Graphics.CubeMapFace
   langs:
   - csharp
   - vb
-  name: PixelWidth
-  nameWithType: FontConfig.PixelWidth
-  fullName: RedLight.UI.FontConfig.PixelWidth
+  name: ResourceName
+  nameWithType: CubeMapFace.ResourceName
+  fullName: RedLight.Graphics.CubeMapFace.ResourceName
   type: Field
   source:
     remote:
-      path: src/RedLight/UI/Text.cs
+      path: src/RedLight/Graphics/CubeMap.cs
       branch: main
       repo: git@github.com:4tkbytes/RedLight
-    id: PixelWidth
-    path: src/RedLight/UI/Text.cs
-    startLine: 22
+    id: ResourceName
+    path: src/RedLight/Graphics/CubeMap.cs
+    startLine: 11
   assemblies:
   - RedLight
-  namespace: RedLight.UI
+  namespace: RedLight.Graphics
   syntax:
-    content: public uint PixelWidth
+    content: public string ResourceName
     return:
-      type: System.UInt32
-    content.vb: Public PixelWidth As UInteger
-- uid: RedLight.UI.FontConfig.PixelHeight
-  commentId: F:RedLight.UI.FontConfig.PixelHeight
-  id: PixelHeight
-  parent: RedLight.UI.FontConfig
+      type: System.String
+    content.vb: Public ResourceName As String
+- uid: RedLight.Graphics.CubeMapFace.Side
+  commentId: F:RedLight.Graphics.CubeMapFace.Side
+  id: Side
+  parent: RedLight.Graphics.CubeMapFace
   langs:
   - csharp
   - vb
-  name: PixelHeight
-  nameWithType: FontConfig.PixelHeight
-  fullName: RedLight.UI.FontConfig.PixelHeight
+  name: Side
+  nameWithType: CubeMapFace.Side
+  fullName: RedLight.Graphics.CubeMapFace.Side
   type: Field
   source:
     remote:
-      path: src/RedLight/UI/Text.cs
+      path: src/RedLight/Graphics/CubeMap.cs
       branch: main
       repo: git@github.com:4tkbytes/RedLight
-    id: PixelHeight
-    path: src/RedLight/UI/Text.cs
-    startLine: 23
+    id: Side
+    path: src/RedLight/Graphics/CubeMap.cs
+    startLine: 12
   assemblies:
   - RedLight
-  namespace: RedLight.UI
+  namespace: RedLight.Graphics
   syntax:
-    content: public uint PixelHeight
+    content: public CubeMapSide Side
     return:
-      type: System.UInt32
-    content.vb: Public PixelHeight As UInteger
-- uid: RedLight.UI.FontConfig.#ctor(System.UInt32,System.UInt32)
-  commentId: M:RedLight.UI.FontConfig.#ctor(System.UInt32,System.UInt32)
-  id: '#ctor(System.UInt32,System.UInt32)'
-  parent: RedLight.UI.FontConfig
-  langs:
-  - csharp
-  - vb
-  name: FontConfig(uint, uint)
-  nameWithType: FontConfig.FontConfig(uint, uint)
-  fullName: RedLight.UI.FontConfig.FontConfig(uint, uint)
-  type: Constructor
-  source:
-    remote:
-      path: src/RedLight/UI/Text.cs
-      branch: main
-      repo: git@github.com:4tkbytes/RedLight
-    id: .ctor
-    path: src/RedLight/UI/Text.cs
-    startLine: 25
-  assemblies:
-  - RedLight
-  namespace: RedLight.UI
-  syntax:
-    content: public FontConfig(uint pixelWidth, uint pixelHeight)
-    parameters:
-    - id: pixelWidth
-      type: System.UInt32
-    - id: pixelHeight
-      type: System.UInt32
-    content.vb: Public Sub New(pixelWidth As UInteger, pixelHeight As UInteger)
-  overload: RedLight.UI.FontConfig.#ctor*
-  nameWithType.vb: FontConfig.New(UInteger, UInteger)
-  fullName.vb: RedLight.UI.FontConfig.New(UInteger, UInteger)
-  name.vb: New(UInteger, UInteger)
+      type: RedLight.Graphics.CubeMapSide
+    content.vb: Public Side As CubeMapSide
 references:
-- uid: RedLight.UI
-  commentId: N:RedLight.UI
+- uid: RedLight.Graphics
+  commentId: N:RedLight.Graphics
   href: RedLight.html
-  name: RedLight.UI
-  nameWithType: RedLight.UI
-  fullName: RedLight.UI
+  name: RedLight.Graphics
+  nameWithType: RedLight.Graphics
+  fullName: RedLight.Graphics
   spec.csharp:
   - uid: RedLight
     name: RedLight
     href: RedLight.html
   - name: .
-  - uid: RedLight.UI
-    name: UI
-    href: RedLight.UI.html
+  - uid: RedLight.Graphics
+    name: Graphics
+    href: RedLight.Graphics.html
   spec.vb:
   - uid: RedLight
     name: RedLight
     href: RedLight.html
   - name: .
-  - uid: RedLight.UI
-    name: UI
-    href: RedLight.UI.html
+  - uid: RedLight.Graphics
+    name: Graphics
+    href: RedLight.Graphics.html
 - uid: System.ValueType.Equals(System.Object)
   commentId: M:System.ValueType.Equals(System.Object)
   parent: System.ValueType
@@ -364,23 +329,21 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: System.UInt32
-  commentId: T:System.UInt32
+- uid: System.String
+  commentId: T:System.String
   parent: System
   isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.uint32
-  name: uint
-  nameWithType: uint
-  fullName: uint
-  nameWithType.vb: UInteger
-  fullName.vb: UInteger
-  name.vb: UInteger
-- uid: RedLight.UI.FontConfig.#ctor*
-  commentId: Overload:RedLight.UI.FontConfig.#ctor
-  href: RedLight.UI.FontConfig.html#RedLight_UI_FontConfig__ctor_System_UInt32_System_UInt32_
-  name: FontConfig
-  nameWithType: FontConfig.FontConfig
-  fullName: RedLight.UI.FontConfig.FontConfig
-  nameWithType.vb: FontConfig.New
-  fullName.vb: RedLight.UI.FontConfig.New
-  name.vb: New
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: RedLight.Graphics.CubeMapSide
+  commentId: T:RedLight.Graphics.CubeMapSide
+  parent: RedLight.Graphics
+  href: RedLight.Graphics.CubeMapSide.html
+  name: CubeMapSide
+  nameWithType: CubeMapSide
+  fullName: RedLight.Graphics.CubeMapSide

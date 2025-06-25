@@ -126,19 +126,37 @@ public class InputManager
         Log.Debug("Unsubscribed from keyboard");
     }
 
-    public void ChangeCaptureToggle(Key key)
+    public void ChangeCaptureToggle(Key key, Key? targetKey = null)
     {
-        if (key == Key.F1)
+        if (targetKey == null)
         {
-            isCaptured = !isCaptured;
-
-            foreach (var mouse in Context.Mice)
+            if (key == Key.F1)
             {
-                IsCaptured(mouse, isCaptured);
-            }
+                isCaptured = !isCaptured;
 
-            Log.Debug("Changing mouse capture mode [{A}]", isCaptured);
+                foreach (var mouse in Context.Mice)
+                {
+                    IsCaptured(mouse, isCaptured);
+                }
+
+                Log.Debug("Changing mouse capture mode [{A}]", isCaptured);
+            }
         }
+        else
+        {
+            if (key == targetKey)
+            {
+                isCaptured = !isCaptured;
+
+                foreach (var mouse in Context.Mice)
+                {
+                    IsCaptured(mouse, isCaptured);
+                }
+
+                Log.Debug("Changing mouse capture mode [{A}]", isCaptured);
+            }
+        }
+        
     }
 
     /// <summary>

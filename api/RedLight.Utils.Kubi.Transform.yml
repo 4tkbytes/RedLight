@@ -1,0 +1,161 @@
+### YamlMime:ManagedReference
+items:
+- uid: RedLight.Utils.Kubi.Transform
+  commentId: T:RedLight.Utils.Kubi.Transform
+  id: Kubi.Transform
+  parent: RedLight.Utils
+  children:
+  - RedLight.Utils.Kubi.Transform.Cubemap
+  - RedLight.Utils.Kubi.Transform.EAC
+  - RedLight.Utils.Kubi.Transform.OTC
+  langs:
+  - csharp
+  - vb
+  name: Kubi.Transform
+  nameWithType: Kubi.Transform
+  fullName: RedLight.Utils.Kubi.Transform
+  type: Enum
+  source:
+    remote:
+      path: src/RedLight/Utils/Kubi.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Transform
+    path: src/RedLight/Utils/Kubi.cs
+    startLine: 16
+  assemblies:
+  - RedLight
+  namespace: RedLight.Utils
+  summary: Transform types for cubemap generation
+  example: []
+  syntax:
+    content: public enum Kubi.Transform
+    content.vb: Public Enum Kubi.Transform
+- uid: RedLight.Utils.Kubi.Transform.Cubemap
+  commentId: F:RedLight.Utils.Kubi.Transform.Cubemap
+  id: Cubemap
+  parent: RedLight.Utils.Kubi.Transform
+  langs:
+  - csharp
+  - vb
+  name: Cubemap
+  nameWithType: Kubi.Transform.Cubemap
+  fullName: RedLight.Utils.Kubi.Transform.Cubemap
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Utils/Kubi.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Cubemap
+    path: src/RedLight/Utils/Kubi.cs
+    startLine: 19
+  assemblies:
+  - RedLight
+  namespace: RedLight.Utils
+  summary: Standard cubemap projection
+  example: []
+  syntax:
+    content: Cubemap = 0
+    return:
+      type: RedLight.Utils.Kubi.Transform
+- uid: RedLight.Utils.Kubi.Transform.EAC
+  commentId: F:RedLight.Utils.Kubi.Transform.EAC
+  id: EAC
+  parent: RedLight.Utils.Kubi.Transform
+  langs:
+  - csharp
+  - vb
+  name: EAC
+  nameWithType: Kubi.Transform.EAC
+  fullName: RedLight.Utils.Kubi.Transform.EAC
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Utils/Kubi.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: EAC
+    path: src/RedLight/Utils/Kubi.cs
+    startLine: 21
+  assemblies:
+  - RedLight
+  namespace: RedLight.Utils
+  summary: Equi-angular cubemap (C.Brown 2017) - optimized for VR video
+  example: []
+  syntax:
+    content: EAC = 1
+    return:
+      type: RedLight.Utils.Kubi.Transform
+- uid: RedLight.Utils.Kubi.Transform.OTC
+  commentId: F:RedLight.Utils.Kubi.Transform.OTC
+  id: OTC
+  parent: RedLight.Utils.Kubi.Transform
+  langs:
+  - csharp
+  - vb
+  name: OTC
+  nameWithType: Kubi.Transform.OTC
+  fullName: RedLight.Utils.Kubi.Transform.OTC
+  type: Field
+  source:
+    remote:
+      path: src/RedLight/Utils/Kubi.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: OTC
+    path: src/RedLight/Utils/Kubi.cs
+    startLine: 23
+  assemblies:
+  - RedLight
+  namespace: RedLight.Utils
+  syntax:
+    content: OTC = 2
+    return:
+      type: RedLight.Utils.Kubi.Transform
+references:
+- uid: RedLight.Utils
+  commentId: N:RedLight.Utils
+  href: RedLight.html
+  name: RedLight.Utils
+  nameWithType: RedLight.Utils
+  fullName: RedLight.Utils
+  spec.csharp:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Utils
+    name: Utils
+    href: RedLight.Utils.html
+  spec.vb:
+  - uid: RedLight
+    name: RedLight
+    href: RedLight.html
+  - name: .
+  - uid: RedLight.Utils
+    name: Utils
+    href: RedLight.Utils.html
+- uid: RedLight.Utils.Kubi.Transform
+  commentId: T:RedLight.Utils.Kubi.Transform
+  parent: RedLight.Utils
+  href: RedLight.Utils.Kubi.html
+  name: Kubi.Transform
+  nameWithType: Kubi.Transform
+  fullName: RedLight.Utils.Kubi.Transform
+  spec.csharp:
+  - uid: RedLight.Utils.Kubi
+    name: Kubi
+    href: RedLight.Utils.Kubi.html
+  - name: .
+  - uid: RedLight.Utils.Kubi.Transform
+    name: Transform
+    href: RedLight.Utils.Kubi.Transform.html
+  spec.vb:
+  - uid: RedLight.Utils.Kubi
+    name: Kubi
+    href: RedLight.Utils.Kubi.html
+  - name: .
+  - uid: RedLight.Utils.Kubi.Transform
+    name: Transform
+    href: RedLight.Utils.Kubi.Transform.html

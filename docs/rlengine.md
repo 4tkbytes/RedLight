@@ -46,37 +46,32 @@ Scenes are a very important tool used in the RedLight engine.
 
 This is a scene:
 ```csharp
-using System.Numerics;
-using RedLight;
-using RedLight.Graphics;
-using RedLight.Input;
-using RedLight.Physics;
-using RedLight.Scene;
-using Silk.NET.Input;
-
-namespace ExampleGame;
-
 public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 {
-    public RLEngine Engine { get; set; }
-    public RLGraphics Graphics { get; set; }
-    public SceneManager SceneManager { get; set; }
-    public ShaderManager ShaderManager { get; set; }
-    public TextureManager TextureManager { get; set; }
-    public InputManager InputManager { get; set; }
-    public PhysicsSystem PhysicsSystem { get; set; }
+    // scene shenanigans
+    public override RLEngine Engine { get; set; }
+    public override RLGraphics Graphics { get; set; }
+    public override SceneManager SceneManager { get; set; }
+    public override ShaderManager ShaderManager { get; set; }
+    public override TextureManager TextureManager { get; set; }
+    public override InputManager InputManager { get; set; }
+    public override PhysicsSystem PhysicsSystem { get; set; }
+    public override LightManager LightManager { get; set; }
+    public override TextManager TextManager { get; set; }
     
-    public void OnLoad()
+    public override void OnLoad()
     {
         throw new NotImplementedException();
     }
 
-    public void OnUpdate(double deltaTime)
+    public override void OnUpdate(double deltaTime)
     {
         throw new NotImplementedException();
     }
 
+    // input code starts here
     public HashSet<Key> PressedKeys { get; set; }
+    
     public void OnMouseMove(IMouse mouse, Vector2 mousePosition)
     {
         throw new NotImplementedException();
@@ -92,7 +87,7 @@ This is your main focus:
 public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 ```
 
-`RLScene` is an interface for initialising scenes and storing its required values (under `RedLight.Scene`),
+`RLScene` is an abstract class for initialising scenes and storing its required values (under `RedLight.Scene`),
 `RLMouse` and `RLKeyboard` are both input types. The reason on why they are separate is because some scenes
 may want to use the same keyboard and mouse controls for other scenes. Makes life easier :)
 

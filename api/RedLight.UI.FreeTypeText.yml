@@ -21,7 +21,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: FreeTypeText
     path: src/RedLight/UI/Text.cs
-    startLine: 13
+    startLine: 14
   assemblies:
   - RedLight
   namespace: RedLight.UI
@@ -53,7 +53,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Library
     path: src/RedLight/UI/Text.cs
-    startLine: 15
+    startLine: 16
   assemblies:
   - RedLight
   namespace: RedLight.UI
@@ -80,7 +80,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Face
     path: src/RedLight/UI/Text.cs
-    startLine: 16
+    startLine: 17
   assemblies:
   - RedLight
   namespace: RedLight.UI

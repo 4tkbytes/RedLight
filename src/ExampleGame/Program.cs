@@ -12,12 +12,14 @@ class Program
     {
         // Initialise scenes
         var scene1 = new TestingScene1();
+        var playerCreation = new PlayerCreation();
 
         // Create engine instance
-        var engine = new RLEngine(1280, 720, "RedLight Game Engine Editor", scene1, args);
+        var engine = new RLEngine(1280, 720, "RedLight Game Engine Editor", playerCreation, args);
 
         // add scenes to scene manager
         SceneManager.Instance.Add("testing_scene_1", scene1);
+        SceneManager.Instance.Add("playerCreation", playerCreation);
 
         // run
         engine.Run();

@@ -8,6 +8,7 @@ items:
   - RedLight.Graphics.RLTexture.#ctor(RedLight.Graphics.RLGraphics,Silk.NET.Assimp.Texel*,System.Int32,System.Int32,RedLight.Graphics.RLTextureType)
   - RedLight.Graphics.RLTexture.#ctor(RedLight.Graphics.RLGraphics,Silk.NET.Assimp.Texture*,RedLight.Graphics.RLTextureType)
   - RedLight.Graphics.RLTexture.#ctor(RedLight.Graphics.RLGraphics,System.String,RedLight.Graphics.RLTextureType)
+  - RedLight.Graphics.RLTexture.#ctor(System.String,RedLight.Graphics.RLTextureType)
   - RedLight.Graphics.RLTexture.Handle
   - RedLight.Graphics.RLTexture.Name
   - RedLight.Graphics.RLTexture.Path
@@ -26,7 +27,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: RLTexture
     path: src/RedLight/Graphics/RLTexture.cs
-    startLine: 10
+    startLine: 11
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -61,7 +62,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Handle
     path: src/RedLight/Graphics/RLTexture.cs
-    startLine: 15
+    startLine: 16
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -90,7 +91,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Path
     path: src/RedLight/Graphics/RLTexture.cs
-    startLine: 16
+    startLine: 17
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -119,7 +120,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Type
     path: src/RedLight/Graphics/RLTexture.cs
-    startLine: 17
+    startLine: 18
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -148,7 +149,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Name
     path: src/RedLight/Graphics/RLTexture.cs
-    startLine: 18
+    startLine: 19
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -159,6 +160,47 @@ items:
       type: System.String
     content.vb: Public Property Name As String
   overload: RedLight.Graphics.RLTexture.Name*
+- uid: RedLight.Graphics.RLTexture.#ctor(System.String,RedLight.Graphics.RLTextureType)
+  commentId: M:RedLight.Graphics.RLTexture.#ctor(System.String,RedLight.Graphics.RLTextureType)
+  id: '#ctor(System.String,RedLight.Graphics.RLTextureType)'
+  parent: RedLight.Graphics.RLTexture
+  langs:
+  - csharp
+  - vb
+  name: RLTexture(string, RLTextureType)
+  nameWithType: RLTexture.RLTexture(string, RLTextureType)
+  fullName: RedLight.Graphics.RLTexture.RLTexture(string, RedLight.Graphics.RLTextureType)
+  type: Constructor
+  source:
+    remote:
+      path: src/RedLight/Graphics/RLTexture.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: .ctor
+    path: src/RedLight/Graphics/RLTexture.cs
+    startLine: 27
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  summary: >-
+    Improved version of the RLTexture constructor, with fewer parameters. Other one still works if you wish to use
+
+    it still.
+  example: []
+  syntax:
+    content: public RLTexture(string resourceName, RLTextureType type = RLTextureType.Diffuse)
+    parameters:
+    - id: resourceName
+      type: System.String
+      description: Something like "RedLight.Resources.Textures.no-texture.png"
+    - id: type
+      type: RedLight.Graphics.RLTextureType
+      description: ''
+    content.vb: Public Sub New(resourceName As String, type As RLTextureType = RLTextureType.Diffuse)
+  overload: RedLight.Graphics.RLTexture.#ctor*
+  nameWithType.vb: RLTexture.New(String, RLTextureType)
+  fullName.vb: RedLight.Graphics.RLTexture.New(String, RedLight.Graphics.RLTextureType)
+  name.vb: New(String, RLTextureType)
 - uid: RedLight.Graphics.RLTexture.#ctor(RedLight.Graphics.RLGraphics,System.String,RedLight.Graphics.RLTextureType)
   commentId: M:RedLight.Graphics.RLTexture.#ctor(RedLight.Graphics.RLGraphics,System.String,RedLight.Graphics.RLTextureType)
   id: '#ctor(RedLight.Graphics.RLGraphics,System.String,RedLight.Graphics.RLTextureType)'
@@ -177,7 +219,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: .ctor
     path: src/RedLight/Graphics/RLTexture.cs
-    startLine: 27
+    startLine: 37
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -221,7 +263,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: .ctor
     path: src/RedLight/Graphics/RLTexture.cs
-    startLine: 91
+    startLine: 101
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -268,7 +310,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: .ctor
     path: src/RedLight/Graphics/RLTexture.cs
-    startLine: 139
+    startLine: 149
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -606,7 +648,7 @@ references:
   fullName: RedLight.Graphics.RLTexture.Name
 - uid: RedLight.Graphics.RLTexture.#ctor*
   commentId: Overload:RedLight.Graphics.RLTexture.#ctor
-  href: RedLight.Graphics.RLTexture.html#RedLight_Graphics_RLTexture__ctor_RedLight_Graphics_RLGraphics_System_String_RedLight_Graphics_RLTextureType_
+  href: RedLight.Graphics.RLTexture.html#RedLight_Graphics_RLTexture__ctor_System_String_RedLight_Graphics_RLTextureType_
   name: RLTexture
   nameWithType: RLTexture.RLTexture
   fullName: RedLight.Graphics.RLTexture.RLTexture

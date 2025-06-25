@@ -28,7 +28,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: SceneManager
     path: src/RedLight/Scene/SceneManager.cs
-    startLine: 9
+    startLine: 10
   assemblies:
   - RedLight
   namespace: RedLight.Scene
@@ -63,7 +63,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Scenes
     path: src/RedLight/Scene/SceneManager.cs
-    startLine: 11
+    startLine: 12
   assemblies:
   - RedLight
   namespace: RedLight.Scene
@@ -92,7 +92,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Instance
     path: src/RedLight/Scene/SceneManager.cs
-    startLine: 23
+    startLine: 24
   assemblies:
   - RedLight
   namespace: RedLight.Scene
@@ -121,7 +121,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Initialise
     path: src/RedLight/Scene/SceneManager.cs
-    startLine: 33
+    startLine: 34
   assemblies:
   - RedLight
   namespace: RedLight.Scene
@@ -150,7 +150,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Add
     path: src/RedLight/Scene/SceneManager.cs
-    startLine: 51
+    startLine: 52
   assemblies:
   - RedLight
   namespace: RedLight.Scene
@@ -188,7 +188,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Add
     path: src/RedLight/Scene/SceneManager.cs
-    startLine: 72
+    startLine: 73
   assemblies:
   - RedLight
   namespace: RedLight.Scene
@@ -222,7 +222,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: SwitchScene
     path: src/RedLight/Scene/SceneManager.cs
-    startLine: 77
+    startLine: 78
   assemblies:
   - RedLight
   namespace: RedLight.Scene
@@ -251,7 +251,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: SwitchScene
     path: src/RedLight/Scene/SceneManager.cs
-    startLine: 90
+    startLine: 91
   assemblies:
   - RedLight
   namespace: RedLight.Scene
@@ -283,7 +283,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Remove
     path: src/RedLight/Scene/SceneManager.cs
-    startLine: 219
+    startLine: 227
   assemblies:
   - RedLight
   namespace: RedLight.Scene
@@ -315,7 +315,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: GetCurrentScene
     path: src/RedLight/Scene/SceneManager.cs
-    startLine: 228
+    startLine: 236
   assemblies:
   - RedLight
   namespace: RedLight.Scene

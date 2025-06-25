@@ -6,12 +6,15 @@ items:
   children:
   - RedLight.Lighting.Attenuation
   - RedLight.Lighting.Attenuation.DefaultValues
+  - RedLight.Lighting.Fog
+  - RedLight.Lighting.FogType
   - RedLight.Lighting.LightManager
   - RedLight.Lighting.LightMaterials
   - RedLight.Lighting.LightType
   - RedLight.Lighting.LightingCube
   - RedLight.Lighting.MaterialInfo
   - RedLight.Lighting.RLLight
+  - RedLight.Lighting.RefractiveIndex
   langs:
   - csharp
   - vb
@@ -51,6 +54,20 @@ references:
   - uid: RedLight.Lighting.Attenuation.DefaultValues
     name: DefaultValues
     href: RedLight.Lighting.Attenuation.DefaultValues.html
+- uid: RedLight.Lighting.FogType
+  commentId: T:RedLight.Lighting.FogType
+  parent: RedLight.Lighting
+  href: RedLight.Lighting.FogType.html
+  name: FogType
+  nameWithType: FogType
+  fullName: RedLight.Lighting.FogType
+- uid: RedLight.Lighting.Fog
+  commentId: T:RedLight.Lighting.Fog
+  parent: RedLight.Lighting
+  href: RedLight.Lighting.Fog.html
+  name: Fog
+  nameWithType: Fog
+  fullName: RedLight.Lighting.Fog
 - uid: RedLight.Lighting.LightingCube
   commentId: T:RedLight.Lighting.LightingCube
   parent: RedLight.Lighting
@@ -85,6 +102,12 @@ references:
   name: LightType
   nameWithType: LightType
   fullName: RedLight.Lighting.LightType
+- uid: RedLight.Lighting.RefractiveIndex
+  commentId: T:RedLight.Lighting.RefractiveIndex
+  href: RedLight.Lighting.RefractiveIndex.html
+  name: RefractiveIndex
+  nameWithType: RefractiveIndex
+  fullName: RedLight.Lighting.RefractiveIndex
 - uid: RedLight.Lighting.RLLight
   commentId: T:RedLight.Lighting.RLLight
   parent: RedLight.Lighting

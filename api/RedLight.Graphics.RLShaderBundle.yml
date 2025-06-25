@@ -10,6 +10,8 @@ items:
   - RedLight.Graphics.RLShaderBundle.Graphics
   - RedLight.Graphics.RLShaderBundle.Name
   - RedLight.Graphics.RLShaderBundle.Program
+  - RedLight.Graphics.RLShaderBundle.SetUniform``1(System.String,``0)
+  - RedLight.Graphics.RLShaderBundle.Use
   - RedLight.Graphics.RLShaderBundle.VertexShader
   langs:
   - csharp
@@ -210,6 +212,72 @@ items:
   nameWithType.vb: RLShaderBundle.New(RLGraphics, String, String)
   fullName.vb: RedLight.Graphics.RLShaderBundle.New(RedLight.Graphics.RLGraphics, String, String)
   name.vb: New(RLGraphics, String, String)
+- uid: RedLight.Graphics.RLShaderBundle.Use
+  commentId: M:RedLight.Graphics.RLShaderBundle.Use
+  id: Use
+  parent: RedLight.Graphics.RLShaderBundle
+  langs:
+  - csharp
+  - vb
+  name: Use()
+  nameWithType: RLShaderBundle.Use()
+  fullName: RedLight.Graphics.RLShaderBundle.Use()
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/ShaderManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: Use
+    path: src/RedLight/Graphics/ShaderManager.cs
+    startLine: 19
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  syntax:
+    content: public void Use()
+    content.vb: Public Sub Use()
+  overload: RedLight.Graphics.RLShaderBundle.Use*
+- uid: RedLight.Graphics.RLShaderBundle.SetUniform``1(System.String,``0)
+  commentId: M:RedLight.Graphics.RLShaderBundle.SetUniform``1(System.String,``0)
+  id: SetUniform``1(System.String,``0)
+  parent: RedLight.Graphics.RLShaderBundle
+  langs:
+  - csharp
+  - vb
+  name: SetUniform<T>(string, T)
+  nameWithType: RLShaderBundle.SetUniform<T>(string, T)
+  fullName: RedLight.Graphics.RLShaderBundle.SetUniform<T>(string, T)
+  type: Method
+  source:
+    remote:
+      path: src/RedLight/Graphics/ShaderManager.cs
+      branch: main
+      repo: git@github.com:4tkbytes/RedLight
+    id: SetUniform
+    path: src/RedLight/Graphics/ShaderManager.cs
+    startLine: 31
+  assemblies:
+  - RedLight
+  namespace: RedLight.Graphics
+  summary: A better way of setting a shaders uniform.
+  example: []
+  syntax:
+    content: public void SetUniform<T>(string uniform, T value)
+    parameters:
+    - id: uniform
+      type: System.String
+    - id: value
+      type: '{T}'
+      description: ''
+    typeParameters:
+    - id: T
+      description: ''
+    content.vb: Public Sub SetUniform(Of T)(uniform As String, value As T)
+  overload: RedLight.Graphics.RLShaderBundle.SetUniform*
+  nameWithType.vb: RLShaderBundle.SetUniform(Of T)(String, T)
+  fullName.vb: RedLight.Graphics.RLShaderBundle.SetUniform(Of T)(String, T)
+  name.vb: SetUniform(Of T)(String, T)
 references:
 - uid: RedLight.Graphics
   commentId: N:RedLight.Graphics
@@ -491,3 +559,25 @@ references:
   nameWithType.vb: RLShaderBundle.New
   fullName.vb: RedLight.Graphics.RLShaderBundle.New
   name.vb: New
+- uid: RedLight.Graphics.RLShaderBundle.Use*
+  commentId: Overload:RedLight.Graphics.RLShaderBundle.Use
+  href: RedLight.Graphics.RLShaderBundle.html#RedLight_Graphics_RLShaderBundle_Use
+  name: Use
+  nameWithType: RLShaderBundle.Use
+  fullName: RedLight.Graphics.RLShaderBundle.Use
+- uid: RedLight.Graphics.RLShaderBundle.SetUniform*
+  commentId: Overload:RedLight.Graphics.RLShaderBundle.SetUniform
+  href: RedLight.Graphics.RLShaderBundle.html#RedLight_Graphics_RLShaderBundle_SetUniform__1_System_String___0_
+  name: SetUniform
+  nameWithType: RLShaderBundle.SetUniform
+  fullName: RedLight.Graphics.RLShaderBundle.SetUniform
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T

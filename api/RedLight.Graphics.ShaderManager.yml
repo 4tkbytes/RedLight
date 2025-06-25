@@ -31,7 +31,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: ShaderManager
     path: src/RedLight/Graphics/ShaderManager.cs
-    startLine: 20
+    startLine: 37
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -66,7 +66,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Instance
     path: src/RedLight/Graphics/ShaderManager.cs
-    startLine: 23
+    startLine: 40
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -95,7 +95,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: TryAdd
     path: src/RedLight/Graphics/ShaderManager.cs
-    startLine: 33
+    startLine: 50
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -136,7 +136,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: TryAdd
     path: src/RedLight/Graphics/ShaderManager.cs
-    startLine: 51
+    startLine: 68
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -170,7 +170,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: TryGet
     path: src/RedLight/Graphics/ShaderManager.cs
-    startLine: 69
+    startLine: 86
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -209,7 +209,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Clone
     path: src/RedLight/Graphics/ShaderManager.cs
-    startLine: 86
+    startLine: 103
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -251,7 +251,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: Get
     path: src/RedLight/Graphics/ShaderManager.cs
-    startLine: 109
+    startLine: 126
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -290,7 +290,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: SetUniform
     path: src/RedLight/Graphics/ShaderManager.cs
-    startLine: 124
+    startLine: 141
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -336,7 +336,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: HasUniform
     path: src/RedLight/Graphics/ShaderManager.cs
-    startLine: 134
+    startLine: 151
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -376,7 +376,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: SetUniformIfExists
     path: src/RedLight/Graphics/ShaderManager.cs
-    startLine: 150
+    startLine: 167
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -414,7 +414,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: GetProgramHandleString
     path: src/RedLight/Graphics/ShaderManager.cs
-    startLine: 156
+    startLine: 173
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -448,7 +448,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: FindShaderIdByProgramHandle
     path: src/RedLight/Graphics/ShaderManager.cs
-    startLine: 167
+    startLine: 184
   assemblies:
   - RedLight
   namespace: RedLight.Graphics
@@ -486,7 +486,7 @@ items:
       repo: git@github.com:4tkbytes/RedLight
     id: GetShaderDetailsForDebugging
     path: src/RedLight/Graphics/ShaderManager.cs
-    startLine: 184
+    startLine: 201
   assemblies:
   - RedLight
   namespace: RedLight.Graphics

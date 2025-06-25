@@ -2,3 +2,5 @@
   href: introduction.md
 - name: RLEngine Start Point
   href: rlengine.md
+- name: Creating a Player
+  href: player.md

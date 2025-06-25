@@ -124,7 +124,8 @@ public abstract class RLScene
             else
             {
                 Graphics.Use(model);
-                LightManager.ApplyLightsToShader(activeCamera.Position, model); // Pass the model for per-entity reflection
+                if (LightManager != null)
+                    LightManager.ApplyLightsToShader(activeCamera.Position, model); // Pass the model for per-entity reflection
                 Graphics.Update(activeCamera, model);
                 Graphics.Draw(model);
             }
