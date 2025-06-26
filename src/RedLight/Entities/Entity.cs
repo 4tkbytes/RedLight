@@ -534,7 +534,6 @@ public abstract class Entity
             fixed (uint* indices = lineIndices)
             {
                 gl.DrawElements(PrimitiveType.Lines, (uint)lineIndices.Length, DrawElementsType.UnsignedInt, indices);
-                Console.WriteLine("Divider");
                 if (!graphics.ShutUp)
                     Log.Debug("any errors after drawing line?");
                 graphics.CheckGLErrors();

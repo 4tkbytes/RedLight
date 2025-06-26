@@ -53,15 +53,7 @@ public class RLImGuiEditor
             null,
             () => Hexa.NET.ImGui.ImGui.GetIO().ConfigFlags |= ImGuiConfigFlags.DockingEnable
             );
-
-        ImGuizmo.SetImGuiContext(_imGuiController.Context);
-
-        ImGuizmo.Enable(true);
-        ImGuizmo.SetDrawlist();
-        ImGuizmo.SetOrthographic(false);
-        ImGuizmo.SetRect(Hexa.NET.ImGui.ImGui.GetWindowPos().X, Hexa.NET.ImGui.ImGui.GetWindowPos().Y,
-            Hexa.NET.ImGui.ImGui.GetWindowSize().X, Hexa.NET.ImGui.ImGui.GetWindowSize().Y);
-
+        
         _gameFramebuffer = new Framebuffer(graphics, (int)_viewportSize.X, (int)_viewportSize.Y);
         Log.Debug("RLImGuiEditor initialized");
     }
@@ -250,9 +242,7 @@ public class RLImGuiEditor
         RenderViewport();
         RenderModelList();
         RenderModelInspector();
-
-        RenderImGuizmo();
-
+        
         // Show demo window if requested
         if (_showDemoWindow)
         {
@@ -260,54 +250,6 @@ public class RLImGuiEditor
         }
 
         _imGuiController.Render();
-    }
-
-    private void RenderImGuizmo()
-    {
-        // Only proceed if we have a selected model and camera
-        if (_selectedModel == null || _camera == null)
-            return;
-
-        // Begin ImGuizmo frame
-        ImGuizmo.BeginFrame();
-
-        // Get viewport position and size
-        var viewportPos = global::Hexa.NET.ImGui.ImGui.GetWindowPos();
-        var viewportSize = _viewportSize;
-
-        // Set ImGuizmo drawing area to match viewport
-        ImGuizmo.SetRect(viewportPos.X, viewportPos.Y, viewportSize.X, viewportSize.Y);
-
-        // Get necessary matrices
-        Matrix4x4 view = _camera.View;
-        Matrix4x4 projection = _camera.Projection;
-        Matrix4x4 model = _selectedModel.ModelMatrix;
-
-        // Call Manipulate to show and interact with the gizmo
-        bool matrixChanged = ImGuizmo.Manipulate(
-            ref view,
-            ref projection,
-            _currentGizmoOperation,
-            _currentGizmoMode,
-            ref model
-        );
-
-        // Update entity if transform changed
-        if (matrixChanged)
-        {
-            // Extract transform components from the modified matrix
-            if (Matrix4x4.Decompose(model, out Vector3 scale, out Quaternion rotation, out Vector3 position))
-            {
-                // Update entity transform
-                _selectedModel.SetPosition(position);
-
-                // Convert quaternion to euler angles if your entity uses euler angles
-                Vector3 eulerAngles = RLUtils.QuaternionToEuler(rotation);
-                _selectedModel.SetRotation(eulerAngles);
-
-                _selectedModel.SetScale(scale);
-            }
-        }
     }
 
     private void RenderViewport()

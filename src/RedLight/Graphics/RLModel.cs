@@ -130,6 +130,10 @@ public class RLModel
             {
                 if (mesh.program != 0)
                 {
+                    if (!_gl.IsProgram(mesh.program))
+                    {
+                        Console.WriteLine($"[GL ERROR] Invalid Shader Program ID: {mesh.program}");
+                    }
                     _gl.UseProgram(mesh.program);
                     int colorLocation = _gl.GetUniformLocation(mesh.program, "uModelColor");
                     if (colorLocation != -1)

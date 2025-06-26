@@ -57,7 +57,12 @@ public class RLGraphics
             {
                 string msg = Silk.NET.Core.Native.SilkMarshal.PtrToString((nint)message);
                 Console.WriteLine($"[GL DEBUG] {msg}");
-
+                Console.WriteLine($"Source: {source}");
+                Console.WriteLine($"Type: {type}");
+                Console.WriteLine($"ID: {id}");
+                Console.WriteLine($"Severity: {severity}");
+                Console.WriteLine($"Length: {length}");
+                Console.WriteLine($"User: {userParam}");
                 var (programHandle, uniformLocation) = RLUtils.ExtractGLErrorInfo(msg);
                 var shaderId = ShaderManager.Instance.GetShaderDetailsForDebugging((uint)programHandle);
                 Console.WriteLine($"Error in shader: {shaderId}, program: {programHandle}, uniform location: {uniformLocation}");

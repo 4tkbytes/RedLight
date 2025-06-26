@@ -95,22 +95,11 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         Graphics.Clear();
         Camera activeCamera = useDebugCamera ? debugCamera : player.Camera;
     
-        // Store current OpenGL state before ImGui operations
-        Graphics.OpenGL.GetInteger(GetPName.CurrentProgram, out int currentProgram);
-        Graphics.OpenGL.GetInteger(GetPName.ArrayBufferBinding, out int currentVBO);
-        Graphics.OpenGL.GetInteger(GetPName.VertexArrayBinding, out int currentVAO);
-    
         BeforeEditorRender(_editor, activeCamera);
 
         // Restore rendering state after ImGui
         Graphics.Clear();
         Graphics.ClearColour(Color.CornflowerBlue);
-    
-        // Ensure we have a clean OpenOpenGL state for 3D rendering
-        Graphics.OpenGL.UseProgram(0);
-        Graphics.OpenGL.BindVertexArray(0);
-        Graphics.OpenGL.BindBuffer(BufferTargetARB.ArrayBuffer, 0);
-        Graphics.OpenGL.BindBuffer(BufferTargetARB.ElementArrayBuffer, 0);
 
         skybox?.Render(activeCamera);
 
@@ -126,12 +115,6 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
             }
         }
         
-        // Clean state before text rendering
-        Graphics.OpenGL.UseProgram(0);
-        Graphics.OpenGL.BindVertexArray(0);
-        Graphics.OpenGL.BindBuffer(BufferTargetARB.ArrayBuffer, 0);
-        Graphics.OpenGL.BindBuffer(BufferTargetARB.ElementArrayBuffer, 0);
-    
         // Render text
         TextManager.Instance.RenderText(
             Graphics,
@@ -140,12 +123,6 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
             0.5f,
             Color.Yellow
         );
-    
-        // Ensure clean state before final ImGui operations
-        Graphics.OpenGL.UseProgram(0);
-        Graphics.OpenGL.BindVertexArray(0);
-        Graphics.OpenGL.BindBuffer(BufferTargetARB.ArrayBuffer, 0);
-        Graphics.OpenGL.BindBuffer(BufferTargetARB.ElementArrayBuffer, 0);
     
         AfterEditorRender(_editor);
     }

@@ -85,6 +85,10 @@ public class Mesh
         }
         gl.BindVertexArray(0);
         textures = new List<RLTexture>();
+        
+        Log.Debug($"[MESH SETUP] Creating VAO for mesh: {Name}");
+        Log.Debug($"[MESH SETUP] Vertex count: {vertices?.Count}, Index count: {indices?.Length}");
+        Log.Debug($"[MESH SETUP] VAO: {vao}, VBO: {vbo}, EBO: {ebo}");
     }
 
     /// <summary>
@@ -113,7 +117,7 @@ public class Mesh
 
         unsafe
         {
-            gl.UseProgram(program);
+            UseProgram(program);
             int texLoc = gl.GetUniformLocation(program, "uTexture");
             gl.Uniform1(texLoc, 0);
 
@@ -148,32 +152,60 @@ public class Mesh
         Log.Verbose("Made mesh transformable");
         return new ConcreteTransformable<Mesh>(this);
     }
-
+    
     public void Draw()
     {
         var gl = graphics.OpenGL;
 
+        if (program == 0)
+        {
+            Log.Error($"[MESH DRAW] Program is 0 for mesh: {Name}");
+            return;
+        }
+
+        gl.UseProgram(program);
+        Log.Debug($"[MESH DRAW] Successfully bound program {program}");
+        
+        if (!gl.IsProgram(program))
+        {
+            Log.Error($"Mesh '{Name}' has invalid shader program {program}");
+            program = 0;
+            return;
+        }
+        
+        // Check program link status
+        gl.GetProgram(program, ProgramPropertyARB.LinkStatus, out int linkStatus);
+        if (linkStatus == 0)
+        {
+            Log.Error($"[MESH DRAW] Program {program} is not linked for mesh: {Name}");
+            return;
+        }
+
+        UseProgram(program);
+    
+        // Verify it was actually set
+        int currentProgram = gl.GetInteger(GetPName.CurrentProgram);
+        if (currentProgram != program)
+        {
+            Log.Error($"[MESH DRAW] Failed to bind program! Expected: {program}, Got: {currentProgram}");
+            return;
+        }
+
+        Log.Debug($"[MESH DRAW] Successfully bound program {program}");
+        
         uint diffuseNr = 1, specularNr = 1, normalNr = 1, heightNr = 1;
         for (int i = 0; i < textures.Count; i++)
         {
-            gl.ActiveTexture(TextureUnit.Texture0);
+            gl.ActiveTexture(TextureUnit.Texture0 + i); // Use different texture unit for each
 
             string number = "1";
             string name = textures[i].Type.ToString().ToLower();
             switch (textures[i].Type)
             {
-                case RLTextureType.Diffuse:
-                    number = (diffuseNr++).ToString();
-                    break;
-                case RLTextureType.Specular:
-                    number = (specularNr++).ToString();
-                    break;
-                case RLTextureType.Normal:
-                    number = (normalNr++).ToString();
-                    break;
-                case RLTextureType.Height:
-                    number = (heightNr++).ToString();
-                    break;
+                case RLTextureType.Diffuse:  number = (diffuseNr++).ToString(); break;
+                case RLTextureType.Specular: number = (specularNr++).ToString(); break;
+                case RLTextureType.Normal:   number = (normalNr++).ToString(); break;
+                case RLTextureType.Height:   number = (heightNr++).ToString(); break;
             }
 
             string uniformName = $"texture_{name}{number}";
@@ -186,14 +218,79 @@ public class Mesh
 
         unsafe
         {
+            // Debug VAO state before binding
+            Log.Debug($"[MESH DRAW] About to bind VAO {vao} for mesh: {Name}");
+            
+            // Check if VAO is valid
+            if (!gl.IsVertexArray(vao))
+            {
+                Log.Error($"[MESH DRAW] VAO {vao} is not valid for mesh: {Name}");
+                return;
+            }
+            
             gl.BindVertexArray(vao);
+            
+            // Verify VAO was bound
+            int currentVao = gl.GetInteger(GetPName.VertexArrayBinding);
+            if (currentVao != vao)
+            {
+                Log.Error($"[MESH DRAW] Failed to bind VAO! Expected: {vao}, Got: {currentVao}");
+                return;
+            }
+            
+            // Check buffer bindings
+            int elementBuffer = gl.GetInteger(GetPName.ElementArrayBufferBinding);
+            Log.Debug($"[MESH DRAW] Element buffer bound: {elementBuffer}, IndicesCount: {IndicesCount}");
+            
+            if (elementBuffer == 0)
+            {
+                Log.Error($"[MESH DRAW] No element array buffer bound for mesh: {Name}");
+                gl.BindVertexArray(0);
+                return;
+            }
+            
+            if (IndicesCount <= 0)
+            {
+                Log.Error($"[MESH DRAW] Invalid indices count: {IndicesCount} for mesh: {Name}");
+                gl.BindVertexArray(0);
+                return;
+            }
+            
+            // Check vertex attributes
+            for (int i = 0; i < 3; i++) // Check first few vertex attributes
+            {
+                gl.GetVertexAttrib((uint)i, VertexAttribPropertyARB.VertexAttribArrayEnabled, out int enabled);
+                if (enabled == 1)
+                {
+                    gl.GetVertexAttrib((uint)i, VertexAttribPropertyARB.VertexAttribArraySize, out int size);
+                    gl.GetVertexAttrib((uint)i, VertexAttribPropertyARB.VertexAttribArrayType, out int type);
+                    Log.Debug($"[MESH DRAW] Vertex attrib {i}: enabled, size={size}, type={type}");
+                }
+            }
+            
+            Log.Debug($"[MESH DRAW] About to call DrawElements with {IndicesCount} indices");
+            
             gl.DrawElements(PrimitiveType.Triangles, (uint)IndicesCount, DrawElementsType.UnsignedInt, null);
-            Console.WriteLine("Divider");
+            
+            Log.Debug($"[MESH DRAW] DrawElements completed");
             gl.BindVertexArray(0);
         }
 
-
-        gl.ActiveTexture(TextureUnit.Texture0);
+        Log.Debug($"[MESH DRAW] Draw completed for mesh: {Name}");
+    }
+    
+    // Add this method to wrap all glUseProgram calls
+    public void UseProgram(uint program)
+    {
+        Log.Debug($"[GL STATE] UseProgram called with: {program} (from: {System.Environment.StackTrace.Split('\n')[1].Trim()})");
+        graphics.OpenGL.UseProgram(program);
+    
+        // Verify it was set
+        int current = graphics.OpenGL.GetInteger(GetPName.CurrentProgram);
+        if (current != program)
+        {
+            Log.Error($"[GL STATE] UseProgram failed! Requested: {program}, Got: {current}");
+        }
     }
 
     public int IndicesCount => indices != null ? indices.Length : 0;

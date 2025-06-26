@@ -1,4 +1,5 @@
-﻿using RedLight.Core;
+﻿using System.Runtime.InteropServices;
+using RedLight.Core;
 using RedLight.Graphics;
 using RedLight.Input;
 using RedLight.Scene;
@@ -72,7 +73,7 @@ public class RLEngine
         Window.Window.Load += () =>
         {
             Graphics.OpenGL = Window.Window.CreateOpenGL();
-            Log.Information("Backend: OpenGL");
+            PrintBackendInformation();
 
             var input = SceneManager.Instance.input.CreateInput();
             Log.Debug("Input context created");
@@ -102,6 +103,26 @@ public class RLEngine
         Window.Window.StateChanged += OnWindowStateChanged;
 
         CreateSceneManager();
+    }
+
+    private unsafe void PrintBackendInformation()
+    {
+        Log.Information("----------- BACKEND INFORMATION -----------");
+        Log.Information("OS Version: {osVersion}", Environment.OSVersion);
+        Log.Information("Is 64-bit OS: {is64Bit}", Environment.Is64BitOperatingSystem);
+        Log.Information("Dotnet Version: {version}", Environment.Version);
+        
+        Log.Information("");
+        if (Graphics.OpenGL != null)
+        {
+            Log.Information("OpenGL available as backend");
+            var gl = Graphics.OpenGL;
+            Log.Information("OpenGL Vendor: {vendor}", Marshal.PtrToStringAnsi((IntPtr)gl.GetString(GLEnum.Vendor)));
+            Log.Information("OpenGL Renderer: {renderer}", Marshal.PtrToStringAnsi((IntPtr)gl.GetString(GLEnum.Renderer)));
+            Log.Information("OpenGL Version: {version}", Marshal.PtrToStringAnsi((IntPtr)gl.GetString(GLEnum.Version)));
+            Log.Information("OpenGL Shader Language (GLSL) Version: {version}", Marshal.PtrToStringAnsi((IntPtr)gl.GetString(GLEnum.ShadingLanguageVersion)));
+        }
+        Log.Information("-------------------------------------------");
     }
 
     public void AddScene(string id, RLScene scene)

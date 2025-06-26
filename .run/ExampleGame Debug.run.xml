@@ -1,6 +1,6 @@
 ﻿<component name="ProjectRunConfigurationManager">
   <configuration default="false" name="ExampleGame Debug" type="DotNetProject" factoryName=".NET Project">
-    <option name="EXE_PATH" value="$PROJECT_DIR$/src/ExampleGame/bin/Debug/net8.0/ExampleGame.exe" />
+    <option name="EXE_PATH" value="$PROJECT_DIR$/src/ExampleGame/bin/Debug/net8.0/ExampleGame" />
     <option name="PROGRAM_PARAMETERS" value="--Log=1" />
     <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/ExampleGame/bin/Debug/net8.0" />
     <option name="PASS_PARENT_ENVS" value="1" />
