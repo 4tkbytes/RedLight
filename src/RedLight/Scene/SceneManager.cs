@@ -173,7 +173,7 @@ public class SceneManager
             currentScene.TextManager = TextManager.Instance;
             Log.Debug("Text manager created and assigned to scene: {IsNull}", currentScene.TextManager == null);
         }
-
+        
         // default no texture path
         currentScene.TextureManager.TryAdd(
             "no-texture",

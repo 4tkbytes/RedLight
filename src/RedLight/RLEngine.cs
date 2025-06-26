@@ -188,14 +188,50 @@ public class RLEngine
         }
     }
 
+    // private void OnFramebufferResize(Vector2D<int> newSize)
+    // {
+    //     Graphics.OpenGL.Viewport(newSize);
+    //     Log.Debug("Viewport updated to: {Width}x{Height}", newSize.X, newSize.Y);
+    //
+    //     if (!isFullscreen && Window.Window.WindowState == WindowState.Normal)
+    //     {
+    //         windowedSize = newSize;
+    //     }
+    // }
+    
     private void OnFramebufferResize(Vector2D<int> newSize)
     {
-        Graphics.OpenGL.Viewport(newSize);
-        Log.Debug("Viewport updated to: {Width}x{Height}", newSize.X, newSize.Y);
-
-        if (!isFullscreen && Window.Window.WindowState == WindowState.Normal)
+        // Fix: Validate framebuffer dimensions before processing
+        if (newSize.X <= 0 || newSize.Y <= 0)
         {
-            windowedSize = newSize;
+            Log.Warning("Invalid framebuffer resize dimensions: {Width}x{Height}, ignoring", newSize.X, newSize.Y);
+            return;
+        }
+
+        // Fix: Ensure minimum dimensions to prevent GL errors
+        const int minDimension = 32;
+        int validWidth = Math.Max(minDimension, newSize.X);
+        int validHeight = Math.Max(minDimension, newSize.Y);
+
+        if (validWidth != newSize.X || validHeight != newSize.Y)
+        {
+            Log.Debug("Adjusted framebuffer dimensions from {OrigWidth}x{OrigHeight} to {NewWidth}x{NewHeight}", 
+                newSize.X, newSize.Y, validWidth, validHeight);
+        }
+
+        try
+        {
+            // Update GL viewport with validated dimensions
+            Graphics.OpenGL.Viewport(0, 0, (uint)validWidth, (uint)validHeight);
+        
+            Log.Debug("Framebuffer resized to: {Width}x{Height}", validWidth, validHeight);
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Failed to resize framebuffer to {Width}x{Height}", validWidth, validHeight);
+        
+            // Fallback to safe dimensions
+            Graphics.OpenGL.Viewport(0, 0, (uint)Window.Size.X, (uint)Window.Size.Y);
         }
     }
 

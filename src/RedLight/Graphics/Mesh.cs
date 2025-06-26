@@ -188,6 +188,7 @@ public class Mesh
         {
             gl.BindVertexArray(vao);
             gl.DrawElements(PrimitiveType.Triangles, (uint)IndicesCount, DrawElementsType.UnsignedInt, null);
+            Console.WriteLine("Divider");
             gl.BindVertexArray(0);
         }
 

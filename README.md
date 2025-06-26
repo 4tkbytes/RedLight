@@ -18,7 +18,7 @@ to build this repository (including the editor), just clone it:
 git clone git@github.com:4tkbytes/RedLight
 cd RedLight
 ```
-then you build/restore it. you need a minimum of dotnet 9.0. 
+then you build/restore it. you need dotnet 8.0. 
 ```bash
 dotnet run --project ExampleGame --Log=1
 ```

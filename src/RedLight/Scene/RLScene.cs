@@ -29,6 +29,7 @@ public abstract class RLScene
 
     internal void Load()
     {
+        Graphics.OpenGL.Viewport(0, 0,  (uint)Engine.Window.Window.FramebufferSize.X, (uint)Engine.Window.Window.FramebufferSize.Y);
         Log.Debug("Scene loaded");
     }
 
