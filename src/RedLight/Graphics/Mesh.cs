@@ -157,7 +157,7 @@ public class Mesh
         return new ConcreteTransformable<Mesh>(this);
     }
     
-    public void Draw()
+    public void Draw(bool debug = false)
     {
         var gl = graphics.OpenGL;
 
@@ -202,7 +202,7 @@ public class Mesh
             return;
         }
 
-        Log.Debug($"[MESH DRAW] Successfully bound program {program}");
+        if (debug) Log.Debug($"[MESH DRAW] Successfully bound program {program}");
         
         // Bind textures
         uint diffuseNr = 1, specularNr = 1, normalNr = 1, heightNr = 1;
@@ -230,7 +230,7 @@ public class Mesh
 
         unsafe
         {
-            Log.Debug($"[MESH DRAW] About to bind VAO {vao} for mesh: {Name}");
+            if (debug) Log.Debug($"[MESH DRAW] About to bind VAO {vao} for mesh: {Name}");
             
             // Check if VAO is valid
             if (!gl.IsVertexArray(vao))
@@ -251,7 +251,7 @@ public class Mesh
             
             // Check buffer bindings
             int elementBuffer = gl.GetInteger(GetPName.ElementArrayBufferBinding);
-            Log.Debug($"[MESH DRAW] Element buffer bound: {elementBuffer}, IndicesCount: {IndicesCount}");
+            if (debug) Log.Debug($"[MESH DRAW] Element buffer bound: {elementBuffer}, IndicesCount: {IndicesCount}");
             
             if (elementBuffer == 0)
             {
@@ -277,7 +277,7 @@ public class Mesh
                     hasValidAttributes = true;
                     gl.GetVertexAttrib((uint)i, VertexAttribPropertyARB.VertexAttribArraySize, out int size);
                     gl.GetVertexAttrib((uint)i, VertexAttribPropertyARB.VertexAttribArrayType, out int type);
-                    Log.Debug($"[MESH DRAW] Vertex attrib {i}: enabled={enabled}, size={size}, type={type}");
+                    if (debug) Log.Debug($"[MESH DRAW] Vertex attrib {i}: enabled={enabled}, size={size}, type={type}");
                 }
             }
             
@@ -297,7 +297,7 @@ public class Mesh
                 return;
             }
             
-            Log.Debug($"[MESH DRAW] About to call DrawElements with {IndicesCount} indices");
+            if (debug) Log.Debug($"[MESH DRAW] About to call DrawElements with {IndicesCount} indices");
             
             // Try to catch the specific error that's happening
             try
@@ -328,7 +328,7 @@ public class Mesh
                 }
                 else
                 {
-                    Log.Debug($"[MESH DRAW] DrawElements completed successfully");
+                    if (debug) Log.Debug($"[MESH DRAW] DrawElements completed successfully");
                 }
             }
             catch (Exception ex)
@@ -342,13 +342,13 @@ public class Mesh
         }
 
         gl.ActiveTexture(TextureUnit.Texture0);
-        Log.Debug($"[MESH DRAW] Draw completed for mesh: {Name}");
+        if (debug) Log.Debug($"[MESH DRAW] Draw completed for mesh: {Name}");
     }
     
     // Add this method to wrap all glUseProgram calls
-    public void UseProgram(uint program)
+    public void UseProgram(uint program, bool debug = false)
     {
-        Log.Debug($"[GL STATE] UseProgram called with: {program} (from: {System.Environment.StackTrace.Split('\n')[1].Trim()})");
+        if (debug) Log.Debug($"[GL STATE] UseProgram called with: {program} (from: {System.Environment.StackTrace.Split('\n')[1].Trim()})");
         graphics.OpenGL.UseProgram(program);
     
         // Verify it was set
