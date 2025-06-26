@@ -1,8 +1,5 @@
 ﻿using RedLight;
-using RedLight.Graphics;
 using RedLight.Scene;
-using Serilog;
-using Silk.NET.OpenGL;
 
 namespace ExampleGame;
 
