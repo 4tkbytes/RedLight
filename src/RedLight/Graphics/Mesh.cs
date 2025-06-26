@@ -23,6 +23,9 @@ public struct Vertex
 
 public class Mesh
 {
+    // Add a static set to track problematic meshes
+    private static readonly HashSet<string> ProblematicMeshes = new HashSet<string>();
+    
     public uint vao;
     private uint vbo;
     private uint ebo;
@@ -41,6 +44,7 @@ public class Mesh
         this.graphics = graphics;
         this.indices = indices;
         this.Vertices = vertices;
+        this.Name = ""; // Initialize name to avoid compiler error
         var gl = graphics.OpenGL;
         vao = gl.GenVertexArray();
         vbo = gl.GenBuffer();
@@ -157,33 +161,40 @@ public class Mesh
     {
         var gl = graphics.OpenGL;
 
-        if (program == 0)
+        // Skip problematic meshes to prevent spam
+        if (ProblematicMeshes.Contains(Name))
         {
-            Log.Error($"[MESH DRAW] Program is 0 for mesh: {Name}");
             return;
         }
 
-        gl.UseProgram(program);
-        Log.Debug($"[MESH DRAW] Successfully bound program {program}");
-        
-        if (!gl.IsProgram(program))
+        // Validate shader program exists and is valid
+        if (program == 0)
         {
-            Log.Error($"Mesh '{Name}' has invalid shader program {program}");
-            program = 0;
+            Log.Error($"[MESH DRAW] Attempted to draw mesh '{Name}' with invalid shader program (0)");
             return;
         }
-        
+
+        // Check if the program is actually a valid OpenGL program
+        if (!gl.IsProgram(program))
+        {
+            Log.Error($"[MESH DRAW] Shader program {program} is not a valid OpenGL program for mesh '{Name}'");
+            return;
+        }
+
         // Check program link status
         gl.GetProgram(program, ProgramPropertyARB.LinkStatus, out int linkStatus);
         if (linkStatus == 0)
         {
-            Log.Error($"[MESH DRAW] Program {program} is not linked for mesh: {Name}");
+            Log.Error($"[MESH DRAW] Shader program {program} is not properly linked for mesh '{Name}'");
+            string infoLog = gl.GetProgramInfoLog(program);
+            Log.Error($"[MESH DRAW] Link error: {infoLog}");
             return;
         }
 
-        UseProgram(program);
-    
-        // Verify it was actually set
+        // Bind shader program
+        gl.UseProgram(program);
+        
+        // Verify the program was actually bound
         int currentProgram = gl.GetInteger(GetPName.CurrentProgram);
         if (currentProgram != program)
         {
@@ -193,10 +204,11 @@ public class Mesh
 
         Log.Debug($"[MESH DRAW] Successfully bound program {program}");
         
+        // Bind textures
         uint diffuseNr = 1, specularNr = 1, normalNr = 1, heightNr = 1;
         for (int i = 0; i < textures.Count; i++)
         {
-            gl.ActiveTexture(TextureUnit.Texture0 + i); // Use different texture unit for each
+            gl.ActiveTexture(TextureUnit.Texture0 + i);
 
             string number = "1";
             string name = textures[i].Type.ToString().ToLower();
@@ -218,7 +230,6 @@ public class Mesh
 
         unsafe
         {
-            // Debug VAO state before binding
             Log.Debug($"[MESH DRAW] About to bind VAO {vao} for mesh: {Name}");
             
             // Check if VAO is valid
@@ -230,7 +241,7 @@ public class Mesh
             
             gl.BindVertexArray(vao);
             
-            // Verify VAO was bound
+            // Verify VAO binding
             int currentVao = gl.GetInteger(GetPName.VertexArrayBinding);
             if (currentVao != vao)
             {
@@ -256,26 +267,81 @@ public class Mesh
                 return;
             }
             
-            // Check vertex attributes
-            for (int i = 0; i < 3; i++) // Check first few vertex attributes
+            // Validate vertex attributes before drawing
+            bool hasValidAttributes = false;
+            for (int i = 0; i < 8; i++) // Check more attributes
             {
                 gl.GetVertexAttrib((uint)i, VertexAttribPropertyARB.VertexAttribArrayEnabled, out int enabled);
                 if (enabled == 1)
                 {
+                    hasValidAttributes = true;
                     gl.GetVertexAttrib((uint)i, VertexAttribPropertyARB.VertexAttribArraySize, out int size);
                     gl.GetVertexAttrib((uint)i, VertexAttribPropertyARB.VertexAttribArrayType, out int type);
-                    Log.Debug($"[MESH DRAW] Vertex attrib {i}: enabled, size={size}, type={type}");
+                    Log.Debug($"[MESH DRAW] Vertex attrib {i}: enabled={enabled}, size={size}, type={type}");
                 }
+            }
+            
+            if (!hasValidAttributes)
+            {
+                Log.Error($"[MESH DRAW] No valid vertex attributes enabled for mesh: {Name}");
+                gl.BindVertexArray(0);
+                return;
+            }
+            
+            // Check for any OpenGL errors before drawing
+            var errorBefore = gl.GetError();
+            if (errorBefore != GLEnum.NoError)
+            {
+                Log.Error($"[MESH DRAW] OpenGL error before DrawElements: {errorBefore}");
+                gl.BindVertexArray(0);
+                return;
             }
             
             Log.Debug($"[MESH DRAW] About to call DrawElements with {IndicesCount} indices");
             
-            gl.DrawElements(PrimitiveType.Triangles, (uint)IndicesCount, DrawElementsType.UnsignedInt, null);
+            // Try to catch the specific error that's happening
+            try
+            {
+                gl.DrawElements(PrimitiveType.Triangles, (uint)IndicesCount, DrawElementsType.UnsignedInt, null);
+                
+                // Check for errors immediately after drawing
+                var errorAfter = gl.GetError();
+                if (errorAfter != GLEnum.NoError)
+                {
+                    Log.Error($"[MESH DRAW] OpenGL error after DrawElements: {errorAfter} for mesh: {Name}");
+                    
+                    // Additional debugging for this specific mesh
+                    if (Name == "dingus_whiskers_0")
+                    {
+                        Log.Error($"[MESH DEBUG] Problematic mesh details:");
+                        Log.Error($"[MESH DEBUG] - VAO: {vao}, VBO: {vbo}, EBO: {ebo}");
+                        Log.Error($"[MESH DEBUG] - Program: {program}");
+                        Log.Error($"[MESH DEBUG] - Vertices: {Vertices?.Count}, Indices: {indices?.Length}");
+                        Log.Error($"[MESH DEBUG] - Texture count: {textures.Count}");
+                        
+                        // Skip this mesh to prevent spam
+                        Log.Warning($"[MESH DEBUG] Skipping problematic mesh '{Name}' to prevent error spam");
+                        ProblematicMeshes.Add(Name); // Add to problematic mesh list
+                        gl.BindVertexArray(0);
+                        return;
+                    }
+                }
+                else
+                {
+                    Log.Debug($"[MESH DRAW] DrawElements completed successfully");
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"[MESH DRAW] Exception during DrawElements for mesh '{Name}': {ex.Message}");
+                gl.BindVertexArray(0);
+                return;
+            }
             
-            Log.Debug($"[MESH DRAW] DrawElements completed");
             gl.BindVertexArray(0);
         }
 
+        gl.ActiveTexture(TextureUnit.Texture0);
         Log.Debug($"[MESH DRAW] Draw completed for mesh: {Name}");
     }
     
