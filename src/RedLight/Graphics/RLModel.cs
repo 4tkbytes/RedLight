@@ -238,9 +238,55 @@ public class RLModel
     /// <returns>This model instance for method chaining.</returns>
     public RLModel AttachShader(RLShaderBundle shaderBundle)
     {
+        // Create a single shader program
+        var gl = graphics.OpenGL;
+        uint sharedProgram = gl.CreateProgram();
+        gl.AttachShader(sharedProgram, shaderBundle.VertexShader.Handle);
+        gl.AttachShader(sharedProgram, shaderBundle.FragmentShader.Handle);
+        gl.LinkProgram(sharedProgram);
+
+        gl.GetProgram(sharedProgram, GLEnum.LinkStatus, out var linkStatus);
+        if (linkStatus != (int)GLEnum.True)
+        {
+            var info = gl.GetProgramInfoLog(sharedProgram);
+            Log.Error("Failed to link shader program for model {ModelName}:\n{Info}", Name, info);
+            gl.DeleteProgram(sharedProgram);
+            return this;
+        }
+
+        gl.DetachShader(sharedProgram, shaderBundle.VertexShader.Handle);
+        gl.DetachShader(sharedProgram, shaderBundle.FragmentShader.Handle);
+        
+        // Share the program across all meshes
+        Log.Debug("Using shared shader program {Program} for all meshes in model '{ModelName}'", sharedProgram, Name);
+        
         foreach (var mesh in Meshes)
         {
-            mesh.AttachShader(shaderBundle.VertexShader, shaderBundle.FragmentShader);
+            // Instead of creating a new program for each mesh, just set the program
+            mesh.program = sharedProgram;
+            
+            // Initial uniform setup
+            gl.UseProgram(sharedProgram);
+            
+            // Basic texture uniform
+            int texLoc = gl.GetUniformLocation(sharedProgram, "uTexture");
+            if (texLoc != -1)
+            {
+                gl.Uniform1(texLoc, 0);
+            }
+            
+            // Material uniforms
+            int diffuseUniformLoc = gl.GetUniformLocation(sharedProgram, "material.diffuse");
+            if (diffuseUniformLoc != -1)
+            {
+                gl.Uniform1(diffuseUniformLoc, 0);
+            }
+            
+            int specularUniformLoc = gl.GetUniformLocation(sharedProgram, "material.specular");
+            if (specularUniformLoc != -1)
+            {
+                gl.Uniform1(specularUniformLoc, 1);
+            }
         }
 
         AttachedShader = shaderBundle;
@@ -418,7 +464,19 @@ public class RLModel
 
         if (textures.Count == 0)
         {
-            Log.Debug($"[WARNING] No texture found for mesh '{mesh->MName}' in model '{Name}'. Mesh will render without texture.");
+            Log.Debug($"[WARNING] No texture found for mesh '{mesh->MName}' in model '{Name}'. Adding fallback texture.");
+            // Add a fallback texture to prevent OpenGL errors
+            var fallbackTexture = textureManager.Get("no-texture");
+            if (fallbackTexture != null)
+            {
+                fallbackTexture.Type = RLTextureType.Diffuse; // Ensure it's marked as diffuse
+                textures.Add(fallbackTexture);
+                Log.Debug($"Added fallback 'no-texture' to mesh '{mesh->MName}'");
+            }
+            else
+            {
+                Log.Error($"Failed to get fallback 'no-texture' texture for mesh '{mesh->MName}'. This may cause rendering errors.");
+            }
         }
 
         if (textures.Count <= 1)

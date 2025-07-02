@@ -1,4 +1,5 @@
 using System.Numerics;
+using System.Collections.Generic;
 using RedLight.Utils;
 using Serilog;
 using Silk.NET.Maths;
@@ -113,7 +114,11 @@ public class Mesh
         if (linkStatus != (int)GLEnum.True)
         {
             var info = gl.GetProgramInfoLog(program);
-            Log.Error("Failed to link shader program:\\n{Info}", info);
+            Log.Error("Failed to link shader program for mesh {MeshName}:\n{Info}", Name, info);
+            // Don't use a failed program
+            gl.DeleteProgram(program);
+            program = 0;
+            return this;
         }
 
         gl.DetachShader(program, vertexShader.Handle);
@@ -122,13 +127,53 @@ public class Mesh
         unsafe
         {
             UseProgram(program);
+            
+            // Check and set texture uniforms if they exist
             int texLoc = gl.GetUniformLocation(program, "uTexture");
-            gl.Uniform1(texLoc, 0);
+            if (texLoc != -1)
+            {
+                gl.Uniform1(texLoc, 0);
+            }
 
+            // Check and set diffuse/specular material uniforms if they exist
+            int diffuseUniformLoc = gl.GetUniformLocation(program, "material.diffuse");
+            if (diffuseUniformLoc != -1)
+            {
+                gl.Uniform1(diffuseUniformLoc, 0);
+            }
+            
+            int specularUniformLoc = gl.GetUniformLocation(program, "material.specular");
+            if (specularUniformLoc != -1)
+            {
+                gl.Uniform1(specularUniformLoc, 1);
+            }
+
+            // Set model matrix uniform if it exists
             int modelLoc = gl.GetUniformLocation(program, "model");
-            var local = Transform;
-            float* ptr = (float*)&local;
-            gl.UniformMatrix4(modelLoc, 1, false, ptr);
+            if (modelLoc != -1)
+            {
+                var local = Transform;
+                float* ptr = (float*)&local;
+                gl.UniformMatrix4(modelLoc, 1, false, ptr);
+            }
+            
+            // Verify active attributes against the mesh's VAO setup
+            gl.GetProgram(program, ProgramPropertyARB.ActiveAttributes, out int attribCount);
+            bool positionFound = false, texCoordFound = false, normalFound = false;
+            
+            for (uint i = 0; i < attribCount; i++)
+            {
+                string attribName = gl.GetActiveAttrib(program, i, out _, out _);
+                if (attribName == "aPos" || attribName == "position" || attribName == "Position" || attribName == "inPosition")
+                    positionFound = true;
+                else if (attribName == "aTexCoord" || attribName == "texCoord" || attribName == "TexCoord" || attribName == "inTexCoord")
+                    texCoordFound = true;
+                else if (attribName == "aNormal" || attribName == "normal" || attribName == "Normal" || attribName == "inNormal")
+                    normalFound = true;
+            }
+            
+            if (!positionFound)
+                Log.Warning("Shader for mesh {MeshName} does not have a position attribute.", Name);
         }
 
         return this;
@@ -167,6 +212,13 @@ public class Mesh
             return;
         }
 
+        // Add debug logging for meshes with no textures
+        bool forceDebug = textures.Count == 0;
+        if (forceDebug)
+        {
+            Log.Information($"[MESH DEBUG] Drawing mesh '{Name}' with NO TEXTURES (count: {textures.Count})");
+        }
+
         // Validate shader program exists and is valid
         if (program == 0)
         {
@@ -202,30 +254,144 @@ public class Mesh
             return;
         }
 
-        if (debug) Log.Debug($"[MESH DRAW] Successfully bound program {program}");
+        if (debug || forceDebug) Log.Debug($"[MESH DRAW] Successfully bound program {program}");
         
-        // Bind textures
-        uint diffuseNr = 1, specularNr = 1, normalNr = 1, heightNr = 1;
+        // Debug: Log available uniforms in debug mode
+        if (debug || forceDebug)
+        {
+            gl.GetProgram(program, ProgramPropertyARB.ActiveUniforms, out int uniformCount);
+            Log.Debug($"[MESH DRAW] Shader has {uniformCount} active uniforms");
+            for (int u = 0; u < uniformCount; u++)
+            {
+                string uniformName = gl.GetActiveUniform(program, (uint)u, out int size, out UniformType type);
+                Log.Debug($"[MESH DRAW] Uniform {u}: {uniformName} (type: {type}, size: {size})");
+            }
+        }
+        
+        // Bind textures with proper uniform handling
+        bool hasDiffuseTexture = false, hasSpecularTexture = false;
+        
+        // First, check what uniforms are available in the shader
+        int diffuseUniformLoc = gl.GetUniformLocation(program, "material.diffuse");
+        int specularUniformLoc = gl.GetUniformLocation(program, "material.specular");
+        int basicTextureUniformLoc = gl.GetUniformLocation(program, "uTexture");
+        
+        if (debug || forceDebug)
+        {
+            Log.Debug($"[MESH DRAW] Uniform locations - material.diffuse: {diffuseUniformLoc}, material.specular: {specularUniformLoc}, uTexture: {basicTextureUniformLoc}");
+        }
+        
+        // Bind textures to appropriate texture units
         for (int i = 0; i < textures.Count; i++)
         {
+            // Validate texture handle before binding
+            if (textures[i].Handle == 0 || !gl.IsTexture(textures[i].Handle))
+            {
+                Log.Warning($"[MESH DRAW] Invalid texture handle {textures[i].Handle} for texture {i} in mesh {Name}. Skipping.");
+                continue;
+            }
+            
             gl.ActiveTexture(TextureUnit.Texture0 + i);
+            gl.BindTexture(TextureTarget.Texture2D, textures[i].Handle);
 
-            string number = "1";
-            string name = textures[i].Type.ToString().ToLower();
             switch (textures[i].Type)
             {
-                case RLTextureType.Diffuse:  number = (diffuseNr++).ToString(); break;
-                case RLTextureType.Specular: number = (specularNr++).ToString(); break;
-                case RLTextureType.Normal:   number = (normalNr++).ToString(); break;
-                case RLTextureType.Height:   number = (heightNr++).ToString(); break;
+                case RLTextureType.Diffuse:
+                    if (diffuseUniformLoc != -1)
+                    {
+                        gl.Uniform1(diffuseUniformLoc, i);
+                        hasDiffuseTexture = true;
+                        if (debug || forceDebug) Log.Debug($"[MESH DRAW] Bound diffuse texture to unit {i}");
+                    }
+                    else if (basicTextureUniformLoc != -1)
+                    {
+                        // Fallback for basic shader
+                        gl.Uniform1(basicTextureUniformLoc, i);
+                        if (debug) Log.Debug($"[MESH DRAW] Bound diffuse texture to basic uTexture unit {i}");
+                    }
+                    break;
+                    
+                case RLTextureType.Specular:
+                    if (specularUniformLoc != -1)
+                    {
+                        gl.Uniform1(specularUniformLoc, i);
+                        hasSpecularTexture = true;
+                        if (debug) Log.Debug($"[MESH DRAW] Bound specular texture to unit {i}");
+                    }
+                    break;
+                    
+                default:
+                    // For other texture types, try the old naming convention
+                    string name = textures[i].Type.ToString().ToLower();
+                    string uniformName = $"texture_{name}1";
+                    int location = gl.GetUniformLocation(program, uniformName);
+                    if (location != -1)
+                    {
+                        gl.Uniform1(location, i);
+                        if (debug) Log.Debug($"[MESH DRAW] Bound {uniformName} texture to unit {i}");
+                    }
+                    break;
             }
-
-            string uniformName = $"texture_{name}{number}";
-            int location = gl.GetUniformLocation(program, uniformName);
-            if (location != -1)
-                gl.Uniform1(location, i);
-
-            gl.BindTexture(TextureTarget.Texture2D, textures[i].Handle);
+        }
+        
+        // Set default values for material uniforms if they exist but no textures were bound
+        // This prevents InvalidOperation errors from uninitialized samplers
+        if (!hasDiffuseTexture && diffuseUniformLoc != -1)
+        {
+            // Check if we have any textures at all
+            if (textures.Count > 0)
+            {
+                gl.Uniform1(diffuseUniformLoc, 0);
+                if (debug) Log.Debug($"[MESH DRAW] Set default material.diffuse to texture unit 0");
+            }
+            else
+            {
+                // No textures available - we need to create/bind a default white texture
+                // For now, try to get the no-texture fallback from texture manager
+                try
+                {
+                    var textureManager = TextureManager.Instance;
+                    var defaultTexture = textureManager?.TryGet("no-texture", false);
+                    
+                    if (defaultTexture != null)
+                    {
+                        gl.ActiveTexture(TextureUnit.Texture0);
+                        gl.BindTexture(TextureTarget.Texture2D, defaultTexture.Handle);
+                        gl.Uniform1(diffuseUniformLoc, 0);
+                        if (debug) Log.Debug($"[MESH DRAW] Bound fallback texture to material.diffuse");
+                    }
+                    else
+                    {
+                        // Create a simple 1x1 white texture as last resort
+                        uint whiteTexture = CreateDefaultWhiteTexture(gl);
+                        gl.ActiveTexture(TextureUnit.Texture0);
+                        gl.BindTexture(TextureTarget.Texture2D, whiteTexture);
+                        gl.Uniform1(diffuseUniformLoc, 0);
+                        if (debug) Log.Debug($"[MESH DRAW] Created and bound default white texture to material.diffuse");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.Error($"[MESH DRAW] Failed to bind default texture for mesh {Name}: {ex.Message}");
+                }
+            }
+        }
+        
+        if (!hasSpecularTexture && specularUniformLoc != -1)
+        {
+            // For specular, we can point to the same texture as diffuse if needed
+            int textureUnit = textures.Count > 1 ? 1 : 0;
+            if (textures.Count > 0)
+            {
+                gl.Uniform1(specularUniformLoc, textureUnit);
+                if (debug) Log.Debug($"[MESH DRAW] Set default material.specular to texture unit {textureUnit}");
+            }
+            else
+            {
+                // Point to the same default texture as diffuse (texture unit 0)
+                gl.Uniform1(specularUniformLoc, 0);
+                if (debug) Log.Debug($"[MESH DRAW] Set default material.specular to texture unit 0 (same as diffuse)");
+            }
         }
 
         unsafe
@@ -311,20 +477,17 @@ public class Mesh
                     Log.Error($"[MESH DRAW] OpenGL error after DrawElements: {errorAfter} for mesh: {Name}");
                     
                     // Additional debugging for this specific mesh
-                    if (Name == "dingus_whiskers_0")
-                    {
-                        Log.Error($"[MESH DEBUG] Problematic mesh details:");
-                        Log.Error($"[MESH DEBUG] - VAO: {vao}, VBO: {vbo}, EBO: {ebo}");
-                        Log.Error($"[MESH DEBUG] - Program: {program}");
-                        Log.Error($"[MESH DEBUG] - Vertices: {Vertices?.Count}, Indices: {indices?.Length}");
-                        Log.Error($"[MESH DEBUG] - Texture count: {textures.Count}");
-                        
-                        // Skip this mesh to prevent spam
-                        Log.Warning($"[MESH DEBUG] Skipping problematic mesh '{Name}' to prevent error spam");
-                        ProblematicMeshes.Add(Name); // Add to problematic mesh list
-                        gl.BindVertexArray(0);
-                        return;
-                    }
+                    Log.Error($"[MESH DEBUG] Problematic mesh details:");
+                    Log.Error($"[MESH DEBUG] - VAO: {vao}, VBO: {vbo}, EBO: {ebo}");
+                    Log.Error($"[MESH DEBUG] - Program: {program}");
+                    Log.Error($"[MESH DEBUG] - Vertices: {Vertices?.Count}, Indices: {indices?.Length}");
+                    Log.Error($"[MESH DEBUG] - Texture count: {textures.Count}");
+                    
+                    // Skip this mesh to prevent spam
+                    Log.Warning($"[MESH DEBUG] Skipping problematic mesh '{Name}' to prevent error spam");
+                    ProblematicMeshes.Add(Name); // Add to problematic mesh list
+                    gl.BindVertexArray(0);
+                    return;
                 }
                 else
                 {
@@ -357,6 +520,53 @@ public class Mesh
         {
             Log.Error($"[GL STATE] UseProgram failed! Requested: {program}, Got: {current}");
         }
+    }
+
+    // Helper method to create a 1x1 white texture as fallback
+    private static Dictionary<GL, uint> _defaultWhiteTextures = new Dictionary<GL, uint>();
+    
+    private uint CreateDefaultWhiteTexture(GL gl)
+    {
+        // Check if we already have a default texture for this GL context
+        if (_defaultWhiteTextures.TryGetValue(gl, out uint existingTexture))
+        {
+            return existingTexture;
+        }
+        
+        // Create a 1x1 white texture
+        uint texture = gl.GenTexture();
+        gl.BindTexture(TextureTarget.Texture2D, texture);
+        
+        // Create white pixel data (RGBA)
+        byte[] whitePixel = { 255, 255, 255, 255 };
+        unsafe
+        {
+            fixed (byte* ptr = whitePixel)
+            {
+                gl.TexImage2D(
+                    TextureTarget.Texture2D,
+                    0,
+                    InternalFormat.Rgba,
+                    1, 1, 0,
+                    PixelFormat.Rgba,
+                    PixelType.UnsignedByte,
+                    ptr
+                );
+            }
+        }
+        
+        // Set texture parameters
+        gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Nearest);
+        gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Nearest);
+        gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
+        gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
+        
+        gl.BindTexture(TextureTarget.Texture2D, 0);
+        
+        // Cache it for future use
+        _defaultWhiteTextures[gl] = texture;
+        
+        return texture;
     }
 
     public int IndicesCount => indices != null ? indices.Length : 0;

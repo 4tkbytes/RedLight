@@ -321,3 +321,4 @@ launchSettings.json
 *.nuget.targets
 *.code-workspace
 *.binlog
+monolith_run_wsl_script.ps1
