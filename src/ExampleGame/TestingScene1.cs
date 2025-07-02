@@ -220,9 +220,9 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
     private void CreatePlayer()
     {
         // Create a new model
-        var horse = Graphics.CreateModel("RedLight.Resources.Models.horse.horse.gltf", "horse");
-            // .SetScale(new Vector3(0.05f))
-            // .Rotate(float.DegreesToRadians(-90.0f), Vector3.UnitX);
+        var maxwell = Graphics.CreateModel("RedLight.Resources.Models.Maxwell.maxwell_the_cat.glb", "maxwell")
+            .SetScale(new Vector3(0.05f))
+            .Rotate(float.DegreesToRadians(-90.0f), Vector3.UnitX);
 
         // create a camera for the player
         playerCamera = new Camera(Engine.Window.Size);
@@ -231,7 +231,7 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         var playerHitbox = HitboxConfig.ForPlayer();
         
         // convert model into player/entity
-        player = Graphics.MakePlayer(playerCamera, horse, playerHitbox);
+        player = Graphics.MakePlayer(playerCamera, maxwell, playerHitbox);
 
         // specific model translations + config
         player.MoveSpeed = 5f;
