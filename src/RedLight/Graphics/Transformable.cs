@@ -4,6 +4,13 @@ using RedLight.Entities;
 
 namespace RedLight.Graphics;
 
+public enum Axis
+{
+    X,
+    Y,
+    Z
+}
+
 /// <summary>
 /// This class makes any class transformable. Typically used with Meshes or RLModels, this class can allow you to
 /// translate the model, rotate the model or change its scale. 
@@ -51,12 +58,38 @@ public abstract class Transformable<T>
     /// <param name="radians">float</param>
     /// <param name="axis"><see cref="Vector3"/></param>
     /// <returns><see cref="Transformable{T}"/></returns>
-    public Transformable<T> Rotate(float radians, Vector3 axis)
+    public Transformable<T> Rotate(float radians, Axis axis)
     {
-        var normAxis = Vector3.Normalize(axis);
+        var normAxis = axis switch
+        {
+            Axis.X => Vector3.UnitX,
+            Axis.Y => Vector3.UnitY,
+            Axis.Z => Vector3.UnitZ,
+            _ => Vector3.UnitY
+        };
         var rotation = Matrix4x4.CreateFromAxisAngle(normAxis, radians);
         ModelMatrix = Matrix4x4.Multiply(ModelMatrix, rotation);
-        Log.Verbose("Rotated mesh");
+        return this;
+    }
+
+    /// <summary>
+    /// Sets the rotation of the model, not to be confused by <see cref="Rotate"/>
+    /// where you can rotate, this resets the model and rotates. Rerunning the
+    /// rotation 
+    /// </summary>
+    /// <param name="radians"></param>
+    /// <param name="axis"></param>
+    /// <returns></returns>
+    public Transformable<T> SetRotation(float radians, Axis axis)
+    {
+        var normAxis = axis switch
+        {
+            Axis.X => Vector3.UnitX,
+            Axis.Y => Vector3.UnitY,
+            Axis.Z => Vector3.UnitZ,
+            _ => Vector3.UnitY
+        };
+        ModelMatrix = Matrix4x4.CreateFromAxisAngle(normAxis, radians);
         return this;
     }
 

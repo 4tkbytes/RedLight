@@ -13,6 +13,7 @@ using RedLight.UI;
 using RedLight.UI.ImGui;
 using RedLight.Utils;
 using Silk.NET.OpenGL;
+using Axis = RedLight.Graphics.Axis;
 using Camera = RedLight.Graphics.Camera;
 using Plane = RedLight.Entities.Plane;
 
@@ -219,11 +220,14 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
 
     private void CreatePlayer()
     {
-        // Create a new model
-        var maxwell = Graphics.CreateModel("RedLight.Resources.Models.Maxwell.maxwell_the_cat.glb", "maxwell")
-            .SetScale(new Vector3(0.05f))
-            .Rotate(float.DegreesToRadians(-90.0f), Vector3.UnitX);
+        // // Create a new model
+        // var maxwell = Graphics.CreateModel("RedLight.Resources.Models.Maxwell.maxwell_the_cat.glb", "maxwell")
+        //     .SetScale(new Vector3(0.05f))
+        //     .Rotate(float.DegreesToRadians(-90.0f), Vector3.UnitX);
 
+        var horse = Graphics.CreateModel("RedLight.Resources.Models.horse.glb", "horse") ;
+        horse.SetRotation(float.DegreesToRadians(-90.0f), Axis.Y);
+        
         // create a camera for the player
         playerCamera = new Camera(Engine.Window.Size);
 
@@ -231,7 +235,8 @@ public class TestingScene1 : RLScene, RLKeyboard, RLMouse
         var playerHitbox = HitboxConfig.ForPlayer();
         
         // convert model into player/entity
-        player = Graphics.MakePlayer(playerCamera, maxwell, playerHitbox);
+        player = Graphics.MakePlayer(playerCamera, horse, playerHitbox);
+        // player.SetRotationY(float.DegreesToRadians(-90.0f));
 
         // specific model translations + config
         player.MoveSpeed = 5f;
